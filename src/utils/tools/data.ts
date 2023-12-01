@@ -4,7 +4,9 @@ export const formatNodes = (data: ISourceNode[]): INode[] => {
   return data.map((item) => {
     const { nodePosition, nodeSize, nodeStyles, textStyles } = item;
     const [x, y] = nodePosition.split(",").map((item) => Number(item));
-    const [width, height] = nodeSize.split(",").map((item) => Number(item));
+    const [width, height] = nodeSize.split("*").map((item) => Number(item));
+
+    console.log(x, y, width, height, item);
 
     return {
       ...item,

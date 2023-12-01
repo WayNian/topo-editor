@@ -76,10 +76,10 @@
       {
         "nodeId": "3HgbTykcGX",
         "mapId": "XEeh2PJidO",
-        "nodeType": "220kv",
+        "nodeType": "xxx",
         "compClass": "",
         "nodePosition": "235,492",
-        "nodeSize": "100*Infinity",
+        "nodeSize": "100*100",
         "rotate": 0,
         "nodeStyles": "{\"fill\": \"#19be6b\", \"image\": \"/ftp/icon/220kv.png\"}",
         "nodeText": "",
@@ -99,7 +99,7 @@
       {
         "nodeId": "VI1casASi1",
         "mapId": "XEeh2PJidO",
-        "nodeType": "qydl",
+        "nodeType": "xxx",
         "compClass": "ImageView",
         "nodePosition": "252,529",
         "nodeSize": "100*24",
