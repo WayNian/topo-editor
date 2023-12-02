@@ -22,5 +22,8 @@ export const attrTopoMap = (topoMap: ISVGG<any, HTMLElement>, topoMapBackground:
 };
 
 export const attrNodeG = (nodeG: ISVGG<INode, SVGGElement>) => {
-  nodeG.attr("class", "node-group").attr("transform", (d: any) => `translate(${d.x}, ${d.y})`);
+  nodeG
+    .attr("class", "node-group")
+    .attr("transform", (d: any) => `translate(${d.x}, ${d.y})`)
+    .attr("cursor", "move");
 };

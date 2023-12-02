@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import { attrNodeG, attrSvg, attrTopoMap } from "./attr";
-import { bindMapZoom } from "./event";
+import { bindMapZoom, bindNodeDrag } from "./event";
 import { useTopo } from "@/stores/topo";
 import type { IEnter, IExit, ISVGG, IUpdate } from "@/types";
 import type { INode } from "@/types/data";
@@ -11,8 +11,6 @@ const store = useTopo();
 const drawNode = (nodeG: ISVGG<INode, any>, d: INode) => {
   switch (d.nodeType) {
     case "circle":
-      console.log("----", d);
-
       nodeG
         .append<SVGCircleElement>("circle")
         .attr("class", "node")
@@ -55,9 +53,12 @@ const appendNode = (enter: IEnter<INode>) => {
   const enterG = enter.append<SVGGElement>("g");
 
   attrNodeG(enterG);
+  bindNodeDrag(enterG);
+
   enterG.each(function (d) {
     drawNode(d3.select(this), d);
   });
+
   return enterG;
 };
 
