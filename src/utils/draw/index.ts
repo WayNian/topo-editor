@@ -15,6 +15,8 @@ const drawNode = (nodeG: ISVGG<INode, any>, d: INode) => {
         .append<SVGCircleElement>("circle")
         .attr("class", "node")
         .attr("r", 10)
+        .attr("cx", (d) => d.width / 2)
+        .attr("cy", (d) => d.height / 2)
         .attr("fill", "red")
         .attr("stroke", "black")
         .attr("stroke-width", 2);

@@ -2,7 +2,9 @@ import * as d3 from "d3";
 import type { ISVG, ISVGG } from "@/types";
 import { setInitTransform } from "./assist";
 import type { INode } from "@/types/data";
+import { useTopo } from "@/stores/topo";
 
+const store = useTopo();
 export const bindMapZoom = (svg: ISVG, topoMap: ISVGG<any, HTMLElement>) => {
   const { x, y, k } = setInitTransform();
   const zoom = d3
@@ -21,7 +23,9 @@ export const bindMapZoom = (svg: ISVG, topoMap: ISVGG<any, HTMLElement>) => {
 export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
   const drag = d3
     .drag<SVGGElement, INode>()
-    .on("start", (e, d) => {})
+    .on("start", (e, d) => {
+      store.nodeSelected = d;
+    })
     .on("drag", function (e, d) {
       d.x = e.x;
       d.y = e.y;
@@ -29,5 +33,6 @@ export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
     })
     .on("end", (e, d) => {});
 
+  nodeG.on("click", (e, d) => {});
   nodeG.call(drag);
 };
