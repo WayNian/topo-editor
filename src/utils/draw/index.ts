@@ -25,8 +25,7 @@ const drawNode = (nodeG: ISVGG<INode, any>, d: INode) => {
       nodeG
         .append<SVGTextElement>("text")
         .attr("class", "node")
-        .attr("text-anchor", "middle")
-        .attr("dominant-baseline", "middle")
+        .attr("alignment-baseline", "before-edge")
         .attr("fill", "white")
         .attr("font-size", 12)
         .text(d.nodeId);
