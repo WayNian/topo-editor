@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { attrNodeG, attrSvg, attrTopoMap } from "./attr";
+import { attrEllipse, attrForeignObject, attrNodeG, attrSvg, attrText, attrTopoMap } from "./attr";
 import { bindMapZoom, bindNodeDrag } from "./event";
 import { useTopo } from "@/stores/topo";
 import type { IEnter, IExit, ISVGG, IUpdate } from "@/types";
@@ -7,45 +7,36 @@ import type { INode } from "@/types/data";
 
 const store = useTopo();
 
+const appendEllipse = (nodeG: ISVGG<INode, any>) => {
+  const ellipse = nodeG.append<SVGEllipseElement>("ellipse");
+  attrEllipse(ellipse);
+};
+
+const appendText = (nodeG: ISVGG<INode, any>) => {
+  const text = nodeG.append<SVGTextElement>("text");
+  const tspan = text.append("tspan");
+  attrText(text, tspan);
+};
+
+const appendImage = (nodeG: ISVGG<INode, any>) => {
+  const foreignObject = nodeG.append<SVGForeignObjectElement>("foreignObject");
+  const img = foreignObject.append<d3.BaseType>("xhtml:div");
+
+  attrForeignObject(foreignObject, img);
+};
+
 // 判断nodeG数据的nodeType：circle,text等,通过swicth控制，分别在nodeG内部绘制不同的节点
 const drawNode = (nodeG: ISVGG<INode, any>, d: INode) => {
   switch (d.nodeType) {
     case "circle":
-      nodeG
-        .append<SVGCircleElement>("circle")
-        .attr("class", "node")
-        .attr("r", 10)
-        .attr("cx", (d) => d.width / 2)
-        .attr("cy", (d) => d.height / 2)
-        .attr("fill", "red")
-        .attr("stroke", "black")
-        .attr("stroke-width", 2);
+    case "ellipse":
+      appendEllipse(nodeG);
       break;
     case "text":
-      nodeG
-        .append<SVGTextElement>("text")
-        .attr("class", "node")
-        .attr("alignment-baseline", "before-edge")
-        .attr("fill", "white")
-        .attr("font-size", 12)
-        .text(d.nodeId);
+      appendText(nodeG);
       break;
     default:
-      // 图片
-      nodeG
-        .append<SVGTextElement>("foreignObject")
-        .attr("class", "node")
-        .attr("width", (d) => d.width)
-        .attr("height", (d) => d.height)
-        .append("xhtml:div")
-        .attr("class", "node-content")
-        .style("width", "100%")
-        .style("height", "100%")
-        .style("background-color", "red")
-        .style("border-radius", "50%")
-        .style("text-align", "center")
-        .style("line-height", "100%");
-
+      appendImage(nodeG);
       break;
   }
 };
