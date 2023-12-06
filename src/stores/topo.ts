@@ -7,7 +7,7 @@ import type { INode } from "@/types/data";
 export const useTopo = defineStore("topo", () => {
   const mapSize = ref({ width: 1000, height: 800 });
   const topoNodes = ref(formatNodes(testData.data.nodes));
-  const nodeSelected = ref<INode>();
+  const nodeSelected = ref<INode | null>(null);
 
   return { mapSize, topoNodes, nodeSelected };
 });

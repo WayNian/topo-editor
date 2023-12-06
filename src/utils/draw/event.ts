@@ -18,6 +18,12 @@ export const bindMapZoom = (svg: ISVG, topoMap: ISVGG<any, HTMLElement>) => {
     .call(zoom)
     .on("dblclick.zoom", null)
     .call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(k));
+
+  svg.on("click", function (e) {
+    if (e.target === this || e.target === d3.select("#topoMapBackground").node()) {
+      store.nodeSelected = null;
+    }
+  });
 };
 
 export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
