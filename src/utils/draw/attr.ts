@@ -82,13 +82,22 @@ export const attrForeignObject = (
     .style("line-height", "100%");
 };
 
-export const attrLink = (linkG: ISVGG<ILink, SVGGElement>, link: IPath) => {
+export const attrLink = (linkG: ISVGG<ILink, SVGGElement>, link: IPath, shadowlink: IPath) => {
   linkG.attr("class", "link-group");
   link
     .attr("class", "link")
-    .attr("class", "link")
+    .attr("id", (d) => "link_" + d.linkId)
     .attr("d", (d) => d.linkPath)
     .attr("stroke", "white")
     .attr("stroke-width", 2)
     .attr("fill", "none");
+
+  shadowlink
+    .attr("class", "shadow-link")
+    .attr("d", (d) => d.linkPath)
+    .attr("stroke", "transparent")
+    .attr("stroke-width", 10)
+    .attr("fill", "none")
+    .style("pointer-events", "stroke")
+    .style("cursor", "pointer");
 };

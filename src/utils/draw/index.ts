@@ -73,7 +73,8 @@ const drawNodes = () => {
 const appendLink = (enter: IEnter<ILink>) => {
   const enterG = enter.append<SVGGElement>("g");
   const link = enterG.append<SVGPathElement>("path");
-  attrLink(enterG, link);
+  const shadowlink = enterG.append<SVGPathElement>("path");
+  attrLink(enterG, link, shadowlink);
   return enterG;
 };
 
