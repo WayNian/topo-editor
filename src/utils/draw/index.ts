@@ -1,5 +1,13 @@
 import * as d3 from "d3";
-import { attrEllipse, attrForeignObject, attrNodeG, attrSvg, attrText, attrTopoMap } from "./attr";
+import {
+  attrEllipse,
+  attrForeignObject,
+  attrLink,
+  attrNodeG,
+  attrSvg,
+  attrText,
+  attrTopoMap
+} from "./attr";
 import { bindMapZoom, bindNodeDrag } from "./event";
 import { useTopo } from "@/stores/topo";
 import type { IEnter, IExit, ISVGG, IUpdate } from "@/types";
@@ -54,33 +62,21 @@ const appendNode = (enter: IEnter<INode>) => {
   return enterG;
 };
 
-const updateNode = (update: IUpdate<INode>) => {
-  return update;
-};
-
-const removeNode = (exit: IExit<INode>) => {
-  exit.remove();
-};
-
 const drawNodes = () => {
   const nodeGroup = d3.select<SVGGElement, any>("#topoNodes");
   nodeGroup
     .selectAll<SVGGElement, INode>("g.node-group")
     .data(store.topoNodes, (d: INode) => d.nodeId)
-    .join(appendNode, updateNode, removeNode);
+    .join(appendNode);
 };
 
 const appendLink = (enter: IEnter<ILink>) => {
   const enterG = enter.append<SVGGElement>("g");
-  enterG
-    .append<SVGPathElement>("path")
-    .attr("class", "link")
-    .attr("d", (d) => d.linkPath)
-    .attr("stroke", "white")
-    .attr("stroke-width", 2)
-    .attr("fill", "none");
+  const link = enterG.append<SVGPathElement>("path");
+  attrLink(enterG, link);
   return enterG;
 };
+
 const drawLinks = () => {
   const linkGroup = d3.select<SVGGElement, any>("#topoLinks");
   linkGroup

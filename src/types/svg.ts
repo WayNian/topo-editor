@@ -1,4 +1,5 @@
 import type { EnterElement } from "d3";
+import type { ILink } from "./data";
 
 export type ISVG = d3.Selection<SVGSVGElement, any, HTMLElement, any>;
 
@@ -20,6 +21,8 @@ export type ISVGForeignObject<T> = d3.Selection<
   HTMLElement | SVGGElement,
   any
 >;
+
+export type IPath = d3.Selection<SVGPathElement, ILink, SVGGElement, any>;
 
 export type ISVGBase<T> = d3.Selection<d3.BaseType, T, d3.BaseType, any>;
 

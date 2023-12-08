@@ -1,4 +1,5 @@
 import type {
+  IPath,
   ISVG,
   ISVGBase,
   ISVGCircle,
@@ -11,7 +12,7 @@ import type {
 } from "@/types";
 import { getScreenSize } from "../tools/common";
 import { useTopo } from "@/stores/topo";
-import type { INode } from "@/types/data";
+import type { ILink, INode } from "@/types/data";
 
 const store = useTopo();
 
@@ -79,4 +80,15 @@ export const attrForeignObject = (
     .style("border-radius", "50%")
     .style("text-align", "center")
     .style("line-height", "100%");
+};
+
+export const attrLink = (linkG: ISVGG<ILink, SVGGElement>, link: IPath) => {
+  linkG.attr("class", "link-group");
+  link
+    .attr("class", "link")
+    .attr("class", "link")
+    .attr("d", (d) => d.linkPath)
+    .attr("stroke", "white")
+    .attr("stroke-width", 2)
+    .attr("fill", "none");
 };
