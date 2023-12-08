@@ -13,13 +13,13 @@ export interface ISourceNode {
   textPosition: string;
   textStyles: string | Record<string, string>;
   bindData: Record<string, string>;
-  bindMap: string;
+  bindMap: any;
   bindLink: any;
-  bindSubLink: string;
-  metaData: Record<string, string>;
-  updatedBy: string;
-  updatedTime: string;
-  sublayerList: string[];
+  bindSubLink: string | null;
+  metaData: Record<string, string> | null;
+  updatedBy: string | null;
+  updatedTime: string | null;
+  sublayerList: string[] | null;
 }
 
 export interface INode extends ISourceNode {
@@ -42,13 +42,13 @@ export interface ISourceLink {
   linkStyles: string | Record<string, string>;
   linkAnimations: Record<string, string>;
   fromObj: string;
-  endObj: string;
+  endObj: string | null;
   bindData: Record<string, string>;
-  bindMap: string;
-  metaData: Record<string, string>;
-  updatedBy: string;
-  updatedTime: string;
-  sublayerList: string[];
+  bindMap: any;
+  metaData: Record<string, string> | null;
+  updatedBy: string | null;
+  updatedTime: string | null;
+  sublayerList: string[] | null;
 }
 
 export interface ILink extends ISourceLink {

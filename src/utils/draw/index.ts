@@ -3,7 +3,7 @@ import { attrEllipse, attrForeignObject, attrNodeG, attrSvg, attrText, attrTopoM
 import { bindMapZoom, bindNodeDrag } from "./event";
 import { useTopo } from "@/stores/topo";
 import type { IEnter, IExit, ISVGG, IUpdate } from "@/types";
-import type { INode } from "@/types/data";
+import type { ILink, INode } from "@/types/data";
 
 const store = useTopo();
 
@@ -70,6 +70,25 @@ const drawNodes = () => {
     .join(appendNode, updateNode, removeNode);
 };
 
+const appendLink = (enter: IEnter<ILink>) => {
+  const enterG = enter.append<SVGGElement>("g");
+  enterG
+    .append<SVGPathElement>("path")
+    .attr("class", "link")
+    .attr("d", (d) => d.linkPath)
+    .attr("stroke", "white")
+    .attr("stroke-width", 2)
+    .attr("fill", "none");
+  return enterG;
+};
+const drawLinks = () => {
+  const linkGroup = d3.select<SVGGElement, any>("#topoLinks");
+  linkGroup
+    .selectAll<SVGGElement, ILink>("g.link-group")
+    .data(store.topoLinks, (d: ILink) => d.linkId)
+    .join(appendLink);
+};
+
 const drawMap = () => {
   const svg = d3.select<SVGSVGElement, any>("#topoEditor");
   const topoMap = svg.select<SVGGElement>("g#topoMap");
@@ -81,9 +100,6 @@ const drawMap = () => {
 };
 export const draw = () => {
   drawMap();
+  drawLinks();
   drawNodes();
-
-  setTimeout(() => {
-    drawNodes();
-  }, 5000);
 };
