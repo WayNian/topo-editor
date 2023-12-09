@@ -53,4 +53,5 @@ export interface ISourceLink {
 
 export interface ILink extends ISourceLink {
   linkStyles: Record<string, string>;
+  pathArray: any[];
 }

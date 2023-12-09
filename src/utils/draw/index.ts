@@ -8,7 +8,7 @@ import {
   attrText,
   attrTopoMap
 } from "./attr";
-import { bindMapZoom, bindNodeDrag } from "./event";
+import { bindLinkDrag, bindMapZoom, bindNodeDrag } from "./event";
 import { useTopo } from "@/stores/topo";
 import type { IEnter, IExit, ISVGG, IUpdate } from "@/types";
 import type { ILink, INode } from "@/types/data";
@@ -75,6 +75,7 @@ const appendLink = (enter: IEnter<ILink>) => {
   const link = enterG.append<SVGPathElement>("path");
   const shadowlink = enterG.append<SVGPathElement>("path");
   attrLink(enterG, link, shadowlink);
+  bindLinkDrag(enterG);
   return enterG;
 };
 

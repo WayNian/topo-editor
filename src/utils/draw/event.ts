@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import type { ISVG, ISVGG } from "@/types";
 import { setInitTransform } from "./assist";
-import type { INode } from "@/types/data";
+import type { ILink, INode } from "@/types/data";
 import { useTopo } from "@/stores/topo";
 
 const store = useTopo();
@@ -41,4 +41,34 @@ export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
 
   nodeG.on("click", (e, d) => {});
   nodeG.call(drag);
+};
+
+export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
+  const startPoint = {
+    x: 0,
+    y: 0
+  };
+  const drag = d3
+    .drag<SVGGElement, ILink>()
+    .on("start", (e, d) => {
+      store.linkSelected = d;
+      startPoint.x = e.x;
+      startPoint.y = e.y;
+    })
+    .on("drag", function (e, d) {
+      const dx = e.x - startPoint.x;
+      const dy = e.y - startPoint.y;
+      d3.select(this).attr("transform", `translate(${dx}, ${dy})`);
+    })
+    .on("end", function (e, d) {
+      d3.select(this).attr("transform", `translate(${0}, ${0})`);
+      d.pathArray = d.pathArray.map((item) => {
+        return [item[0] + e.x - startPoint.x, item[1] + e.y - startPoint.y];
+      });
+      d3.select(this).select(".link").attr("d", d3.line()(d.pathArray));
+      d3.select(this).select(".shadow-link").attr("d", d3.line()(d.pathArray));
+    });
+
+  linkG.on("click", (e, d) => {});
+  linkG.call(drag);
 };
