@@ -70,6 +70,22 @@ const drawNodes = () => {
     .join(appendNode);
 };
 
+export const appenSelectedLink = (linkG: ISVGG<ILink, null>) => {
+  if (!linkG.select("path.selected-link").empty()) return;
+  linkG
+    .append("path")
+    .attr("class", "selected-link")
+    .attr("d", (d) => d3.line()(d.pathArray))
+    .attr("stroke", "green")
+    .attr("fill", "none")
+    .attr("stroke-width", 1)
+    .attr("stroke-dasharray", "5 5");
+};
+
+export const removeSelectedLink = () => {
+  d3.select<SVGGElement, any>("#topoLinks").selectAll("path.selected-link").remove();
+};
+
 const appendLink = (enter: IEnter<ILink>) => {
   const enterG = enter.append<SVGGElement>("g");
   const link = enterG.append<SVGPathElement>("path");

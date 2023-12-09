@@ -3,6 +3,7 @@ import type { ISVG, ISVGG } from "@/types";
 import { setInitTransform } from "./assist";
 import type { ILink, INode } from "@/types/data";
 import { useTopo } from "@/stores/topo";
+import { appenSelectedLink, removeSelectedLink } from ".";
 
 const store = useTopo();
 export const bindMapZoom = (svg: ISVG, topoMap: ISVGG<any, HTMLElement>) => {
@@ -22,6 +23,7 @@ export const bindMapZoom = (svg: ISVG, topoMap: ISVGG<any, HTMLElement>) => {
   svg.on("click", function (e) {
     if (e.target === this || e.target === d3.select("#topoMapBackground").node()) {
       store.nodeSelected = null;
+      removeSelectedLink();
     }
   });
 };
@@ -67,8 +69,11 @@ export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
       });
       d3.select(this).select(".link").attr("d", d3.line()(d.pathArray));
       d3.select(this).select(".shadow-link").attr("d", d3.line()(d.pathArray));
+      d3.select(this).select(".selected-link").attr("d", d3.line()(d.pathArray));
     });
 
-  linkG.on("click", (e, d) => {});
+  linkG.on("click", function () {
+    appenSelectedLink(d3.select<SVGGElement, ILink>(this));
+  });
   linkG.call(drag);
 };
