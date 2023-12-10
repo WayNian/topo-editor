@@ -4,6 +4,7 @@ import {
   attrForeignObject,
   attrLink,
   attrNodeG,
+  attrSelectedLink,
   attrSvg,
   attrText,
   attrTopoMap
@@ -71,15 +72,9 @@ const drawNodes = () => {
 };
 
 export const appenSelectedLink = (linkG: ISVGG<ILink, null>) => {
-  if (!linkG.select("path.selected-link").empty()) return;
-  linkG
-    .append("path")
-    .attr("class", "selected-link")
-    .attr("d", (d) => d3.line()(d.pathArray))
-    .attr("stroke", "green")
-    .attr("fill", "none")
-    .attr("stroke-width", 1)
-    .attr("stroke-dasharray", "5 5");
+  if (!linkG.select<SVGGElement>("path.selected-link").empty()) return;
+  const link = linkG.append("path");
+  attrSelectedLink(link);
 };
 
 export const removeSelectedLink = () => {

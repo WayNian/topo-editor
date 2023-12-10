@@ -73,6 +73,7 @@ export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
     });
 
   linkG.on("click", function () {
+    removeSelectedLink();
     appenSelectedLink(d3.select<SVGGElement, ILink>(this));
   });
   linkG.call(drag);

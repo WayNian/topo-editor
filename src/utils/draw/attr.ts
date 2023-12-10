@@ -1,8 +1,8 @@
+import * as d3 from "d3";
 import type {
   IPath,
   ISVG,
   ISVGBase,
-  ISVGCircle,
   ISVGEllipse,
   ISVGForeignObject,
   ISVGG,
@@ -100,4 +100,14 @@ export const attrLink = (linkG: ISVGG<ILink, SVGGElement>, link: IPath, shadowli
     .attr("fill", "none")
     .style("pointer-events", "stroke")
     .style("cursor", "pointer");
+};
+
+export const attrSelectedLink = (link: IPath) => {
+  link
+    .attr("class", "selected-link")
+    .attr("d", (d) => d3.line()(d.pathArray))
+    .attr("stroke", "green")
+    .attr("fill", "none")
+    .attr("stroke-width", 1)
+    .attr("stroke-dasharray", "5 5");
 };
