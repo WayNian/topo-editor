@@ -32,6 +32,7 @@
         <circle id="dragPointRotate" r="8" />
       </g>
     </g>
+    <rect id="selectView"></rect>
   </svg>
 </template>
 
