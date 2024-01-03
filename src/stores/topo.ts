@@ -11,6 +11,7 @@ export const useTopo = defineStore("topo", () => {
   console.log("🚀 ~ file: topo.ts:11 ~ useTopo ~ topoLinks:", topoLinks);
   const nodeSelected = ref<INode | null>(null);
   const linkSelected = ref<ILink | null>(null);
+  const isSelectViewVisible = false;
 
-  return { mapSize, topoNodes, topoLinks, nodeSelected, linkSelected };
+  return { mapSize, topoNodes, topoLinks, nodeSelected, linkSelected, isSelectViewVisible };
 });

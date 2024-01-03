@@ -27,19 +27,25 @@ export const bindMapZoom = (svg: ISVG, topoMap: ISVGG<any, HTMLElement>) => {
     .call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(k));
 
   svg
-    .on("click", function (e) {
+    .on("mousedown", function (e) {
       if (e.target === this || e.target === d3.select("#topoMapBackground").node()) {
         store.nodeSelected = null;
         removeSelectedLink();
       }
       startPoint.x = e.x;
       startPoint.y = e.y;
+      store.isSelectViewVisible = true;
     })
     .on("mousemove", function (e) {
+      if (!store.isSelectViewVisible) return;
       const width = e.x - startPoint.x;
       const height = e.y - startPoint.y;
-
       attrSeletView(d3.select<SVGRectElement, any>("#selectView"), startPoint, { width, height });
+    })
+    .on("mouseup", function () {
+      store.isSelectViewVisible = false;
+      startPoint.x = 0;
+      startPoint.y = 0;
     });
 };
 
