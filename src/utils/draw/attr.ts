@@ -60,6 +60,7 @@ export const attrText = (text: ISVGText<INode>, tspan: ISVGTspant<INode>) => {
   tspan
     .attr("x", 0)
     .attr("dy", 12)
+    .style("user-select", "none")
     .text((d) => d.nodeId);
 };
 
