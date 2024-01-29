@@ -1,5 +1,5 @@
 import { useTopo } from "@/stores/topo";
-import { getScreenSize } from "../tools/common";
+import { getScreenSize } from "@/utils/tools/common";
 const store = useTopo();
 
 export const setInitTransform = () => {

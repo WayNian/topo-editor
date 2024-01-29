@@ -7,9 +7,9 @@
       <g>
         <rect
           id="selectedRect"
-          :transform="`translate(${selectedSizePosition.x}, ${selectedSizePosition.y})`"
-          :width="selectedSizePosition.width"
-          :height="selectedSizePosition.height"
+          :transform="`translate(${currentBBox.x}, ${currentBBox.y})`"
+          :width="currentBBox.width"
+          :height="currentBBox.height"
           fill="none"
           stroke="#409eff"
           stroke-width="2"
@@ -18,17 +18,13 @@
       </g>
       <g
         id="dragPoints"
-        :transform="`translate(${selectedSizePosition.x}, ${selectedSizePosition.y})`"
+        v-if="store.currentNode"
+        :transform="`translate(${currentBBox.x}, ${currentBBox.y})`"
       >
         <circle id="dragPointLeftTop" r="8" />
-        <circle id="dragPointRightTop" r="8" :cx="selectedSizePosition.width" />
-        <circle
-          id="dragPointRightBottom"
-          r="8"
-          :cx="selectedSizePosition.width"
-          :cy="selectedSizePosition.height"
-        />
-        <circle id="dragPointLeftBottom" r="8" :cy="selectedSizePosition.height" />
+        <circle id="dragPointRightTop" r="8" :cx="currentBBox.width" />
+        <circle id="dragPointRightBottom" r="8" :cx="currentBBox.width" :cy="currentBBox.height" />
+        <circle id="dragPointLeftBottom" r="8" :cy="currentBBox.height" />
         <circle id="dragPointRotate" r="8" />
       </g>
     </g>
@@ -44,9 +40,9 @@ useTopoEditor();
 
 const store = useTopo();
 
-const selectedSizePosition = computed(() => {
-  if (!store.nodeSelected) return { x: 0, y: 0, width: 0, height: 0 };
-  const { x, y, width, height } = store.nodeSelected;
+const currentBBox = computed(() => {
+  if (!store.currentNode) return { x: 0, y: 0, width: 0, height: 0 };
+  const { x, y, width, height } = store.currentNode;
   return { x, y, width, height };
 });
 </script>

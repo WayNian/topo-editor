@@ -10,9 +10,9 @@ import type {
   ISVGText,
   ISVGTspant
 } from "@/types";
-import { getScreenSize } from "../tools/common";
 import { useTopo } from "@/stores/topo";
 import type { ILink, INode } from "@/types/data";
+import { getScreenSize } from "@/utils/tools/common";
 
 const store = useTopo();
 

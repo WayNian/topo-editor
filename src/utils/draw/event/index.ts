@@ -1,10 +1,10 @@
 import * as d3 from "d3";
 import type { ISVG, ISVGG } from "@/types";
-import { setInitTransform } from "./assist";
 import type { ILink, INode } from "@/types/data";
 import { useTopo } from "@/stores/topo";
-import { appenSelectedLink, removeSelectedLink } from ".";
-import { attrSeletView } from "./attr";
+import { setInitTransform } from "../assist";
+import { appenSelectedLink, removeSelectedLink } from "..";
+import { attrSeletView } from "../attr";
 
 const store = useTopo();
 export const bindMapZoom = (svg: ISVG, topoMap: ISVGG<any, HTMLElement>) => {
@@ -27,9 +27,12 @@ export const bindMapZoom = (svg: ISVG, topoMap: ISVGG<any, HTMLElement>) => {
     .call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(k));
 
   svg
+    .on("click", function (e) {
+      console.log("---", e);
+    })
     .on("mousedown", function (e) {
       if (e.target === this || e.target === d3.select("#topoMapBackground").node()) {
-        store.nodeSelected = null;
+        store.currentNode = null;
         removeSelectedLink();
       }
       startPoint.x = e.x;
@@ -53,7 +56,7 @@ export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
   const drag = d3
     .drag<SVGGElement, INode>()
     .on("start", (e, d) => {
-      store.nodeSelected = d;
+      store.currentNode = d;
     })
     .on("drag", function (e, d) {
       d.x = e.x;
