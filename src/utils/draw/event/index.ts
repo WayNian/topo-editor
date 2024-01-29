@@ -1,56 +1,10 @@
 import * as d3 from "d3";
-import type { ISVG, ISVGG } from "@/types";
+import type { ISVGG } from "@/types";
 import type { ILink, INode } from "@/types/data";
 import { useTopo } from "@/stores/topo";
-import { setInitTransform } from "../assist";
 import { appenSelectedLink, removeSelectedLink } from "..";
-import { attrSeletView } from "../attr";
 
 const store = useTopo();
-export const bindMapZoom = (svg: ISVG, topoMap: ISVGG<any, HTMLElement>) => {
-  const { x, y, k } = setInitTransform();
-  const zoom = d3
-    .zoom<SVGSVGElement, unknown>()
-    .scaleExtent([0.1, 10])
-    .on("zoom", (e) => {
-      topoMap.attr("transform", e.transform);
-    });
-
-  const startPoint = {
-    x: 0,
-    y: 0
-  };
-
-  svg
-    .call(zoom)
-    .on("dblclick.zoom", null)
-    .call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(k));
-
-  svg
-    .on("click", function (e) {
-      console.log("---", e);
-    })
-    .on("mousedown", function (e) {
-      if (e.target === this || e.target === d3.select("#topoMapBackground").node()) {
-        store.currentNode = null;
-        removeSelectedLink();
-      }
-      startPoint.x = e.x;
-      startPoint.y = e.y;
-      store.isSelectViewVisible = true;
-    })
-    .on("mousemove", function (e) {
-      if (!store.isSelectViewVisible) return;
-      const width = e.x - startPoint.x;
-      const height = e.y - startPoint.y;
-      attrSeletView(d3.select<SVGRectElement, any>("#selectView"), startPoint, { width, height });
-    })
-    .on("mouseup", function () {
-      store.isSelectViewVisible = false;
-      startPoint.x = 0;
-      startPoint.y = 0;
-    });
-};
 
 export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
   const drag = d3
@@ -77,7 +31,7 @@ export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
   const drag = d3
     .drag<SVGGElement, ILink>()
     .on("start", (e, d) => {
-      store.linkSelected = d;
+      store.currentLink = d;
       startPoint.x = e.x;
       startPoint.y = e.y;
     })
