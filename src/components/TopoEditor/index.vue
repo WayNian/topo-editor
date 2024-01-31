@@ -18,7 +18,7 @@
       </g>
       <g
         id="dragPoints"
-        v-if="store.currentNode"
+        v-show="currentBBox.width || currentBBox.height"
         :transform="`translate(${currentBBox.x}, ${currentBBox.y})`"
       >
         <circle id="dragPointLeftTop" r="8" />
@@ -33,17 +33,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted, watch } from "vue";
 import { useTopoEditor } from "@/hooks/useTopoEditor";
 import { useTopo } from "@/stores/topo";
+import { bindDragPointEvent } from "@/utils/draw/event/draw-point";
 useTopoEditor();
-
 const store = useTopo();
 
 const currentBBox = computed(() => {
   if (!store.currentNode) return { x: 0, y: 0, width: 0, height: 0 };
   const { x, y, width, height } = store.currentNode;
   return { x, y, width, height };
+});
+
+onMounted(() => {
+  bindDragPointEvent();
 });
 </script>
 
