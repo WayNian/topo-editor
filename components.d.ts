@@ -7,6 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Attribute: typeof import('./src/components/TopoEditor/Panel/Right/Attribute.vue')['default']
+    copy: typeof import('./src/components/TopoEditor/Panel/Right/LinkAttribute copy.vue')['default']
     Editor: typeof import('./src/components/TopoEditor/Editor/index.vue')['default']
     Header: typeof import('./src/components/TopoEditor/Header/index.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
@@ -15,7 +17,12 @@ declare module 'vue' {
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
+    Layer: typeof import('./src/components/TopoEditor/Panel/Left/Layer.vue')['default']
+    LayerList: typeof import('./src/components/TopoEditor/Panel/Left/LayerList.vue')['default']
+    Left: typeof import('./src/components/TopoEditor/Panel/Left/index.vue')['default']
     LeftPanel: typeof import('./src/components/TopoEditor/Panel/LeftPanel.vue')['default']
+    LinkAttribute: typeof import('./src/components/TopoEditor/Panel/Right/LinkAttribute.vue')['default']
+    MapAttribute: typeof import('./src/components/TopoEditor/Panel/Right/MapAttribute.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
     NLayout: typeof import('naive-ui')['NLayout']
@@ -23,6 +30,7 @@ declare module 'vue' {
     NLayoutFooter: typeof import('naive-ui')['NLayoutFooter']
     NLayoutHeader: typeof import('naive-ui')['NLayoutHeader']
     NLayoutSider: typeof import('naive-ui')['NLayoutSider']
+    NodeAttribute: typeof import('./src/components/TopoEditor/Panel/Right/NodeAttribute.vue')['default']
     NSpace: typeof import('naive-ui')['NSpace']
     NUpload: typeof import('naive-ui')['NUpload']
     RightPanel: typeof import('./src/components/TopoEditor/Panel/RightPanel.vue')['default']

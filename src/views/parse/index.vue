@@ -1,6 +1,6 @@
 <template>
   <div>
-    <n-upload ref="upload" :default-upload="false" @change="handleChange">
+    <n-upload ref="upload" :default-upload="false" :show-file-list="false" @change="handleChange">
       <n-button>上传文件</n-button>
     </n-upload>
   </div>
@@ -18,7 +18,6 @@ const handleChange = (options: { file: UploadFileInfo }) => {
   reader.onload = function (event: ProgressEvent<FileReader>) {
     if (!event.target) return;
     const data = event.target.result; // 获取文件内容
-    console.log("🚀 ~ handleChange ~ data:", data);
     parseSvg(data as string);
   };
   reader.readAsText(file); // 以文本格式读取文件内容
