@@ -1,11 +1,13 @@
 <template>
-  <n-tree
-    block-line
-    expand-on-click
-    :data="data"
-    :node-props="nodeProps"
-    :on-update:expanded-keys="updatePrefixWithExpaned"
-  />
+  <n-scrollbar style="max-height: calc(100vh - 100px)">
+    <n-tree
+      block-line
+      expand-on-click
+      :data="data"
+      :node-props="nodeProps"
+      :on-update:expanded-keys="updatePrefixWithExpaned"
+    />
+  </n-scrollbar>
 </template>
 
 <script setup lang="ts">

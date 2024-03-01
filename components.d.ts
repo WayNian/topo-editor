@@ -8,7 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Attribute: typeof import('./src/components/TopoEditor/Panel/Right/Attribute.vue')['default']
-    copy: typeof import('./src/components/TopoEditor/Panel/Right/LinkAttribute copy.vue')['default']
+    copy: typeof import('./src/components/TopoEditor/Panel/Left/LayerList copy.vue')['default']
     Editor: typeof import('./src/components/TopoEditor/Editor/index.vue')['default']
     Header: typeof import('./src/components/TopoEditor/Header/index.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
@@ -32,6 +32,7 @@ declare module 'vue' {
     NLayoutSider: typeof import('naive-ui')['NLayoutSider']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NodeAttribute: typeof import('./src/components/TopoEditor/Panel/Right/NodeAttribute.vue')['default']
+    NScrollbar: typeof import('naive-ui')['NScrollbar']
     NSpace: typeof import('naive-ui')['NSpace']
     NTabPane: typeof import('naive-ui')['NTabPane']
     NTabs: typeof import('naive-ui')['NTabs']
@@ -42,6 +43,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Sider: typeof import('./src/components/TopoEditor/Sider/index.vue')['default']
+    TabPane: typeof import('./src/components/TopoEditor/Panel/Left/TabPane.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     TopoEditor: typeof import('./src/components/TopoEditor/index.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
