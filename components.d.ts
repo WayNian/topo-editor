@@ -7,7 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Attribute: typeof import('./src/components/TopoEditor/Panel/Right/Attribute.vue')['default']
+    Attribute: typeof import('./src/components/TopoEditor/Attribute/index.vue')['default']
     copy: typeof import('./src/components/TopoEditor/Panel/Left/LayerList copy.vue')['default']
     Editor: typeof import('./src/components/TopoEditor/Editor/index.vue')['default']
     Header: typeof import('./src/components/TopoEditor/Header/index.vue')['default']
