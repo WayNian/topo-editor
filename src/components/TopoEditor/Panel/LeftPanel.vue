@@ -4,7 +4,7 @@
       <n-tabs type="line" animated>
         <n-tab-pane name="oasis" tab="文件"> <LayerList></LayerList> </n-tab-pane>
         <n-tab-pane name="jay chou" tab="图元"> 图元 </n-tab-pane>
-        <n-tab-pane name="model" tab="模型"> 模型 </n-tab-pane>
+        <!-- <n-tab-pane name="model" tab="模型"> 模型 </n-tab-pane> -->
       </n-tabs>
     </Panel>
   </Sider>

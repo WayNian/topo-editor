@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div>节点属性</div>
 </template>
 
 <script setup lang="ts"></script>

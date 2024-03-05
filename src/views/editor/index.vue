@@ -6,8 +6,8 @@
         <LeftPanel></LeftPanel>
         <TopoEditor />
       </n-layout>
-      <Attribute></Attribute>
-      <!-- <RightPanel></RightPanel> -->
+      <AttributeTrigger></AttributeTrigger>
+      <RightPanel></RightPanel>
     </div>
   </div>
 </template>
@@ -17,7 +17,7 @@ import TopoEditor from "@/components/TopoEditor/Editor/index.vue";
 import Header from "@/components/TopoEditor/Header/index.vue";
 import LeftPanel from "@/components/TopoEditor/Panel/LeftPanel.vue";
 import RightPanel from "@/components/TopoEditor/Panel/RightPanel.vue";
-import Attribute from "@/components/TopoEditor/Attribute/index.vue";
+import AttributeTrigger from "@/components/TopoEditor/Panel/Right/Attribute/AttributeTrigger.vue";
 </script>
 
 <style scoped></style>
