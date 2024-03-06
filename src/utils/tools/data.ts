@@ -28,8 +28,6 @@ export const formatNodes = (data: ISourceNode[]): INode[] => {
     const [x, y] = nodePosition.split(",").map((item) => Number(item));
     const [width, height] = nodeSize.split("*").map((item) => Number(item));
 
-    console.log(x, y, width, height, item);
-
     return {
       ...item,
       x,

@@ -4,14 +4,18 @@ type ISvg = d3.Selection<SVGSVGElement, unknown, d3.BaseType, any>;
 type ISvgNode = d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>;
 type ISvgLink<T extends d3.BaseType> = d3.Selection<T, unknown, d3.BaseType, unknown>;
 
-const nodes = [];
-const links = [];
+const nodes: any = [];
+const links: any = [];
+let svgSize = {
+  width: 0,
+  height: 0
+};
 
 const formatTransform = (transform: string) => {
-  if (!transform) return;
+  if (!transform) return "";
   const reg = /translate\((\d+),(\d+)\)/;
   const res = transform.match(reg);
-  if (!res) return;
+  if (!res) return "";
   return {
     x: +res[1],
     y: +res[2]
@@ -120,12 +124,9 @@ const formatData = (node: ISvgNode) => {
         const y2 = +node.attr("y2");
         links.push({
           id,
-          type: "line",
-          x1,
-          y1,
-          x2,
-          y2,
-          style: formatStyle(style),
+          type: "path",
+          linkPath: `M${x1} ${y1} L${x2} ${y2}`,
+          linkStyles: formatStyle(style),
           transform: formatTransform(transform)
         });
       }
@@ -136,8 +137,8 @@ const formatData = (node: ISvgNode) => {
         links.push({
           id,
           type: "path",
-          d,
-          style: formatStyle(style),
+          linkPath: d,
+          linkStyles: formatStyle(style),
           transform: formatTransform(transform)
         });
       }
@@ -149,15 +150,28 @@ const formatData = (node: ISvgNode) => {
 /**
  * 将svg原始文件转换为d3对象
  */
-export const parseSvg = (content: string) => {
-  const con = d3
-    .select("body")
-    .append("div")
-    .style("width", "800px")
-    .style("height", "500px")
-    .html(content);
-  const svg = con.select("svg");
-
-  traverse(svg.selectChildren());
-  console.log(nodes, links);
+export const parseSvg = (file: File) => {
+  if (!file) return;
+  const reader = new FileReader(); // 创建 FileReader 对象
+  nodes.length = 0;
+  links.length = 0;
+  return new Promise((resolve) => {
+    reader.onload = function (event: ProgressEvent<FileReader>) {
+      if (!event.target) return;
+      const data = event.target.result; // 获取文件内容
+      const con = d3
+        .select("body")
+        .append("div")
+        .style("display", "none")
+        .html(data as string);
+      const svg = con.select("svg");
+      svgSize = {
+        width: +svg.attr("width"),
+        height: +svg.attr("height")
+      };
+      traverse(svg.selectChildren());
+      resolve({ svgSize, nodes, links });
+    };
+    reader.readAsText(file); // 以文本格式读取文件内容
+  });
 };

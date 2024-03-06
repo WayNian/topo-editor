@@ -18,7 +18,7 @@ const handleChange = (options: { file: UploadFileInfo }) => {
   reader.onload = function (event: ProgressEvent<FileReader>) {
     if (!event.target) return;
     const data = event.target.result; // 获取文件内容
-    parseSvg(data as string);
+    // parseSvg(data as string);
   };
   reader.readAsText(file); // 以文本格式读取文件内容
 };

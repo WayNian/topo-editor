@@ -8,10 +8,10 @@ export const useTopo = defineStore("topo", () => {
   const mapSize = ref({ width: 1000, height: 800 });
   const topoNodes = ref(formatNodes(testData.data.nodes));
   const topoLinks = ref(formatLinks(testData.data.links));
-  console.log("🚀 ~ file: topo.ts:11 ~ useTopo ~ topoLinks:", topoLinks);
   const currentNode = ref<INode | null>(null);
   const currentLink = ref<ILink | null>(null);
+  const svgSize = ref({ width: 0, height: 0 });
   const isSelectViewVisible = false;
 
-  return { mapSize, topoNodes, topoLinks, currentNode, currentLink, isSelectViewVisible };
+  return { mapSize, topoNodes, topoLinks, currentNode, currentLink, isSelectViewVisible, svgSize };
 });

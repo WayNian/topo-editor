@@ -18,7 +18,10 @@ const store = useTopo();
 
 export const attrSvg = (svg: ISVG) => {
   const { width, height } = getScreenSize();
-  svg.attr("width", width).attr("height", height).style("background-color", "black");
+  svg
+    .attr("width", store.svgSize.width || width)
+    .attr("height", store.svgSize.height || height)
+    .style("background-color", "black");
 };
 
 export const attrTopoMap = (topoMap: ISVGG<any, HTMLElement>, topoMapBackground: ISVGRect<any>) => {

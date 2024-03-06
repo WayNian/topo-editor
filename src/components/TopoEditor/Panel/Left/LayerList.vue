@@ -19,18 +19,25 @@
     @select="handleSelect"
     @clickoutside="() => (showDropdown = false)"
   ></n-dropdown>
+
+  <input type="file" style="display: none" ref="upload" accept=".svg" @change="handleChange" />
 </template>
 
 <script setup lang="ts">
 import { h, ref } from "vue";
 import { useMessage, NIcon, type TreeOption, type DropdownOption } from "naive-ui";
 import { Folder, FolderOpenOutline, FileTrayFullOutline } from "@vicons/ionicons5";
+import { parseSvg } from "@/utils/parse";
+import emitter from "@/utils/mitt";
 
+const message = useMessage();
 const showDropdown = ref(false);
 const x = ref(0);
 const y = ref(0);
 
 const options = ref<TreeOption[]>([]);
+const currentOption = ref<TreeOption | null>(null);
+const upload = ref<HTMLInputElement | null>(null);
 
 const data = [
   {
@@ -88,7 +95,6 @@ const data = [
     ]
   }
 ];
-const message = useMessage();
 
 const setMenu = (option: TreeOption) => {
   if (option.children) {
@@ -98,8 +104,12 @@ const setMenu = (option: TreeOption) => {
         key: "newFile"
       },
       {
+        label: "编辑",
+        key: "edit"
+      },
+      {
         label: "导入",
-        key: ""
+        key: "imoport"
       },
       {
         label: "删除",
@@ -108,6 +118,10 @@ const setMenu = (option: TreeOption) => {
     ];
   } else {
     options.value = [
+      {
+        label: "编辑",
+        key: "edit"
+      },
       {
         label: "导入",
         key: "imoport"
@@ -149,21 +163,60 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
     onClick() {
       if (!option.children && !option.disabled) {
         message.info("[Click] " + option.label);
+        currentOption.value = option;
       }
     },
     onContextmenu(e: MouseEvent): void {
-      showDropdown.value = true;
       setMenu(option);
+      showDropdown.value = true;
+      currentOption.value = option;
       x.value = e.clientX;
       y.value = e.clientY;
-      console.log(e.clientX, e.clientY);
       e.preventDefault();
     }
   };
 };
 
+const deleteFile = () => {
+  if (currentOption.value) {
+    message.info("删除文件");
+  }
+};
+
+const handleChange = () => {
+  const file = upload.value?.files?.[0];
+  if (!file) return;
+  parseSvg(file)
+    ?.then((res) => {
+      const r = res as {
+        svgSize: { width: number; height: number };
+        nodes: any;
+        links: any;
+      };
+      emitter.emit("on:draw", r);
+    })
+    .finally(() => {
+      upload.value!.value = "";
+    });
+};
+
 const handleSelect = (key: string | number, option: DropdownOption) => {
   showDropdown.value = false;
+  switch (key) {
+    case "newFile":
+      message.info("新建文件");
+      break;
+    case "edit":
+      message.info("编辑文件");
+      break;
+    case "delete":
+      message.info("删除文件");
+      deleteFile();
+      break;
+    case "imoport":
+      upload.value?.click();
+      break;
+  }
 };
 </script>
 
