@@ -2,6 +2,15 @@ export interface ISize {
   width: number;
   height: number;
 }
+
+export interface IMatrix {
+  a: number;
+  b: number;
+  c: number;
+  d: number;
+  e: number;
+  f: number;
+}
 export interface ISourceNode {
   nodeId: string;
   mapId: string;

@@ -1,4 +1,6 @@
+import type { IMatrix } from "@/types";
 import * as d3 from "d3";
+import { parseSvgPath } from "../tools/data";
 
 type ISvg = d3.Selection<SVGSVGElement, unknown, d3.BaseType, any>;
 type ISvgNode = d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>;
@@ -11,14 +13,15 @@ let svgSize = {
   height: 0
 };
 
-const formatTransform = (transform: string) => {
-  if (!transform) return "";
-  const reg = /translate\((\d+),(\d+)\)/;
-  const res = transform.match(reg);
-  if (!res) return "";
+const formatTransform = (el: SVGAElement) => {
+  const rect = el.getBoundingClientRect();
+  const matrix = el.getScreenCTM();
   return {
-    x: +res[1],
-    y: +res[2]
+    x: rect.x,
+    y: rect.y,
+    width: rect.width,
+    height: rect.height,
+    matrix
   };
 };
 
@@ -37,82 +40,106 @@ const formatStyle = (style: string) => {
  * 遍历svg，将需要的节点解析
  */
 const traverse = (nodes: ISvgNode) => {
+  // const m = d3.zoomTransform(nodes.node());
   nodes.each(function () {
     formatData(d3.select(this));
     traverse(d3.select(this).selectChildren());
   });
 };
+const transformPointByMatrix = (point: { x: number; y: number }, matrix: IMatrix) => {
+  const x = point.x * matrix.a + point.y * matrix.c + matrix.e;
+  const y = point.x * matrix.b + point.y * matrix.d + matrix.f;
+  return [x, y];
+};
+
+// 解析路径为数组 js实现path路径解析为数组
+const parsePathD = (d: string) => {
+  const commands = d.split(/(?=[MLHVCSQTAZ])/); // 分割命令
+  const pathSegments = [];
+
+  for (let i = 0; i < commands.length; i++) {
+    const command = commands[i];
+    const cmdType = command[0]; // 命令类型
+    const args = command.slice(1).split(",").map(parseFloat); // 参数
+
+    // 根据命令类型创建对应的对象
+    let segment;
+    switch (cmdType) {
+      case "M": // MoveTo
+      case "L": // LineTo
+        segment = { type: cmdType, x: args[0], y: args[1] };
+        break;
+      // 你可以在这里添加对其他命令的处理，如C（CurveTo）、Q（QuadraticBezierCurveTo）等
+      default:
+        // 对于不支持的命令，可以选择忽略或抛出错误
+        console.warn(`Unsupported command: ${cmdType}`);
+        continue;
+    }
+
+    pathSegments.push(segment);
+  }
+
+  return pathSegments;
+};
+
+const getPathsAndD = (str: string, matrix: IMatrix) => {
+  const paths = parsePathD(str).map((ele) => {
+    return transformPointByMatrix(
+      {
+        x: ele.x,
+        y: ele.y
+      },
+      matrix
+    );
+  });
+
+  // 将paths转换为path的d
+  const d = paths.reduce((acc, cur, index) => {
+    if (index === 0) {
+      acc += `M${cur[0]} ${cur[1]}`;
+    } else {
+      acc += `L${cur[0]} ${cur[1]}`;
+    }
+    return acc;
+  }, "");
+
+  return { paths, d };
+};
+
 /**
  * 将svg节点解析成数据
  */
 const formatData = (node: ISvgNode) => {
-  const tagName = (node.node() as HTMLElement)?.tagName;
+  const el = node.node() as SVGAElement;
+  const tagName = el?.tagName;
   const style = node.attr("style");
-  const transform = node.attr("transform");
   const id = node.attr("id");
+
+  const { x, y, width, height, matrix } = formatTransform(el);
 
   switch (tagName) {
     case "circle":
+    case "ellipse":
+    case "image":
       {
-        const cx = +node.attr("cx");
-        const cy = +node.attr("cy");
-        const r = +node.attr("r");
         nodes.push({
           id,
           type: "circle",
-          position: { x: cx, y: cy },
-          size: { width: r * 2, height: r * 2 },
-          style: formatStyle(style),
-          transform: formatTransform(transform)
-        });
-      }
-      break;
-    case "ellipse":
-      {
-        const cx = +node.attr("cx");
-        const cy = +node.attr("cy");
-        const rx = +node.attr("rx");
-        const ry = +node.attr("ry");
-        nodes.push({
-          id,
-          type: "ellipse",
-          position: { x: cx, y: cy },
-          size: { width: rx * 2, height: ry * 2 },
-          style: formatStyle(style),
-          transform: formatTransform(transform)
+          position: { x, y },
+          size: { width, height },
+          style: formatStyle(style)
         });
       }
       break;
     case "text":
       {
-        const x = +node.attr("x");
-        const y = +node.attr("y");
         const text = node.text();
         nodes.push({
           id,
           type: "text",
           position: { x, y },
           text,
-          style: formatStyle(style),
-          transform: formatTransform(transform)
-        });
-      }
-      break;
-    case "image":
-      {
-        const x = +node.attr("x");
-        const y = +node.attr("y");
-        const width = +node.attr("width");
-        const height = +node.attr("height");
-        const href = node.attr("href");
-        nodes.push({
-          id,
-          type: "image",
-          position: { x, y },
-          size: { width, height },
-          href,
-          style: formatStyle(style),
-          transform: formatTransform(transform)
+          style: formatStyle(style)
         });
       }
       break;
@@ -122,24 +149,25 @@ const formatData = (node: ISvgNode) => {
         const y1 = +node.attr("y1");
         const x2 = +node.attr("x2");
         const y2 = +node.attr("y2");
-        links.push({
-          id,
-          type: "path",
-          linkPath: `M${x1} ${y1} L${x2} ${y2}`,
-          linkStyles: formatStyle(style),
-          transform: formatTransform(transform)
-        });
+        // const d = `M${x1 * xScale} ${y1 * yScale} L${x2 * xScale} ${y2 * yScale}`;
+        // links.push({
+        //   id,
+        //   type: "path",
+        //   linkPath: `M${x1 * xScale} ${y1 * yScale} L${x2 * xScale} ${y2 * yScale}`,
+        //   linkStyles: formatStyle(style)
+        // });
       }
       break;
     case "path":
       {
-        const d = node.attr("d");
+        const dStr = node.attr("d");
+        const { d, paths } = getPathsAndD(dStr, matrix as IMatrix);
         links.push({
           id,
           type: "path",
           linkPath: d,
-          linkStyles: formatStyle(style),
-          transform: formatTransform(transform)
+          pathArray: paths,
+          linkStyles: formatStyle(style)
         });
       }
       break;
@@ -162,12 +190,15 @@ export const parseSvg = (file: File) => {
       const con = d3
         .select("body")
         .append("div")
-        .style("display", "none")
+        // .style("display", "none")
         .html(data as string);
       const svg = con.select("svg");
+      const width = +svg.attr("width");
+      const height = +svg.attr("height");
+      //   con.style("width", width).style("height", height);
       svgSize = {
-        width: +svg.attr("width"),
-        height: +svg.attr("height")
+        width,
+        height
       };
       traverse(svg.selectChildren());
       resolve({ svgSize, nodes, links });

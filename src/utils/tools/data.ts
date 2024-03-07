@@ -1,7 +1,7 @@
 import type { ILink, INode, ISourceLink, ISourceNode } from "@/types/data";
 
 // 解析路径为数组 js实现path路径解析为数组  M 283.00767973501206 301.5652924636853 L 716 673
-function parseSvgPath(svgPath: string) {
+export function parseSvgPath(svgPath: string) {
   const regex = /(\d+\.\d+|\d+)/g;
   const matches = svgPath.match(regex);
 

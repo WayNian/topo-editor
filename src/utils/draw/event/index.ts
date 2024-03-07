@@ -45,6 +45,7 @@ export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
       d.pathArray = d.pathArray.map((item) => {
         return [item[0] + e.x - startPoint.x, item[1] + e.y - startPoint.y];
       });
+
       d3.select(this).select(".link").attr("d", d3.line()(d.pathArray));
       d3.select(this).select(".shadow-link").attr("d", d3.line()(d.pathArray));
       d3.select(this).select(".selected-link").attr("d", d3.line()(d.pathArray));
