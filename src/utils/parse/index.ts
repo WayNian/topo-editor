@@ -5,6 +5,11 @@ import { parseSvgPath } from "../tools/data";
 type ISvg = d3.Selection<SVGSVGElement, unknown, d3.BaseType, any>;
 type ISvgNode = d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>;
 type ISvgLink<T extends d3.BaseType> = d3.Selection<T, unknown, d3.BaseType, unknown>;
+type IPoint = {
+  type: string;
+  x: number;
+  y: number;
+};
 
 const nodes: any = [];
 const links: any = [];
@@ -12,6 +17,23 @@ let svgSize = {
   width: 0,
   height: 0
 };
+
+function parseMatrix(matrixString: string) {
+  // 正则表达式匹配matrix函数的参数
+  const regex = /matrix\(([^)]*)\)/;
+  const match = matrixString.match(regex);
+
+  if (match && match[1]) {
+    // 将匹配到的参数字符串按逗号分割
+    const params = match[1].split(",").map(parseFloat);
+
+    // 返回包含所有参数的数组
+    return params;
+  } else {
+    // 如果没有匹配到matrix函数，返回null或抛出错误
+    return null; // 或者 throw new Error('Invalid matrix string');
+  }
+}
 
 const formatTransform = (el: SVGAElement) => {
   const rect = el.getBoundingClientRect();
@@ -25,7 +47,7 @@ const formatTransform = (el: SVGAElement) => {
   };
 };
 
-const formatStyle = (style: string, scale: number) => {
+const formatStyle = (style: string) => {
   if (!style) {
     return {
       style: {},
@@ -38,9 +60,9 @@ const formatStyle = (style: string, scale: number) => {
     const [key, value] = item.split(":");
     if (!key) return;
     obj[key] = value;
-    if (key === "stroke-width") {
-      obj[key] = parseInt(value) * scale + "px";
-    }
+    // if (key === "stroke-width") {
+    //   obj[key] = parseInt(value) * scale + "px";
+    // }
   });
 
   return {
@@ -49,26 +71,64 @@ const formatStyle = (style: string, scale: number) => {
   };
 };
 
+const collectNodeMatrix = (svgElement: SVGAElement) => {
+  // 遍历SVG中的所有<path>元素
+  // 初始化一个空数组来存储当前<path>的所有父级<g>的transform值
+  const transforms: number[][] = [];
+  // 当前元素设置为<path>
+  let currentElement: SVGAElement | null = svgElement;
+  // 遍历<path>的所有父级元素，直到找到<svg>元素或没有更多父级
+  while (currentElement?.parentNode && currentElement.parentNode.nodeName.toLowerCase() !== "svg") {
+    // 如果父级是<g>元素，则获取其transform属性值并添加到数组中
+    if (currentElement.parentNode.nodeName.toLowerCase() === "g") {
+      const transform = (currentElement.parentNode as Element).getAttribute("transform");
+      if (transform) {
+        const matrix = parseMatrix(transform);
+        matrix && transforms.unshift(matrix);
+      }
+    }
+    // 将当前元素设置为父级元素，继续向上遍历
+    currentElement = currentElement.parentNode as SVGAElement;
+  }
+  return transforms;
+};
+
 /**
  * 遍历svg，将需要的节点解析
  */
 const traverse = (nodes: ISvgNode) => {
-  // const m = d3.zoomTransform(nodes.node());
   nodes.each(function () {
-    formatData(d3.select(this));
-    traverse(d3.select(this).selectChildren());
+    const el = d3.select(this);
+    formatData(el);
+    traverse(el.selectChildren());
   });
 };
-const transformPointByMatrix = (point: { x: number; y: number }, matrix: IMatrix) => {
-  const x = point.x * matrix.a + point.y * matrix.c + matrix.e;
-  const y = point.x * matrix.b + point.y * matrix.d + matrix.f;
-  return [x, y];
+
+const transformPointByMatrix = (point: IPoint, matrix: number[]) => {
+  const x = point.x * matrix[0] + point.y * matrix[2] + matrix[4];
+  const y = point.x * matrix[1] + point.y * matrix[3] + matrix[5];
+  return {
+    type: point.type,
+    x,
+    y
+  };
 };
 
+const getPathByMatrix = (points: IPoint[], matrixList: number[][]) => {
+  const res: IPoint[] = [];
+  points.forEach((point) => {
+    matrixList.forEach((matrix) => {
+      transformPointByMatrix(point, matrix);
+    });
+    res.push(point);
+  });
+
+  return res;
+};
 // 解析路径为数组 js实现path路径解析为数组
 const parsePathD = (d: string) => {
   const commands = d.split(/(?=[MLHVCSQTAZ])/); // 分割命令
-  const pathSegments = [];
+  const pathSegments: IPoint[] = [];
 
   for (let i = 0; i < commands.length; i++) {
     const command = commands[i];
@@ -95,28 +155,18 @@ const parsePathD = (d: string) => {
   return pathSegments;
 };
 
-const getPathsAndD = (str: string, matrix: IMatrix) => {
-  const paths = parsePathD(str).map((ele) => {
-    return transformPointByMatrix(
-      {
-        x: ele.x,
-        y: ele.y
-      },
-      matrix
-    );
-  });
-
+const getPathsAndD = (points: IPoint[]) => {
   // 将paths转换为path的d
-  const d = paths.reduce((acc, cur, index) => {
+  const d = points.reduce((acc, cur, index) => {
     if (index === 0) {
-      acc += `M${cur[0]} ${cur[1]}`;
+      acc += `${cur.type}${cur.x} ${cur.y}`;
     } else {
-      acc += `L${cur[0]} ${cur[1]}`;
+      acc += `${cur.type}${cur.x} ${cur.y}`;
     }
     return acc;
   }, "");
 
-  return { paths, d };
+  return d;
 };
 
 /**
@@ -128,8 +178,8 @@ const formatData = (node: ISvgNode) => {
   const s = node.attr("style");
   const id = node.attr("id");
 
-  const { x, y, width, height, matrix } = formatTransform(el);
-  const { style } = formatStyle(s, +Math.abs(matrix?.a || 1).toFixed(4));
+  const { x, y, width, height } = formatTransform(el);
+  const { style } = formatStyle(s);
 
   switch (tagName) {
     case "circle":
@@ -175,15 +225,18 @@ const formatData = (node: ISvgNode) => {
     case "path":
       {
         const dStr = node.attr("d");
-        // const { d, paths } = getPathsAndD(dStr, matrix as IMatrix);
+        const points = parsePathD(dStr);
+        const matrixList = collectNodeMatrix(el);
+        const pointsByMatrix = getPathByMatrix(points, matrixList);
+        const d = getPathsAndD(pointsByMatrix);
+        console.log("🚀 ~ formatData ~ d:", pointsByMatrix, d);
 
         links.push({
           id,
           type: "path",
-          linkPath: dStr,
-          //   pathArray: paths,
+          linkPath: d,
+          pathArray: pointsByMatrix,
           style
-          //   linkStyles
         });
       }
       break;
@@ -212,8 +265,6 @@ export const parseSvg = (file: File) => {
       const viewBoxList = svg.attr("viewBox").split(" ");
       const width = +viewBoxList[2];
       const height = +viewBoxList[3];
-
-      console.log("🚀 ~ returnnewPromise ~ width:", width, height);
 
       svgSize = {
         width,
