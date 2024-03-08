@@ -25,15 +25,28 @@ const formatTransform = (el: SVGAElement) => {
   };
 };
 
-const formatStyle = (style: string) => {
-  if (!style) return;
+const formatStyle = (style: string, scale: number) => {
+  if (!style) {
+    return {
+      style: {},
+      styleStr: ""
+    };
+  }
   const res = style.split(";");
   const obj: Record<string, string | number> = {};
   res.forEach((item) => {
     const [key, value] = item.split(":");
+    if (!key) return;
     obj[key] = value;
+    if (key === "stroke-width") {
+      obj[key] = parseInt(value) * scale + "px";
+    }
   });
-  return obj;
+
+  return {
+    style: obj,
+    styleStr: JSON.stringify(obj)
+  };
 };
 
 /**
@@ -112,10 +125,11 @@ const getPathsAndD = (str: string, matrix: IMatrix) => {
 const formatData = (node: ISvgNode) => {
   const el = node.node() as SVGAElement;
   const tagName = el?.tagName;
-  const style = node.attr("style");
+  const s = node.attr("style");
   const id = node.attr("id");
 
   const { x, y, width, height, matrix } = formatTransform(el);
+  const { style } = formatStyle(s, +Math.abs(matrix?.a || 1).toFixed(4));
 
   switch (tagName) {
     case "circle":
@@ -127,7 +141,7 @@ const formatData = (node: ISvgNode) => {
           type: "circle",
           position: { x, y },
           size: { width, height },
-          style: formatStyle(style)
+          style
         });
       }
       break;
@@ -139,7 +153,7 @@ const formatData = (node: ISvgNode) => {
           type: "text",
           position: { x, y },
           text,
-          style: formatStyle(style)
+          style
         });
       }
       break;
@@ -154,20 +168,22 @@ const formatData = (node: ISvgNode) => {
         //   id,
         //   type: "path",
         //   linkPath: `M${x1 * xScale} ${y1 * yScale} L${x2 * xScale} ${y2 * yScale}`,
-        //   linkStyles: formatStyle(style)
+        //   linkStyles
         // });
       }
       break;
     case "path":
       {
         const dStr = node.attr("d");
-        const { d, paths } = getPathsAndD(dStr, matrix as IMatrix);
+        // const { d, paths } = getPathsAndD(dStr, matrix as IMatrix);
+
         links.push({
           id,
           type: "path",
-          linkPath: d,
-          pathArray: paths,
-          linkStyles: formatStyle(style)
+          linkPath: dStr,
+          //   pathArray: paths,
+          style
+          //   linkStyles
         });
       }
       break;
@@ -193,9 +209,12 @@ export const parseSvg = (file: File) => {
         // .style("display", "none")
         .html(data as string);
       const svg = con.select("svg");
-      const width = +svg.attr("width");
-      const height = +svg.attr("height");
-      //   con.style("width", width).style("height", height);
+      const viewBoxList = svg.attr("viewBox").split(" ");
+      const width = +viewBoxList[2];
+      const height = +viewBoxList[3];
+
+      console.log("🚀 ~ returnnewPromise ~ width:", width, height);
+
       svgSize = {
         width,
         height

@@ -1,5 +1,5 @@
 export const getScreenSize = () => {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+  const width = window.screen.width;
+  const height = window.screen.height;
   return { width, height };
 };

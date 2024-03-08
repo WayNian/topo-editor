@@ -61,6 +61,7 @@ export interface ISourceLink {
   metaData: Record<string, string> | null;
   updatedBy: string | null;
   updatedTime: string | null;
+  style: Record<string, string>;
   sublayerList: string[] | null;
 }
 

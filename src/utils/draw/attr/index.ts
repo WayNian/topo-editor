@@ -19,13 +19,18 @@ const store = useTopo();
 export const attrSvg = (svg: ISVG) => {
   const { width, height } = getScreenSize();
   svg
-    .attr("width", store.svgSize.width || width)
+    .attr("width", width)
     .attr("height", store.svgSize.height || height)
     .style("background-color", "black");
 };
 
 export const attrTopoMap = (topoMap: ISVGG<any, HTMLElement>, topoMapBackground: ISVGRect<any>) => {
-  const { width, height } = store.mapSize;
+  let { width, height } = store.mapSize;
+  console.log("store.svgSize", store.svgSize);
+
+  width = store.svgSize.width || width;
+  height = store.svgSize.height || height;
+
   topoMap.attr("width", width).attr("height", height);
 
   topoMapBackground
@@ -92,9 +97,17 @@ export const attrLink = (linkG: ISVGG<ILink, SVGGElement>, link: IPath, shadowli
     .attr("class", "link")
     .attr("id", (d) => "link_" + d.linkId)
     .attr("d", (d) => d.linkPath)
-    .attr("stroke", "white")
-    .attr("stroke-width", 2)
-    .attr("fill", "none");
+    .attr("style", (d) => {
+      let style = "";
+      for (const key in d.style) {
+        style += `${key}:${d.style[key]};`;
+      }
+      return style;
+    });
+
+  // .attr("stroke", "white")
+  // .attr("stroke-width", 2)
+  // .attr("fill", "none");
 
   shadowlink
     .attr("class", "shadow-link")
