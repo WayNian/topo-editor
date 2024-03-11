@@ -7,8 +7,7 @@ type ISvgNode = d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>;
 type ISvgLink<T extends d3.BaseType> = d3.Selection<T, unknown, d3.BaseType, unknown>;
 type IPoint = {
   type: string;
-  x: number;
-  y: number;
+  data: number[];
 };
 
 const nodes: any = [];
@@ -47,7 +46,7 @@ const formatTransform = (el: SVGAElement) => {
   };
 };
 
-const formatStyle = (style: string) => {
+const formatStyle = (style: string, scale: number) => {
   if (!style) {
     return {
       style: {},
@@ -60,9 +59,9 @@ const formatStyle = (style: string) => {
     const [key, value] = item.split(":");
     if (!key) return;
     obj[key] = value;
-    // if (key === "stroke-width") {
-    //   obj[key] = parseInt(value) * scale + "px";
-    // }
+    if (key === "stroke-width") {
+      obj[key] = parseInt(value) * scale + "px";
+    }
   });
 
   return {
@@ -84,7 +83,7 @@ const collectNodeMatrix = (svgElement: SVGAElement) => {
       const transform = (currentElement.parentNode as Element).getAttribute("transform");
       if (transform) {
         const matrix = parseMatrix(transform);
-        matrix && transforms.unshift(matrix);
+        matrix && transforms.push(matrix);
       }
     }
     // 将当前元素设置为父级元素，继续向上遍历
@@ -104,21 +103,27 @@ const traverse = (nodes: ISvgNode) => {
   });
 };
 
-const transformPointByMatrix = (point: IPoint, matrix: number[]) => {
-  const x = point.x * matrix[0] + point.y * matrix[2] + matrix[4];
-  const y = point.x * matrix[1] + point.y * matrix[3] + matrix[5];
-  return {
-    type: point.type,
-    x,
-    y
-  };
+const transformPointByMatrix = (d: number[], matrix: number[]) => {
+  const data: number[] = [];
+  d.map((item, index) => {
+    if (index % 2 === 0) {
+      const x = item * matrix[0] + d[index + 1] * matrix[2] + matrix[4];
+      data.push(x);
+    } else {
+      const y = d[index - 1] * matrix[1] + item * matrix[3] + matrix[5];
+      data.push(y);
+    }
+  });
+
+  return data;
 };
 
 const getPathByMatrix = (points: IPoint[], matrixList: number[][]) => {
   const res: IPoint[] = [];
   points.forEach((point) => {
+    // 获取最后的计算结果
     matrixList.forEach((matrix) => {
-      transformPointByMatrix(point, matrix);
+      point.data = transformPointByMatrix(point.data, matrix);
     });
     res.push(point);
   });
@@ -133,16 +138,19 @@ const parsePathD = (d: string) => {
   for (let i = 0; i < commands.length; i++) {
     const command = commands[i];
     const cmdType = command[0]; // 命令类型
-    const args = command.slice(1).split(",").map(parseFloat); // 参数
+    const args = command.replaceAll(" ", ",").slice(1).split(",").map(parseFloat); // 参数
 
     // 根据命令类型创建对应的对象
     let segment;
     switch (cmdType) {
       case "M": // MoveTo
       case "L": // LineTo
-        segment = { type: cmdType, x: args[0], y: args[1] };
+        segment = { type: cmdType, data: args };
         break;
       // 你可以在这里添加对其他命令的处理，如C（CurveTo）、Q（QuadraticBezierCurveTo）等
+      case "C":
+        segment = { type: cmdType, data: args };
+        break;
       default:
         // 对于不支持的命令，可以选择忽略或抛出错误
         console.warn(`Unsupported command: ${cmdType}`);
@@ -155,16 +163,13 @@ const parsePathD = (d: string) => {
   return pathSegments;
 };
 
-const getPathsAndD = (points: IPoint[]) => {
+const getDByPoints = (points: IPoint[]) => {
   // 将paths转换为path的d
-  const d = points.reduce((acc, cur, index) => {
-    if (index === 0) {
-      acc += `${cur.type}${cur.x} ${cur.y}`;
-    } else {
-      acc += `${cur.type}${cur.x} ${cur.y}`;
-    }
-    return acc;
-  }, "");
+  const d = points
+    .map((point) => {
+      return `${point.type}${point.data.join(" ")}`;
+    })
+    .join("");
 
   return d;
 };
@@ -177,9 +182,12 @@ const formatData = (node: ISvgNode) => {
   const tagName = el?.tagName;
   const s = node.attr("style");
   const id = node.attr("id");
+  const matrixList = collectNodeMatrix(el);
+  const averageScale = matrixList[0] ? +((matrixList[0][0] + matrixList[0][3]) / 2).toFixed(2) : 1;
+  const scale = averageScale || 1;
 
   const { x, y, width, height } = formatTransform(el);
-  const { style } = formatStyle(s);
+  const { style } = formatStyle(s, 0.5);
 
   switch (tagName) {
     case "circle":
@@ -224,15 +232,18 @@ const formatData = (node: ISvgNode) => {
       break;
     case "path":
       {
+        const id = node.node()?.parentNode?.id;
         const dStr = node.attr("d");
+        console.log("dStr", dStr);
+        console.log("scale-----》》》", scale);
+
         const points = parsePathD(dStr);
-        const matrixList = collectNodeMatrix(el);
         const pointsByMatrix = getPathByMatrix(points, matrixList);
-        const d = getPathsAndD(pointsByMatrix);
-        console.log("🚀 ~ formatData ~ d:", pointsByMatrix, d);
+        const d = getDByPoints(pointsByMatrix);
+        console.log("d", d);
 
         links.push({
-          id,
+          linkId: id,
           type: "path",
           linkPath: d,
           pathArray: pointsByMatrix,
@@ -271,6 +282,8 @@ export const parseSvg = (file: File) => {
         height
       };
       traverse(svg.selectChildren());
+      console.log("links", links);
+
       resolve({ svgSize, nodes, links });
     };
     reader.readAsText(file); // 以文本格式读取文件内容

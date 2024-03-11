@@ -62,6 +62,7 @@ export interface ISourceLink {
   updatedBy: string | null;
   updatedTime: string | null;
   style: Record<string, string>;
+  transform: string;
   sublayerList: string[] | null;
 }
 
