@@ -14,7 +14,9 @@
   },
   "dependencies": {
     "@unocss/reset": "^0.58.5",
+    "axios": "^1.6.7",
     "d3": "^7.8.5",
+    "js-cookie": "^3.0.5",
     "mitt": "^3.0.1",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",
@@ -24,6 +26,7 @@
     "@rushstack/eslint-patch": "^1.7.2",
     "@tsconfig/node20": "^20.1.2",
     "@types/d3": "^7.4.3",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20.11.24",
     "@unocss/transformer-directives": "^0.58.5",
     "@vicons/ionicons5": "^0.12.0",
