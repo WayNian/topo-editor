@@ -1,9 +1,8 @@
-import type { ISize } from ".";
+import type { ILink, INode } from ".";
 
 export type MittType = {
   "on:draw": {
-    nodes: any;
-    links: any;
-    svgSize: ISize;
+    nodes: INode[];
+    links: ILink[];
   };
 };

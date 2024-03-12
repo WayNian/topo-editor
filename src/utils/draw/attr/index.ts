@@ -12,12 +12,12 @@ import type {
 } from "@/types";
 import { useTopo } from "@/stores/topo";
 import type { ILink, INode } from "@/types/data";
-import { getScreenSize } from "@/utils/tools/common";
+import { getSvgSize } from "@/utils/tools/common";
 
 const store = useTopo();
 
 export const attrSvg = (svg: ISVG) => {
-  const { width, height } = getScreenSize();
+  const { width, height } = getSvgSize();
   svg.attr("width", width).attr("height", height).style("background-color", "black");
 };
 

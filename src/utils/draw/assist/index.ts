@@ -1,9 +1,9 @@
 import { useTopo } from "@/stores/topo";
-import { getScreenSize } from "@/utils/tools/common";
+import { getSvgSize } from "@/utils/tools/common";
 const store = useTopo();
 
 export const setInitTransform = () => {
-  const { width, height } = getScreenSize();
+  const { width, height } = getSvgSize();
   const mapWidth = store.mapSize.width;
   const mapHeight = store.mapSize.height;
 

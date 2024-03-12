@@ -13,5 +13,18 @@ export const useTopo = defineStore("topo", () => {
   const svgSize = ref({ width: 0, height: 0 });
   const isSelectViewVisible = false;
 
-  return { mapSize, topoNodes, topoLinks, currentNode, currentLink, isSelectViewVisible, svgSize };
+  const setMapSize = (width: number, height: number) => {
+    mapSize.value = { width, height };
+  };
+
+  return {
+    mapSize,
+    topoNodes,
+    topoLinks,
+    currentNode,
+    currentLink,
+    isSelectViewVisible,
+    svgSize,
+    setMapSize
+  };
 });

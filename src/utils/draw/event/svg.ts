@@ -6,6 +6,7 @@ import { useTopo } from "@/stores/topo";
 import { attrSeletView } from "../attr";
 
 const store = useTopo();
+let zoom: d3.ZoomBehavior<SVGSVGElement, unknown>;
 const startPoint = {
   x: 0,
   y: 0
@@ -42,9 +43,9 @@ const mouseup = () => {
 };
 export const bindMapZoom = (svg: ISVG, topoMap: ISVGG<any, HTMLElement>) => {
   const { x, y, k } = setInitTransform();
-  const zoom = d3
+  zoom = d3
     .zoom<SVGSVGElement, unknown>()
-    .scaleExtent([0.1, 10])
+    .scaleExtent([0.01, 10])
     .on("zoom", (e) => {
       topoMap.attr("transform", e.transform);
     });
@@ -59,4 +60,10 @@ export const bindMapZoom = (svg: ISVG, topoMap: ISVGG<any, HTMLElement>) => {
     .on("mousedown", mousedown)
     .on("mousemove", mousemove)
     .on("mouseup", mouseup);
+};
+
+export const setPosition = () => {
+  const { x, y, k } = setInitTransform();
+  const el = d3.select<SVGSVGElement, any>("#mindMapSvg");
+  el.call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(k));
 };

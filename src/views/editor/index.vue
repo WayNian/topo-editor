@@ -1,7 +1,7 @@
 <template>
   <div class="fixed left-0 top-0 w-full h-full flex flex-col overflow-hidden">
     <Header></Header>
-    <div class="relative flex flex-1">
+    <div class="relative flex flex-1 editor-layout">
       <n-layout has-sider>
         <LeftPanel></LeftPanel>
         <TopoEditor />

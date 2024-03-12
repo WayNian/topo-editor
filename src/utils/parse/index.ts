@@ -1,6 +1,7 @@
 import type { IMatrix } from "@/types";
 import * as d3 from "d3";
 import { parseSvgPath } from "../tools/data";
+import { useTopo } from "@/stores/topo";
 
 type ISvg = d3.Selection<SVGSVGElement, unknown, d3.BaseType, any>;
 type ISvgNode = d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>;
@@ -12,10 +13,6 @@ type IPoint = {
 
 const nodes: any = [];
 const links: any = [];
-let svgSize = {
-  width: 0,
-  height: 0
-};
 
 function parseMatrix(matrixString: string) {
   // 正则表达式匹配matrix函数的参数
@@ -268,6 +265,7 @@ const formatData = (node: ISvgNode) => {
  */
 export const parseSvg = (file: File) => {
   if (!file) return;
+  const store = useTopo();
   const reader = new FileReader(); // 创建 FileReader 对象
   nodes.length = 0;
   links.length = 0;
@@ -286,15 +284,10 @@ export const parseSvg = (file: File) => {
       const viewBoxList = svg.attr("viewBox").split(" ");
       const width = +viewBoxList[2];
       const height = +viewBoxList[3];
-      svgSize = {
-        width,
-        height
-      };
+      store.setMapSize(width, height);
       traverse(svg.selectChildren());
-      console.log("nodes", nodes);
-      console.log("links", links);
       con.remove();
-      resolve({ svgSize, nodes, links });
+      resolve({ nodes, links });
     };
     reader.readAsText(file); // 以文本格式读取文件内容
   });

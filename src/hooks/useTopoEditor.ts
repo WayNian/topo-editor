@@ -7,10 +7,9 @@ import { formatLinks } from "@/utils/tools/data";
 export const useTopoEditor = () => {
   const store = useTopo();
   const initEvent = () => {
-    emitter.on("on:draw", ({ nodes, links, svgSize }) => {
+    emitter.on("on:draw", ({ nodes, links }) => {
       store.topoNodes = nodes;
       store.topoLinks = formatLinks(links);
-      store.svgSize = svgSize;
       draw();
     });
   };

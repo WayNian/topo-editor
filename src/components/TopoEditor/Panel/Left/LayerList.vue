@@ -29,6 +29,7 @@ import { useMessage, NIcon, type TreeOption, type DropdownOption } from "naive-u
 import { Folder, FolderOpenOutline, FileTrayFullOutline } from "@vicons/ionicons5";
 import { parseSvg } from "@/utils/parse";
 import emitter from "@/utils/mitt";
+import type { ILink, INode } from "@/types";
 
 const message = useMessage();
 const showDropdown = ref(false);
@@ -189,9 +190,8 @@ const handleChange = () => {
   parseSvg(file)
     ?.then((res) => {
       const r = res as {
-        svgSize: { width: number; height: number };
-        nodes: any;
-        links: any;
+        nodes: INode[];
+        links: ILink[];
       };
       emitter.emit("on:draw", r);
     })
