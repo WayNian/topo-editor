@@ -39,17 +39,24 @@ export const attrTopoMap = (topoMap: ISVGG<any, HTMLElement>, topoMapBackground:
 export const attrNodeG = (nodeG: ISVGG<INode, SVGGElement>) => {
   nodeG
     .attr("class", "node-group")
-    .attr("transform", (d: any) => `translate(${d.x}, ${d.y})`)
+    .attr("transform", (d) => `translate(${d.position.x}, ${d.position.y})`)
     .attr("cursor", "move");
 };
 
 export const attrEllipse = (ellipse: ISVGEllipse<INode>) => {
   ellipse
     .attr("class", "node")
-    .attr("rx", (d) => d.width / 2)
-    .attr("ry", (d) => d.height / 2)
-    .attr("cx", (d) => d.width / 2)
-    .attr("cy", (d) => d.height / 2)
+    .attr("rx", (d) => d.size.width / 2)
+    .attr("ry", (d) => d.size.height / 2)
+    // .attr("cx", (d) => d.width / 2)
+    // .attr("cy", (d) => d.height / 2)
+    .attr("style", (d) => {
+      let style = "";
+      for (const key in d.style) {
+        style += `${key}:${d.style[key]};`;
+      }
+      return style;
+    })
     .attr("fill", "red")
     .attr("stroke", "white")
     .attr("stroke-width", 2);

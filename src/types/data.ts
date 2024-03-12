@@ -3,6 +3,10 @@ export interface ISize {
   height: number;
 }
 
+export interface IPosition {
+  x: number;
+  y: number;
+}
 export interface IMatrix {
   a: number;
   b: number;
@@ -40,6 +44,9 @@ export interface INode extends ISourceNode {
   y: number;
   width: number;
   height: number;
+  position: IPosition;
+  size: ISize;
+  style: Record<string, string>;
   nodeStyles: Record<string, string>;
   textStyles: Record<string, string>;
 }

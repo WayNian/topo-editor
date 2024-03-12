@@ -15,7 +15,7 @@ export const useTopoEditor = () => {
     });
   };
   onMounted(() => {
-    draw();
+    // draw();
     initEvent();
   });
 };

@@ -111,5 +111,5 @@ const drawMap = () => {
 export const draw = () => {
   drawMap();
   drawLinks();
-  //   drawNodes();
+  drawNodes();
 };

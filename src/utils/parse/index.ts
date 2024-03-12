@@ -174,6 +174,12 @@ const getDByPoints = (points: IPoint[]) => {
   return d;
 };
 
+const getScale = (svgElement: SVGAElement) => {
+  const matrix = svgElement.getScreenCTM();
+  const averageScale = matrix ? +((matrix.a + matrix.d) / 2).toFixed(4) : 1;
+
+  return averageScale;
+};
 /**
  * 将svg节点解析成数据
  */
@@ -181,16 +187,23 @@ const formatData = (node: ISvgNode) => {
   const el = node.node() as SVGAElement;
   const tagName = el?.tagName;
   const s = node.attr("style");
-  const id = node.attr("id");
+  const id = el.parentElement?.id;
   const matrixList = collectNodeMatrix(el);
-  const averageScale = matrixList[0] ? +((matrixList[0][0] + matrixList[0][3]) / 2).toFixed(2) : 1;
-  const scale = averageScale || 1;
+  //   const scale = getScale(el);
 
   const { x, y, width, height } = formatTransform(el);
   const { style } = formatStyle(s, 0.5);
 
   switch (tagName) {
     case "circle":
+      nodes.push({
+        id,
+        type: "circle",
+        position: { x, y },
+        size: { width, height },
+        style
+      });
+      break;
     case "ellipse":
     case "image":
       {
@@ -232,15 +245,10 @@ const formatData = (node: ISvgNode) => {
       break;
     case "path":
       {
-        const id = node.node()?.parentNode?.id;
         const dStr = node.attr("d");
-        console.log("dStr", dStr);
-        console.log("scale-----》》》", scale);
-
         const points = parsePathD(dStr);
         const pointsByMatrix = getPathByMatrix(points, matrixList);
         const d = getDByPoints(pointsByMatrix);
-        console.log("d", d);
 
         links.push({
           linkId: id,
@@ -270,20 +278,22 @@ export const parseSvg = (file: File) => {
       const con = d3
         .select("body")
         .append("div")
-        // .style("display", "none")
+        .style("position", "absolute")
+        .style("right", "1000000px")
+        .style("bottom", "1000000px")
         .html(data as string);
       const svg = con.select("svg");
       const viewBoxList = svg.attr("viewBox").split(" ");
       const width = +viewBoxList[2];
       const height = +viewBoxList[3];
-
       svgSize = {
         width,
         height
       };
       traverse(svg.selectChildren());
+      console.log("nodes", nodes);
       console.log("links", links);
-
+      con.remove();
       resolve({ svgSize, nodes, links });
     };
     reader.readAsText(file); // 以文本格式读取文件内容
