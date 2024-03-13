@@ -6,13 +6,18 @@ import { useTopo } from "@/stores/topo";
 type ISvg = d3.Selection<SVGSVGElement, unknown, d3.BaseType, any>;
 type ISvgNode = d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>;
 type ISvgLink<T extends d3.BaseType> = d3.Selection<T, unknown, d3.BaseType, unknown>;
-type IPoint = {
+type IPoint = number[];
+type IPointInfo = {
   type: string;
   data: number[];
 };
 
 const nodes: any = [];
 const links: any = [];
+
+let svgRect: DOMRect | null = null;
+let xScale = 1;
+let yScale = 1;
 
 function parseMatrix(matrixString: string) {
   // 正则表达式匹配matrix函数的参数
@@ -115,8 +120,17 @@ const transformPointByMatrix = (d: number[], matrix: number[]) => {
   return data;
 };
 
-const getPathByMatrix = (points: IPoint[], matrixList: number[][]) => {
-  const res: IPoint[] = [];
+const getPosionByMatrix = (point: IPoint, matrixList: number[][]) => {
+  // 获取最后的计算结果
+  matrixList.forEach((matrix) => {
+    point = transformPointByMatrix(point, matrix);
+  });
+
+  return point;
+};
+
+const getPathByMatrix = (points: IPointInfo[], matrixList: number[][]) => {
+  const res: IPointInfo[] = [];
   points.forEach((point) => {
     // 获取最后的计算结果
     matrixList.forEach((matrix) => {
@@ -130,7 +144,7 @@ const getPathByMatrix = (points: IPoint[], matrixList: number[][]) => {
 // 解析路径为数组 js实现path路径解析为数组
 const parsePathD = (d: string) => {
   const commands = d.split(/(?=[MLHVCSQTAZ])/); // 分割命令
-  const pathSegments: IPoint[] = [];
+  const pathSegments: IPointInfo[] = [];
 
   for (let i = 0; i < commands.length; i++) {
     const command = commands[i];
@@ -160,7 +174,7 @@ const parsePathD = (d: string) => {
   return pathSegments;
 };
 
-const getDByPoints = (points: IPoint[]) => {
+const getDByPoints = (points: IPointInfo[]) => {
   // 将paths转换为path的d
   const d = points
     .map((point) => {
@@ -186,6 +200,7 @@ const formatData = (node: ISvgNode) => {
   const s = node.attr("style");
   const id = el.parentElement?.id;
   const matrixList = collectNodeMatrix(el);
+
   //   const scale = getScale(el);
 
   const { x, y, width, height } = formatTransform(el);
@@ -193,13 +208,23 @@ const formatData = (node: ISvgNode) => {
 
   switch (tagName) {
     case "circle":
-      nodes.push({
-        id,
-        type: "circle",
-        position: { x, y },
-        size: { width, height },
-        style
-      });
+      {
+        const x = +node.attr("cx");
+        const y = +node.attr("cy");
+        const rect = el.getBoundingClientRect();
+
+        const position = getPosionByMatrix([x, y], matrixList);
+        const position1 = [rect.width * xScale, rect.height * yScale];
+
+        nodes.push({
+          id,
+          nodeType: "circle",
+          type: "circle",
+          position: { x: position[0], y: position[1] },
+          size: { width: position1[0], height: position1[1] },
+          style
+        });
+      }
       break;
     case "ellipse":
     case "image":
@@ -225,6 +250,30 @@ const formatData = (node: ISvgNode) => {
         });
       }
       break;
+    case "rect":
+      {
+        const rect = el.getBoundingClientRect();
+        const x = +node.attr("x");
+        const y = +node.attr("y");
+        // const width = +node.attr("width");
+        // const height = +node.attr("height");
+        const position = getPosionByMatrix([x, y], matrixList);
+        const position1 = getPosionByMatrix([x + width, y + height], matrixList);
+
+        // console.log("rect", rect);
+
+        // const position1 = [rect.width * xScale, rect.height * yScale];
+        // console.log("🚀 ~ formatData ~ position1:", position1);
+        nodes.push({
+          id,
+          nodeType: "rect",
+          type: "rect",
+          position: { x: position[0], y: position[1] },
+          size: { width: position1[0], height: position1[1] },
+          style
+        });
+      }
+      break;
     case "line":
       {
         const x1 = +node.attr("x1");
@@ -246,7 +295,7 @@ const formatData = (node: ISvgNode) => {
         const points = parsePathD(dStr);
         const pointsByMatrix = getPathByMatrix(points, matrixList);
         const d = getDByPoints(pointsByMatrix);
-
+        // if (!id) return;
         links.push({
           linkId: id,
           type: "path",
@@ -276,17 +325,28 @@ export const parseSvg = (file: File) => {
       const con = d3
         .select("body")
         .append("div")
-        .style("position", "absolute")
-        .style("right", "1000000px")
-        .style("bottom", "1000000px")
+        .style("position", "fiexed")
+        .style("width", "100%")
+        .style("height", "100%")
         .html(data as string);
       const svg = con.select("svg");
       const viewBoxList = svg.attr("viewBox").split(" ");
       const width = +viewBoxList[2];
       const height = +viewBoxList[3];
       store.setMapSize(width, height);
+      //   获取svg的getBoundingClientRect和实际的大小
+      //  再获取子节点getBoundingClientRect
+      // 按比例获取位置
+      svgRect = (svg.node() as SVGAElement)?.getBoundingClientRect();
+      if (svgRect) {
+        xScale = width / svgRect.width;
+        yScale = height / svgRect.height;
+      }
+
       traverse(svg.selectChildren());
       con.remove();
+      console.log("nodes, links ", nodes, links);
+
       resolve({ nodes, links });
     };
     reader.readAsText(file); // 以文本格式读取文件内容
