@@ -4,6 +4,7 @@ import {
   attrForeignObject,
   attrLink,
   attrNodeG,
+  attrRect,
   attrSelectedLink,
   attrSvg,
   attrText,
@@ -35,6 +36,11 @@ const appendImage = (nodeG: ISVGG<INode, any>) => {
   attrForeignObject(foreignObject, img);
 };
 
+const appendRect = (nodeG: ISVGG<INode, any>) => {
+  const rect = nodeG.append<SVGRectElement>("rect");
+  attrRect(rect);
+};
+
 // 判断nodeG数据的nodeType：circle,text等,通过swicth控制，分别在nodeG内部绘制不同的节点
 const drawNode = (nodeG: ISVGG<INode, any>, d: INode) => {
   switch (d.nodeType) {
@@ -44,6 +50,9 @@ const drawNode = (nodeG: ISVGG<INode, any>, d: INode) => {
       break;
     case "text":
       appendText(nodeG);
+      break;
+    case "rect":
+      appendRect(nodeG);
       break;
     default:
       appendImage(nodeG);

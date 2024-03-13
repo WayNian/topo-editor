@@ -44,6 +44,7 @@ export interface INode extends ISourceNode {
   y: number;
   width: number;
   height: number;
+  id: string;
   position: IPosition;
   size: ISize;
   style: Record<string, string>;

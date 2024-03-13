@@ -39,6 +39,7 @@ export const attrTopoMap = (topoMap: ISVGG<any, HTMLElement>, topoMapBackground:
 export const attrNodeG = (nodeG: ISVGG<INode, SVGGElement>) => {
   nodeG
     .attr("class", "node-group")
+    .attr("id", (d) => d.id)
     .attr("transform", (d) => `translate(${d.position.x}, ${d.position.y})`)
     .attr("cursor", "move");
 };
@@ -92,6 +93,20 @@ export const attrForeignObject = (
     .style("border-radius", "50%")
     .style("text-align", "center")
     .style("line-height", "100%");
+};
+
+export const attrRect = (rect: ISVGRect<INode>) => {
+  rect
+    .attr("class", "node")
+    .attr("width", (d) => d.size.width)
+    .attr("height", (d) => d.size.height)
+    .attr("style", (d) => {
+      let style = "";
+      for (const key in d.style) {
+        style += `${key}:${d.style[key]};`;
+      }
+      return style;
+    });
 };
 
 export const attrLink = (linkG: ISVGG<ILink, SVGGElement>, link: IPath, shadowlink: IPath) => {

@@ -26,6 +26,7 @@ declare module 'vue' {
     LinkAttribute: typeof import('./src/components/TopoEditor/Panel/Right/Attribute/LinkAttribute.vue')['default']
     MapAttribute: typeof import('./src/components/TopoEditor/Panel/Right/Attribute/MapAttribute.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
+    NCard: typeof import('naive-ui')['NCard']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
     NDivider: typeof import('naive-ui')['NDivider']
     NDropdown: typeof import('naive-ui')['NDropdown']

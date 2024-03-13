@@ -18,6 +18,11 @@ const router = createRouter({
       path: "/parse",
       name: "parse",
       component: () => import("../views/parse/index.vue")
+    },
+    {
+      path: "/login",
+      name: "Login",
+      component: () => import("../views/login/index.vue")
     }
   ]
 });
