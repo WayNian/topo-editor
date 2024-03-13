@@ -30,12 +30,12 @@
 </template>
 
 <script setup lang="ts">
-import { useTopo } from "@/stores/topo";
+import { useTopoStore } from "@/stores/topo";
 import { addMenuList } from "@/utils/http/apis/menu";
 import type { FormInst, FormRules } from "naive-ui";
 import { ref } from "vue";
 
-const store = useTopo();
+const store = useTopoStore();
 const folderModel = ref({
   folderName: ""
 });

@@ -6,7 +6,7 @@ import type { ILink, IMenuCascaderItem, INode, ITreeItem } from "@/types/";
 import { fetchMenuList } from "@/utils/http/apis/menu";
 import { formatMenuCascaderist, formatMenuList } from "@/utils/tools/menu";
 
-export const useTopo = defineStore("topo", () => {
+export const useTopoStore = defineStore("topo", () => {
   const menuList = ref<ITreeItem[]>();
   const menuCascaderList = ref<IMenuCascaderItem[]>();
   const mapSize = ref({ width: 1000, height: 800 });

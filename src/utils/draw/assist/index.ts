@@ -1,6 +1,6 @@
-import { useTopo } from "@/stores/topo";
+import { useTopoStore } from "@/stores/topo";
 import { getSvgSize } from "@/utils/tools/common";
-const store = useTopo();
+const store = useTopoStore();
 
 export const setInitTransform = () => {
   const { width, height } = getSvgSize();

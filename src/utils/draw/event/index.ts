@@ -1,10 +1,10 @@
 import * as d3 from "d3";
 import type { ISVGG } from "@/types";
 import type { ILink, INode } from "@/types/topo";
-import { useTopo } from "@/stores/topo";
+import { useTopoStore } from "@/stores/topo";
 import { appenSelectedLink, removeSelectedLink } from "..";
 
-const store = useTopo();
+const store = useTopoStore();
 
 export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
   const drag = d3

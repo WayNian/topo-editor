@@ -11,12 +11,12 @@ import {
   attrTopoMap
 } from "./attr";
 import { bindLinkDrag, bindNodeDrag } from "./event";
-import { useTopo } from "@/stores/topo";
+import { useTopoStore } from "@/stores/topo";
 import type { IEnter, IExit, ISVGG, IUpdate } from "@/types";
 import type { ILink, INode } from "@/types/topo";
 import { bindMapZoom } from "./event/svg";
 
-const store = useTopo();
+const store = useTopoStore();
 
 const appendEllipse = (nodeG: ISVGG<INode, any>) => {
   const ellipse = nodeG.append<SVGEllipseElement>("ellipse");

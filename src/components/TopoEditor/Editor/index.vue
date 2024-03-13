@@ -35,10 +35,10 @@
 <script setup lang="ts">
 import { computed, onMounted, watch } from "vue";
 import { useTopoEditor } from "@/hooks/useTopoEditor";
-import { useTopo } from "@/stores/topo";
+import { useTopoStore } from "@/stores/topo";
 import { bindDragPointEvent } from "@/utils/draw/event/draw-point";
 useTopoEditor();
-const store = useTopo();
+const store = useTopoStore();
 
 const currentBBox = computed(() => {
   if (!store.currentNode) return { x: 0, y: 0, width: 0, height: 0 };

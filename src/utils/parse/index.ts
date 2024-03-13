@@ -1,7 +1,7 @@
 import type { IMatrix } from "@/types";
 import * as d3 from "d3";
 import { parseSvgPath } from "../tools/data";
-import { useTopo } from "@/stores/topo";
+import { useTopoStore } from "@/stores/topo";
 
 type ISvg = d3.Selection<SVGSVGElement, unknown, d3.BaseType, any>;
 type ISvgNode = d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>;
@@ -314,7 +314,7 @@ const formatData = (node: ISvgNode) => {
  */
 export const parseSvg = (file: File) => {
   if (!file) return;
-  const store = useTopo();
+  const store = useTopoStore();
   const reader = new FileReader(); // 创建 FileReader 对象
   nodes.length = 0;
   links.length = 0;

@@ -6,7 +6,7 @@
           <Add />
         </n-icon>
       </template>
-      新增文件夹
+      创建目录
     </n-tooltip>
   </div>
   <n-divider />
@@ -32,8 +32,7 @@
   ></n-dropdown>
 
   <input type="file" style="display: none" ref="upload" accept=".svg" @change="handleChange" />
-  <AddFileModal ref="addFileModalRef"></AddFileModal>
-  <AddFolderModal ref="addFolderModalRef"></AddFolderModal>
+  <AddMenuModal ref="addMenuModalRef"></AddMenuModal>
 </template>
 
 <script setup lang="ts">
@@ -43,12 +42,11 @@ import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
 import { parseSvg } from "@/utils/parse";
 import emitter from "@/utils/mitt";
 import type { ILink, INode } from "@/types";
-import { useTopo } from "@/stores/topo";
-import AddFileModal from "./Modal/AddFileModal.vue";
-import AddFolderModal from "./Modal/AddFolderModal.vue";
+import { useTopoStore } from "@/stores/topo";
+import AddMenuModal from "./Modal/AddMenuModal.vue";
 
 const message = useMessage();
-const store = useTopo();
+const store = useTopoStore();
 const showDropdown = ref(false);
 const x = ref(0);
 const y = ref(0);
@@ -56,8 +54,7 @@ const y = ref(0);
 const options = ref<TreeOption[]>([]);
 const currentOption = ref<TreeOption | null>(null);
 const upload = ref<HTMLInputElement | null>(null);
-const addFileModalRef = ref<InstanceType<typeof AddFileModal> | null>(null);
-const addFolderModalRef = ref<InstanceType<typeof AddFolderModal>>();
+const addMenuModalRef = ref<InstanceType<typeof AddMenuModal> | null>(null);
 
 const setMenu = (option?: TreeOption) => {
   if (!option) {
@@ -178,7 +175,7 @@ const handleSelect = (key: string | number, option: DropdownOption) => {
   showDropdown.value = false;
   switch (key) {
     case "newFile":
-      addFileModalRef.value?.show(currentOption.value?.key as string);
+      handleAddFolder();
       break;
     case "edit":
       message.info("编辑文件");
@@ -204,7 +201,7 @@ const handleContentmenu = (e: MouseEvent) => {
 };
 
 const handleAddFolder = () => {
-  addFolderModalRef.value?.show();
+  addMenuModalRef.value?.show(currentOption.value?.key as string);
 };
 
 onMounted(() => {
@@ -223,3 +220,4 @@ onMounted(() => {
   margin-bottom: 10px;
 }
 </style>
+./Modal/AddMenuModal.vue

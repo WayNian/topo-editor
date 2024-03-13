@@ -2,10 +2,10 @@ import * as d3 from "d3";
 import { removeSelectedLink } from "..";
 import type { ISVG, ISVGG } from "@/types";
 import { setInitTransform } from "../assist";
-import { useTopo } from "@/stores/topo";
+import { useTopoStore } from "@/stores/topo";
 import { attrSeletView } from "../attr";
 
-const store = useTopo();
+const store = useTopoStore();
 let zoom: d3.ZoomBehavior<SVGSVGElement, unknown>;
 const startPoint = {
   x: 0,

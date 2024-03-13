@@ -13,10 +13,10 @@
 </template>
 
 <script setup lang="ts">
-import { useCommon } from "@/stores/common";
+import { useCommonStore } from "@/stores/common";
 import { Brush } from "@vicons/ionicons5";
 
-const store = useCommon();
+const store = useCommonStore();
 const handleChangeAttributeStatus = () => {
   console.log("handleChangeAttributeStatus");
   store.isAttributeViewVisible = true;

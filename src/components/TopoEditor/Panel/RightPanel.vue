@@ -18,11 +18,11 @@
 
 <script setup lang="ts">
 import { Close as CloseIcon } from "@vicons/ionicons5";
-import { useCommon } from "@/stores/common";
+import { useCommonStore } from "@/stores/common";
 import { computed } from "vue";
 import NodeAttribute from "../Panel/Right/Attribute/NodeAttribute.vue";
 
-const store = useCommon();
+const store = useCommonStore();
 
 const translate = computed(() => {
   return {
