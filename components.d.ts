@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AddFileModal: typeof import('./src/components/TopoEditor/Panel/Left/Modal/AddFileModal.vue')['default']
     AddFolderModal: typeof import('./src/components/TopoEditor/Panel/Left/Modal/AddFolderModal.vue')['default']
     Attribute: typeof import('./src/components/TopoEditor/Attribute/index.vue')['default']
     AttributeTrigger: typeof import('./src/components/TopoEditor/Panel/Right/Attribute/AttributeTrigger.vue')['default']
@@ -27,14 +28,18 @@ declare module 'vue' {
     MapAttribute: typeof import('./src/components/TopoEditor/Panel/Right/Attribute/MapAttribute.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
+    NCascader: typeof import('naive-ui')['NCascader']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
     NDivider: typeof import('naive-ui')['NDivider']
     NDropdown: typeof import('naive-ui')['NDropdown']
     NFloatButton: typeof import('naive-ui')['NFloatButton']
     NForm: typeof import('naive-ui')['NForm']
     NFormItem: typeof import('naive-ui')['NFormItem']
+    NFormItemGi: typeof import('naive-ui')['NFormItemGi']
+    NGrid: typeof import('naive-ui')['NGrid']
     NIcon: typeof import('naive-ui')['NIcon']
     NInput: typeof import('naive-ui')['NInput']
+    NInputNumber: typeof import('naive-ui')['NInputNumber']
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutContent: typeof import('naive-ui')['NLayoutContent']
     NLayoutFooter: typeof import('naive-ui')['NLayoutFooter']

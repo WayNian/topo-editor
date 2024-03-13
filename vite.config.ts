@@ -34,10 +34,10 @@ export default defineConfig({
     host: "0.0.0.0",
     proxy: {
       "/action": {
-        target: "http://172.19.139.246:6722/",
-        // target: "http://172.19.42.25:6722/",
+        // target: "http://172.19.139.246:6722/",
+        target: "http://172.19.42.25:10017",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, "")
+        rewrite: (path) => path.replace(/^\/action/, "")
       },
       "/file": {
         target: "http://172.19.139.246:6722/file",

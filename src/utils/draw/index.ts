@@ -13,7 +13,7 @@ import {
 import { bindLinkDrag, bindNodeDrag } from "./event";
 import { useTopo } from "@/stores/topo";
 import type { IEnter, IExit, ISVGG, IUpdate } from "@/types";
-import type { ILink, INode } from "@/types/data";
+import type { ILink, INode } from "@/types/topo";
 import { bindMapZoom } from "./event/svg";
 
 const store = useTopo();

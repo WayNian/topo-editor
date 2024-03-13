@@ -1,4 +1,4 @@
-import type { ILink, INode, ISourceLink, ISourceNode } from "@/types/data";
+import type { ILink, INode, ISourceLink, ISourceNode } from "@/types/topo";
 
 // 解析路径为数组 js实现path路径解析为数组  M 283.00767973501206 301.5652924636853 L 716 673
 export function parseSvgPath(svgPath: string) {

@@ -2,7 +2,7 @@
   <n-modal
     v-model:show="showModal"
     preset="dialog"
-    title="新增文件夹"
+    title="创建文件夹"
     size="huge"
     :bordered="false"
     :show-icon="false"
@@ -12,12 +12,13 @@
     negative-text="取消"
     @positive-click="submit"
     @negative-click="hide"
+    style="margin-top: 20vh"
   >
     <n-form
       ref="formRef"
       :model="folderModel"
       :rules="rules"
-      label-placement="left"
+      label-placement="top"
       label-width="auto"
       require-mark-placement="right-hanging"
     >
@@ -29,9 +30,12 @@
 </template>
 
 <script setup lang="ts">
+import { useTopo } from "@/stores/topo";
+import { addMenuList } from "@/utils/http/apis/menu";
 import type { FormInst, FormRules } from "naive-ui";
 import { ref } from "vue";
 
+const store = useTopo();
 const folderModel = ref({
   folderName: ""
 });
@@ -57,7 +61,14 @@ const hide = () => {
 const submit = () => {
   formRef.value?.validate((errors) => {
     if (!errors) {
-      hide();
+      addMenuList({
+        menuName: folderModel.value.folderName,
+        menuParId: "0"
+      }).then(() => {
+        hide();
+        window.$message.success("创建文件夹成功");
+        store.getMenuList();
+      });
     }
   });
   return false;

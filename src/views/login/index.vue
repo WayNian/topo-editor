@@ -68,8 +68,8 @@ const message = useMessage();
 const size = ref<"small" | "medium" | "large">("medium");
 const formValue = ref({
   user: {
-    userName: "wisAdmin",
-    password: "Wiscom123"
+    userName: "admin",
+    password: "123456"
   },
   phone: ""
 });

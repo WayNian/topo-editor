@@ -11,7 +11,7 @@ import type {
   ISVGTspant
 } from "@/types";
 import { useTopo } from "@/stores/topo";
-import type { ILink, INode } from "@/types/data";
+import type { ILink, INode } from "@/types/topo";
 import { getSvgSize } from "@/utils/tools/common";
 
 const store = useTopo();

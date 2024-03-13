@@ -2,9 +2,13 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import testData from "@/assets/data/testData.json";
 import { formatLinks, formatNodes } from "@/utils/tools/data";
-import type { ILink, INode } from "@/types/data";
+import type { ILink, IMenuCascaderItem, INode, ITreeItem } from "@/types/";
+import { fetchMenuList } from "@/utils/http/apis/menu";
+import { formatMenuCascaderist, formatMenuList } from "@/utils/tools/menu";
 
 export const useTopo = defineStore("topo", () => {
+  const menuList = ref<ITreeItem[]>();
+  const menuCascaderList = ref<IMenuCascaderItem[]>();
   const mapSize = ref({ width: 1000, height: 800 });
   const topoNodes = ref(formatNodes(testData.data.nodes));
   const topoLinks = ref(formatLinks(testData.data.links));
@@ -17,7 +21,16 @@ export const useTopo = defineStore("topo", () => {
     mapSize.value = { width, height };
   };
 
+  const getMenuList = () => {
+    fetchMenuList().then((res) => {
+      menuList.value = formatMenuList(res[0].children);
+      menuCascaderList.value = formatMenuCascaderist(res);
+      console.log("🚀 ~ fetchMenuList ~ menuCascaderList.value:", menuCascaderList.value);
+    });
+  };
   return {
+    menuList,
+    menuCascaderList,
     mapSize,
     topoNodes,
     topoLinks,
@@ -25,6 +38,7 @@ export const useTopo = defineStore("topo", () => {
     currentLink,
     isSelectViewVisible,
     svgSize,
-    setMapSize
+    setMapSize,
+    getMenuList
   };
 });

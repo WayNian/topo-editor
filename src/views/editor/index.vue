@@ -18,6 +18,9 @@ import Header from "@/components/TopoEditor/Header/index.vue";
 import LeftPanel from "@/components/TopoEditor/Panel/LeftPanel.vue";
 import RightPanel from "@/components/TopoEditor/Panel/RightPanel.vue";
 import AttributeTrigger from "@/components/TopoEditor/Panel/Right/Attribute/AttributeTrigger.vue";
+import { useMessage } from "naive-ui";
+
+window.$message = useMessage();
 </script>
 
 <style scoped></style>

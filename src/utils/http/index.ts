@@ -6,7 +6,7 @@ import type {
   AxiosError,
   AxiosResponse
 } from "axios";
-import { HttpCodeConfig } from "./code";
+import { HttpCodeConfig, StatusDic } from "./code";
 import type { ResponseModel, UploadFileItemModel, UploadRequestConfig } from "@/types/";
 import { getToken } from "./token";
 
@@ -48,26 +48,25 @@ class HttpRequest {
 
     this.service.interceptors.response.use(
       (response: AxiosResponse<ResponseModel>): AxiosResponse["data"] => {
-        const { data } = response;
-        const { code } = data;
-        if (code) {
-          if (code != HttpCodeConfig.success) {
-            switch (code) {
-              case HttpCodeConfig.notFound:
-                // the method to handle this code
-                break;
-              case HttpCodeConfig.noPermission:
-                // the method to handle this code
-                break;
-              default:
-                break;
-            }
-            return Promise.reject(data.message);
-          } else {
-            return data;
+        const { data, status } = response;
+        if (status === HttpCodeConfig.success) {
+          const { code } = data;
+          switch (code) {
+            case "0000":
+              return data.data;
+              break;
+            default:
+              {
+                const c = code as keyof typeof StatusDic;
+                const msg = StatusDic[c];
+                window.$message.error(msg);
+                return Promise.reject(msg);
+              }
+              break;
           }
         } else {
-          return Promise.reject("Error! code missing!");
+          window.$message.error("请求失败");
+          return Promise.reject(data.message);
         }
       },
       (error: any) => {
@@ -76,7 +75,7 @@ class HttpRequest {
     );
   }
 
-  request<T = any>(config: AxiosRequestConfig): Promise<ResponseModel<T>> {
+  request<T = any>(config: AxiosRequestConfig): Promise<T> {
     /**
      * TODO: execute other methods according to config
      */
@@ -85,7 +84,7 @@ class HttpRequest {
         this.service
           .request<ResponseModel<T>>(config)
           .then((res: AxiosResponse["data"]) => {
-            resolve(res as ResponseModel<T>);
+            resolve(res as T);
           })
           .catch((err) => {
             reject(err);
@@ -96,16 +95,16 @@ class HttpRequest {
     });
   }
 
-  get<T = any>(config: AxiosRequestConfig): Promise<ResponseModel<T>> {
+  get<T = any>(config: AxiosRequestConfig): Promise<T> {
     return this.request({ method: "GET", ...config });
   }
-  post<T = any>(config: AxiosRequestConfig): Promise<ResponseModel<T>> {
+  post<T = any>(config: AxiosRequestConfig): Promise<T> {
     return this.request({ method: "POST", ...config });
   }
-  put<T = any>(config: AxiosRequestConfig): Promise<ResponseModel<T>> {
+  put<T = any>(config: AxiosRequestConfig): Promise<T> {
     return this.request({ method: "PUT", ...config });
   }
-  delete<T = any>(config: AxiosRequestConfig): Promise<ResponseModel<T>> {
+  delete<T = any>(config: AxiosRequestConfig): Promise<T> {
     return this.request({ method: "DELETE", ...config });
   }
   upload<T = string>(

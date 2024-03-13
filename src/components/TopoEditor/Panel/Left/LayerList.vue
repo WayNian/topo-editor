@@ -1,9 +1,20 @@
 <template>
-  <n-scrollbar style="max-height: calc(100vh - 100px)">
+  <div class="flex justify-end">
+    <n-tooltip trigger="hover">
+      <template #trigger>
+        <n-icon size="24" class="cursor-pointer" @click="handleAddFolder">
+          <Add />
+        </n-icon>
+      </template>
+      新增文件夹
+    </n-tooltip>
+  </div>
+  <n-divider />
+  <n-scrollbar style="max-height: calc(100vh - 100px)" @contextmenu="handleContentmenu">
     <n-tree
       block-line
       expand-on-click
-      :data="data"
+      :data="store.menuList"
       :node-props="nodeProps"
       :on-update:expanded-keys="updatePrefixWithExpaned"
     />
@@ -21,17 +32,23 @@
   ></n-dropdown>
 
   <input type="file" style="display: none" ref="upload" accept=".svg" @change="handleChange" />
+  <AddFileModal ref="addFileModalRef"></AddFileModal>
+  <AddFolderModal ref="addFolderModalRef"></AddFolderModal>
 </template>
 
 <script setup lang="ts">
-import { h, ref } from "vue";
+import { h, onMounted, ref } from "vue";
 import { useMessage, NIcon, type TreeOption, type DropdownOption } from "naive-ui";
-import { Folder, FolderOpenOutline, FileTrayFullOutline } from "@vicons/ionicons5";
+import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
 import { parseSvg } from "@/utils/parse";
 import emitter from "@/utils/mitt";
 import type { ILink, INode } from "@/types";
+import { useTopo } from "@/stores/topo";
+import AddFileModal from "./Modal/AddFileModal.vue";
+import AddFolderModal from "./Modal/AddFolderModal.vue";
 
 const message = useMessage();
+const store = useTopo();
 const showDropdown = ref(false);
 const x = ref(0);
 const y = ref(0);
@@ -39,65 +56,19 @@ const y = ref(0);
 const options = ref<TreeOption[]>([]);
 const currentOption = ref<TreeOption | null>(null);
 const upload = ref<HTMLInputElement | null>(null);
+const addFileModalRef = ref<InstanceType<typeof AddFileModal> | null>(null);
+const addFolderModalRef = ref<InstanceType<typeof AddFolderModal>>();
 
-const data = [
-  {
-    key: "文件夹",
-    label: "文件夹",
-    prefix: () =>
-      h(NIcon, null, {
-        default: () => h(Folder)
-      }),
-    children: [
+const setMenu = (option?: TreeOption) => {
+  if (!option) {
+    options.value = [
       {
-        label: "template.txt",
-        key: "template1.txt",
-        prefix: () =>
-          h(NIcon, null, {
-            default: () => h(FileTrayFullOutline)
-          })
-      },
-
-      {
-        label: "template.txt",
-        key: "template.txt",
-        prefix: () =>
-          h(NIcon, null, {
-            default: () => h(FileTrayFullOutline)
-          })
+        label: "新建",
+        key: "newFile"
       }
-    ]
-  },
-  {
-    key: "文件夹1",
-    label: "文件夹1",
-    prefix: () =>
-      h(NIcon, null, {
-        default: () => h(Folder)
-      }),
-    children: [
-      {
-        label: "templaaaaaaaaaaaaaaaate.txt",
-        key: "templateaaaaaaaaaaaaa1.txt",
-        prefix: () =>
-          h(NIcon, null, {
-            default: () => h(FileTrayFullOutline)
-          })
-      },
-
-      {
-        label: "template.txt",
-        key: "template.txt",
-        prefix: () =>
-          h(NIcon, null, {
-            default: () => h(FileTrayFullOutline)
-          })
-      }
-    ]
+    ];
+    return;
   }
-];
-
-const setMenu = (option: TreeOption) => {
   if (option.children) {
     options.value = [
       {
@@ -134,6 +105,7 @@ const setMenu = (option: TreeOption) => {
     ];
   }
 };
+
 const updatePrefixWithExpaned = (
   _keys: Array<string | number>,
   _option: Array<TreeOption | null>,
@@ -171,9 +143,11 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
       setMenu(option);
       showDropdown.value = true;
       currentOption.value = option;
+
       x.value = e.clientX;
       y.value = e.clientY;
       e.preventDefault();
+      e.stopPropagation();
     }
   };
 };
@@ -204,7 +178,7 @@ const handleSelect = (key: string | number, option: DropdownOption) => {
   showDropdown.value = false;
   switch (key) {
     case "newFile":
-      message.info("新建文件");
+      addFileModalRef.value?.show(currentOption.value?.key as string);
       break;
     case "edit":
       message.info("编辑文件");
@@ -218,11 +192,34 @@ const handleSelect = (key: string | number, option: DropdownOption) => {
       break;
   }
 };
+
+const handleContentmenu = (e: MouseEvent) => {
+  setMenu();
+  showDropdown.value = true;
+  currentOption.value = null;
+  x.value = e.clientX;
+  y.value = e.clientY;
+  e.preventDefault();
+  e.stopPropagation();
+};
+
+const handleAddFolder = () => {
+  addFolderModalRef.value?.show();
+};
+
+onMounted(() => {
+  store.getMenuList();
+});
 </script>
 
 <style>
 .n-tree-node-content__text {
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.n-divider:not(.n-divider--vertical) {
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 </style>

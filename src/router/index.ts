@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/home/index.vue";
+import { getToken } from "@/utils/http/token";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,4 +28,13 @@ const router = createRouter({
   ]
 });
 
+// router.beforeEach((to, from, next) => {
+//   const token = getToken();
+//   console.log("🚀 ~ router.beforeEach ~ token:", token);
+//   if (to.name !== "Login" && !token) {
+//     next({ name: "Login" });
+//   } else {
+//     next();
+//   }
+// });
 export default router;
