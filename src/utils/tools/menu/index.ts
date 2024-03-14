@@ -9,7 +9,7 @@ const formatMapList = (mapList: IMapSource[]): ITreeItem[] => {
     return {
       key: item.mapId,
       label: item.mapName,
-      row: item,
+      raw: item,
       prefix: () =>
         h(NIcon, null, {
           default: () => h(FileTrayFullOutline)
@@ -24,7 +24,7 @@ export const formatMenuList = (menuList?: IMenuSource[]): ITreeItem[] => {
       key: item.menuId,
       label: item.menuName,
       isMenu: true,
-      row: item,
+      raw: item,
       prefix: () =>
         h(NIcon, null, {
           default: () => h(Folder)

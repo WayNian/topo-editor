@@ -1,20 +1,19 @@
 import { useTopoStore } from "@/stores/topo";
+import type { IMapSource } from "@/types";
 import { draw } from "@/utils/draw";
 import emitter from "@/utils/mitt";
 import { onMounted } from "vue";
-import { formatLinks } from "@/utils/tools/data";
+import { selectMap } from "./assistant";
 
 export const useTopoEditor = () => {
   const store = useTopoStore();
+
   const initEvent = () => {
-    emitter.on("on:draw", ({ nodes, links }) => {
-      store.topoNodes = nodes;
-      store.topoLinks = formatLinks(links);
-      draw();
-    });
+    emitter.on("on:importSvg", () => {});
+    emitter.on("on:selectMap", selectMap);
   };
+
   onMounted(() => {
-    // draw();
     initEvent();
   });
 };

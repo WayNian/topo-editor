@@ -114,11 +114,11 @@ const initData = (isEdit: boolean, val: TreeOption | null) => {
     if (val.isMenu) {
       isMapDisabled.value = true;
       tabActive.value = "menu";
-      menuModel.value = val.row as IMenuModel;
+      menuModel.value = val.raw as IMenuModel;
     } else {
       isMenuDisabled.value = true;
       tabActive.value = "map";
-      mapModel.value = val.row as IMapModel;
+      mapModel.value = val.raw as IMapModel;
       const [width, height] = mapModel.value.mapSize.split("*").map(Number);
       mapModel.value.width = width;
       mapModel.value.height = height;

@@ -30,10 +30,14 @@ export const formatNodes = (data: ISourceNode[]): INode[] => {
 
     return {
       ...item,
+      id: item.nodeId,
       x,
       y,
       width,
       height,
+      position: { x, y },
+      size: { width, height },
+      style: typeof nodeStyles === "string" ? JSON.parse(nodeStyles) : nodeStyles,
       nodeStyles: typeof nodeStyles === "string" ? JSON.parse(nodeStyles) : nodeStyles,
       textStyles: typeof textStyles === "string" ? JSON.parse(textStyles) : textStyles
     };

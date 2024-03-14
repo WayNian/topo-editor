@@ -33,8 +33,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, watch } from "vue";
-import { useTopoEditor } from "@/hooks/useTopoEditor";
+import { computed, onMounted } from "vue";
+import { useTopoEditor } from "@/hooks/topo/";
 import { useTopoStore } from "@/stores/topo";
 import { bindDragPointEvent } from "@/utils/draw/event/draw-point";
 useTopoEditor();
@@ -52,3 +52,4 @@ onMounted(() => {
 </script>
 
 <style scoped></style>
+@/hooks/topo

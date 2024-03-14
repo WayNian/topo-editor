@@ -1,6 +1,4 @@
-import type { IMatrix } from "@/types";
 import * as d3 from "d3";
-import { parseSvgPath } from "../tools/data";
 import { useTopoStore } from "@/stores/topo";
 
 type ISvg = d3.Selection<SVGSVGElement, unknown, d3.BaseType, any>;

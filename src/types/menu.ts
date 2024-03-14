@@ -41,6 +41,11 @@ export interface IMapModel {
   description: Record<string, string>;
 }
 
+export interface IMap extends IMapSource {
+  height: number;
+  width: number;
+}
+
 export interface ITreeItem {
   key: string;
   label: string;

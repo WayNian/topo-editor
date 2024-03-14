@@ -78,3 +78,8 @@ export interface ILink extends ISourceLink {
   linkStyles: Record<string, string>;
   pathArray: any[];
 }
+
+export interface INodeLinkSource {
+  nodes: ISourceNode[];
+  links: ISourceLink[];
+}

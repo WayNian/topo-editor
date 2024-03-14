@@ -41,7 +41,7 @@ import { NIcon, type TreeOption, useDialog } from "naive-ui";
 import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
 import { parseSvg } from "@/utils/parse";
 import emitter from "@/utils/mitt";
-import type { ILink, INode } from "@/types";
+import type { ILink, IMapSource, IMenuSource, INode } from "@/types";
 import { useTopoStore } from "@/stores/topo";
 import EditMenuFileModal from "./Modal/EditMenuFileModal.vue";
 import { deleteMap, deleteMenu } from "@/utils/http/apis/menu";
@@ -135,6 +135,7 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
     onClick() {
       if (!option.children && !option.disabled) {
         currentOption.value = option;
+        emitter.emit("on:selectMap", option.raw as IMapSource);
       }
     },
     onContextmenu(e: MouseEvent): void {
@@ -178,7 +179,10 @@ const handleChange = () => {
         nodes: INode[];
         links: ILink[];
       };
-      emitter.emit("on:draw", r);
+      emitter.emit("on:importSvg", {
+        nodes: r.nodes,
+        links: r.links
+      });
     })
     .finally(() => {
       upload.value!.value = "";

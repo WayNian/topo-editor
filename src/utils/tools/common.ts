@@ -11,3 +11,15 @@ export const getSvgSize = () => {
   const height = body?.clientHeight || 0;
   return { width, height };
 };
+
+// 12,32
+export const getPosition = (val: string) => {
+  const [x, y] = val.split(",").map((item) => Number(item));
+  return { x, y };
+};
+
+// 1920*1080
+export const getSize = (val: string) => {
+  const [width, height] = val.split("*").map((item) => Number(item));
+  return { width, height };
+};
