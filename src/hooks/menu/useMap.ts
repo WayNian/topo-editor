@@ -1,5 +1,5 @@
 import type { IMapModel } from "@/types";
-import { addMap } from "@/utils/http/apis/menu";
+import { addMap, updateMap } from "@/utils/http/apis/menu";
 import type { FormItemRule, FormRules } from "naive-ui";
 import { ref } from "vue";
 
@@ -60,17 +60,28 @@ export const useMap = () => {
     };
   };
 
-  const createMap = () => {
-    return addMap({
+  const getParams = () => {
+    return {
       ...mapModel.value,
       mapSize: `${mapModel.value.width}*${mapModel.value.height}`
-    });
+    };
+  };
+
+  const addMapFunc = () => {
+    const params = getParams();
+    return addMap(params);
+  };
+
+  const updateMapFunc = () => {
+    const params = getParams();
+    return updateMap(params);
   };
 
   return {
     mapRules,
     mapModel,
     resetMapModel,
-    createMap
+    addMapFunc,
+    updateMapFunc
   };
 };

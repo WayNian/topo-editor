@@ -1,5 +1,5 @@
 import type { IMenuModel } from "@/types";
-import { addMenuList } from "@/utils/http/apis/menu";
+import { addMenu, updateMenu } from "@/utils/http/apis/menu";
 import type { FormRules } from "naive-ui";
 import { ref } from "vue";
 
@@ -24,14 +24,19 @@ export const useMenu = () => {
     };
   };
 
-  const createMenu = () => {
-    return addMenuList(menuModel.value);
+  const addMenuFunc = () => {
+    return addMenu(menuModel.value);
+  };
+
+  const updateMenuFunc = () => {
+    return updateMenu(menuModel.value);
   };
 
   return {
     menuRules,
     menuModel,
     resetMenuModel,
-    createMenu
+    addMenuFunc,
+    updateMenuFunc
   };
 };

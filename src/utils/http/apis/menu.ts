@@ -5,7 +5,7 @@ export const fetchMenuList = () => {
   return request.get<IMenuSource[]>({ url: "/topoEdit/getMenuList" });
 };
 
-export const addMenuList = (params: IMenuModel) => {
+export const addMenu = (params: IMenuModel) => {
   return request.post({ url: "/topoEdit/insertMenu", data: params });
 };
 

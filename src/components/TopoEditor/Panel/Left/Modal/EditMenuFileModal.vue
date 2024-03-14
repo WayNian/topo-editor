@@ -17,7 +17,7 @@
     <n-tabs v-model:value="tabActive" type="line" animated>
       <n-tab-pane name="menu" tab="文件夹" :disabled="isMenuDisabled">
         <n-form
-          ref="folderFormRef"
+          ref="menuFormRef"
           :model="menuModel"
           :rules="menuRules"
           label-placement="top"
@@ -40,7 +40,7 @@
       ></n-tab-pane>
       <n-tab-pane name="map" tab="文件" :disabled="isMapDisabled">
         <n-form
-          ref="fileFormRef"
+          ref="mapFormRef"
           :model="mapModel"
           :rules="mapRules"
           label-placement="top"
@@ -85,18 +85,17 @@ import { useMap } from "@/hooks/menu/useMap";
 import type { IMapModel, IMenuModel } from "@/types";
 
 const store = useTopoStore();
-
-const { menuModel, menuRules, resetMenuModel, createMenu } = useMenu();
-const { mapModel, mapRules, resetMapModel, createMap } = useMap();
-
 const tabActive = ref("menu");
-const folderFormRef = ref<FormInst | null>(null);
-const fileFormRef = ref<FormInst | null>(null);
+const menuFormRef = ref<FormInst | null>(null);
+const mapFormRef = ref<FormInst | null>(null);
 
 const isVisible = ref(false);
 const isEditRf = ref(false);
 const isMenuDisabled = ref(false);
 const isMapDisabled = ref(false);
+
+const { menuModel, menuRules, resetMenuModel, addMenuFunc, updateMenuFunc } = useMenu();
+const { mapModel, mapRules, resetMapModel, addMapFunc, updateMapFunc } = useMap();
 
 const title = computed(() => {
   const statusMsg = isEditRf.value ? "编辑" : "创建";
@@ -120,6 +119,9 @@ const initData = (isEdit: boolean, val: TreeOption | null) => {
       isMenuDisabled.value = true;
       tabActive.value = "map";
       mapModel.value = val.row as IMapModel;
+      const [width, height] = mapModel.value.mapSize.split("*").map(Number);
+      mapModel.value.width = width;
+      mapModel.value.height = height;
     }
   } else {
     let menuId = "0";
@@ -153,15 +155,21 @@ const finish = () => {
 
 const submit = () => {
   if (tabActive.value === "menu") {
-    folderFormRef.value?.validate((errors) => {
-      if (!errors) {
-        createMenu().then(finish);
+    menuFormRef.value?.validate((errors) => {
+      if (errors) return;
+      if (isEditRf.value) {
+        updateMenuFunc().then(finish);
+      } else {
+        addMenuFunc().then(finish);
       }
     });
   } else {
-    fileFormRef.value?.validate((errors) => {
-      if (!errors) {
-        createMap().then(finish);
+    mapFormRef.value?.validate((errors) => {
+      if (errors) return;
+      if (isEditRf.value) {
+        updateMapFunc().then(finish);
+      } else {
+        addMapFunc().then(finish);
       }
     });
   }
