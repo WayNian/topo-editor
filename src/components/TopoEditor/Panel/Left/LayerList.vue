@@ -2,7 +2,7 @@
   <div class="flex justify-end">
     <n-tooltip trigger="hover">
       <template #trigger>
-        <n-icon size="24" class="cursor-pointer" @click="handleCreateMenuFile">
+        <n-icon size="24" class="cursor-pointer" @click="handleCreateMenuFile(false)">
           <Add />
         </n-icon>
       </template>
@@ -128,6 +128,7 @@ const updatePrefixWithExpaned = (
       break;
   }
 };
+
 const nodeProps = ({ option }: { option: TreeOption }) => {
   return {
     title: option.label,
@@ -140,9 +141,6 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
       setMenu(option);
       showDropdown.value = true;
       currentOption.value = option;
-
-      console.log("option", option);
-
       x.value = e.clientX;
       y.value = e.clientY;
       e.preventDefault();
