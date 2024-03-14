@@ -1,7 +1,7 @@
 import type { AxiosRequestConfig } from "axios";
 export interface ResponseModel<T = any> {
   success: boolean;
-  message: string | null;
+  message: string;
   code: number | string;
   data: T;
 }

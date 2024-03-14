@@ -50,18 +50,14 @@ class HttpRequest {
       (response: AxiosResponse<ResponseModel>): AxiosResponse["data"] => {
         const { data, status } = response;
         if (status === HttpCodeConfig.success) {
-          const { code } = data;
+          const { code, message } = data;
           switch (code) {
             case "0000":
               return data.data;
               break;
             default:
-              {
-                const c = code as keyof typeof StatusDic;
-                const msg = StatusDic[c];
-                window.$message.error(msg);
-                return Promise.reject(msg);
-              }
+              window.$message.error(message);
+              return Promise.reject(message);
               break;
           }
         } else {

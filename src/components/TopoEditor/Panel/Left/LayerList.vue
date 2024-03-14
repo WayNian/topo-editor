@@ -2,7 +2,7 @@
   <div class="flex justify-end">
     <n-tooltip trigger="hover">
       <template #trigger>
-        <n-icon size="24" class="cursor-pointer" @click="handleAddFolder">
+        <n-icon size="24" class="cursor-pointer" @click="handleCreateMenuFile">
           <Add />
         </n-icon>
       </template>
@@ -32,20 +32,21 @@
   ></n-dropdown>
 
   <input type="file" style="display: none" ref="upload" accept=".svg" @change="handleChange" />
-  <AddMenuModal ref="addMenuModalRef"></AddMenuModal>
+  <EditMenuFileModal ref="editMenuFileModalRef"></EditMenuFileModal>
 </template>
 
 <script setup lang="ts">
 import { h, onMounted, ref } from "vue";
-import { useMessage, NIcon, type TreeOption, type DropdownOption } from "naive-ui";
+import { NIcon, type TreeOption, useDialog } from "naive-ui";
 import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
 import { parseSvg } from "@/utils/parse";
 import emitter from "@/utils/mitt";
 import type { ILink, INode } from "@/types";
 import { useTopoStore } from "@/stores/topo";
-import AddMenuModal from "./Modal/AddMenuModal.vue";
+import EditMenuFileModal from "./Modal/EditMenuFileModal.vue";
+import { deleteMap, deleteMenu } from "@/utils/http/apis/menu";
 
-const message = useMessage();
+const dialog = useDialog();
 const store = useTopoStore();
 const showDropdown = ref(false);
 const x = ref(0);
@@ -54,14 +55,14 @@ const y = ref(0);
 const options = ref<TreeOption[]>([]);
 const currentOption = ref<TreeOption | null>(null);
 const upload = ref<HTMLInputElement | null>(null);
-const addMenuModalRef = ref<InstanceType<typeof AddMenuModal> | null>(null);
+const editMenuFileModalRef = ref<InstanceType<typeof EditMenuFileModal> | null>(null);
 
 const setMenu = (option?: TreeOption) => {
   if (!option) {
     options.value = [
       {
         label: "新建",
-        key: "newFile"
+        key: "create"
       }
     ];
     return;
@@ -70,7 +71,7 @@ const setMenu = (option?: TreeOption) => {
     options.value = [
       {
         label: "新建",
-        key: "newFile"
+        key: "create"
       },
       {
         label: "编辑",
@@ -132,7 +133,6 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
     title: option.label,
     onClick() {
       if (!option.children && !option.disabled) {
-        message.info("[Click] " + option.label);
         currentOption.value = option;
       }
     },
@@ -140,6 +140,8 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
       setMenu(option);
       showDropdown.value = true;
       currentOption.value = option;
+
+      console.log("option", option);
 
       x.value = e.clientX;
       y.value = e.clientY;
@@ -149,10 +151,24 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
   };
 };
 
-const deleteFile = () => {
-  if (currentOption.value) {
-    message.info("删除文件");
-  }
+const deleteMenuMap = () => {
+  dialog.warning({
+    title: "警告",
+    content: "确定删除当前数据吗？",
+    positiveText: "确定",
+    negativeText: "取消",
+    maskClosable: false,
+    closeOnEsc: false,
+    onPositiveClick: async () => {
+      currentOption.value!.isMenu
+        ? await deleteMenu(currentOption.value?.key as string)
+        : await deleteMap(currentOption.value?.key as string);
+
+      window.$message.success("删除成功");
+      store.getMenuList();
+    },
+    onAfterLeave: () => {}
+  });
 };
 
 const handleChange = () => {
@@ -171,18 +187,17 @@ const handleChange = () => {
     });
 };
 
-const handleSelect = (key: string | number, option: DropdownOption) => {
+const handleSelect = (key: string | number) => {
   showDropdown.value = false;
   switch (key) {
-    case "newFile":
-      handleAddFolder();
+    case "create":
+      handleCreateMenuFile(false);
       break;
     case "edit":
-      message.info("编辑文件");
+      handleCreateMenuFile(true);
       break;
     case "delete":
-      message.info("删除文件");
-      deleteFile();
+      deleteMenuMap();
       break;
     case "imoport":
       upload.value?.click();
@@ -200,8 +215,8 @@ const handleContentmenu = (e: MouseEvent) => {
   e.stopPropagation();
 };
 
-const handleAddFolder = () => {
-  addMenuModalRef.value?.show(currentOption.value?.key as string);
+const handleCreateMenuFile = (isEdit: boolean) => {
+  editMenuFileModalRef.value?.show(isEdit, currentOption.value);
 };
 
 onMounted(() => {
@@ -220,4 +235,4 @@ onMounted(() => {
   margin-bottom: 10px;
 }
 </style>
-./Modal/AddMenuModal.vue
+./Modal/EditMenuFileModal.vue./Modal/EditMenuFfileModal.vue

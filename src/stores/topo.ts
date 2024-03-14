@@ -25,7 +25,6 @@ export const useTopoStore = defineStore("topo", () => {
     fetchMenuList().then((res) => {
       menuList.value = formatMenuList(res[0].children);
       menuCascaderList.value = formatMenuCascaderist(res);
-      console.log("🚀 ~ fetchMenuList ~ menuCascaderList.value:", menuCascaderList.value);
     });
   };
   return {

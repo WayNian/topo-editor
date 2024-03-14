@@ -7,11 +7,12 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    AddFolderModal: typeof import('./src/components/TopoEditor/Panel/Left/Modal/AddFolderModal.vue')['default']
-    AddMenuModal: typeof import('./src/components/TopoEditor/Panel/Left/Modal/AddMenuModal.vue')['default']
+    AddFolderModal: (typeof import("./src/components/TopoEditor/Panel/Left/Modal/AddFolderModal.vue"))["default"]
     Attribute: (typeof import("./src/components/TopoEditor/Attribute/index.vue"))["default"]
     AttributeTrigger: typeof import('./src/components/TopoEditor/Panel/Right/Attribute/AttributeTrigger.vue')['default']
     copy: (typeof import("./src/components/TopoEditor/Panel/Left/LayerList copy.vue"))["default"]
+    EditMenuFfileModal: typeof import('./src/components/TopoEditor/Panel/Left/Modal/EditMenuFfileModal.vue')['default']
+    EditMenuFileModal: typeof import('./src/components/TopoEditor/Panel/Left/Modal/EditMenuFileModal.vue')['default']
     Editor: typeof import('./src/components/TopoEditor/Editor/index.vue')['default']
     Header: typeof import('./src/components/TopoEditor/Header/index.vue')['default']
     HelloWorld: (typeof import("./src/components/HelloWorld.vue"))["default"]
@@ -30,6 +31,7 @@ declare module 'vue' {
     NCard: (typeof import("naive-ui"))["NCard"]
     NCascader: typeof import('naive-ui')['NCascader']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
+    NDialogProvider: typeof import('naive-ui')['NDialogProvider']
     NDivider: typeof import('naive-ui')['NDivider']
     NDropdown: typeof import('naive-ui')['NDropdown']
     NFloatButton: typeof import('naive-ui')['NFloatButton']

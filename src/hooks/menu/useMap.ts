@@ -1,12 +1,10 @@
-import { useTopoStore } from "@/stores/topo";
 import type { IMapModel } from "@/types";
 import { addMap } from "@/utils/http/apis/menu";
 import type { FormItemRule, FormRules } from "naive-ui";
 import { ref } from "vue";
 
-export const useFile = () => {
-  const store = useTopoStore();
-  const fileRules: FormRules = {
+export const useMap = () => {
+  const mapRules: FormRules = {
     mapName: {
       required: true,
       message: "请输入文件夹名称",
@@ -34,7 +32,7 @@ export const useFile = () => {
     }
   };
 
-  const fileModel = ref<IMapModel>({
+  const mapModel = ref<IMapModel>({
     mapName: "",
     mapSize: "",
     width: 0,
@@ -47,8 +45,8 @@ export const useFile = () => {
     menuId: "0"
   });
 
-  const resetFileMoel = () => {
-    fileModel.value = {
+  const resetMapModel = () => {
+    mapModel.value = {
       mapName: "",
       mapSize: "",
       width: 0,
@@ -62,17 +60,17 @@ export const useFile = () => {
     };
   };
 
-  const createFile = () => {
+  const createMap = () => {
     return addMap({
-      ...fileModel.value,
-      mapSize: `${fileModel.value.width}*${fileModel.value.height}`
+      ...mapModel.value,
+      mapSize: `${mapModel.value.width}*${mapModel.value.height}`
     });
   };
 
   return {
-    fileRules,
-    fileModel,
-    resetFileMoel,
-    createFile
+    mapRules,
+    mapModel,
+    resetMapModel,
+    createMap
   };
 };
