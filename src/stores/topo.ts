@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import type { ILink, IMap, IMapSource, IMenuCascaderItem, INode, ITreeItem } from "@/types/";
 import { fetchMenuList } from "@/utils/http/apis/menu";
 import { formatMenuCascaderist, formatMenuList } from "@/utils/tools/menu";
-import { fetchNodeLinkListByMapId } from "@/utils/http/apis/topo";
+import { addNodeLinkList, fetchNodeLinkListByMapId } from "@/utils/http/apis/topo";
 import { formatLinks, formatNodes } from "./assistant/topo";
 import { getSize } from "@/utils/tools/common";
 
@@ -46,6 +46,12 @@ export const useTopoStore = defineStore("topo", () => {
     topoLinks.value = formatLinks(res.links);
   };
 
+  const addNodeLinkListFunc = async (nodes: INode[], links: ILink[]) => {
+    await addNodeLinkList({ nodeList: nodes, linkList: links });
+    nodes = [];
+    links = [];
+  };
+
   return {
     menuList,
     menuCascaderList,
@@ -56,9 +62,11 @@ export const useTopoStore = defineStore("topo", () => {
     currentLink,
     isSelectViewVisible,
     svgSize,
+    mapInfo,
     setMapSize,
     getMenuList,
     fetchNodeLinkList,
-    setMapInfo
+    setMapInfo,
+    addNodeLinkListFunc
   };
 });

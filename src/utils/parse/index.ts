@@ -343,9 +343,8 @@ export const parseSvg = (file: File) => {
 
       traverse(svg.selectChildren());
       con.remove();
-      console.log("nodes, links ", nodes, links);
 
-      resolve({ nodes, links });
+      resolve({ nodes, links, name: file.name });
     };
     reader.readAsText(file); // 以文本格式读取文件内容
   });

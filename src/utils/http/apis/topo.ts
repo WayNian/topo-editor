@@ -8,6 +8,10 @@ export const fetchNodeLinkListByMapId = (mapId: string) => {
   });
 };
 
+export const addNodeLinkList = (params: { nodeList: INode[]; linkList: ILink[] }) => {
+  return request.post({ url: "/topoEdit/insertNodeLinkList", data: params });
+};
+
 export const addNode = (params: INode) => {
   return request.post({ url: "/topoEdit/insertNode", data: params });
 };
