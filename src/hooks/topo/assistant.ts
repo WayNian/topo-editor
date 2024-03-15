@@ -32,6 +32,9 @@ export const importSvg = async (val: IImportSvgData) => {
     return !deleteLinkList.some((item) => item.linkId === link.linkId);
   });
 
+  console.log("🚀 ~ --->>", store.topoLinks);
+  console.log("删除的数据", deleteLinkList, addLinkList);
+
   //   const mapId = store.mapInfo?.mapId;
   //   if (!mapId) return;
   //   const nodes = val.nodes.map((node) => {

@@ -24,18 +24,18 @@ export const checkNodes = (topoNodes: INode[], nodes: INode[]) => {
 
   nodes.forEach((node) => {
     const item = topoNodes.find((item) => item.id === node.id && item.nodeId === node.nodeId);
-    if (item) {
+    if (item && common.importType === "importAddition") {
       //   item 在 topoNodes中，判断是否有不同的字段
       if (JSON.stringify(item) !== JSON.stringify(node)) {
         mergeNodeList.push(item);
       }
-    } else {
+    } else if (!item) {
       addNodeList.push(node);
     }
   });
 
   if (common.importType === "importAll") {
-    //   全量对比，找出topoNodes中有，但nodes中没有的数据，然后将数据填充到deleteList中
+    // 获取要删除的数据
     topoNodes.forEach((node) => {
       const item = nodes.find((item) => item.id === node.id && item.nodeId === node.nodeId);
       if (!item) {
@@ -68,28 +68,31 @@ export const checkLinks = (topoLinks: ILink[], links: ILink[]) => {
     };
   }
 
+  // 全量导入
   links.forEach((link) => {
     const item = topoLinks.find((item) => {
       return item.linkId === link.linkId;
     });
-    if (item) {
+    // 如果是增量导入，且item存在，则不做处理
+    if (item && common.importType === "importAll") {
       //   item 在 topoLinks中，判断是否有不同的字段
       // 如果有，则说明是冲突数据
       if (JSON.stringify(item) !== JSON.stringify(link)) {
         mergeLinkList.push(item);
       }
-    } else {
+    } else if (!item) {
       // item 不在topoLinks中
       addLinkList.push(link);
     }
   });
 
   if (common.importType === "importAll") {
-    //   全量对比，找出topoLinks中有，但links中没有的数据，然后将数据填充到deleteList中
+    // 获取要删除的数据
     topoLinks.forEach((link) => {
       const item = links.find((item) => {
         return item.linkId === link.linkId;
       });
+
       if (!item) {
         deleteLinkList.push(link);
       }
