@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import { useTopoStore } from "@/stores/topo";
+import type { ILink, INode } from "@/types";
 
 type ISvg = d3.Selection<SVGSVGElement, unknown, d3.BaseType, any>;
 type ISvgNode = d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>;
@@ -302,6 +303,7 @@ const formatData = (node: ISvgNode) => {
           linkId: id,
           type: "path",
           linkPath: d,
+          testD: dStr,
           pathArray: pointsByMatrix,
           styleSource: s,
           style
@@ -350,7 +352,11 @@ export const parseSvg = (file: File) => {
       traverse(svg.selectChildren());
       con.remove();
 
-      resolve({ nodes, links, name: file.name });
+      resolve({
+        nodes: structuredClone<INode[]>(nodes),
+        links: structuredClone<ILink[]>(links),
+        name: file.name
+      });
     };
     reader.readAsText(file); // 以文本格式读取文件内容
   });

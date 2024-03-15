@@ -15,8 +15,10 @@ import { useTopoStore } from "@/stores/topo";
 import type { IEnter, IExit, ISVGG, IUpdate } from "@/types";
 import type { ILink, INode } from "@/types/topo";
 import { bindMapZoom } from "./event/svg";
+import { useCommonStore } from "@/stores/common";
 
 const store = useTopoStore();
+const commonStore = useCommonStore();
 
 const appendEllipse = (nodeG: ISVGG<INode, any>) => {
   const ellipse = nodeG.append<SVGEllipseElement>("ellipse");
@@ -106,6 +108,29 @@ const drawLinks = () => {
     .selectAll<SVGGElement, ILink>("g.link-group")
     .data(store.topoLinks, (d: ILink) => d.linkId)
     .join(appendLink);
+};
+
+const drawMergeNodes = () => {
+  const nodeGroup = d3.select<SVGGElement, any>("#topoMergeNodes");
+  nodeGroup
+    .selectAll<SVGGElement, INode>("g.node-group")
+    .data(commonStore.mergeNodeList, (d: INode) => `${d.nodeId}`)
+    .join(appendNode);
+};
+
+const drawMergeLinks = () => {
+  const linkGroup = d3.select<SVGGElement, any>("#topoMergeLinks");
+  linkGroup
+    .selectAll<SVGGElement, ILink>("g.link-group")
+    .data(commonStore.mergeLinkList, (d: ILink) => {
+      return `${d.linkId}`;
+    })
+    .join(appendLink);
+};
+
+export const drawMerge = () => {
+  drawMergeNodes();
+  drawMergeLinks();
 };
 
 const drawMap = () => {

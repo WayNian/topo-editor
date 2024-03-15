@@ -1,8 +1,7 @@
 import { useTopoStore } from "@/stores/topo";
 import type { IImportSvgData, IMapSource } from "@/types";
-import { draw } from "@/utils/draw";
+import { draw, drawMerge } from "@/utils/draw";
 import { checkLinks, checkNodes } from "./helper";
-import { clone } from "radash";
 import { useCommonStore } from "@/stores/common";
 
 const store = useTopoStore();
@@ -19,21 +18,26 @@ export const selectMap = async (map: IMapSource) => {
 };
 
 export const importSvg = async (val: IImportSvgData) => {
-  const { deleteNodeList, mergeNodeList, addNodeList } = checkNodes(store.topoNodes, val.nodes);
-  const { deleteLinkList, mergeLinkList, addLinkList } = checkLinks(store.topoLinks, val.links);
+  // 全量导入,生成新的map文件
+  if (common.importType === "import") {
+    store.topoNodes = val.nodes;
+    store.topoLinks = val.links;
+  } else {
+    const { deleteNodeList, mergeNodeList, addNodeList } = checkNodes(store.topoNodes, val.nodes);
+    const { deleteLinkList, mergeLinkList, addLinkList } = checkLinks(store.topoLinks, val.links);
 
-  common.mergeNodeList = mergeNodeList;
-  common.mergeLinkList = mergeLinkList;
+    common.mergeNodeList = mergeNodeList;
+    common.mergeLinkList = mergeLinkList;
 
-  store.topoNodes = store.topoNodes.concat(clone(addNodeList)).filter((node) => {
-    return !deleteNodeList.some((item) => item.id === node.id && item.nodeId === node.nodeId);
-  });
-  store.topoLinks = store.topoLinks.concat(clone(addLinkList)).filter((link) => {
-    return !deleteLinkList.some((item) => item.linkId === link.linkId);
-  });
+    drawMerge();
 
-  console.log("🚀 ~ --->>", store.topoLinks);
-  console.log("删除的数据", deleteLinkList, addLinkList);
+    store.topoNodes = store.topoNodes.concat(addNodeList).filter((node) => {
+      return !deleteNodeList.some((item) => item.id === node.id && item.nodeId === node.nodeId);
+    });
+    store.topoLinks = store.topoLinks.concat(addLinkList).filter((link) => {
+      return !deleteLinkList.some((item) => item.linkId === link.linkId);
+    });
+  }
 
   //   const mapId = store.mapInfo?.mapId;
   //   if (!mapId) return;

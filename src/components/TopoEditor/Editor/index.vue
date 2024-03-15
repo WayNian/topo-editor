@@ -4,6 +4,8 @@
       <rect id="topoMapBackground" />
       <g id="topoLinks"></g>
       <g id="topoNodes"></g>
+      <g id="topoMergeLinks"></g>
+      <g id="topoMergeNodes"></g>
       <g>
         <rect
           id="selectedRect"

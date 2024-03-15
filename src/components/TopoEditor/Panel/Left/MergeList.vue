@@ -1,7 +1,32 @@
 <template>
   <n-scrollbar style="max-height: calc(100vh - 110px)">
     <div v-show="commonStore.mergeNodeList.length">
-      <n-tag type="success" :bordered="false"> 节点 </n-tag>
+      <div class="flex justify-between">
+        <n-tag type="success" :bordered="false"> 节点 </n-tag>
+        <div>
+          <n-tooltip trigger="hover">
+            <template #trigger>
+              <n-button quaternary size="tiny" class="mr-2">
+                <template #icon>
+                  <n-icon><Close /></n-icon>
+                </template>
+              </n-button>
+            </template>
+            放弃所有
+          </n-tooltip>
+          <n-tooltip trigger="hover">
+            <template #trigger>
+              <n-button quaternary size="tiny">
+                <template #icon>
+                  <n-icon><Checkmark /></n-icon>
+                </template>
+              </n-button>
+            </template>
+            应用所有
+          </n-tooltip>
+        </div>
+      </div>
+
       <n-list hoverable clickable>
         <n-list-item
           v-for="(item, index) in commonStore.mergeNodeList"
@@ -44,7 +69,31 @@
     </div>
 
     <div v-show="commonStore.mergeLinkList.length">
-      <n-tag type="success" :bordered="false"> 连线 </n-tag>
+      <div class="flex justify-between">
+        <n-tag type="success" :bordered="false"> 连线 </n-tag>
+        <div>
+          <n-tooltip trigger="hover">
+            <template #trigger>
+              <n-button quaternary size="tiny" class="mr-2">
+                <template #icon>
+                  <n-icon><Close /></n-icon>
+                </template>
+              </n-button>
+            </template>
+            放弃所有
+          </n-tooltip>
+          <n-tooltip trigger="hover">
+            <template #trigger>
+              <n-button quaternary size="tiny">
+                <template #icon>
+                  <n-icon><Checkmark /></n-icon>
+                </template>
+              </n-button>
+            </template>
+            应用所有
+          </n-tooltip>
+        </div>
+      </div>
       <n-divider />
 
       <n-list hoverable clickable>

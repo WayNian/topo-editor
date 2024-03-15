@@ -110,10 +110,9 @@ export const attrRect = (rect: ISVGRect<INode>) => {
 };
 
 export const attrLink = (linkG: ISVGG<ILink, SVGGElement>, link: IPath, shadowlink: IPath) => {
-  linkG.attr("class", "link-group");
+  linkG.attr("class", "link-group").attr("id", (d) => "link_" + d.linkId);
   link
     .attr("class", "link")
-    .attr("id", (d) => "link_" + d.linkId)
     .attr("d", (d) => d.linkPath)
     .attr("style", (d) => {
       let style = "";

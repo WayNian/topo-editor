@@ -27,7 +27,11 @@ export const checkNodes = (topoNodes: INode[], nodes: INode[]) => {
     if (item && common.importType === "importAddition") {
       //   item 在 topoNodes中，判断是否有不同的字段
       if (JSON.stringify(item) !== JSON.stringify(node)) {
-        mergeNodeList.push(item);
+        mergeNodeList.push({
+          ...node,
+          nodeId: node.nodeId + "-merge",
+          id: node.id + "-merge"
+        });
       }
     } else if (!item) {
       addNodeList.push(node);
@@ -78,7 +82,12 @@ export const checkLinks = (topoLinks: ILink[], links: ILink[]) => {
       //   item 在 topoLinks中，判断是否有不同的字段
       // 如果有，则说明是冲突数据
       if (JSON.stringify(item) !== JSON.stringify(link)) {
-        mergeLinkList.push(item);
+        console.log("item--->>", item.linkId, item.linkPath);
+
+        mergeLinkList.push({
+          ...link,
+          linkId: link.linkId + "-merge"
+        });
       }
     } else if (!item) {
       // item 不在topoLinks中

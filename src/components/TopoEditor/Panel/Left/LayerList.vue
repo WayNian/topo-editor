@@ -81,7 +81,7 @@ const setMenu = (option?: TreeOption) => {
       },
       {
         label: "导入",
-        key: "importAll"
+        key: "import"
       },
       {
         label: "删除",
@@ -96,11 +96,11 @@ const setMenu = (option?: TreeOption) => {
       },
       {
         label: "导入",
-        key: "imoport",
+        key: "import",
         children: [
           {
             label: "增量",
-            key: "imoportAddition"
+            key: "importAddition"
           },
           {
             label: "全量",
@@ -206,7 +206,8 @@ const handleSelect = (key: string | number) => {
     case "delete":
       deleteMenuMap();
       break;
-    case "imoportAddition":
+    case "import":
+    case "importAddition":
     case "importAll":
       commonStore.importType = key;
       upload.value?.click();
