@@ -101,7 +101,7 @@
           v-for="(item, index) in commonStore.mergeLinkList"
           :key="index"
           class="merge-item"
-          @click="selectMergeLinkItem(item)"
+          @click="selectMergeLinkItem(item, 'click')"
           @mouseenter="selectMergeLinkItem(item)"
         >
           <div class="break-words break-all">{{ item.linkId }}</div>
@@ -146,6 +146,7 @@ import { useCommonStore } from "@/stores/common";
 import { computed, ref } from "vue";
 import { Checkmark, Close } from "@vicons/ionicons5";
 import type { ILink, INode } from "@/types";
+import { highlightLink } from "@/utils/draw";
 
 const commonStore = useCommonStore();
 const activeNodeItem = ref<INode>();
@@ -155,8 +156,11 @@ const selectMergeNodeItem = (item: INode) => {
   activeNodeItem.value = item;
 };
 
-const selectMergeLinkItem = (item: ILink) => {
+const selectMergeLinkItem = (item: ILink, type?: string) => {
   activeLinkItem.value = item;
+  if (type === "click") {
+    highlightLink(item);
+  }
 };
 
 const isEmpty = computed(() => {

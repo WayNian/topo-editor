@@ -111,21 +111,30 @@ const drawLinks = () => {
 };
 
 const drawMergeNodes = () => {
-  const nodeGroup = d3.select<SVGGElement, any>("#topoMergeNodes");
-  nodeGroup
+  d3.select<SVGGElement, any>("#topoMergeNodes")
     .selectAll<SVGGElement, INode>("g.node-group")
     .data(commonStore.mergeNodeList, (d: INode) => `${d.nodeId}`)
     .join(appendNode);
 };
 
 const drawMergeLinks = () => {
-  const linkGroup = d3.select<SVGGElement, any>("#topoMergeLinks");
-  linkGroup
+  d3.select<SVGGElement, any>("#topoMergeLinks")
     .selectAll<SVGGElement, ILink>("g.link-group")
     .data(commonStore.mergeLinkList, (d: ILink) => {
       return `${d.linkId}`;
     })
     .join(appendLink);
+};
+
+export const highlightLink = (link: ILink) => {
+  console.log("🚀 ~ highlightLink ~ link:", link.linkId);
+  d3.select("#topoMergeLinks")
+    .selectAll<SVGPathElement, ILink>(`.link-group path.link`)
+    .classed("hight-link", (d) => {
+      console.log("d.linkId", d.linkId);
+
+      return d.linkId === link.linkId;
+    });
 };
 
 export const drawMerge = () => {

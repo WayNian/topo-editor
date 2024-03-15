@@ -1,0 +1,5 @@
+.hight-link {
+    stroke-width: 50 !important;
+    fill: blue !important;
+    transition: fill 0.3s !important;
+}

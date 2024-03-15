@@ -39,7 +39,9 @@ export const attrTopoMap = (topoMap: ISVGG<any, HTMLElement>, topoMapBackground:
 export const attrNodeG = (nodeG: ISVGG<INode, SVGGElement>) => {
   nodeG
     .attr("class", "node-group")
-    .attr("id", (d) => d.id)
+    .attr("id", (d) => {
+      return `node_${d.nodeId}${d.isMerge ? "_merge" : ""}`;
+    })
     .attr("transform", (d) => `translate(${d.position.x}, ${d.position.y})`)
     .attr("cursor", "move");
 };
@@ -110,7 +112,9 @@ export const attrRect = (rect: ISVGRect<INode>) => {
 };
 
 export const attrLink = (linkG: ISVGG<ILink, SVGGElement>, link: IPath, shadowlink: IPath) => {
-  linkG.attr("class", "link-group").attr("id", (d) => "link_" + d.linkId);
+  linkG.attr("class", "link-group").attr("id", (d) => {
+    return `link_${d.linkId}${d.isMerge ? "_merge" : ""}`;
+  });
   link
     .attr("class", "link")
     .attr("d", (d) => d.linkPath)

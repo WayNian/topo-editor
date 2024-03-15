@@ -29,8 +29,7 @@ export const checkNodes = (topoNodes: INode[], nodes: INode[]) => {
       if (JSON.stringify(item) !== JSON.stringify(node)) {
         mergeNodeList.push({
           ...node,
-          nodeId: node.nodeId + "-merge",
-          id: node.id + "-merge"
+          isMerge: true
         });
       }
     } else if (!item) {
@@ -82,11 +81,9 @@ export const checkLinks = (topoLinks: ILink[], links: ILink[]) => {
       //   item 在 topoLinks中，判断是否有不同的字段
       // 如果有，则说明是冲突数据
       if (JSON.stringify(item) !== JSON.stringify(link)) {
-        console.log("item--->>", item.linkId, item.linkPath);
-
         mergeLinkList.push({
           ...link,
-          linkId: link.linkId + "-merge"
+          isMerge: true
         });
       }
     } else if (!item) {

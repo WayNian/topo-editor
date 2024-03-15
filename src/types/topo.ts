@@ -40,6 +40,7 @@ export interface ISourceNode {
 }
 
 export interface INode extends ISourceNode {
+  isMerge?: boolean;
   x: number;
   y: number;
   width: number;
@@ -75,6 +76,7 @@ export interface ISourceLink {
 }
 
 export interface ILink extends ISourceLink {
+  isMerge?: boolean;
   linkStyles: Record<string, string>;
   pathArray: any[];
 }
