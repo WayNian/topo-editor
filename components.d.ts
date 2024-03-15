@@ -49,6 +49,7 @@ declare module 'vue' {
     NLayoutSider: typeof import('naive-ui')['NLayoutSider']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NModal: typeof import('naive-ui')['NModal']
+    NModalProvider: typeof import('naive-ui')['NModalProvider']
     NodeAttribute: typeof import('./src/components/TopoEditor/Panel/Right/Attribute/NodeAttribute.vue')['default']
     NScrollbar: typeof import('naive-ui')['NScrollbar']
     NSpace: (typeof import("naive-ui"))["NSpace"]

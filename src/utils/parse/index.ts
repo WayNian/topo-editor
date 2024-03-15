@@ -197,10 +197,10 @@ const formatData = (node: ISvgNode) => {
   const tagName = el?.tagName;
   const s = node.attr("style");
   const id = el.parentElement?.id;
+
+  if (!id) return;
+
   const matrixList = collectNodeMatrix(el);
-
-  //   const scale = getScale(el);
-
   const { x, y, width, height } = formatTransform(el);
   const { style } = formatStyle(s, 0.5);
 
@@ -227,11 +227,20 @@ const formatData = (node: ISvgNode) => {
     case "ellipse":
     case "image":
       {
+        const x = +node.attr("x");
+        const y = +node.attr("y");
+        const rect = el.getBoundingClientRect();
+
+        const position = getPosionByMatrix([x, y], matrixList);
+        const position1 = [rect.width * xScale, rect.height * yScale];
+
         nodes.push({
           id,
-          type: "circle",
-          position: { x, y },
-          size: { width, height },
+          nodeType: "image",
+          type: "image",
+          position: { x: position[0], y: position[1] },
+          size: { width: position1[0], height: position1[1] },
+          styleSource: s,
           style
         });
       }
@@ -250,24 +259,20 @@ const formatData = (node: ISvgNode) => {
       break;
     case "rect":
       {
-        const rect = el.getBoundingClientRect();
         const x = +node.attr("x");
         const y = +node.attr("y");
-        // const width = +node.attr("width");
-        // const height = +node.attr("height");
+        const rect = el.getBoundingClientRect();
+
         const position = getPosionByMatrix([x, y], matrixList);
-        const position1 = getPosionByMatrix([x + width, y + height], matrixList);
+        const position1 = [rect.width * xScale, rect.height * yScale];
 
-        // console.log("rect", rect);
-
-        // const position1 = [rect.width * xScale, rect.height * yScale];
-        // console.log("🚀 ~ formatData ~ position1:", position1);
         nodes.push({
           id,
           nodeType: "rect",
           type: "rect",
           position: { x: position[0], y: position[1] },
           size: { width: position1[0], height: position1[1] },
+          styleSource: s,
           style
         });
       }
@@ -293,14 +298,15 @@ const formatData = (node: ISvgNode) => {
         const points = parsePathD(dStr);
         const pointsByMatrix = getPathByMatrix(points, matrixList);
         const d = getDByPoints(pointsByMatrix);
-        // if (!id) return;
-        links.push({
+        const link = {
           linkId: id,
           type: "path",
           linkPath: d,
           pathArray: pointsByMatrix,
+          styleSource: s,
           style
-        });
+        };
+        links.push(link);
       }
       break;
     default:

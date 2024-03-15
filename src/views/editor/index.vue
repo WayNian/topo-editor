@@ -18,9 +18,12 @@ import Header from "@/components/TopoEditor/Header/index.vue";
 import LeftPanel from "@/components/TopoEditor/Panel/LeftPanel.vue";
 import RightPanel from "@/components/TopoEditor/Panel/RightPanel.vue";
 import AttributeTrigger from "@/components/TopoEditor/Panel/Right/Attribute/AttributeTrigger.vue";
-import { useMessage } from "naive-ui";
+import { useMessage, useModal } from "naive-ui";
+import { useCommonStore } from "@/stores/common";
 
+const common = useCommonStore();
 window.$message = useMessage();
+common.modal = useModal();
 </script>
 
 <style scoped></style>

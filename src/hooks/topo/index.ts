@@ -4,6 +4,7 @@ import { draw } from "@/utils/draw";
 import emitter from "@/utils/mitt";
 import { onMounted } from "vue";
 import { importSvg, selectMap } from "./assistant";
+import { useModal } from "naive-ui";
 
 export const useTopoEditor = () => {
   const store = useTopoStore();

@@ -45,9 +45,11 @@ import type { IImportSvgData, ILink, IMapSource, IMenuSource, INode } from "@/ty
 import { useTopoStore } from "@/stores/topo";
 import EditMenuFileModal from "./Modal/EditMenuFileModal.vue";
 import { deleteMap, deleteMenu } from "@/utils/http/apis/menu";
+import { useCommonStore } from "@/stores/common";
 
 const dialog = useDialog();
 const store = useTopoStore();
+const commonStore = useCommonStore();
 const showDropdown = ref(false);
 const x = ref(0);
 const y = ref(0);
@@ -79,7 +81,7 @@ const setMenu = (option?: TreeOption) => {
       },
       {
         label: "导入",
-        key: "imoport"
+        key: "imoportAll"
       },
       {
         label: "删除",
@@ -94,7 +96,17 @@ const setMenu = (option?: TreeOption) => {
       },
       {
         label: "导入",
-        key: "imoport"
+        key: "imoport",
+        children: [
+          {
+            label: "增量",
+            key: "imoportAddition"
+          },
+          {
+            label: "全量",
+            key: "imoportAll"
+          }
+        ]
       },
       {
         label: "删除",
@@ -194,7 +206,9 @@ const handleSelect = (key: string | number) => {
     case "delete":
       deleteMenuMap();
       break;
-    case "imoport":
+    case "imoportAddition":
+    case "imoportAll":
+      commonStore.importType = key;
       upload.value?.click();
       break;
   }

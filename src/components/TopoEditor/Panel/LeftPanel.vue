@@ -1,12 +1,10 @@
 <template>
   <Sider>
     <Panel class="left-0 w-100% px-2">
-      <LayerList></LayerList>
-      <!-- <n-tabs type="line" animated>
+      <n-tabs type="line" animated>
         <n-tab-pane name="oasis" tab="文件"> <LayerList></LayerList> </n-tab-pane>
-        <n-tab-pane name="jay chou" tab="图元"> 图元 </n-tab-pane>
-        <n-tab-pane name="model" tab="模型"> 模型 </n-tab-pane>
-      </n-tabs> -->
+        <n-tab-pane name="jay chou" tab="对比"> 图元 </n-tab-pane>
+      </n-tabs>
     </Panel>
   </Sider>
 </template>
