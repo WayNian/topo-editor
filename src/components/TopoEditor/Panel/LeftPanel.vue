@@ -1,18 +1,30 @@
 <template>
   <Sider>
     <Panel class="left-0 w-100% px-2">
-      <n-tabs type="line" animated>
-        <n-tab-pane name="oasis" tab="文件"> <LayerList></LayerList> </n-tab-pane>
-        <n-tab-pane name="jay chou" tab="对比"> 图元 </n-tab-pane>
+      <n-tabs type="line" animated v-model:value="activeName">
+        <n-tab-pane name="files" tab="文件"> <LayerList /> </n-tab-pane>
+        <n-tab-pane name="merge" tab="合并"> <MergeList /></n-tab-pane>
       </n-tabs>
     </Panel>
   </Sider>
 </template>
 
 <script setup lang="ts">
+import { useCommonStore } from "@/stores/common";
 import Panel from "../Common/Panel/index.vue";
 import LayerList from "./Left/LayerList.vue";
+import MergeList from "./Left/MergeList.vue";
 import Sider from "@/components/TopoEditor/Sider/index.vue";
+import { ref, watchEffect } from "vue";
+
+const commonStore = useCommonStore();
+
+const activeName = ref("files");
+
+watchEffect(() => {
+  const { mergeNodeList, mergeLinkList } = commonStore;
+  activeName.value = mergeNodeList.length || mergeLinkList.length ? "merge" : "files";
+});
 </script>
 
 <style scoped></style>
