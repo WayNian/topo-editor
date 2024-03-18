@@ -101,14 +101,29 @@
           v-for="(item, index) in commonStore.mergeLinkList"
           :key="index"
           class="merge-item"
-          @click="selectMergeLinkItem(item, 'click')"
+          @click="selectMergeLinkItem(item, 'all')"
           @mouseenter="selectMergeLinkItem(item)"
         >
           <div class="break-words break-all">{{ item.linkId }}</div>
           <div v-if="activeLinkItem === item" class="flex justify-between mt-4">
             <div class="merge-item-menu">
-              <n-button quaternary size="tiny" class="mr-2" type="warning"> 旧 </n-button>
-              <n-button quaternary size="tiny" type="primary"> 新 </n-button>
+              <n-button
+                quaternary
+                size="tiny"
+                class="mr-2"
+                type="warning"
+                @click.stop="selectMergeLinkItem(item, 'old')"
+              >
+                旧
+              </n-button>
+              <n-button
+                quaternary
+                size="tiny"
+                type="primary"
+                @click.stop="selectMergeLinkItem(item, 'new')"
+              >
+                新
+              </n-button>
             </div>
             <div>
               <n-tooltip trigger="hover">
@@ -158,8 +173,8 @@ const selectMergeNodeItem = (item: INode) => {
 
 const selectMergeLinkItem = (item: ILink, type?: string) => {
   activeLinkItem.value = item;
-  if (type === "click") {
-    highlightLink(item);
+  if (type) {
+    highlightLink(item, type);
   }
 };
 

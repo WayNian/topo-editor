@@ -16,6 +16,7 @@ import LayerList from "./Left/LayerList.vue";
 import MergeList from "./Left/MergeList.vue";
 import Sider from "@/components/TopoEditor/Sider/index.vue";
 import { ref, watchEffect } from "vue";
+import { resetHighlight } from "@/utils/draw";
 
 const commonStore = useCommonStore();
 
@@ -24,6 +25,12 @@ const activeName = ref("files");
 watchEffect(() => {
   const { mergeNodeList, mergeLinkList } = commonStore;
   activeName.value = mergeNodeList.length || mergeLinkList.length ? "merge" : "files";
+});
+
+watchEffect(() => {
+  if (activeName.value !== "merge") {
+    resetHighlight();
+  }
 });
 </script>
 

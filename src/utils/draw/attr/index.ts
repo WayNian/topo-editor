@@ -42,15 +42,15 @@ export const attrNodeG = (nodeG: ISVGG<INode, SVGGElement>) => {
     .attr("id", (d) => {
       return `node_${d.nodeId}${d.isMerge ? "_merge" : ""}`;
     })
-    .attr("transform", (d) => `translate(${d.position.x}, ${d.position.y})`)
+    .attr("transform", (d) => `translate(${d.x}, ${d.y})`)
     .attr("cursor", "move");
 };
 
 export const attrEllipse = (ellipse: ISVGEllipse<INode>) => {
   ellipse
     .attr("class", "node")
-    .attr("rx", (d) => d.size.width / 2)
-    .attr("ry", (d) => d.size.height / 2)
+    .attr("rx", (d) => d.width / 2)
+    .attr("ry", (d) => d.height / 2)
     // .attr("cx", (d) => d.width / 2)
     // .attr("cy", (d) => d.height / 2)
     .attr("style", (d) => {
@@ -100,8 +100,8 @@ export const attrForeignObject = (
 export const attrRect = (rect: ISVGRect<INode>) => {
   rect
     .attr("class", "node")
-    .attr("width", (d) => d.size.width)
-    .attr("height", (d) => d.size.height)
+    .attr("width", (d) => d.width)
+    .attr("height", (d) => d.height)
     .attr("style", (d) => {
       let style = "";
       for (const key in d.style) {

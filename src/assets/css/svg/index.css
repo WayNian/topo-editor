@@ -1,5 +1,17 @@
 .hight-link {
-    stroke-width: 50 !important;
-    fill: blue !important;
-    transition: fill 0.3s !important;
+    animation: flash 0.8s 10 linear;
+}
+
+@keyframes flash {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }

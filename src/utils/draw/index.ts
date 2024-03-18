@@ -126,15 +126,30 @@ const drawMergeLinks = () => {
     .join(appendLink);
 };
 
-export const highlightLink = (link: ILink) => {
-  console.log("🚀 ~ highlightLink ~ link:", link.linkId);
-  d3.select("#topoMergeLinks")
-    .selectAll<SVGPathElement, ILink>(`.link-group path.link`)
-    .classed("hight-link", (d) => {
-      console.log("d.linkId", d.linkId);
-
-      return d.linkId === link.linkId;
-    });
+export const resetHighlight = () => {
+  d3.selectAll<SVGPathElement, ILink>(`.link-group path.link`)
+    .classed("hight-link", false)
+    .style("opacity", 1);
+  d3.selectAll<SVGGElement, INode>(`.node-group .node`)
+    .classed("highlight-node", false)
+    .style("opacity", 1);
+};
+export const highlightLink = (link: ILink, type: string) => {
+  d3.selectAll<SVGPathElement, ILink>(`.link-group path.link`)
+    .classed("hight-link", false)
+    .style("opacity", 0.1);
+  const oldLink = d3.select<SVGPathElement, ILink>(`#link_${link.linkId} path`);
+  const newLink = d3.select<SVGPathElement, ILink>(`#link_${link.linkId}_merge path`);
+  if (type === "all") {
+    oldLink.classed("hight-link", true).style("opacity", 1);
+    newLink.classed("hight-link", true).style("opacity", 1);
+  } else if (type === "old") {
+    oldLink.classed("hight-link", true).style("opacity", 1);
+    newLink.classed("hight-link", false).style("opacity", 1);
+  } else if (type === "new") {
+    newLink.classed("hight-link", true).style("opacity", 1);
+    oldLink.classed("hight-link", false).style("opacity", 1);
+  }
 };
 
 export const drawMerge = () => {
