@@ -45,16 +45,10 @@ const generateMap = (name?: string) => {
   }
 };
 
-const addMapFunc = (name: string) => {
+const addUpdataMapFunc = (name?: string) => {
   const params = generateMap(name);
   if (!params) return;
-  return addMap(params);
-};
-
-const updateMapFunc = () => {
-  const params = generateMap();
-  if (!params) return;
-  return updateMap(params);
+  return name ? addMap(params) : updateMap(params);
 };
 
 export const importSvg = (val: IImportSvgData) => {
@@ -63,7 +57,7 @@ export const importSvg = (val: IImportSvgData) => {
   //   如果直接导入,先生成新的map文件
   if (commonStore.importType === "import") {
     // 全量导入,生成新的map文件
-    addMapFunc(val.name)?.then(async (mapId) => {
+    addUpdataMapFunc(val.name)?.then(async (mapId) => {
       await store.getMenuList();
       if (!mapId) return;
       nodes = val.nodes.map((node) => {
@@ -85,7 +79,7 @@ export const importSvg = (val: IImportSvgData) => {
   } else {
     const mapId = store.mapInfo?.mapId;
     if (!mapId) return;
-    updateMapFunc()?.then(async () => {
+    addUpdataMapFunc()?.then(async () => {
       const { deleteNodeList, mergeNodeList, addNodeList } = checkNodes(store.topoNodes, val.nodes);
       const { deleteLinkList, mergeLinkList, addLinkList } = checkLinks(store.topoLinks, val.links);
 
