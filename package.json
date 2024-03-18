@@ -45,7 +45,7 @@
     "unplugin-auto-import": "^0.17.5",
     "unplugin-vue-components": "^0.26.0",
     "vfonts": "^0.0.3",
-    "vite": "^5.1.4",
+    "vite": "^5.1.6",
     "vue-tsc": "^2.0.4"
   }
 }
