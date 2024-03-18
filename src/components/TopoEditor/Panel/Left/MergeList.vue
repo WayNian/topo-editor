@@ -128,7 +128,12 @@
             <div>
               <n-tooltip trigger="hover">
                 <template #trigger>
-                  <n-button quaternary size="tiny" class="mr-2">
+                  <n-button
+                    quaternary
+                    size="tiny"
+                    class="mr-2"
+                    @click.stop="handleMergeClick(item, 'cancel')"
+                  >
                     <template #icon>
                       <n-icon><Close /></n-icon>
                     </template>
@@ -136,7 +141,7 @@
                 </template>
                 放弃
               </n-tooltip>
-              <n-tooltip trigger="hover">
+              <n-tooltip trigger="hover" @click.stop="handleMergeClick(item, 'apply')">
                 <template #trigger>
                   <n-button quaternary size="tiny">
                     <template #icon>
@@ -162,7 +167,9 @@ import { computed, ref } from "vue";
 import { Checkmark, Close } from "@vicons/ionicons5";
 import type { ILink, INode } from "@/types";
 import { highlightLink } from "@/utils/draw";
+import { useMerge } from "@/hooks/menu/useMerge";
 
+const { mergeLinks } = useMerge();
 const commonStore = useCommonStore();
 const activeNodeItem = ref<INode>();
 const activeLinkItem = ref<ILink>();
@@ -176,6 +183,10 @@ const selectMergeLinkItem = (item: ILink, type?: string) => {
   if (type) {
     highlightLink(item, type);
   }
+};
+
+const handleMergeClick = (item: ILink, type: string) => {
+  mergeLinks(item, type);
 };
 
 const isEmpty = computed(() => {

@@ -154,6 +154,7 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
       setMenu(option);
       showDropdown.value = true;
       currentOption.value = option;
+      emitter.emit("on:selectMap", option.raw as IMapSource);
       x.value = e.clientX;
       y.value = e.clientY;
       e.preventDefault();
@@ -245,4 +246,3 @@ onMounted(() => {
   margin-bottom: 10px;
 }
 </style>
-./Modal/EditMenuFileModal.vue./Modal/EditMenuFfileModal.vue

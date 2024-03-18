@@ -22,13 +22,9 @@ export const attrSvg = (svg: ISVG) => {
 };
 
 export const attrTopoMap = (topoMap: ISVGG<any, HTMLElement>, topoMapBackground: ISVGRect<any>) => {
-  let { width, height } = store.mapSize;
-
-  width = store.svgSize.width || width;
-  height = store.svgSize.height || height;
+  const { width, height } = store.mapSize;
 
   topoMap.attr("width", width).attr("height", height);
-
   topoMapBackground
     .attr("width", width)
     .attr("height", height)

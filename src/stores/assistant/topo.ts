@@ -1,4 +1,6 @@
 import type { ILink, INode, ISourceLink, ISourceNode } from "@/types/topo";
+import { useCommonStore } from "../common";
+import { useTopoStore } from "../topo";
 
 // 解析路径为数组 js实现path路径解析为数组  M 283.00767973501206 301.5652924636853 L 716 673
 export function parseSvgPath(svgPath: string) {
@@ -44,13 +46,20 @@ export const formatNodes = (data: ISourceNode[]): INode[] => {
   });
 };
 
+const formatStyle = (style: string) => {
+  try {
+    return JSON.parse(style);
+  } catch (error) {
+    return {};
+  }
+};
 export const formatLinks = (data: ISourceLink[]): ILink[] => {
   return data.map((item) => {
     const { linkStyles } = item;
     return {
       ...item,
       pathArray: parseSvgPath(item.linkPath),
-      linkStyles: typeof linkStyles === "string" ? JSON.parse(linkStyles) : linkStyles
+      style: formatStyle(linkStyles)
     };
   });
 };

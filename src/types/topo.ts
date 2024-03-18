@@ -18,6 +18,7 @@ export interface IMatrix {
 export interface ISourceNode {
   nodeId: string;
   mapId: string;
+  domId: string;
   nodeType: string;
   compClass: string;
   nodePosition: string;
@@ -53,13 +54,14 @@ export interface INode extends ISourceNode {
 
 export interface ISourceLink {
   linkId: string;
+  domId: string;
   mapId: string;
   linkType: string;
   dashedLink: string;
   compClass: string;
   linkPath: string;
   linkWidth: number;
-  linkStyles: string | Record<string, string>;
+  linkStyles: string;
   linkAnimations: Record<string, string>;
   fromObj: string;
   endObj: string | null;
@@ -68,14 +70,13 @@ export interface ISourceLink {
   metaData: Record<string, string> | null;
   updatedBy: string | null;
   updatedTime: string | null;
-  style: Record<string, string>;
   transform: string;
   sublayerList: string[] | null;
 }
 
 export interface ILink extends ISourceLink {
   isMerge?: boolean;
-  linkStyles: Record<string, string>;
+  style: Record<string, string>;
   pathArray: any[];
 }
 

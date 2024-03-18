@@ -216,7 +216,7 @@ const formatData = (node: ISvgNode) => {
         const position1 = [rect.width * xScale, rect.height * yScale];
 
         nodes.push({
-          id,
+          domId: id,
           nodeType: "circle",
           type: "circle",
           position: { x: position[0], y: position[1] },
@@ -236,7 +236,7 @@ const formatData = (node: ISvgNode) => {
         const position1 = [rect.width * xScale, rect.height * yScale];
 
         nodes.push({
-          id,
+          domId: id,
           nodeType: "image",
           type: "image",
           position: { x: position[0], y: position[1] },
@@ -268,7 +268,7 @@ const formatData = (node: ISvgNode) => {
         const position1 = [rect.width * xScale, rect.height * yScale];
 
         nodes.push({
-          id,
+          domId: id,
           nodeType: "rect",
           type: "rect",
           position: { x: position[0], y: position[1] },
@@ -300,12 +300,13 @@ const formatData = (node: ISvgNode) => {
         const pointsByMatrix = getPathByMatrix(points, matrixList);
         const d = getDByPoints(pointsByMatrix);
         const link = {
-          linkId: id,
-          type: "path",
+          //   linkId: id,
+          domId: id,
+          linkType: "link",
           linkPath: d,
           testD: dStr,
           pathArray: pointsByMatrix,
-          styleSource: s,
+          linkStyles: JSON.stringify(style),
           style
         };
         links.push(link);
