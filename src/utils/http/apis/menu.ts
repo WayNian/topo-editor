@@ -10,7 +10,7 @@ export const addMenu = (params: IMenuModel) => {
 };
 
 export const addMap = (params: IMapModel) => {
-  return request.post({ url: "/topoEdit/insertMap", data: params });
+  return request.post<string>({ url: "/topoEdit/insertMap", data: params });
 };
 
 export const updateMenu = (params: IMenuModel) => {

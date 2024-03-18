@@ -10,7 +10,7 @@
     </n-tooltip>
   </div>
   <n-divider />
-  <n-scrollbar style="max-height: calc(100vh - 100px)" @contextmenu="handleContentmenu">
+  <n-scrollbar style="height: calc(100vh - 150px)" @contextmenu="handleContentmenu">
     <n-tree
       block-line
       expand-on-click
@@ -46,10 +46,12 @@ import { useTopoStore } from "@/stores/topo";
 import EditMenuFileModal from "./Modal/EditMenuFileModal.vue";
 import { deleteMap, deleteMenu } from "@/utils/http/apis/menu";
 import { useCommonStore } from "@/stores/common";
+import { useMenuStore } from "@/stores/menu";
 
 const dialog = useDialog();
 const store = useTopoStore();
 const commonStore = useCommonStore();
+const menuStore = useMenuStore();
 const showDropdown = ref(false);
 const x = ref(0);
 const y = ref(0);
@@ -145,6 +147,7 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
   return {
     title: option.label,
     onClick() {
+      menuStore.currentMenu = option.raw as IMapSource | IMenuSource;
       if (!option.children && !option.disabled) {
         currentOption.value = option;
         emitter.emit("on:selectMap", option.raw as IMapSource);
@@ -153,10 +156,15 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
     onContextmenu(e: MouseEvent): void {
       setMenu(option);
       showDropdown.value = true;
-      currentOption.value = option;
-      emitter.emit("on:selectMap", option.raw as IMapSource);
       x.value = e.clientX;
       y.value = e.clientY;
+      menuStore.currentMenu = option.raw as IMapSource | IMenuSource;
+      currentOption.value = option;
+
+      if (!option.children && !option.disabled) {
+        emitter.emit("on:selectMap", option.raw as IMapSource);
+      }
+
       e.preventDefault();
       e.stopPropagation();
     }
