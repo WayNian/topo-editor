@@ -23,12 +23,13 @@ export const checkNodes = (topoNodes: INode[], nodes: INode[]) => {
   }
 
   nodes.forEach((node) => {
-    const item = topoNodes.find((item) => item.id === node.id && item.nodeId === node.nodeId);
+    const item = topoNodes.find((item) => item.domId === node.domId);
     if (item && common.importType === "importAddition") {
       //   item 在 topoNodes中，判断是否有不同的字段
       if (JSON.stringify(item) !== JSON.stringify(node)) {
         mergeNodeList.push({
           ...node,
+          nodeId: item.nodeId,
           isMerge: true
         });
       }
@@ -40,7 +41,7 @@ export const checkNodes = (topoNodes: INode[], nodes: INode[]) => {
   if (common.importType === "importAll") {
     // 获取要删除的数据
     topoNodes.forEach((node) => {
-      const item = nodes.find((item) => item.id === node.id && item.nodeId === node.nodeId);
+      const item = nodes.find((item) => item.domId === node.domId);
       if (!item) {
         deleteNodeList.push(node);
       }
@@ -74,10 +75,12 @@ export const checkLinks = (topoLinks: ILink[], links: ILink[]) => {
   // 全量导入
   links.forEach((link) => {
     const item = topoLinks.find((item) => {
-      return item.linkId === link.linkId;
+      return item.domId === link.domId;
     });
     // 如果是增量导入，且item存在，则不做处理
     if (item && common.importType === "importAll") {
+      link.linkId = item.linkId;
+      link.mapId = item.mapId;
       //   item 在 topoLinks中，判断是否有不同的字段
       // 如果有，则说明是冲突数据
       if (JSON.stringify(item) !== JSON.stringify(link)) {
@@ -96,7 +99,7 @@ export const checkLinks = (topoLinks: ILink[], links: ILink[]) => {
     // 获取要删除的数据
     topoLinks.forEach((link) => {
       const item = links.find((item) => {
-        return item.linkId === link.linkId;
+        return item.domId === link.domId;
       });
 
       if (!item) {

@@ -88,29 +88,32 @@ export const importSvg = (val: IImportSvgData) => {
 
       drawMerge();
 
-      nodes = store.topoNodes
-        .concat(addNodeList)
-        .filter((node) => {
-          return !deleteNodeList.some((item) => item.id === node.id && item.nodeId === node.nodeId);
-        })
-        .map((node) => {
-          return {
-            ...node,
-            mapId
-          };
-        });
-      links = store.topoLinks
-        .concat(addLinkList)
-        .filter((link) => {
-          return !deleteLinkList.some((item) => item.linkId === link.linkId);
-        })
-        .map((link) => {
-          return {
-            ...link,
-            mapId
-          };
-        });
+      //   nodes = store.topoNodes
+      //     .concat(addNodeList)
+      //     .filter((node) => {
+      //       return !deleteNodeList.some((item) => item.id === node.id && item.nodeId === node.nodeId);
+      //     })
+      //     .map((node) => {
+      //       return {
+      //         ...node,
+      //         mapId
+      //       };
+      //     });
+      //   links = store.topoLinks
+      //     .concat(addLinkList)
+      //     .filter((link) => {
+      //       return !deleteLinkList.some((item) => item.linkId === link.linkId);
+      //     })
+      //     .map((link) => {
+      //       return {
+      //         ...link,
+      //         mapId
+      //       };
+      //     });
 
+      console.log("links", links);
+
+      await store.deleteLinkFunc(deleteLinkList);
       await store.addNodeLinkListFunc(nodes, links);
       await store.fetchNodeLinkList(mapId);
       draw();

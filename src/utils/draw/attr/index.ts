@@ -107,13 +107,17 @@ export const attrRect = (rect: ISVGRect<INode>) => {
     });
 };
 
-export const attrLink = (linkG: ISVGG<ILink, SVGGElement>, link: IPath, shadowlink: IPath) => {
+export const attrLinkG = (linkG: ISVGG<ILink, SVGGElement>) => {
   linkG.attr("class", "link-group").attr("id", (d) => {
     return `link_${d.linkId}${d.isMerge ? "_merge" : ""}`;
   });
+};
+export const attrLink = (link: IPath, shadowlink: IPath) => {
   link
     .attr("class", "link")
-    .attr("d", (d) => d.linkPath)
+    .attr("d", (d) => {
+      return d.linkPath;
+    })
     .attr("style", (d) => {
       let style = "";
       for (const key in d.style) {

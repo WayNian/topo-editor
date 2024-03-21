@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import { removeSelectedLink } from "..";
 import type { ISVG, ISVGG } from "@/types";
-import { setInitTransform } from "../assist";
+import { setInitTransform } from "../assistant";
 import { useTopoStore } from "@/stores/topo";
 import { attrSeletView } from "../attr";
 

@@ -3,6 +3,7 @@ import {
   attrEllipse,
   attrForeignObject,
   attrLink,
+  attrLinkG,
   attrNodeG,
   attrRect,
   attrSelectedLink,
@@ -75,12 +76,19 @@ const appendNode = (enter: IEnter<INode>) => {
   return enterG;
 };
 
+const updateNode = (update: IUpdate<INode>) => {
+  const nodeG = update.select<SVGGElement>("g");
+  attrNodeG(nodeG);
+
+  return nodeG;
+};
+
 const drawNodes = () => {
   const nodeGroup = d3.select<SVGGElement, any>("#topoNodes");
   nodeGroup
     .selectAll<SVGGElement, INode>("g.node-group")
     .data(store.topoNodes, (d: INode) => d.nodeId)
-    .join(appendNode);
+    .join(appendNode, updateNode);
 };
 
 export const appenSelectedLink = (linkG: ISVGG<ILink, null>) => {
@@ -97,27 +105,37 @@ const appendLink = (enter: IEnter<ILink>) => {
   const enterG = enter.append<SVGGElement>("g");
   const link = enterG.append<SVGPathElement>("path");
   const shadowlink = enterG.append<SVGPathElement>("path");
-  attrLink(enterG, link, shadowlink);
+  attrLinkG(enterG);
+  attrLink(link, shadowlink);
   bindLinkDrag(enterG);
   return enterG;
 };
 
-const drawLinks = () => {
+const updateLink = (update: IUpdate<ILink>) => {
+  const link = update.select<SVGPathElement>("path.link");
+  const shadowlink = update.select<SVGPathElement>("path.shadow-link");
+  attrLink(link, shadowlink);
+  return update;
+};
+
+export const drawLinks = () => {
   const linkGroup = d3.select<SVGGElement, any>("#topoLinks");
+  console.log("store.topoLinks", store.topoLinks);
+
   linkGroup
     .selectAll<SVGGElement, ILink>("g.link-group")
     .data(store.topoLinks, (d: ILink) => d.linkId)
-    .join(appendLink);
+    .join(appendLink, updateLink);
 };
 
-const drawMergeNodes = () => {
+export const drawMergeNodes = () => {
   d3.select<SVGGElement, any>("#topoMergeNodes")
     .selectAll<SVGGElement, INode>("g.node-group")
     .data(commonStore.mergeNodeList, (d: INode) => `${d.nodeId}`)
     .join(appendNode);
 };
 
-const drawMergeLinks = () => {
+export const drawMergeLinks = () => {
   d3.select<SVGGElement, any>("#topoMergeLinks")
     .selectAll<SVGGElement, ILink>("g.link-group")
     .data(commonStore.mergeLinkList, (d: ILink) => {
@@ -135,11 +153,14 @@ export const resetHighlight = () => {
     .style("opacity", 1);
 };
 export const highlightLink = (link: ILink, type: string) => {
+  console.log("🚀 ~ highlightLink ~ link:", link);
   d3.selectAll<SVGPathElement, ILink>(`.link-group path.link`)
     .classed("hight-link", false)
     .style("opacity", 0.1);
-  const oldLink = d3.select<SVGPathElement, ILink>(`#link_${link.linkId} path`);
-  const newLink = d3.select<SVGPathElement, ILink>(`#link_${link.linkId}_merge path`);
+  const oldLink = d3.select<SVGPathElement, ILink>(`#link_${link.linkId} path.link`);
+  const newLink = d3.select<SVGPathElement, ILink>(`#link_${link.linkId}_merge path.link`);
+  console.log("🚀 ~ highlightLink ~ newLink:", newLink);
+
   if (type === "all") {
     oldLink.classed("hight-link", true).style("opacity", 1);
     newLink.classed("hight-link", true).style("opacity", 1);

@@ -35,7 +35,7 @@
           @click="selectMergeNodeItem(item)"
           @mouseenter="selectMergeNodeItem(item)"
         >
-          <div class="break-words break-all">连线{{ item.id }}</div>
+          <div class="break-words break-all">连线{{ item.domId }}</div>
           <div v-if="activeNodeItem === item" class="flex justify-between mt-4">
             <div class="merge-item-menu">
               <n-button quaternary size="tiny" class="mr-2" type="warning"> 旧 </n-button>
@@ -101,10 +101,10 @@
           v-for="(item, index) in commonStore.mergeLinkList"
           :key="index"
           class="merge-item"
-          @click="selectMergeLinkItem(item, 'all')"
+          @click.prevent="selectMergeLinkItem(item, 'all')"
           @mouseenter="selectMergeLinkItem(item)"
         >
-          <div class="break-words break-all">{{ item.linkId }}</div>
+          <div class="break-words break-all">{{ item.domId }}</div>
           <div v-if="activeLinkItem === item" class="flex justify-between mt-4">
             <div class="merge-item-menu">
               <n-button
@@ -141,9 +141,9 @@
                 </template>
                 放弃
               </n-tooltip>
-              <n-tooltip trigger="hover" @click.stop="handleMergeClick(item, 'apply')">
+              <n-tooltip trigger="hover">
                 <template #trigger>
-                  <n-button quaternary size="tiny">
+                  <n-button quaternary size="tiny" @click.stop="handleMergeClick(item, 'apply')">
                     <template #icon>
                       <n-icon><Checkmark /></n-icon>
                     </template>

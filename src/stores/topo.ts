@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import type { ILink, IMap, IMapSource, IMenuCascaderItem, INode, ITreeItem } from "@/types/";
 import { fetchMenuList } from "@/utils/http/apis/menu";
 import { formatMenuCascaderist, formatMenuList } from "@/utils/tools/menu";
-import { addNodeLinkList, fetchNodeLinkListByMapId } from "@/utils/http/apis/topo";
+import { addNodeLinkList, deleteLinks, fetchNodeLinkListByMapId } from "@/utils/http/apis/topo";
 import { formatLinks, formatNodes } from "./assistant/topo";
 import { getSize } from "@/utils/tools/common";
 
@@ -47,11 +47,18 @@ export const useTopoStore = defineStore("topo", () => {
   };
 
   const addNodeLinkListFunc = async (nodes: INode[], links: ILink[]) => {
+    if (!nodes.length && !links.length) return;
     await addNodeLinkList({ nodeList: nodes, linkList: links });
     nodes = [];
     links = [];
   };
 
+  const deleteLinkFunc = async (links: ILink[]) => {
+    if (!links.length) return;
+    const linkIdList = links.map((item) => item.linkId);
+    const mapId = mapInfo.value?.mapId as string;
+    await deleteLinks({ linkIdList, mapId });
+  };
   return {
     menuList,
     menuCascaderList,
@@ -67,6 +74,7 @@ export const useTopoStore = defineStore("topo", () => {
     getMenuList,
     fetchNodeLinkList,
     setMapInfo,
-    addNodeLinkListFunc
+    addNodeLinkListFunc,
+    deleteLinkFunc
   };
 });
