@@ -1,5 +1,5 @@
 import type { IMapSource, IMenuCascaderItem, IMenuSource, ITreeItem } from "@/types";
-import { Folder, FileTrayFullOutline } from "@vicons/ionicons5";
+import { Folder, FileTrayFullOutline, FolderOpenOutline } from "@vicons/ionicons5";
 import { NIcon } from "naive-ui";
 import { h } from "vue";
 
@@ -17,7 +17,10 @@ const formatMapList = (mapList: IMapSource[]): ITreeItem[] => {
     };
   });
 };
-export const formatMenuList = (menuList?: IMenuSource[]): ITreeItem[] => {
+export const formatMenuList = (
+  menuList: IMenuSource[],
+  keys: Array<string | number>
+): ITreeItem[] => {
   if (!menuList) return [];
   return menuList.map((item) => {
     return {
@@ -27,9 +30,9 @@ export const formatMenuList = (menuList?: IMenuSource[]): ITreeItem[] => {
       raw: item,
       prefix: () =>
         h(NIcon, null, {
-          default: () => h(Folder)
+          default: () => h(keys.includes(item.menuId) ? FolderOpenOutline : Folder)
         }),
-      children: [...formatMenuList(item.children), ...formatMapList(item.maps)]
+      children: [...formatMenuList(item.children || [], keys), ...formatMapList(item.maps)]
     };
   });
 };

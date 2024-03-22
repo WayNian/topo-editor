@@ -18,6 +18,7 @@ export const useTopoStore = defineStore("topo", () => {
   const svgSize = ref({ width: 0, height: 0 });
   const mapInfo = ref<IMap>();
   const isSelectViewVisible = false;
+  const expandedKeys = ref<Array<string | number>>([]);
 
   const setMapSize = (width: number, height: number) => {
     mapSize.value = { width, height };
@@ -35,7 +36,7 @@ export const useTopoStore = defineStore("topo", () => {
 
   const getMenuList = () => {
     fetchMenuList().then((res) => {
-      menuList.value = formatMenuList(res[0].children);
+      menuList.value = formatMenuList(res[0].children || [], expandedKeys.value);
       menuCascaderList.value = formatMenuCascaderist(res);
     });
   };
@@ -70,6 +71,8 @@ export const useTopoStore = defineStore("topo", () => {
     isSelectViewVisible,
     svgSize,
     mapInfo,
+    expandedKeys,
+
     setMapSize,
     getMenuList,
     fetchNodeLinkList,

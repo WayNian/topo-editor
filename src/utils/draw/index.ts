@@ -157,8 +157,8 @@ export const highlightNode = (node: INode, type: string) => {
   d3.selectAll<d3.BaseType, INode>(`.node-group .node`)
     .classed("hight-node-link", false)
     .style("opacity", 0.1);
-  const oldNode = d3.select<d3.BaseType, ILink>(`#node_${node.nodeId} .node`);
-  const newNode = d3.select<d3.BaseType, ILink>(`#node_${node.nodeId}_merge .node`);
+  const oldNode = d3.select<d3.BaseType, INode>(`#node_${node.nodeId} .node`);
+  const newNode = d3.select<d3.BaseType, INode>(`#node_${node.nodeId}_merge .node`);
 
   if (type === "all") {
     oldNode.classed("hight-node-link", true).style("opacity", 1);

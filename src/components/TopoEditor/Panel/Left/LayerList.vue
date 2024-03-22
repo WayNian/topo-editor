@@ -12,6 +12,7 @@
   <n-divider />
   <n-scrollbar style="height: calc(100vh - 150px)" @contextmenu="handleContentmenu">
     <n-tree
+      :expanded-keys="store.expandedKeys"
       block-line
       expand-on-click
       :data="store.menuList"
@@ -126,6 +127,7 @@ const updatePrefixWithExpaned = (
     action: "expand" | "collapse" | "filter";
   }
 ) => {
+  store.expandedKeys = _keys;
   if (!meta.node) return;
   switch (meta.action) {
     case "expand":
