@@ -3,11 +3,12 @@
     <Header></Header>
     <div class="relative flex flex-1 editor-layout">
       <n-layout has-sider>
-        <LeftPanel></LeftPanel>
+        <LeftPanel />
         <TopoEditor />
       </n-layout>
-      <AttributeTrigger></AttributeTrigger>
-      <RightPanel></RightPanel>
+      <AttributeTrigger />
+      <RightPanel />
+      <Shortcut />
     </div>
   </div>
 </template>
@@ -20,6 +21,7 @@ import RightPanel from "@/components/TopoEditor/Panel/RightPanel.vue";
 import AttributeTrigger from "@/components/TopoEditor/Panel/Right/Attribute/AttributeTrigger.vue";
 import { useMessage, useModal } from "naive-ui";
 import { useCommonStore } from "@/stores/common";
+import Shortcut from "@/components/TopoEditor/Shortcut/index.vue";
 
 const common = useCommonStore();
 window.$message = useMessage();

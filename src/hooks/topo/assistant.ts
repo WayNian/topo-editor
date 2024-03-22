@@ -1,6 +1,6 @@
 import { useTopoStore } from "@/stores/topo";
 import type { IImportSvgData, ILink, IMapModel, IMapSource, INode } from "@/types";
-import { draw, drawMerge } from "@/utils/draw";
+import { clearSvg, draw, drawMerge } from "@/utils/draw";
 import { checkLinks, checkNodes } from "./helper";
 import { useCommonStore } from "@/stores/common";
 import { addMap, updateMap } from "@/utils/http/apis/menu";

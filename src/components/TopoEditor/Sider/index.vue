@@ -15,4 +15,8 @@
 
 <script setup lang="ts"></script>
 
-<style scoped></style>
+<style>
+.n-layout-sider.n-layout-sider--bordered .n-layout-sider__border {
+  width: 0;
+}
+</style>

@@ -69,6 +69,7 @@ declare module 'vue' {
     RightPanel: typeof import('./src/components/TopoEditor/Panel/RightPanel.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Shortcut: typeof import('./src/components/TopoEditor/Shortcut/index.vue')['default']
     Sider: typeof import('./src/components/TopoEditor/Sider/index.vue')['default']
     TabPane: (typeof import("./src/components/TopoEditor/Panel/Left/TabPane.vue"))["default"]
     TheWelcome: (typeof import("./src/components/TheWelcome.vue"))["default"]

@@ -7,6 +7,7 @@ import Components from "unplugin-vue-components/vite";
 import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
 import UnoCSS from "unocss/vite";
 import VueDevTools from "vite-plugin-vue-devtools";
+import svgLoader from "vite-svg-loader";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,6 +15,7 @@ export default defineConfig({
     vue(),
     VueDevTools(),
     UnoCSS(),
+    svgLoader(),
     AutoImport({
       imports: [
         "vue",
