@@ -3,7 +3,7 @@
     <div class="w-12 text-xl text-center text-#d5d5d5">23%</div>
     <div class="mx-4">|</div>
     <div class="flex-1 flex">
-      <n-button text style="font-size: 24px">
+      <n-button text style="font-size: 24px" @click="resetSvgSizePosition">
         <n-icon>
           <Location />
         </n-icon>
@@ -20,6 +20,7 @@
 
 <script setup lang="ts">
 import Location from "@/assets/images/icons/location.svg?component";
+import { resetSvgSizePosition } from "@/utils/draw/event/svg";
 </script>
 
 <style scoped></style>

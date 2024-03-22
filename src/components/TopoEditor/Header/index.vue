@@ -15,11 +15,6 @@
     </div>
     <!-- <div>操作</div> -->
     <div>
-      <n-button text style="font-size: 24px">
-        <n-icon>
-          <ScanSharp />
-        </n-icon>
-      </n-button>
       <n-button text style="font-size: 24px" class="mx-3">
         <n-icon>
           <OptionsSharp />
@@ -35,13 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ColorFilterSharp,
-  LibrarySharp,
-  OptionsSharp,
-  ScanSharp,
-  SettingsSharp
-} from "@vicons/ionicons5";
+import { ColorFilterSharp, LibrarySharp, OptionsSharp, SettingsSharp } from "@vicons/ionicons5";
 </script>
 
 <style scoped></style>

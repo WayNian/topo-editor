@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
-import { useTopoEditor } from "@/hooks/topo/";
+import { useTopoEditor } from "@/hooks/topo/useTopoEditor";
 import { useTopoStore } from "@/stores/topo";
 import { bindDragPointEvent } from "@/utils/draw/event/draw-point";
 useTopoEditor();

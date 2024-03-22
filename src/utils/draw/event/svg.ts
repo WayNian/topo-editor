@@ -4,6 +4,7 @@ import type { ISVG, ISVGG } from "@/types";
 import { setInitTransform } from "../assistant";
 import { useTopoStore } from "@/stores/topo";
 import { attrSeletView } from "../attr";
+import { getSvgSize } from "@/utils/tools/common";
 
 const store = useTopoStore();
 let zoom: d3.ZoomBehavior<SVGSVGElement, unknown>;
@@ -66,4 +67,20 @@ export const setPosition = () => {
   const { x, y, k } = setInitTransform();
   const el = d3.select<SVGSVGElement, any>("#mindMapSvg");
   el.call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(k));
+};
+
+export const resetSvgSizePosition = () => {
+  const { x, y, k } = setInitTransform();
+  d3.select<SVGSVGElement, any>("#topoEditor")
+    .transition()
+    .duration(1000)
+    .call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(k));
+};
+
+export const setSvgBg = () => {
+  const { width, height } = getSvgSize();
+  d3.select<SVGSVGElement, any>("#topoEditor")
+    .attr("width", width)
+    .attr("height", height)
+    .style("background-color", "black");
 };

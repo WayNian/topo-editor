@@ -22,10 +22,13 @@ import AttributeTrigger from "@/components/TopoEditor/Panel/Right/Attribute/Attr
 import { useMessage, useModal } from "naive-ui";
 import { useCommonStore } from "@/stores/common";
 import Shortcut from "@/components/TopoEditor/Shortcut/index.vue";
+import { useTopo } from "@/hooks/topo/useTopo";
 
 const common = useCommonStore();
 window.$message = useMessage();
 common.modal = useModal();
+
+useTopo();
 </script>
 
 <style scoped></style>

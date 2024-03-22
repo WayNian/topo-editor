@@ -201,7 +201,7 @@ const drawMap = () => {
   const topoMap = svg.select<SVGGElement>("g#topoMap");
   const topoMapBackground = topoMap.select<SVGRectElement>("#topoMapBackground");
 
-  attrSvg(svg);
+  attrSvg();
   attrTopoMap(topoMap, topoMapBackground);
   bindMapZoom(svg, topoMap);
 };

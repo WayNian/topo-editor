@@ -1,7 +1,6 @@
 import * as d3 from "d3";
 import type {
   IPath,
-  ISVG,
   ISVGBase,
   ISVGEllipse,
   ISVGForeignObject,
@@ -12,13 +11,12 @@ import type {
 } from "@/types";
 import { useTopoStore } from "@/stores/topo";
 import type { ILink, INode } from "@/types/topo";
-import { getSvgSize } from "@/utils/tools/common";
+import { setSvgBg } from "../event/svg";
 
 const store = useTopoStore();
 
-export const attrSvg = (svg: ISVG) => {
-  const { width, height } = getSvgSize();
-  svg.attr("width", width).attr("height", height).style("background-color", "black");
+export const attrSvg = () => {
+  setSvgBg();
 };
 
 export const attrTopoMap = (topoMap: ISVGG<any, HTMLElement>, topoMapBackground: ISVGRect<any>) => {
