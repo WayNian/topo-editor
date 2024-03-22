@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import Location from "@/assets/images/icons/location.svg?component";
-import { resetSvgSizePosition } from "@/utils/draw/event/svg";
+import { resetSvgSizePosition } from "@/utils/canvas/event/svg";
 </script>
 
 <style scoped></style>

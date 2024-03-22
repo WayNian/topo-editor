@@ -212,7 +212,7 @@ import { useCommonStore } from "@/stores/common";
 import { computed, ref } from "vue";
 import { Checkmark, Close } from "@vicons/ionicons5";
 import type { ILink, INode } from "@/types";
-import { highlightLink, highlightNode } from "@/utils/draw";
+import { highlightLink, highlightNode } from "@/utils/canvas/draw/svg";
 import { useMerge } from "@/hooks/menu/useMerge";
 
 const { mergeNodes, mergeLinks } = useMerge();
@@ -254,3 +254,4 @@ const isEmpty = computed(() => {
   }
 }
 </style>
+@/utils/canvas/indexSvg

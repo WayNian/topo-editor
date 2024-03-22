@@ -1,9 +1,9 @@
 import { useCommonStore } from "@/stores/common";
-import { setSvgBg } from "@/utils/draw/event/svg";
+import { setSvgBg } from "@/utils/canvas/event/svg";
 import { useMessage, useModal } from "naive-ui";
 import { onBeforeMount, onMounted } from "vue";
 
-export const useTopo = () => {
+export const useCanvas = () => {
   const common = useCommonStore();
   common.modal = useModal();
 

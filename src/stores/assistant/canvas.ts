@@ -1,6 +1,6 @@
-import type { ILink, INode, ISourceLink, ISourceNode } from "@/types/topo";
+import type { ILink, INode, ISourceLink, ISourceNode } from "@/types";
 import { useCommonStore } from "../common";
-import { useTopoStore } from "../topo";
+import { useCanvasStore } from "../canvas";
 
 // 解析路径为数组 js实现path路径解析为数组  M 283.00767973501206 301.5652924636853 L 716 673
 export function parseSvgPath(svgPath: string) {

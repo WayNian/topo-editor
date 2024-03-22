@@ -20,9 +20,10 @@ import LeftPanel from "@/components/TopoEditor/Panel/LeftPanel.vue";
 import RightPanel from "@/components/TopoEditor/Panel/RightPanel.vue";
 import AttributeTrigger from "@/components/TopoEditor/Panel/Right/Attribute/AttributeTrigger.vue";
 import Shortcut from "@/components/TopoEditor/Shortcut/index.vue";
-import { useTopo } from "@/hooks/topo/useTopo";
+import { useCanvas } from "@/hooks/canvas/useCanvas";
 
-useTopo();
+useCanvas();
 </script>
 
 <style scoped></style>
+@/hooks/canvas/useCanvas @/hooks/canvas/useCanvas

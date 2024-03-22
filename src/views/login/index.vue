@@ -1,11 +1,11 @@
 <template>
   <div class="fixed w-full h-full bg-gradient-to-b from-#040715 to-#333438">
     <div class="loign-bg absolute w-full h-full bg-no-repeat bg-cover"></div>
-    <img
+    <!-- <img
       class="absolute h-13 top-5 left-15 object-cover"
       src="../../assets/images/login/logo.png"
       alt=""
-    />
+    /> -->
     <div
       class="absolute flex flex-col items-center left-30 top-1/2 -translate-y-100% pb-4 select-none text-transparent bg-gradient-to-r from-#f5f5f5 to-#b8b8b8 bg-clip-text"
     >

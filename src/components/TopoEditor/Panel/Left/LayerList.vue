@@ -43,14 +43,14 @@ import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
 import { parseSvg } from "@/utils/parse";
 import emitter from "@/utils/mitt";
 import type { IImportSvgData, ILink, IMapSource, IMenuSource, INode } from "@/types";
-import { useTopoStore } from "@/stores/topo";
+import { useCanvasStore } from "@/stores/canvas";
 import EditMenuFileModal from "./Modal/EditMenuFileModal.vue";
 import { deleteMap, deleteMenu } from "@/utils/http/apis/menu";
 import { useCommonStore } from "@/stores/common";
 import { useMenuStore } from "@/stores/menu";
 
 const dialog = useDialog();
-const store = useTopoStore();
+const store = useCanvasStore();
 const commonStore = useCommonStore();
 const menuStore = useMenuStore();
 const showDropdown = ref(false);
@@ -256,3 +256,4 @@ onMounted(() => {
   margin-bottom: 10px;
 }
 </style>
+@/stores/canvas

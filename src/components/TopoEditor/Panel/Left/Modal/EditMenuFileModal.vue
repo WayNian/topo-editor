@@ -77,14 +77,14 @@
 </template>
 
 <script setup lang="ts">
-import { useTopoStore } from "@/stores/topo";
+import { useCanvasStore } from "@/stores/canvas";
 import type { FormInst, TreeOption } from "naive-ui";
 import { computed, ref } from "vue";
 import { useMenu } from "@/hooks/menu/useMenu";
 import { useMap } from "@/hooks/menu/useMap";
 import type { IMapModel, IMenuModel } from "@/types";
 
-const store = useTopoStore();
+const store = useCanvasStore();
 const tabActive = ref("menu");
 const menuFormRef = ref<FormInst | null>(null);
 const mapFormRef = ref<FormInst | null>(null);
@@ -182,3 +182,4 @@ defineExpose({
 </script>
 
 <style scoped></style>
+@/stores/canvas

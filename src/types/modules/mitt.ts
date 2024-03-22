@@ -1,5 +1,5 @@
 import type { IMapSource } from "./menu";
-import type { INode, ILink } from "./topo";
+import type { INode, ILink } from "./canvas";
 export interface IImportSvgData {
   nodes: INode[];
   links: ILink[];

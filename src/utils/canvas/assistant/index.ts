@@ -1,7 +1,7 @@
-import { useTopoStore } from "@/stores/topo";
+import { useCanvasStore } from "@/stores/canvas";
 import type { IPath } from "@/types";
 import { getSvgSize } from "@/utils/tools/common";
-const store = useTopoStore();
+const store = useCanvasStore();
 
 export const setInitTransform = () => {
   const { width, height } = getSvgSize();

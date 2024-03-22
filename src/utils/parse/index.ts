@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { useTopoStore } from "@/stores/topo";
+import { useCanvasStore } from "@/stores/canvas";
 import type { ILink, INode } from "@/types";
 
 type ISvg = d3.Selection<SVGSVGElement, unknown, d3.BaseType, any>;
@@ -321,7 +321,7 @@ const formatData = (node: ISvgNode) => {
  */
 export const parseSvg = (file: File) => {
   if (!file) return;
-  const store = useTopoStore();
+  const store = useCanvasStore();
   const reader = new FileReader(); // 创建 FileReader 对象
   nodes.length = 0;
   links.length = 0;

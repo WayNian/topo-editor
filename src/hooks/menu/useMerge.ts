@@ -1,13 +1,13 @@
-import { formatLinks } from "@/stores/assistant/topo";
+import { formatLinks } from "@/stores/assistant/canvas";
 import { useCommonStore } from "@/stores/common";
-import { useTopoStore } from "@/stores/topo";
+import { useCanvasStore } from "@/stores/canvas";
 import type { ILink, INode } from "@/types";
-import { draw, drawMergeLinks, drawMergeNodes } from "@/utils/draw";
+import { draw, drawMergeLinks, drawMergeNodes } from "@/utils/canvas/draw/svg";
 import { updateLinks, updateNodes } from "@/utils/http/apis/topo";
 
 export const useMerge = () => {
   const commonStore = useCommonStore();
-  const topoStore = useTopoStore();
+  const topoStore = useCanvasStore();
 
   const mergeNodes = async (nodes: INode[], type: string) => {
     commonStore.mergeNodeList = commonStore.mergeNodeList.filter(

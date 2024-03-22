@@ -10,15 +10,15 @@ import {
   attrSvg,
   attrText,
   attrTopoMap
-} from "./attr";
-import { bindLinkDrag, bindNodeDrag } from "./event";
-import { useTopoStore } from "@/stores/topo";
+} from "../attr";
+import { bindLinkDrag, bindNodeDrag } from "../event";
+import { useCanvasStore } from "@/stores/canvas";
 import type { IEnter, IExit, ISVGG, IUpdate } from "@/types";
-import type { ILink, INode } from "@/types/topo";
-import { bindMapZoom } from "./event/svg";
+import type { ILink, INode } from "@/types/modules/canvas";
+import { bindMapZoom } from "../event/svg";
 import { useCommonStore } from "@/stores/common";
 
-const store = useTopoStore();
+const store = useCanvasStore();
 const commonStore = useCommonStore();
 
 const appendEllipse = (nodeG: ISVGG<INode, any>) => {

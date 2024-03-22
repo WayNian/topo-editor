@@ -36,11 +36,11 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
-import { useTopoEditor } from "@/hooks/topo/useTopoEditor";
-import { useTopoStore } from "@/stores/topo";
-import { bindDragPointEvent } from "@/utils/draw/event/draw-point";
-useTopoEditor();
-const store = useTopoStore();
+import { useCanvasEditor } from "@/hooks/canvas/useCanvasEditor";
+import { useCanvasStore } from "@/stores/canvas";
+import { bindDragPointEvent } from "@/utils/canvas/event/drag-point";
+useCanvasEditor();
+const store = useCanvasStore();
 
 const currentBBox = computed(() => {
   if (!store.currentNode) return { x: 0, y: 0, width: 0, height: 0 };
@@ -54,3 +54,5 @@ onMounted(() => {
 </script>
 
 <style scoped></style>
+@/utils/canvas/event/drag-point @/hooks/canvas/useCanvasEditor @/hooks/canvas/useCanvasEditor
+@/stores/canvas

@@ -1,12 +1,12 @@
-import { useTopoStore } from "@/stores/topo";
+import { useCanvasStore } from "@/stores/canvas";
 import type { IImportSvgData, ILink, IMapModel, IMapSource, INode } from "@/types";
-import { clearSvg, draw, drawMerge } from "@/utils/draw";
+import { clearSvg, draw, drawMerge } from "@/utils/canvas/draw/svg";
 import { checkLinks, checkNodes } from "./helper";
 import { useCommonStore } from "@/stores/common";
 import { addMap, updateMap } from "@/utils/http/apis/menu";
 import { useMenuStore } from "@/stores/menu";
 
-const store = useTopoStore();
+const store = useCanvasStore();
 const commonStore = useCommonStore();
 const menuStore = useMenuStore();
 

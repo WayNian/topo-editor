@@ -4,10 +4,10 @@ import type { ILink, IMap, IMapSource, IMenuCascaderItem, INode, ITreeItem } fro
 import { fetchMenuList } from "@/utils/http/apis/menu";
 import { formatMenuCascaderist, formatMenuList } from "@/utils/tools/menu";
 import { addNodeLinkList, deleteLinks, fetchNodeLinkListByMapId } from "@/utils/http/apis/topo";
-import { formatLinks, formatNodes } from "./assistant/topo";
+import { formatLinks, formatNodes } from "./assistant/canvas";
 import { getSize } from "@/utils/tools/common";
 
-export const useTopoStore = defineStore("topo", () => {
+export const useCanvasStore = defineStore("canvas", () => {
   const menuList = ref<ITreeItem[]>();
   const menuCascaderList = ref<IMenuCascaderItem[]>();
   const mapSize = ref({ width: 0, height: 0 });

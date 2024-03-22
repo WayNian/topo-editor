@@ -16,7 +16,7 @@ import LayerList from "./Left/LayerList.vue";
 import MergeList from "./Left/MergeList.vue";
 import Sider from "@/components/TopoEditor/Sider/index.vue";
 import { ref, watchEffect } from "vue";
-import { resetHighlight } from "@/utils/draw";
+import { resetHighlight } from "@/utils/canvas/draw/svg";
 
 const commonStore = useCommonStore();
 
@@ -35,3 +35,4 @@ watchEffect(() => {
 </script>
 
 <style scoped></style>
+@/utils/canvas/indexSvg

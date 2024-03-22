@@ -9,11 +9,11 @@ import type {
   ISVGText,
   ISVGTspant
 } from "@/types";
-import { useTopoStore } from "@/stores/topo";
-import type { ILink, INode } from "@/types/topo";
+import { useCanvasStore } from "@/stores/canvas";
+import type { ILink, INode } from "@/types/modules/canvas";
 import { setSvgBg } from "../event/svg";
 
-const store = useTopoStore();
+const store = useCanvasStore();
 
 export const attrSvg = () => {
   setSvgBg();
