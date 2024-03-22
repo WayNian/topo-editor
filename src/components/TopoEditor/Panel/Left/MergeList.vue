@@ -6,7 +6,12 @@
         <div>
           <n-tooltip trigger="hover">
             <template #trigger>
-              <n-button quaternary size="tiny" class="mr-2">
+              <n-button
+                quaternary
+                size="tiny"
+                class="mr-2"
+                @click.stop="handleMergeNodeClick(commonStore.mergeNodeList, 'cancel')"
+              >
                 <template #icon>
                   <n-icon><Close /></n-icon>
                 </template>
@@ -16,7 +21,11 @@
           </n-tooltip>
           <n-tooltip trigger="hover">
             <template #trigger>
-              <n-button quaternary size="tiny">
+              <n-button
+                quaternary
+                size="tiny"
+                @click.stop="handleMergeNodeClick(commonStore.mergeNodeList, 'cancel')"
+              >
                 <template #icon>
                   <n-icon><Checkmark /></n-icon>
                 </template>
@@ -38,13 +47,33 @@
           <div class="break-words break-all">连线{{ item.domId }}</div>
           <div v-if="activeNodeItem === item" class="flex justify-between mt-4">
             <div class="merge-item-menu">
-              <n-button quaternary size="tiny" class="mr-2" type="warning"> 旧 </n-button>
-              <n-button quaternary size="tiny" type="primary"> 新 </n-button>
+              <n-button
+                quaternary
+                size="tiny"
+                class="mr-2"
+                type="warning"
+                @click.stop="selectMergeNodeItem(item, 'old')"
+              >
+                旧
+              </n-button>
+              <n-button
+                quaternary
+                size="tiny"
+                type="primary"
+                @click.stop="selectMergeNodeItem(item, 'new')"
+              >
+                新
+              </n-button>
             </div>
             <div>
               <n-tooltip trigger="hover">
                 <template #trigger>
-                  <n-button quaternary size="tiny" class="mr-2">
+                  <n-button
+                    quaternary
+                    size="tiny"
+                    class="mr-2"
+                    @click.stop="handleMergeNodeClick(item, 'cancel')"
+                  >
                     <template #icon>
                       <n-icon><Close /></n-icon>
                     </template>
@@ -54,7 +83,11 @@
               </n-tooltip>
               <n-tooltip trigger="hover">
                 <template #trigger>
-                  <n-button quaternary size="tiny">
+                  <n-button
+                    quaternary
+                    size="tiny"
+                    @click.stop="handleMergeNodeClick(item, 'cancel')"
+                  >
                     <template #icon>
                       <n-icon><Checkmark /></n-icon>
                     </template>
@@ -74,7 +107,12 @@
         <div>
           <n-tooltip trigger="hover">
             <template #trigger>
-              <n-button quaternary size="tiny" class="mr-2">
+              <n-button
+                quaternary
+                size="tiny"
+                class="mr-2"
+                @click.stop="handleMergeLinkClick(commonStore.mergeLinkList, 'cancel')"
+              >
                 <template #icon>
                   <n-icon><Close /></n-icon>
                 </template>
@@ -84,7 +122,11 @@
           </n-tooltip>
           <n-tooltip trigger="hover">
             <template #trigger>
-              <n-button quaternary size="tiny">
+              <n-button
+                quaternary
+                size="tiny"
+                @click.stop="handleMergeLinkClick(commonStore.mergeLinkList, 'apply')"
+              >
                 <template #icon>
                   <n-icon><Checkmark /></n-icon>
                 </template>
@@ -132,7 +174,7 @@
                     quaternary
                     size="tiny"
                     class="mr-2"
-                    @click.stop="handleMergeClick(item, 'cancel')"
+                    @click.stop="handleMergeLinkClick(item, 'cancel')"
                   >
                     <template #icon>
                       <n-icon><Close /></n-icon>
@@ -143,7 +185,11 @@
               </n-tooltip>
               <n-tooltip trigger="hover">
                 <template #trigger>
-                  <n-button quaternary size="tiny" @click.stop="handleMergeClick(item, 'apply')">
+                  <n-button
+                    quaternary
+                    size="tiny"
+                    @click.stop="handleMergeLinkClick(item, 'apply')"
+                  >
                     <template #icon>
                       <n-icon><Checkmark /></n-icon>
                     </template>
@@ -174,19 +220,24 @@ const commonStore = useCommonStore();
 const activeNodeItem = ref<INode>();
 const activeLinkItem = ref<ILink>();
 
-const selectMergeNodeItem = (item: INode) => {
+const selectMergeNodeItem = (item: INode, type?: string) => {
   activeNodeItem.value = item;
+};
+
+const handleMergeNodeClick = (val: INode | INode[], type: string) => {
+  const list = Array.isArray(val) ? val : [val];
+  //   mergeLinks(list, type);
 };
 
 const selectMergeLinkItem = (item: ILink, type?: string) => {
   activeLinkItem.value = item;
-  if (type) {
-    highlightLink(item, type);
-  }
+  if (!type) return;
+  highlightLink(item, type);
 };
 
-const handleMergeClick = (item: ILink, type: string) => {
-  mergeLinks(item, type);
+const handleMergeLinkClick = (val: ILink | ILink[], type: string) => {
+  const list = Array.isArray(val) ? val : [val];
+  mergeLinks(list, type);
 };
 
 const isEmpty = computed(() => {

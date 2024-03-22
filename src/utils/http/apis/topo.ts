@@ -28,6 +28,15 @@ export const deleteLinks = (params: IDeleteModel) => {
   return request.post({ url: "/topoEdit/deleteLink", data: params });
 };
 
+export const updateNodes = (params: INode[]) => {
+  return request.post({
+    url: "/topoEdit/updateNode",
+    data: {
+      nodeList: params
+    }
+  });
+};
+
 export const updateLinks = (params: ILink[]) => {
   return request.post({
     url: "/topoEdit/updateLink",

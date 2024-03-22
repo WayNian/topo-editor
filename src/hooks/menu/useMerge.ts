@@ -1,38 +1,61 @@
 import { formatLinks } from "@/stores/assistant/topo";
 import { useCommonStore } from "@/stores/common";
 import { useTopoStore } from "@/stores/topo";
-import type { ILink } from "@/types";
-import { draw, drawMergeLinks } from "@/utils/draw";
-import { updateLinks } from "@/utils/http/apis/topo";
+import type { ILink, INode } from "@/types";
+import { draw, drawMergeLinks, drawMergeNodes } from "@/utils/draw";
+import { updateLinks, updateNodes } from "@/utils/http/apis/topo";
 
 export const useMerge = () => {
-  const mergeLinks = async (link: ILink, type: string) => {
-    const commonStore = useCommonStore();
-    const topoStore = useTopoStore();
+  const commonStore = useCommonStore();
+  const topoStore = useTopoStore();
 
+  const mergeNodes = async (nodes: INode[], type: string) => {
+    commonStore.mergeNodeList = commonStore.mergeNodeList.filter(
+      (item) => nodes.findIndex((node) => node.domId === item.domId) === -1
+    );
+
+    drawMergeNodes();
+
+    if (type === "apply") {
+      const res: INode[] = [];
+      topoStore.topoNodes = topoStore.topoNodes.map((item) => {
+        const node = nodes.find((node) => node.nodeId === item.nodeId);
+        if (node && item.nodeId === node.nodeId) {
+          res.push(item);
+        }
+        return item;
+      });
+      await updateNodes(res);
+      draw();
+    }
+  };
+
+  const mergeLinks = async (links: ILink[], type: string) => {
     commonStore.mergeLinkList = commonStore.mergeLinkList.filter(
-      (item) => item.domId !== link.domId
+      (item) => links.findIndex((link) => link.domId === item.domId) === -1
     );
 
     drawMergeLinks();
+
     if (type === "apply") {
-      const links: ILink[] = [];
+      const res: ILink[] = [];
       topoStore.topoLinks = topoStore.topoLinks.map((item) => {
-        if (item.linkId === link.linkId) {
+        const link = links.find((link) => link.linkId === item.linkId);
+        if (link && item.linkId === link.linkId) {
           item = {
             ...item,
             linkPath: link.linkPath,
             linkStyles: link.linkStyles
           };
           item = formatLinks([item])[0];
-          links.push(item);
+          res.push(item);
         }
         return item;
       });
-      await updateLinks(links);
+      await updateLinks(res);
       draw();
     }
   };
 
-  return { mergeLinks };
+  return { mergeNodes, mergeLinks };
 };
