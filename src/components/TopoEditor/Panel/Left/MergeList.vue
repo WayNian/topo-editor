@@ -212,21 +212,23 @@ import { useCommonStore } from "@/stores/common";
 import { computed, ref } from "vue";
 import { Checkmark, Close } from "@vicons/ionicons5";
 import type { ILink, INode } from "@/types";
-import { highlightLink } from "@/utils/draw";
+import { highlightLink, highlightNode } from "@/utils/draw";
 import { useMerge } from "@/hooks/menu/useMerge";
 
-const { mergeLinks } = useMerge();
+const { mergeNodes, mergeLinks } = useMerge();
 const commonStore = useCommonStore();
 const activeNodeItem = ref<INode>();
 const activeLinkItem = ref<ILink>();
 
 const selectMergeNodeItem = (item: INode, type?: string) => {
   activeNodeItem.value = item;
+  if (!type) return;
+  highlightNode(item, type);
 };
 
 const handleMergeNodeClick = (val: INode | INode[], type: string) => {
   const list = Array.isArray(val) ? val : [val];
-  //   mergeLinks(list, type);
+  mergeNodes(list, type);
 };
 
 const selectMergeLinkItem = (item: ILink, type?: string) => {

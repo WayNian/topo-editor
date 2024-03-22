@@ -146,30 +146,48 @@ export const drawMergeLinks = () => {
 
 export const resetHighlight = () => {
   d3.selectAll<SVGPathElement, ILink>(`.link-group path.link`)
-    .classed("hight-link", false)
+    .classed("hight-node-link", false)
     .style("opacity", 1);
   d3.selectAll<SVGGElement, INode>(`.node-group .node`)
     .classed("highlight-node", false)
     .style("opacity", 1);
 };
+
+export const highlightNode = (node: INode, type: string) => {
+  d3.selectAll<d3.BaseType, INode>(`.node-group .node`)
+    .classed("hight-node-link", false)
+    .style("opacity", 0.1);
+  const oldNode = d3.select<d3.BaseType, ILink>(`#node_${node.nodeId} .node`);
+  const newNode = d3.select<d3.BaseType, ILink>(`#node_${node.nodeId}_merge .node`);
+
+  if (type === "all") {
+    oldNode.classed("hight-node-link", true).style("opacity", 1);
+    newNode.classed("hight-node-link", true).style("opacity", 1);
+  } else if (type === "old") {
+    oldNode.classed("hight-node-link", true).style("opacity", 1);
+    newNode.classed("hight-node-link", false).style("opacity", 1);
+  } else if (type === "new") {
+    newNode.classed("hight-node-link", true).style("opacity", 1);
+    oldNode.classed("hight-node-link", false).style("opacity", 1);
+  }
+};
+
 export const highlightLink = (link: ILink, type: string) => {
-  console.log("🚀 ~ highlightLink ~ link:", link);
   d3.selectAll<SVGPathElement, ILink>(`.link-group path.link`)
-    .classed("hight-link", false)
+    .classed("hight-node-link", false)
     .style("opacity", 0.1);
   const oldLink = d3.select<SVGPathElement, ILink>(`#link_${link.linkId} path.link`);
   const newLink = d3.select<SVGPathElement, ILink>(`#link_${link.linkId}_merge path.link`);
-  console.log("🚀 ~ highlightLink ~ newLink:", newLink);
 
   if (type === "all") {
-    oldLink.classed("hight-link", true).style("opacity", 1);
-    newLink.classed("hight-link", true).style("opacity", 1);
+    oldLink.classed("hight-node-link", true).style("opacity", 1);
+    newLink.classed("hight-node-link", true).style("opacity", 1);
   } else if (type === "old") {
-    oldLink.classed("hight-link", true).style("opacity", 1);
-    newLink.classed("hight-link", false).style("opacity", 1);
+    oldLink.classed("hight-node-link", true).style("opacity", 1);
+    newLink.classed("hight-node-link", false).style("opacity", 1);
   } else if (type === "new") {
-    newLink.classed("hight-link", true).style("opacity", 1);
-    oldLink.classed("hight-link", false).style("opacity", 1);
+    newLink.classed("hight-node-link", true).style("opacity", 1);
+    oldLink.classed("hight-node-link", false).style("opacity", 1);
   }
 };
 
