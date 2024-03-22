@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCanvasStore } from "@/stores/canvas";
+import { useCanvasStore } from "@/stores/";
 import type { FormInst, TreeOption } from "naive-ui";
 import { computed, ref } from "vue";
 import { useMenu } from "@/hooks/menu/useMenu";
@@ -182,4 +182,4 @@ defineExpose({
 </script>
 
 <style scoped></style>
-@/stores/canvas
+@/stores/ @/stores/modules/canvas

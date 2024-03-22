@@ -4,7 +4,7 @@ import type { ILink, IMap, IMapSource, IMenuCascaderItem, INode, ITreeItem } fro
 import { fetchMenuList } from "@/utils/http/apis/menu";
 import { formatMenuCascaderist, formatMenuList } from "@/utils/tools/menu";
 import { addNodeLinkList, deleteLinks, fetchNodeLinkListByMapId } from "@/utils/http/apis/topo";
-import { formatLinks, formatNodes } from "./assistant/canvas";
+import { formatLinks, formatNodes } from "../assistant/canvas";
 import { getSize } from "@/utils/tools/common";
 
 export const useCanvasStore = defineStore("canvas", () => {

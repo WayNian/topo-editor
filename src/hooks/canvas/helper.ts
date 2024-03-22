@@ -1,4 +1,4 @@
-import { useCommonStore } from "@/stores/common";
+import { useCommonStore } from "@/stores/modules/common";
 import type { ILink, INode } from "@/types";
 
 const common = useCommonStore();

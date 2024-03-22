@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCommonStore } from "@/stores/common";
+import { useCommonStore } from "@/stores/";
 import Panel from "../Common/Panel/index.vue";
 import LayerList from "./Left/LayerList.vue";
 import MergeList from "./Left/MergeList.vue";
@@ -35,4 +35,4 @@ watchEffect(() => {
 </script>
 
 <style scoped></style>
-@/utils/canvas/indexSvg
+@/utils/canvas/indexSvg @/stores/modules/common

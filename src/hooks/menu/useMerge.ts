@@ -1,6 +1,6 @@
 import { formatLinks } from "@/stores/assistant/canvas";
-import { useCommonStore } from "@/stores/common";
-import { useCanvasStore } from "@/stores/canvas";
+import { useCommonStore } from "@/stores/modules/common";
+import { useCanvasStore } from "@/stores/modules/canvas";
 import type { ILink, INode } from "@/types";
 import { draw, drawMergeLinks, drawMergeNodes } from "@/utils/canvas/draw/svg";
 import { updateLinks, updateNodes } from "@/utils/http/apis/topo";

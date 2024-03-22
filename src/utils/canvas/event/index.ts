@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import type { ISVGG } from "@/types";
 import type { ILink, INode } from "@/types/modules/canvas";
-import { useCanvasStore } from "@/stores/canvas";
+import { useCanvasStore } from "@/stores/modules/canvas";
 import { appenSelectedLink, removeSelectedLink } from "../draw/svg";
 
 const store = useCanvasStore();

@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
 import { useCanvasEditor } from "@/hooks/canvas/useCanvasEditor";
-import { useCanvasStore } from "@/stores/canvas";
+import { useCanvasStore } from "@/stores/";
 import { bindDragPointEvent } from "@/utils/canvas/event/drag-point";
 useCanvasEditor();
 const store = useCanvasStore();
@@ -55,4 +55,4 @@ onMounted(() => {
 
 <style scoped></style>
 @/utils/canvas/event/drag-point @/hooks/canvas/useCanvasEditor @/hooks/canvas/useCanvasEditor
-@/stores/canvas
+@/stores/ @/stores/modules/canvas

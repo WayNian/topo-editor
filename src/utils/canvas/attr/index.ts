@@ -9,7 +9,7 @@ import type {
   ISVGText,
   ISVGTspant
 } from "@/types";
-import { useCanvasStore } from "@/stores/canvas";
+import { useCanvasStore } from "@/stores/modules/canvas";
 import type { ILink, INode } from "@/types/modules/canvas";
 import { setSvgBg } from "../event/svg";
 

@@ -1,4 +1,4 @@
-import { useCanvasStore } from "@/stores/canvas";
+import { useCanvasStore } from "@/stores/modules/canvas";
 import type { IMapSource } from "@/types";
 import { draw } from "@/utils/canvas/draw/svg";
 import emitter from "@/utils/mitt";

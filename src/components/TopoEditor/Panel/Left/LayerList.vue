@@ -43,11 +43,11 @@ import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
 import { parseSvg } from "@/utils/parse";
 import emitter from "@/utils/mitt";
 import type { IImportSvgData, ILink, IMapSource, IMenuSource, INode } from "@/types";
-import { useCanvasStore } from "@/stores/canvas";
+import { useCanvasStore } from "@/stores/";
 import EditMenuFileModal from "./Modal/EditMenuFileModal.vue";
 import { deleteMap, deleteMenu } from "@/utils/http/apis/menu";
-import { useCommonStore } from "@/stores/common";
-import { useMenuStore } from "@/stores/menu";
+import { useCommonStore } from "@/stores/";
+import { useMenuStore } from "@/stores/";
 
 const dialog = useDialog();
 const store = useCanvasStore();
@@ -256,4 +256,4 @@ onMounted(() => {
   margin-bottom: 10px;
 }
 </style>
-@/stores/canvas
+@/stores/ @/stores/modules/canvas@/stores/modules/common@/stores/modules/menu

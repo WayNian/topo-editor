@@ -12,11 +12,11 @@ import {
   attrTopoMap
 } from "../attr";
 import { bindLinkDrag, bindNodeDrag } from "../event";
-import { useCanvasStore } from "@/stores/canvas";
+import { useCanvasStore } from "@/stores/modules/canvas";
 import type { IEnter, IExit, ISVGG, IUpdate } from "@/types";
 import type { ILink, INode } from "@/types/modules/canvas";
 import { bindMapZoom } from "../event/svg";
-import { useCommonStore } from "@/stores/common";
+import { useCommonStore } from "@/stores/modules/common";
 
 const store = useCanvasStore();
 const commonStore = useCommonStore();

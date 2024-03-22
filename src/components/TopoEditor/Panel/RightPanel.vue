@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { Close as CloseIcon } from "@vicons/ionicons5";
-import { useCommonStore } from "@/stores/common";
+import { useCommonStore } from "@/stores/";
 import { computed } from "vue";
 import NodeAttribute from "../Panel/Right/Attribute/NodeAttribute.vue";
 
@@ -41,3 +41,4 @@ const closeAttributeView = () => {
   background-color: #181818;
 }
 </style>
+@/stores/modules/common

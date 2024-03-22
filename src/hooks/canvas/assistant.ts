@@ -1,10 +1,10 @@
-import { useCanvasStore } from "@/stores/canvas";
+import { useCanvasStore } from "@/stores/modules/canvas";
 import type { IImportSvgData, ILink, IMapModel, IMapSource, INode } from "@/types";
 import { clearSvg, draw, drawMerge } from "@/utils/canvas/draw/svg";
 import { checkLinks, checkNodes } from "./helper";
-import { useCommonStore } from "@/stores/common";
+import { useCommonStore } from "@/stores/modules/common";
 import { addMap, updateMap } from "@/utils/http/apis/menu";
-import { useMenuStore } from "@/stores/menu";
+import { useMenuStore } from "@/stores/modules/menu";
 
 const store = useCanvasStore();
 const commonStore = useCommonStore();

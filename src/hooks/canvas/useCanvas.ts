@@ -1,4 +1,4 @@
-import { useCommonStore } from "@/stores/common";
+import { useCommonStore } from "@/stores/modules/common";
 import { setSvgBg } from "@/utils/canvas/event/svg";
 import { useMessage, useModal } from "naive-ui";
 import { onBeforeMount, onMounted } from "vue";

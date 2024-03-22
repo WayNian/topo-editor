@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { useCanvasStore } from "@/stores/canvas";
+import { useCanvasStore } from "@/stores/modules/canvas";
 import type { ILink, INode } from "@/types";
 
 type ISvg = d3.Selection<SVGSVGElement, unknown, d3.BaseType, any>;

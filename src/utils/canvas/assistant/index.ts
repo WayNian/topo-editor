@@ -1,4 +1,4 @@
-import { useCanvasStore } from "@/stores/canvas";
+import { useCanvasStore } from "@/stores/modules/canvas";
 import type { IPath } from "@/types";
 import { getSvgSize } from "@/utils/tools/common";
 const store = useCanvasStore();

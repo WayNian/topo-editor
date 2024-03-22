@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCommonStore } from "@/stores/common";
+import { useCommonStore } from "@/stores/";
 import { Brush } from "@vicons/ionicons5";
 
 const store = useCommonStore();
@@ -46,3 +46,4 @@ const handleChangeAttributeStatus = () => {
   opacity: 0;
 }
 </style>
+@/stores/modules/common

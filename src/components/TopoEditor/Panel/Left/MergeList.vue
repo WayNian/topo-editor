@@ -208,7 +208,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCommonStore } from "@/stores/common";
+import { useCommonStore } from "@/stores/";
 import { computed, ref } from "vue";
 import { Checkmark, Close } from "@vicons/ionicons5";
 import type { ILink, INode } from "@/types";
@@ -254,4 +254,4 @@ const isEmpty = computed(() => {
   }
 }
 </style>
-@/utils/canvas/indexSvg
+@/utils/canvas/indexSvg @/stores/modules/common
