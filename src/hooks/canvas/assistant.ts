@@ -83,8 +83,8 @@ export const importSvg = (val: IImportSvgData) => {
       const { deleteNodeList, mergeNodeList, addNodeList } = checkNodes(store.topoNodes, val.nodes);
       const { deleteLinkList, mergeLinkList, addLinkList } = checkLinks(store.topoLinks, val.links);
 
-      commonStore.mergeNodeList = mergeNodeList;
-      commonStore.mergeLinkList = mergeLinkList;
+      menuStore.mergeNodeList = mergeNodeList;
+      menuStore.mergeLinkList = mergeLinkList;
 
       drawMerge();
 

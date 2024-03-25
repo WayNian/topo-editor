@@ -1,16 +1,16 @@
 import { formatLinks } from "@/stores/assistant/canvas";
-import { useCommonStore } from "@/stores/modules/common";
+import { useMenuStore } from "@/stores/";
 import { useCanvasStore } from "@/stores/modules/canvas";
 import type { ILink, INode } from "@/types";
 import { draw, drawMergeLinks, drawMergeNodes } from "@/utils/canvas/draw/svg";
 import { updateLinks, updateNodes } from "@/utils/http/apis/topo";
 
 export const useMerge = () => {
-  const commonStore = useCommonStore();
+  const menuStore = useMenuStore();
   const topoStore = useCanvasStore();
 
   const mergeNodes = async (nodes: INode[], type: string) => {
-    commonStore.mergeNodeList = commonStore.mergeNodeList.filter(
+    menuStore.mergeNodeList = menuStore.mergeNodeList.filter(
       (item) => nodes.findIndex((node) => node.domId === item.domId) === -1
     );
 
@@ -31,7 +31,7 @@ export const useMerge = () => {
   };
 
   const mergeLinks = async (links: ILink[], type: string) => {
-    commonStore.mergeLinkList = commonStore.mergeLinkList.filter(
+    menuStore.mergeLinkList = menuStore.mergeLinkList.filter(
       (item) => links.findIndex((link) => link.domId === item.domId) === -1
     );
 

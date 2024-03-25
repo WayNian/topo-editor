@@ -16,10 +16,10 @@ import { useCanvasStore } from "@/stores/modules/canvas";
 import type { IEnter, IExit, ISVGG, IUpdate } from "@/types";
 import type { ILink, INode } from "@/types/modules/canvas";
 import { bindMapZoom } from "../event/svg";
-import { useCommonStore } from "@/stores/modules/common";
+import { useMenuStore } from "@/stores/";
 
 const store = useCanvasStore();
-const commonStore = useCommonStore();
+const menuStore = useMenuStore();
 
 const appendEllipse = (nodeG: ISVGG<INode, any>) => {
   const ellipse = nodeG.append<SVGEllipseElement>("ellipse");
@@ -131,14 +131,14 @@ export const drawLinks = () => {
 export const drawMergeNodes = () => {
   d3.select<SVGGElement, any>("#topoMergeNodes")
     .selectAll<SVGGElement, INode>("g.node-group")
-    .data(commonStore.mergeNodeList, (d: INode) => `${d.nodeId}`)
+    .data(menuStore.mergeNodeList, (d: INode) => `${d.nodeId}`)
     .join(appendNode);
 };
 
 export const drawMergeLinks = () => {
   d3.select<SVGGElement, any>("#topoMergeLinks")
     .selectAll<SVGGElement, ILink>("g.link-group")
-    .data(commonStore.mergeLinkList, (d: ILink) => {
+    .data(menuStore.mergeLinkList, (d: ILink) => {
       return `${d.linkId}`;
     })
     .join(appendLink);

@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCommonStore } from "@/stores/";
+import { useMenuStore } from "@/stores/";
 import Panel from "../Common/Panel/index.vue";
 import LayerList from "./Left/LayerList.vue";
 import MergeList from "./Left/MergeList.vue";
@@ -18,12 +18,12 @@ import Sider from "@/components/TopoEditor/Sider/index.vue";
 import { ref, watchEffect } from "vue";
 import { resetHighlight } from "@/utils/canvas/draw/svg";
 
-const commonStore = useCommonStore();
+const menuStore = useMenuStore();
 
 const activeName = ref("files");
 
 watchEffect(() => {
-  const { mergeNodeList, mergeLinkList } = commonStore;
+  const { mergeNodeList, mergeLinkList } = menuStore;
   activeName.value = mergeNodeList.length || mergeLinkList.length ? "merge" : "files";
 });
 
