@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import Location from "@/assets/images/icons/location.svg?component";
+import Location from "@/assets/images/icons/Location.svg?component";
 import { resetSvgSizePosition } from "@/utils/canvas/event/svg";
 </script>
 

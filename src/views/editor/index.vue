@@ -26,4 +26,3 @@ useCanvas();
 </script>
 
 <style scoped></style>
-@/hooks/canvas/useCanvas @/hooks/canvas/useCanvas

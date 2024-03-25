@@ -3,6 +3,12 @@
     <div>
       <n-button text style="font-size: 24px" class="mr-3">
         <n-icon>
+          <MenuSharp />
+        </n-icon>
+      </n-button>
+
+      <n-button text style="font-size: 24px" class="mr-3">
+        <n-icon>
           <ColorFilterSharp />
         </n-icon>
       </n-button>
@@ -31,6 +37,15 @@
 
 <script setup lang="ts">
 import { ColorFilterSharp, LibrarySharp, OptionsSharp, SettingsSharp } from "@vicons/ionicons5";
+import MenuSharp from "@/assets/images/icons/MenuSharp.svg?component";
+
+import { useMenuStore } from "@/stores";
+
+const store = useMenuStore();
+
+const toggleCollapsed = () => {
+  store.collapsed = !store.collapsed;
+};
 </script>
 
 <style scoped></style>
