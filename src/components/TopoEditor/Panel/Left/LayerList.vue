@@ -48,6 +48,7 @@ import EditMenuFileModal from "./Modal/EditMenuFileModal.vue";
 import { deleteMap, deleteMenu } from "@/utils/http/apis/menu";
 import { useCommonStore } from "@/stores/";
 import { useMenuStore } from "@/stores/";
+import { getContextMenu } from "@/utils/assistant/";
 
 const dialog = useDialog();
 const store = useCanvasStore();
@@ -61,63 +62,6 @@ const options = ref<TreeOption[]>([]);
 const currentOption = ref<TreeOption | null>(null);
 const upload = ref<HTMLInputElement | null>(null);
 const editMenuFileModalRef = ref<InstanceType<typeof EditMenuFileModal> | null>(null);
-
-const setMenu = (option?: TreeOption) => {
-  if (!option) {
-    options.value = [
-      {
-        label: "新建",
-        key: "create"
-      }
-    ];
-    return;
-  }
-  if (option.children) {
-    options.value = [
-      {
-        label: "新建",
-        key: "create"
-      },
-      {
-        label: "编辑",
-        key: "edit"
-      },
-      {
-        label: "导入",
-        key: "import"
-      },
-      {
-        label: "删除",
-        key: "delete"
-      }
-    ];
-  } else {
-    options.value = [
-      {
-        label: "编辑",
-        key: "edit"
-      },
-      {
-        label: "导入",
-        key: "import",
-        children: [
-          {
-            label: "增量",
-            key: "importAddition"
-          },
-          {
-            label: "全量",
-            key: "importAll"
-          }
-        ]
-      },
-      {
-        label: "删除",
-        key: "delete"
-      }
-    ];
-  }
-};
 
 const updatePrefixWithExpaned = (
   _keys: Array<string | number>,
@@ -156,16 +100,16 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
       }
     },
     onContextmenu(e: MouseEvent): void {
-      setMenu(option);
+      options.value = getContextMenu(option);
       showDropdown.value = true;
       x.value = e.clientX;
       y.value = e.clientY;
       menuStore.currentMenu = option.raw as IMapSource | IMenuSource;
       currentOption.value = option;
 
-      if (!option.children && !option.disabled) {
-        emitter.emit("on:selectMap", option.raw as IMapSource);
-      }
+      //   if (!option.children && !option.disabled) {
+      //     emitter.emit("on:selectMap", option.raw as IMapSource);
+      //   }
 
       e.preventDefault();
       e.stopPropagation();
@@ -227,7 +171,7 @@ const handleSelect = (key: string | number) => {
 };
 
 const handleContentmenu = (e: MouseEvent) => {
-  setMenu();
+  options.value = getContextMenu();
   showDropdown.value = true;
   currentOption.value = null;
   x.value = e.clientX;
