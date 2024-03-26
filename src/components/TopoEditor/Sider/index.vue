@@ -7,7 +7,6 @@
     show-trigger="arrow-circle"
     content-style="padding: 24px;"
     collapsed-trigger-style="right: -15px"
-    bordered
   >
     <slot></slot>
   </n-layout-sider>
@@ -15,8 +14,4 @@
 
 <script setup lang="ts"></script>
 
-<style>
-.n-layout-sider.n-layout-sider--bordered .n-layout-sider__border {
-  width: 0;
-}
-</style>
+<style></style>
