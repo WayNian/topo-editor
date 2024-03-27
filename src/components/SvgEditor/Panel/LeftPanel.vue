@@ -21,14 +21,14 @@ import { resetHighlight } from "@/utils/svg/draw/svg";
 
 const menuStore = useMenuStore();
 const activeName = ref("files");
-const { mergeNodeList, mergeLinkList } = menuStore;
 
 const isShowMerge = computed(() => {
-  return mergeNodeList.length || mergeLinkList.length;
+  return menuStore.mergeNodeList.length || menuStore.mergeLinkList.length;
 });
 
 watchEffect(() => {
-  activeName.value = mergeNodeList.length || mergeLinkList.length ? "merge" : "files";
+  activeName.value =
+    menuStore.mergeNodeList.length || menuStore.mergeLinkList.length ? "merge" : "files";
 });
 
 watchEffect(() => {
