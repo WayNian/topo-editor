@@ -9,18 +9,18 @@ import type {
   ISVGText,
   ISVGTspant
 } from "@/types";
-import { useCanvasStore } from "@/stores/modules/canvas";
 import type { ILink, INode } from "@/types/modules/canvas";
 import { setSvgBg } from "../event/svg";
+import { useMenuStore } from "@/stores";
 
-const store = useCanvasStore();
+const menuStore = useMenuStore();
 
 export const attrSvg = () => {
   setSvgBg();
 };
 
 export const attrTopoMap = (topoMap: ISVGG<any, HTMLElement>, topoMapBackground: ISVGRect<any>) => {
-  const { width, height } = store.mapSize;
+  const { width, height } = menuStore.mapSize;
 
   topoMap.attr("width", width).attr("height", height);
   topoMapBackground

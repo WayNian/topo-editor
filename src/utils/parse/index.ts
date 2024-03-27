@@ -1,6 +1,6 @@
 import * as d3 from "d3";
-import { useCanvasStore } from "@/stores/modules/canvas";
 import type { ILink, INode } from "@/types";
+import { useMenuStore } from "@/stores";
 
 type ISvg = d3.Selection<SVGSVGElement, unknown, d3.BaseType, any>;
 type ISvgNode = d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>;
@@ -321,7 +321,7 @@ const formatData = (node: ISvgNode) => {
  */
 export const parseSvg = (file: File) => {
   if (!file) return;
-  const store = useCanvasStore();
+  const menuStore = useMenuStore();
   const reader = new FileReader(); // 创建 FileReader 对象
   nodes.length = 0;
   links.length = 0;
@@ -340,7 +340,7 @@ export const parseSvg = (file: File) => {
       const viewBoxList = svg.attr("viewBox").split(" ");
       const width = +viewBoxList[2];
       const height = +viewBoxList[3];
-      store.setMapSize(width, height);
+      menuStore.setMapSize(width, height);
       //   获取svg的getBoundingClientRect和实际的大小
       //  再获取子节点getBoundingClientRect
       // 按比例获取位置

@@ -1,45 +1,17 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import type { ILink, IMap, IMapSource, IMenuCascaderItem, INode, ITreeItem } from "@/types/";
-import { fetchMenuList } from "@/utils/http/apis/menu";
-import { formatMenuCascaderist, formatMenuList } from "@/utils/tools/menu";
+import type { ILink, INode } from "@/types/";
 import { addNodeLinkList, deleteLinks, fetchNodeLinkListByMapId } from "@/utils/http/apis/topo";
 import { formatLinks, formatNodes } from "../assistant/canvas";
-import { getSize } from "@/utils/tools/common";
+import { useMenuStore } from "..";
 
 export const useCanvasStore = defineStore("canvas", () => {
-  const menuList = ref<ITreeItem[]>();
-  const menuCascaderList = ref<IMenuCascaderItem[]>();
-  const mapSize = ref({ width: 0, height: 0 });
   const topoNodes = ref<INode[]>([]);
   const topoLinks = ref<ILink[]>([]);
+
   const currentNode = ref<INode | null>(null);
   const currentLink = ref<ILink | null>(null);
-  const svgSize = ref({ width: 0, height: 0 });
-  const mapInfo = ref<IMap>();
   const isSelectViewVisible = false;
-  const expandedKeys = ref<Array<string | number>>([]);
-
-  const setMapSize = (width: number, height: number) => {
-    mapSize.value = { width, height };
-  };
-
-  const setMapInfo = (info: IMapSource) => {
-    const { width, height } = getSize(info.mapSize);
-    setMapSize(width, height);
-    mapInfo.value = {
-      ...info,
-      width,
-      height
-    };
-  };
-
-  const getMenuList = () => {
-    fetchMenuList().then((res) => {
-      menuList.value = formatMenuList(res[0].children || [], expandedKeys.value);
-      menuCascaderList.value = formatMenuCascaderist(res);
-    });
-  };
 
   const fetchNodeLinkList = async (mapId: string) => {
     const res = await fetchNodeLinkListByMapId(mapId);
@@ -56,27 +28,18 @@ export const useCanvasStore = defineStore("canvas", () => {
 
   const deleteLinkFunc = async (links: ILink[]) => {
     if (!links.length) return;
+    const menuStore = useMenuStore();
     const linkIdList = links.map((item) => item.linkId);
-    const mapId = mapInfo.value?.mapId as string;
+    const mapId = menuStore.mapInfo!.mapId as string;
     await deleteLinks({ linkIdList, mapId });
   };
   return {
-    menuList,
-    menuCascaderList,
-    mapSize,
     topoNodes,
     topoLinks,
     currentNode,
     currentLink,
     isSelectViewVisible,
-    svgSize,
-    mapInfo,
-    expandedKeys,
-
-    setMapSize,
-    getMenuList,
     fetchNodeLinkList,
-    setMapInfo,
     addNodeLinkListFunc,
     deleteLinkFunc
   };

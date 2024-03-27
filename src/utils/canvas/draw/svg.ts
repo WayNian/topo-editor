@@ -207,6 +207,11 @@ const drawMap = () => {
 };
 
 export const clearSvg = () => {
+  const topoMap = d3.select<SVGGElement, any>("g#topoMap");
+  const topoMapBackground = topoMap.select<SVGRectElement>("#topoMapBackground");
+
+  attrTopoMap(topoMap, topoMapBackground);
+
   d3.select<SVGGElement, any>("#topoNodes").selectAll("g.node-group").remove();
   d3.select<SVGGElement, any>("#topoLinks").selectAll("g.link-group").remove();
   d3.select<SVGGElement, any>("#topoMergeNodes").selectAll("g.node-group").remove();

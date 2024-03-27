@@ -1,5 +1,4 @@
 import type { ILink, INode, ISourceLink, ISourceNode } from "@/types";
-import { useCommonStore } from "../modules/common";
 import { useCanvasStore } from "../modules/canvas";
 
 // 解析路径为数组 js实现path路径解析为数组  M 283.00767973501206 301.5652924636853 L 716 673
@@ -62,4 +61,10 @@ export const formatLinks = (data: ISourceLink[]): ILink[] => {
       style: formatStyle(linkStyles)
     };
   });
+};
+
+export const clearData = () => {
+  const store = useCanvasStore();
+  store.topoLinks = [];
+  store.topoNodes = [];
 };

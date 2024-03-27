@@ -12,10 +12,10 @@
   <n-divider />
   <n-scrollbar style="height: calc(100vh - 150px)" @contextmenu="handleContentmenu">
     <n-tree
-      :expanded-keys="store.expandedKeys"
+      :expanded-keys="menuStore.expandedKeys"
       block-line
       expand-on-click
-      :data="store.menuList"
+      :data="menuStore.menuList"
       :node-props="nodeProps"
       :on-update:expanded-keys="updatePrefixWithExpaned"
     />
@@ -42,16 +42,15 @@ import { NIcon, type TreeOption, useDialog } from "naive-ui";
 import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
 import { parseSvg } from "@/utils/parse";
 import emitter from "@/utils/mitt";
-import type { IImportSvgData, ILink, IMapSource, IMenuSource, INode } from "@/types";
-import { useCanvasStore } from "@/stores/";
+import type { IImportSvgData, IMapSource, IMenuSource } from "@/types";
 import EditMenuFileModal from "./Modal/EditMenuFileModal.vue";
 import { deleteMap, deleteMenu } from "@/utils/http/apis/menu";
 import { useCommonStore } from "@/stores/";
 import { useMenuStore } from "@/stores/";
 import { getContextMenu } from "@/utils/assistant/";
+import { clearSvg } from "@/utils/canvas/draw/svg";
 
 const dialog = useDialog();
-const store = useCanvasStore();
 const commonStore = useCommonStore();
 const menuStore = useMenuStore();
 const showDropdown = ref(false);
@@ -59,7 +58,7 @@ const x = ref(0);
 const y = ref(0);
 
 const options = ref<TreeOption[]>([]);
-const currentOption = ref<TreeOption | null>(null);
+const currentMenu = ref<TreeOption | null>(null);
 const upload = ref<HTMLInputElement | null>(null);
 const editMenuFileModalRef = ref<InstanceType<typeof EditMenuFileModal> | null>(null);
 
@@ -71,7 +70,7 @@ const updatePrefixWithExpaned = (
     action: "expand" | "collapse" | "filter";
   }
 ) => {
-  store.expandedKeys = _keys;
+  menuStore.expandedKeys = _keys;
   if (!meta.node) return;
   switch (meta.action) {
     case "expand":
@@ -95,7 +94,7 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
     onClick() {
       menuStore.currentMenu = option.raw as IMapSource | IMenuSource;
       if (!option.children && !option.disabled) {
-        currentOption.value = option;
+        currentMenu.value = option;
         emitter.emit("on:selectMap", option.raw as IMapSource);
       }
     },
@@ -105,7 +104,6 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
       x.value = e.clientX;
       y.value = e.clientY;
       menuStore.currentMenu = option.raw as IMapSource | IMenuSource;
-      currentOption.value = option;
 
       //   if (!option.children && !option.disabled) {
       //     emitter.emit("on:selectMap", option.raw as IMapSource);
@@ -117,6 +115,20 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
   };
 };
 
+const onDeleteSuccess = () => {
+  window.$message.success("删除成功");
+  menuStore.setMapInfo();
+  menuStore.getMenuList();
+  //   删除当前选择的菜单
+  if (
+    currentMenu.value!.isMenu &&
+    currentMenu.value?.key === (menuStore.currentMenu as IMapSource).mapId
+  ) {
+    menuStore.currentMenu = null;
+    clearSvg();
+  }
+};
+
 const deleteMenuMap = () => {
   dialog.warning({
     title: "警告",
@@ -126,12 +138,11 @@ const deleteMenuMap = () => {
     maskClosable: false,
     closeOnEsc: false,
     onPositiveClick: async () => {
-      currentOption.value!.isMenu
-        ? await deleteMenu(currentOption.value?.key as string)
-        : await deleteMap(currentOption.value?.key as string);
+      currentMenu.value!.isMenu
+        ? await deleteMenu(currentMenu.value?.key as string)
+        : await deleteMap(currentMenu.value?.key as string);
 
-      window.$message.success("删除成功");
-      store.getMenuList();
+      onDeleteSuccess();
     },
     onAfterLeave: () => {}
   });
@@ -173,7 +184,7 @@ const handleSelect = (key: string | number) => {
 const handleContentmenu = (e: MouseEvent) => {
   options.value = getContextMenu();
   showDropdown.value = true;
-  currentOption.value = null;
+  currentMenu.value = null;
   x.value = e.clientX;
   y.value = e.clientY;
   e.preventDefault();
@@ -181,11 +192,11 @@ const handleContentmenu = (e: MouseEvent) => {
 };
 
 const handleCreateMenuFile = (isEdit: boolean) => {
-  editMenuFileModalRef.value?.show(isEdit, currentOption.value);
+  editMenuFileModalRef.value?.show(isEdit, currentMenu.value);
 };
 
 onMounted(() => {
-  store.getMenuList();
+  menuStore.getMenuList();
 });
 </script>
 
@@ -200,4 +211,3 @@ onMounted(() => {
   margin-bottom: 10px;
 }
 </style>
-@/stores/ @/stores/modules/canvas@/stores/modules/common@/stores/modules/menu

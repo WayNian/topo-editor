@@ -1,6 +1,6 @@
 import { useCanvasStore } from "@/stores/modules/canvas";
-import type { IImportSvgData, ILink, IMapModel, IMapSource, INode } from "@/types";
-import { clearSvg, draw, drawMerge } from "@/utils/canvas/draw/svg";
+import type { IImportSvgData, ILink, IMapSource, INode } from "@/types";
+import { draw, drawMerge } from "@/utils/canvas/draw/svg";
 import { checkLinks, checkNodes } from "./helper";
 import { useCommonStore } from "@/stores/modules/common";
 import { addMap, updateMap } from "@/utils/http/apis/menu";
@@ -15,13 +15,13 @@ const menuStore = useMenuStore();
  * @param map
  */
 export const selectMap = async (map: IMapSource) => {
-  store.setMapInfo(map);
+  menuStore.setMapInfo(map);
   await store.fetchNodeLinkList(map.mapId);
   draw();
 };
 
 const generateMap = (name?: string) => {
-  const { width, height } = store.mapSize;
+  const { width, height } = menuStore.mapSize;
   if (name) {
     //  新增
     return {
@@ -37,9 +37,9 @@ const generateMap = (name?: string) => {
       menuId: menuStore.currentMenu?.menuId || "0"
     };
   }
-  if (store.mapInfo) {
+  if (menuStore.mapInfo) {
     return {
-      ...store.mapInfo,
+      ...menuStore.mapInfo,
       mapSize: `${width}*${height}`
     };
   }
@@ -58,7 +58,7 @@ export const importSvg = (val: IImportSvgData) => {
   if (commonStore.importType === "import") {
     // 全量导入,生成新的map文件
     addUpdataMapFunc(val.name)?.then(async (mapId) => {
-      await store.getMenuList();
+      await menuStore.getMenuList();
       if (!mapId) return;
       nodes = val.nodes.map((node) => {
         return {
@@ -74,10 +74,11 @@ export const importSvg = (val: IImportSvgData) => {
       });
 
       await store.addNodeLinkListFunc(nodes, links);
+      window.$message.success("导入成功");
       //   draw();
     });
   } else {
-    const mapId = store.mapInfo?.mapId;
+    const mapId = menuStore.mapInfo?.mapId;
     if (!mapId) return;
     addUpdataMapFunc()?.then(async () => {
       const { deleteNodeList, mergeNodeList, addNodeList } = checkNodes(store.topoNodes, val.nodes);

@@ -1,8 +1,8 @@
-import { useCanvasStore } from "@/stores";
+import { useMenuStore } from "@/stores";
 import { type TreeOption } from "naive-ui";
 
 export const getContextMenu = (option?: TreeOption) => {
-  const store = useCanvasStore();
+  const menuStore = useMenuStore();
 
   let menus: TreeOption[] = [];
   if (!option) {
@@ -34,7 +34,7 @@ export const getContextMenu = (option?: TreeOption) => {
       }
     ];
   } else {
-    if (store.mapInfo?.mapId === option.key) {
+    if (menuStore.mapInfo?.mapId === option.key) {
       menus = [
         {
           label: "编辑",

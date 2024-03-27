@@ -1,12 +1,12 @@
-import { useCanvasStore } from "@/stores/modules/canvas";
+import { useMenuStore } from "@/stores";
 import type { IPath } from "@/types";
 import { getSvgSize } from "@/utils/tools/common";
-const store = useCanvasStore();
+const menuStore = useMenuStore();
 
 export const setInitTransform = () => {
   const { width, height } = getSvgSize();
-  const mapWidth = store.mapSize.width;
-  const mapHeight = store.mapSize.height;
+  const mapWidth = menuStore.mapSize.width;
+  const mapHeight = menuStore.mapSize.height;
 
   const aspectRatio = width / height;
   const scaleFactor = aspectRatio > 1 ? (width - 50) / mapWidth : (height - 100) / mapHeight;
