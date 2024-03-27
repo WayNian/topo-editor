@@ -17,7 +17,7 @@ import LayerList from "./Left/LayerList.vue";
 import MergeList from "./Left/MergeList.vue";
 import Sider from "@/components/SvgEditor/Sider/index.vue";
 import { computed, ref, watchEffect } from "vue";
-import { resetHighlight } from "@/utils/svg/draw/svg";
+import { resetHighlight } from "@/utils/svg/draw/";
 
 const menuStore = useMenuStore();
 const activeName = ref("files");

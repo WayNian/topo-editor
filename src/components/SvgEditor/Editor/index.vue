@@ -38,7 +38,7 @@
 import { computed, onMounted } from "vue";
 import { useSvgEditor } from "@/hooks/svg/useSvgEditor";
 import { useDataStore } from "@/stores/";
-import { bindDragPointEvent } from "@/utils/svg/event/drag-point";
+import { bindDragPointEvent } from "@/utils/svg/event/dragPoint";
 useSvgEditor();
 const store = useDataStore();
 
@@ -55,4 +55,4 @@ onMounted(() => {
 
 <style scoped></style>
 @/utils/svg/event/drag-point @/hooks/svg/useSvgEditor @/hooks/svg/useSvgEditor @/stores/
-@/stores/modules/canvas
+@/stores/modules/canvas @/utils/svg/event/dragPoint

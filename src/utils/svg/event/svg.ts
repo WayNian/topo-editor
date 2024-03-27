@@ -1,9 +1,9 @@
 import * as d3 from "d3";
-import { removeSelectedLink } from "../draw/svg";
+import { removeSelectedLink } from "../draw/";
 import type { ISVG, ISVGG } from "@/types";
 import { setInitTransform } from "../assistant";
 import { useDataStore } from "@/stores/modules/data";
-import { attrSeletView } from "../attr";
+import { attrSeletView } from "../attr/svg";
 import { getSvgSize } from "@/utils/tools/common";
 import { useSvgStore } from "@/stores";
 

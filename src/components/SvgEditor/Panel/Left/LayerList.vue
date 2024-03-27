@@ -48,7 +48,7 @@ import { deleteMap, deleteMenu } from "@/utils/http/apis/menu";
 import { useCommonStore } from "@/stores/";
 import { useMenuStore } from "@/stores/";
 import { getContextMenu } from "@/utils/assistant/";
-import { clearSvg } from "@/utils/svg/draw/svg";
+import { clearSvg } from "@/utils/svg/draw/";
 
 const dialog = useDialog();
 const commonStore = useCommonStore();
