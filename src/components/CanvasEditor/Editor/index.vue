@@ -1,11 +1,11 @@
 <template>
-  <svg id="topoEditor">
+  <svg id="canvasEditor">
     <g id="topoMap">
       <rect id="topoMapBackground" />
-      <g id="topoLinks"></g>
-      <g id="topoNodes"></g>
-      <g id="topoMergeLinks"></g>
-      <g id="topoMergeNodes"></g>
+      <g id="linkGroup"></g>
+      <g id="nodeGroup"></g>
+      <g id="mergeLinkGroup"></g>
+      <g id="mergeNodeGroup"></g>
       <g>
         <rect
           id="selectedRect"
@@ -37,10 +37,10 @@
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
 import { useCanvasEditor } from "@/hooks/canvas/useCanvasEditor";
-import { useCanvasStore } from "@/stores/";
+import { useDataStore } from "@/stores/";
 import { bindDragPointEvent } from "@/utils/canvas/event/drag-point";
 useCanvasEditor();
-const store = useCanvasStore();
+const store = useDataStore();
 
 const currentBBox = computed(() => {
   if (!store.currentNode) return { x: 0, y: 0, width: 0, height: 0 };

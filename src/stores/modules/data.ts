@@ -5,9 +5,9 @@ import { addNodeLinkList, deleteLinks, fetchNodeLinkListByMapId } from "@/utils/
 import { formatLinks, formatNodes } from "@/utils/assistant/";
 import { useMenuStore } from "..";
 
-export const useCanvasStore = defineStore("canvas", () => {
-  const topoNodes = ref<INode[]>([]);
-  const topoLinks = ref<ILink[]>([]);
+export const useDataStore = defineStore("data", () => {
+  const nodes = ref<INode[]>([]);
+  const links = ref<ILink[]>([]);
 
   const currentNode = ref<INode | null>(null);
   const currentLink = ref<ILink | null>(null);
@@ -15,8 +15,8 @@ export const useCanvasStore = defineStore("canvas", () => {
 
   const fetchNodeLinkList = async (mapId: string) => {
     const res = await fetchNodeLinkListByMapId(mapId);
-    topoNodes.value = formatNodes(res.nodes);
-    topoLinks.value = formatLinks(res.links);
+    nodes.value = formatNodes(res.nodes);
+    links.value = formatLinks(res.links);
   };
 
   const addNodeLinkListFunc = async (nodes: INode[], links: ILink[]) => {
@@ -34,8 +34,8 @@ export const useCanvasStore = defineStore("canvas", () => {
     await deleteLinks({ linkIdList, mapId });
   };
   return {
-    topoNodes,
-    topoLinks,
+    nodes,
+    links,
     currentNode,
     currentLink,
     isSelectViewVisible,

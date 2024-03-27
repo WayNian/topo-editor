@@ -1,13 +1,13 @@
-import { formatLinks } from "@/stores/assistant/canvas";
 import { useMenuStore } from "@/stores/";
-import { useCanvasStore } from "@/stores/modules/canvas";
+import { useDataStore } from "@/stores/modules/data";
 import type { ILink, INode } from "@/types";
+import { formatLinks } from "@/utils/assistant";
 import { draw, drawMergeLinks, drawMergeNodes } from "@/utils/canvas/draw/svg";
 import { updateLinks, updateNodes } from "@/utils/http/apis/topo";
 
 export const useMerge = () => {
   const menuStore = useMenuStore();
-  const topoStore = useCanvasStore();
+  const dataStore = useDataStore();
 
   const mergeNodes = async (nodes: INode[], type: string) => {
     menuStore.mergeNodeList = menuStore.mergeNodeList.filter(
@@ -18,7 +18,7 @@ export const useMerge = () => {
 
     if (type === "apply") {
       const res: INode[] = [];
-      topoStore.topoNodes = topoStore.topoNodes.map((item) => {
+      dataStore.nodes = dataStore.nodes.map((item) => {
         const node = nodes.find((node) => node.nodeId === item.nodeId);
         if (node && item.nodeId === node.nodeId) {
           res.push(item);
@@ -39,7 +39,7 @@ export const useMerge = () => {
 
     if (type === "apply") {
       const res: ILink[] = [];
-      topoStore.topoLinks = topoStore.topoLinks.map((item) => {
+      dataStore.links = dataStore.links.map((item) => {
         const link = links.find((link) => link.linkId === item.linkId);
         if (link && item.linkId === link.linkId) {
           item = {

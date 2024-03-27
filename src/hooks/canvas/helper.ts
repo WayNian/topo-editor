@@ -4,28 +4,28 @@ import type { ILink, INode } from "@/types";
 const common = useCommonStore();
 
 /**
- * nodes 与 topoNodes 对比，找出nodes中除id和nodeId字段之外不同的数据，然后返回不同的项
- * @param topoNodes
+ * newNodes 与 nodes 对比，找出nodes中除id和nodeId字段之外不同的数据，然后返回不同的项
  * @param nodes
+ * @param newNodes
  */
-export const checkNodes = (topoNodes: INode[], nodes: INode[]) => {
+export const checkNodes = (nodes: INode[], newNodes: INode[]) => {
   const deleteNodeList: INode[] = [];
   const mergeNodeList: INode[] = [];
   const addNodeList: INode[] = [];
 
-  if (!topoNodes.length) {
-    //  如果topoNodes为空，则直接返回nodes
+  if (!nodes.length) {
+    //  如果nodes为空，则直接返回nodes
     return {
       deleteNodeList,
       mergeNodeList,
-      addNodeList: nodes
+      addNodeList: newNodes
     };
   }
 
-  nodes.forEach((node) => {
-    const item = topoNodes.find((item) => item.domId === node.domId);
+  newNodes.forEach((node) => {
+    const item = nodes.find((item) => item.domId === node.domId);
     if (item && common.importType === "importAddition") {
-      //   item 在 topoNodes中，判断是否有不同的字段
+      //   item 在 nodes中，判断是否有不同的字段
       if (JSON.stringify(item) !== JSON.stringify(node)) {
         mergeNodeList.push({
           ...node,
@@ -40,8 +40,8 @@ export const checkNodes = (topoNodes: INode[], nodes: INode[]) => {
 
   if (common.importType === "importAll") {
     // 获取要删除的数据
-    topoNodes.forEach((node) => {
-      const item = nodes.find((item) => item.domId === node.domId);
+    nodes.forEach((node) => {
+      const item = newNodes.find((item) => item.domId === node.domId);
       if (!item) {
         deleteNodeList.push(node);
       }
@@ -56,32 +56,32 @@ export const checkNodes = (topoNodes: INode[], nodes: INode[]) => {
 };
 
 /**
- *  links 与 topoLinks 对比，找出links中除id和linkId字段之外不同的数据，然后返回不同的项
- * @param topoLinks
+ *  newLinks 与 links 对比，找出links中除id和linkId字段之外不同的数据，然后返回不同的项
  * @param links
+ * @param newLinks
  */
-export const checkLinks = (topoLinks: ILink[], links: ILink[]) => {
+export const checkLinks = (links: ILink[], newLinks: ILink[]) => {
   const deleteLinkList: ILink[] = [];
   const mergeLinkList: ILink[] = [];
   const addLinkList: ILink[] = [];
-  if (!topoLinks.length) {
+  if (!links.length) {
     return {
       deleteLinkList,
       mergeLinkList,
-      addLinkList: links
+      addLinkList: newLinks
     };
   }
 
   // 全量导入
-  links.forEach((link) => {
-    const item = topoLinks.find((item) => {
+  newLinks.forEach((link) => {
+    const item = links.find((item) => {
       return item.domId === link.domId;
     });
     // 如果是增量导入，且item存在，则不做处理
     if (item && common.importType === "importAll") {
       link.linkId = item.linkId;
       link.mapId = item.mapId;
-      //   item 在 topoLinks中，判断是否有不同的字段
+      //   item 在 links中，判断是否有不同的字段
       // 如果有，则说明是冲突数据
       if (JSON.stringify(item) !== JSON.stringify(link)) {
         mergeLinkList.push({
@@ -90,15 +90,15 @@ export const checkLinks = (topoLinks: ILink[], links: ILink[]) => {
         });
       }
     } else if (!item) {
-      // item 不在topoLinks中
+      // item 不在links中
       addLinkList.push(link);
     }
   });
 
   if (common.importType === "importAll") {
     // 获取要删除的数据
-    topoLinks.forEach((link) => {
-      const item = links.find((item) => {
+    links.forEach((link) => {
+      const item = newLinks.find((item) => {
         return item.domId === link.domId;
       });
 

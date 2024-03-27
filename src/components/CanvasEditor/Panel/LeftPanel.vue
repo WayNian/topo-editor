@@ -15,7 +15,7 @@ import { useMenuStore } from "@/stores/";
 import Panel from "../Common/Panel/index.vue";
 import LayerList from "./Left/LayerList.vue";
 import MergeList from "./Left/MergeList.vue";
-import Sider from "@/components/TopoEditor/Sider/index.vue";
+import Sider from "@/components/CanvasEditor/Sider/index.vue";
 import { computed, ref, watchEffect } from "vue";
 import { resetHighlight } from "@/utils/canvas/draw/svg";
 

@@ -1,4 +1,4 @@
-import { useCanvasStore } from "@/stores/modules/canvas";
+import { useDataStore } from "@/stores/modules/data";
 import type { IImportSvgData, ILink, IMapSource, INode } from "@/types";
 import { draw, drawMerge } from "@/utils/canvas/draw/svg";
 import { checkLinks, checkNodes } from "./helper";
@@ -6,7 +6,7 @@ import { useCommonStore } from "@/stores/modules/common";
 import { addMap, updateMap } from "@/utils/http/apis/menu";
 import { useMenuStore } from "@/stores/modules/menu";
 
-const store = useCanvasStore();
+const dataStore = useDataStore();
 const commonStore = useCommonStore();
 const menuStore = useMenuStore();
 
@@ -16,7 +16,7 @@ const menuStore = useMenuStore();
  */
 export const selectMap = async (map: IMapSource) => {
   menuStore.setMapInfo(map);
-  await store.fetchNodeLinkList(map.mapId);
+  await dataStore.fetchNodeLinkList(map.mapId);
   draw();
 };
 
@@ -73,7 +73,7 @@ export const importSvg = (val: IImportSvgData) => {
         };
       });
 
-      await store.addNodeLinkListFunc(nodes, links);
+      await dataStore.addNodeLinkListFunc(nodes, links);
       window.$message.success("导入成功");
       //   draw();
     });
@@ -81,15 +81,15 @@ export const importSvg = (val: IImportSvgData) => {
     const mapId = menuStore.mapInfo?.mapId;
     if (!mapId) return;
     addUpdataMapFunc()?.then(async () => {
-      const { deleteNodeList, mergeNodeList, addNodeList } = checkNodes(store.topoNodes, val.nodes);
-      const { deleteLinkList, mergeLinkList, addLinkList } = checkLinks(store.topoLinks, val.links);
+      const { deleteNodeList, mergeNodeList, addNodeList } = checkNodes(dataStore.nodes, val.nodes);
+      const { deleteLinkList, mergeLinkList, addLinkList } = checkLinks(dataStore.links, val.links);
 
       menuStore.mergeNodeList = mergeNodeList;
       menuStore.mergeLinkList = mergeLinkList;
 
       drawMerge();
 
-      //   nodes = store.topoNodes
+      //   nodes = dataStore.nodes
       //     .concat(addNodeList)
       //     .filter((node) => {
       //       return !deleteNodeList.some((item) => item.id === node.id && item.nodeId === node.nodeId);
@@ -100,7 +100,7 @@ export const importSvg = (val: IImportSvgData) => {
       //         mapId
       //       };
       //     });
-      //   links = store.topoLinks
+      //   links = dataStore.links
       //     .concat(addLinkList)
       //     .filter((link) => {
       //       return !deleteLinkList.some((item) => item.linkId === link.linkId);
@@ -114,9 +114,9 @@ export const importSvg = (val: IImportSvgData) => {
 
       console.log("links", links);
 
-      await store.deleteLinkFunc(deleteLinkList);
-      await store.addNodeLinkListFunc(nodes, links);
-      await store.fetchNodeLinkList(mapId);
+      await dataStore.deleteLinkFunc(deleteLinkList);
+      await dataStore.addNodeLinkListFunc(nodes, links);
+      await dataStore.fetchNodeLinkList(mapId);
       draw();
     });
   }

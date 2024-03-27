@@ -12,13 +12,13 @@ import {
   attrTopoMap
 } from "../attr";
 import { bindLinkDrag, bindNodeDrag } from "../event";
-import { useCanvasStore } from "@/stores/modules/canvas";
+import { useDataStore } from "@/stores/modules/data";
 import type { IEnter, IExit, ISVGG, IUpdate } from "@/types";
 import type { ILink, INode } from "@/types/modules/canvas";
 import { bindMapZoom } from "../event/svg";
 import { useMenuStore } from "@/stores/";
 
-const store = useCanvasStore();
+const dataStore = useDataStore();
 const menuStore = useMenuStore();
 
 const appendEllipse = (nodeG: ISVGG<INode, any>) => {
@@ -84,10 +84,10 @@ const updateNode = (update: IUpdate<INode>) => {
 };
 
 const drawNodes = () => {
-  const nodeGroup = d3.select<SVGGElement, any>("#topoNodes");
+  const nodeGroup = d3.select<SVGGElement, any>("#nodeGroup");
   nodeGroup
     .selectAll<SVGGElement, INode>("g.node-group")
-    .data(store.topoNodes, (d: INode) => d.nodeId)
+    .data(dataStore.nodes, (d: INode) => d.nodeId)
     .join(appendNode, updateNode);
 };
 
@@ -98,7 +98,7 @@ export const appenSelectedLink = (linkG: ISVGG<ILink, null>) => {
 };
 
 export const removeSelectedLink = () => {
-  d3.select<SVGGElement, any>("#topoLinks").selectAll("path.selected-link").remove();
+  d3.select<SVGGElement, any>("#linkGroup").selectAll("path.selected-link").remove();
 };
 
 const appendLink = (enter: IEnter<ILink>) => {
@@ -119,24 +119,24 @@ const updateLink = (update: IUpdate<ILink>) => {
 };
 
 export const drawLinks = () => {
-  const linkGroup = d3.select<SVGGElement, any>("#topoLinks");
-  console.log("store.topoLinks", store.topoLinks);
+  const linkGroup = d3.select<SVGGElement, any>("#linkGroup");
+  console.log("dataStore.linkGroup", dataStore.links);
 
   linkGroup
     .selectAll<SVGGElement, ILink>("g.link-group")
-    .data(store.topoLinks, (d: ILink) => d.linkId)
+    .data(dataStore.links, (d: ILink) => d.linkId)
     .join(appendLink, updateLink);
 };
 
 export const drawMergeNodes = () => {
-  d3.select<SVGGElement, any>("#topoMergeNodes")
+  d3.select<SVGGElement, any>("#mergeNodeGroup")
     .selectAll<SVGGElement, INode>("g.node-group")
     .data(menuStore.mergeNodeList, (d: INode) => `${d.nodeId}`)
     .join(appendNode);
 };
 
 export const drawMergeLinks = () => {
-  d3.select<SVGGElement, any>("#topoMergeLinks")
+  d3.select<SVGGElement, any>("#mergeLinkGroup")
     .selectAll<SVGGElement, ILink>("g.link-group")
     .data(menuStore.mergeLinkList, (d: ILink) => {
       return `${d.linkId}`;
@@ -197,7 +197,7 @@ export const drawMerge = () => {
 };
 
 const drawMap = () => {
-  const svg = d3.select<SVGSVGElement, any>("#topoEditor");
+  const svg = d3.select<SVGSVGElement, any>("#canvasEditor");
   const topoMap = svg.select<SVGGElement>("g#topoMap");
   const topoMapBackground = topoMap.select<SVGRectElement>("#topoMapBackground");
 
@@ -212,10 +212,10 @@ export const clearSvg = () => {
 
   attrTopoMap(topoMap, topoMapBackground);
 
-  d3.select<SVGGElement, any>("#topoNodes").selectAll("g.node-group").remove();
-  d3.select<SVGGElement, any>("#topoLinks").selectAll("g.link-group").remove();
-  d3.select<SVGGElement, any>("#topoMergeNodes").selectAll("g.node-group").remove();
-  d3.select<SVGGElement, any>("#topoMergeLinks").selectAll("g.link-group").remove();
+  d3.select<SVGGElement, any>("#nodeGroup").selectAll("g.node-group").remove();
+  d3.select<SVGGElement, any>("#linkGroup").selectAll("g.link-group").remove();
+  d3.select<SVGGElement, any>("#mergeNodeGroup").selectAll("g.node-group").remove();
+  d3.select<SVGGElement, any>("#mergeLinkGroup").selectAll("g.link-group").remove();
 };
 export const draw = () => {
   drawMap();

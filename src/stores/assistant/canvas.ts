@@ -1,7 +1,7 @@
-import { useCanvasStore } from "../modules/canvas";
+import { useDataStore } from "../modules/data";
 
 export const clearData = () => {
-  const store = useCanvasStore();
-  store.topoLinks = [];
-  store.topoNodes = [];
+  const store = useDataStore();
+  store.nodes = [];
+  store.links = [];
 };
