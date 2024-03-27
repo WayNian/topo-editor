@@ -2,7 +2,7 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import type { ILink, INode } from "@/types/";
 import { addNodeLinkList, deleteLinks, fetchNodeLinkListByMapId } from "@/utils/http/apis/topo";
-import { formatLinks, formatNodes } from "../assistant/canvas";
+import { formatLinks, formatNodes } from "@/utils/assistant/";
 import { useMenuStore } from "..";
 
 export const useCanvasStore = defineStore("canvas", () => {
