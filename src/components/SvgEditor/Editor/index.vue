@@ -30,7 +30,7 @@
         <circle id="dragPointRotate" r="8" />
       </g>
     </g>
-    <rect id="selectView" v-show="store.isSelectViewVisible"></rect>
+    <rect id="selectView" v-show="dataStore.isSelectViewVisible"></rect>
   </svg>
 </template>
 
@@ -39,12 +39,14 @@ import { computed, onMounted } from "vue";
 import { useSvgEditor } from "@/hooks/svg/useSvgEditor";
 import { useDataStore } from "@/stores/";
 import { bindDragPointEvent } from "@/utils/svg/event/dragPoint";
+
 useSvgEditor();
-const store = useDataStore();
+
+const dataStore = useDataStore();
 
 const currentBBox = computed(() => {
-  if (!store.currentNode) return { x: 0, y: 0, width: 0, height: 0 };
-  const { x, y, width, height } = store.currentNode;
+  if (!dataStore.currentNode) return { x: 0, y: 0, width: 0, height: 0 };
+  const { x, y, width, height } = dataStore.currentNode;
   return { x, y, width, height };
 });
 

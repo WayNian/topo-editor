@@ -1,7 +1,7 @@
-import { useDataStore } from "../../../stores/modules/data";
+import { useDataStore } from "@/stores";
 
 export const clearData = () => {
-  const store = useDataStore();
-  store.nodes = [];
-  store.links = [];
+  const dataStore = useDataStore();
+  dataStore.nodes = [];
+  dataStore.links = [];
 };

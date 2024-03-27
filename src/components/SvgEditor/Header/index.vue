@@ -41,10 +41,10 @@ import MenuSharp from "@/assets/images/icons/MenuSharp.svg?component";
 
 import { useMenuStore } from "@/stores";
 
-const store = useMenuStore();
+const menuStore = useMenuStore();
 
 const toggleCollapsed = () => {
-  store.collapsed = !store.collapsed;
+  menuStore.collapsed = !menuStore.collapsed;
 };
 </script>
 
