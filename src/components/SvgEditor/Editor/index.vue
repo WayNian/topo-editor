@@ -1,5 +1,5 @@
 <template>
-  <svg id="canvasEditor">
+  <svg id="svgEditor">
     <g id="topoMap">
       <rect id="topoMapBackground" />
       <g id="linkGroup"></g>
@@ -36,10 +36,10 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
-import { useCanvasEditor } from "@/hooks/canvas/useCanvasEditor";
+import { useSvgEditor } from "@/hooks/svg/useSvgEditor";
 import { useDataStore } from "@/stores/";
-import { bindDragPointEvent } from "@/utils/canvas/event/drag-point";
-useCanvasEditor();
+import { bindDragPointEvent } from "@/utils/svg/event/drag-point";
+useSvgEditor();
 const store = useDataStore();
 
 const currentBBox = computed(() => {
@@ -54,5 +54,5 @@ onMounted(() => {
 </script>
 
 <style scoped></style>
-@/utils/canvas/event/drag-point @/hooks/canvas/useCanvasEditor @/hooks/canvas/useCanvasEditor
-@/stores/ @/stores/modules/canvas
+@/utils/svg/event/drag-point @/hooks/svg/useSvgEditor @/hooks/svg/useSvgEditor @/stores/
+@/stores/modules/canvas

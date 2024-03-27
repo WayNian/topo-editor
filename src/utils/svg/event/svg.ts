@@ -17,7 +17,7 @@ const click = (e: PointerEvent) => {
   if (!e.target) return;
   const el = e.target as SVGElement;
 
-  if (el.id === "topoMapBackground" || el.id === "canvasEditor") {
+  if (el.id === "topoMapBackground" || el.id === "svgEditor") {
     store.currentNode = null;
     store.currentLink = null;
     removeSelectedLink();
@@ -71,7 +71,7 @@ export const setPosition = () => {
 
 export const resetSvgSizePosition = () => {
   const { x, y, k } = setInitTransform();
-  d3.select<SVGSVGElement, any>("#canvasEditor")
+  d3.select<SVGSVGElement, any>("#svgEditor")
     .transition()
     .duration(1000)
     .call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(k));
@@ -79,7 +79,7 @@ export const resetSvgSizePosition = () => {
 
 export const setSvgBg = () => {
   const { width, height } = getSvgSize();
-  d3.select<SVGSVGElement, any>("#canvasEditor")
+  d3.select<SVGSVGElement, any>("#svgEditor")
     .attr("width", width)
     .attr("height", height)
     .style("background-color", "black");

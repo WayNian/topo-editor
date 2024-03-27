@@ -1,7 +1,7 @@
-import { useCommonStore } from "@/stores/modules/common";
+import { useCommonStore } from "@/stores";
 import type { ILink, INode } from "@/types";
 
-const common = useCommonStore();
+const commonStore = useCommonStore();
 
 /**
  * newNodes 与 nodes 对比，找出nodes中除id和nodeId字段之外不同的数据，然后返回不同的项
@@ -24,7 +24,7 @@ export const checkNodes = (nodes: INode[], newNodes: INode[]) => {
 
   newNodes.forEach((node) => {
     const item = nodes.find((item) => item.domId === node.domId);
-    if (item && common.importType === "importAddition") {
+    if (item && commonStore.importType === "importAddition") {
       //   item 在 nodes中，判断是否有不同的字段
       if (JSON.stringify(item) !== JSON.stringify(node)) {
         mergeNodeList.push({
@@ -38,7 +38,7 @@ export const checkNodes = (nodes: INode[], newNodes: INode[]) => {
     }
   });
 
-  if (common.importType === "importAll") {
+  if (commonStore.importType === "importAll") {
     // 获取要删除的数据
     nodes.forEach((node) => {
       const item = newNodes.find((item) => item.domId === node.domId);
@@ -78,7 +78,7 @@ export const checkLinks = (links: ILink[], newLinks: ILink[]) => {
       return item.domId === link.domId;
     });
     // 如果是增量导入，且item存在，则不做处理
-    if (item && common.importType === "importAll") {
+    if (item && commonStore.importType === "importAll") {
       link.linkId = item.linkId;
       link.mapId = item.mapId;
       //   item 在 links中，判断是否有不同的字段
@@ -95,7 +95,7 @@ export const checkLinks = (links: ILink[], newLinks: ILink[]) => {
     }
   });
 
-  if (common.importType === "importAll") {
+  if (commonStore.importType === "importAll") {
     // 获取要删除的数据
     links.forEach((link) => {
       const item = newLinks.find((item) => {

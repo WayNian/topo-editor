@@ -15,9 +15,9 @@ import { useMenuStore } from "@/stores/";
 import Panel from "../Common/Panel/index.vue";
 import LayerList from "./Left/LayerList.vue";
 import MergeList from "./Left/MergeList.vue";
-import Sider from "@/components/CanvasEditor/Sider/index.vue";
+import Sider from "@/components/SvgEditor/Sider/index.vue";
 import { computed, ref, watchEffect } from "vue";
-import { resetHighlight } from "@/utils/canvas/draw/svg";
+import { resetHighlight } from "@/utils/svg/draw/svg";
 
 const menuStore = useMenuStore();
 const activeName = ref("files");
@@ -39,4 +39,4 @@ watchEffect(() => {
 </script>
 
 <style scoped></style>
-@/utils/canvas/indexSvg @/stores/modules/common
+@/utils/svg/indexSvg @/stores/modules/common

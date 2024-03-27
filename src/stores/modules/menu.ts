@@ -12,7 +12,7 @@ import { getSize } from "@/utils/tools/common";
 import { formatMenuCascaderist, formatMenuList } from "@/utils/tools/menu";
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { clearData } from "../assistant/canvas";
+import { clearData } from "../../utils/assistant/data/storeData";
 
 export const useMenuStore = defineStore("menu", () => {
   const menuList = ref<ITreeItem[]>();

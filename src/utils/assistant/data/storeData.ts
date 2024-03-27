@@ -1,4 +1,4 @@
-import { useDataStore } from "../modules/data";
+import { useDataStore } from "../../../stores/modules/data";
 
 export const clearData = () => {
   const store = useDataStore();

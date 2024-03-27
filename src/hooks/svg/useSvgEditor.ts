@@ -1,12 +1,12 @@
 import { useDataStore } from "@/stores/modules/data";
 import type { IMapSource } from "@/types";
-import { draw } from "@/utils/canvas/draw/svg";
+import { draw } from "@/utils/svg/draw/svg";
 import emitter from "@/utils/mitt";
 import { onMounted } from "vue";
-import { importSvg, selectMap } from "./assistant";
+import { importSvg, selectMap } from "../../utils/assistant/svg/importSvg";
 import { useModal } from "naive-ui";
 
-export const useCanvasEditor = () => {
+export const useSvgEditor = () => {
   const store = useDataStore();
 
   const initEvent = () => {

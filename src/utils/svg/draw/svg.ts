@@ -197,7 +197,7 @@ export const drawMerge = () => {
 };
 
 const drawMap = () => {
-  const svg = d3.select<SVGSVGElement, any>("#canvasEditor");
+  const svg = d3.select<SVGSVGElement, any>("#svgEditor");
   const topoMap = svg.select<SVGGElement>("g#topoMap");
   const topoMapBackground = topoMap.select<SVGRectElement>("#topoMapBackground");
 
