@@ -32,7 +32,7 @@
               v-model:value="mapModel.menuId"
               placeholder="所属目录"
               expand-trigger="hover"
-              :options="store.menuCascaderList"
+              :options="menuStore.menuCascaderList"
               check-strategy="all"
               filterable
             />
@@ -64,7 +64,7 @@
                 v-model:value="mapModel.menuId"
                 placeholder="所属目录"
                 expand-trigger="hover"
-                :options="store.menuCascaderList"
+                :options="menuStore.menuCascaderList"
                 check-strategy="all"
                 filterable
               />
@@ -77,14 +77,14 @@
 </template>
 
 <script setup lang="ts">
-import { useDataStore } from "@/stores/";
 import type { FormInst, TreeOption } from "naive-ui";
 import { computed, ref } from "vue";
 import { useMenu } from "@/hooks/menu/useMenu";
 import { useMap } from "@/hooks/menu/useMap";
 import type { IMapModel, IMenuModel } from "@/types";
+import { useMenuStore } from "@/stores";
 
-const store = useDataStore();
+const menuStore = useMenuStore();
 const tabActive = ref("menu");
 const menuFormRef = ref<FormInst | null>(null);
 const mapFormRef = ref<FormInst | null>(null);
@@ -150,7 +150,7 @@ const hide = () => {
 const finish = () => {
   hide();
   window.$message.success("创建成功");
-  store.getMenuList();
+  menuStore.getMenuList();
 };
 
 const submit = () => {

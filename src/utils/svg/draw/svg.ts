@@ -207,6 +207,8 @@ const drawMap = () => {
 };
 
 export const clearSvg = () => {
+  menuStore.setMapInfo();
+
   const topoMap = d3.select<SVGGElement, any>("g#topoMap");
   const topoMapBackground = topoMap.select<SVGRectElement>("#topoMapBackground");
 

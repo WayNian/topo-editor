@@ -92,6 +92,13 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
   return {
     title: option.label,
     onClick() {
+      if (option === currentMenu.value) {
+        menuStore.currentMenu = null;
+        currentMenu.value = null;
+        clearSvg();
+        return;
+      }
+
       menuStore.currentMenu = option.raw as IMapSource | IMenuSource;
       if (!option.children && !option.disabled) {
         currentMenu.value = option;
@@ -104,11 +111,6 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
       x.value = e.clientX;
       y.value = e.clientY;
       menuStore.currentMenu = option.raw as IMapSource | IMenuSource;
-
-      //   if (!option.children && !option.disabled) {
-      //     emitter.emit("on:selectMap", option.raw as IMapSource);
-      //   }
-
       e.preventDefault();
       e.stopPropagation();
     }
@@ -125,6 +127,7 @@ const onDeleteSuccess = () => {
     currentMenu.value?.key === (menuStore.currentMenu as IMapSource).mapId
   ) {
     menuStore.currentMenu = null;
+    currentMenu.value = null;
     clearSvg();
   }
 };
