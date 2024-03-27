@@ -1,18 +1,17 @@
-import type { ISVGG, ISVGRect } from "@/types";
-import { setSvgBg } from "../event/svg";
+import * as d3 from "d3";
+import type { ISVGRect } from "@/types";
 import { useMenuStore } from "@/stores";
 
 const menuStore = useMenuStore();
 
 export const attrSvg = () => {
-  setSvgBg();
+  d3.select<SVGSVGElement, any>("#svgEditor").style("background-color", "black");
 };
 
-export const attrTopoMap = (topoMap: ISVGG<any, HTMLElement>, topoMapBackground: ISVGRect<any>) => {
+export const attrMap = (mapBackground: ISVGRect<any>) => {
   const { width, height } = menuStore.mapSize;
 
-  topoMap.attr("width", width).attr("height", height);
-  topoMapBackground
+  mapBackground
     .attr("width", width)
     .attr("height", height)
     .attr("fill", "white")

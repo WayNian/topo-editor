@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { attrSvg, attrTopoMap } from "../attr/";
+import { attrSvg, attrMap } from "../attr/";
 import type { ILink, INode } from "@/types/modules/canvas";
 import { bindMapZoom } from "../event/svg";
 import { useCommonStore, useMenuStore } from "@/stores/";
@@ -62,22 +62,18 @@ export const drawMerge = () => {
 
 const drawMap = () => {
   const svg = d3.select<SVGSVGElement, any>("#svgEditor");
-  const topoMap = svg.select<SVGGElement>("g#topoMap");
-  const topoMapBackground = topoMap.select<SVGRectElement>("#topoMapBackground");
+  const map = svg.select<SVGGElement>("g#map");
 
   attrSvg();
-  attrTopoMap(topoMap, topoMapBackground);
-  bindMapZoom(svg, topoMap);
+  attrMap(map.select<SVGRectElement>("#mapBackground"));
+  bindMapZoom(svg, map);
 };
 
 export const clearSvg = () => {
   menuStore.setMapInfo();
   commonStore.isAttributeViewVisible = false;
 
-  const topoMap = d3.select<SVGGElement, any>("g#topoMap");
-  const topoMapBackground = topoMap.select<SVGRectElement>("#topoMapBackground");
-
-  attrTopoMap(topoMap, topoMapBackground);
+  attrMap(d3.select<SVGRectElement, any>("#mapBackground"));
 
   d3.select<SVGGElement, any>("#nodeGroup").selectAll("g.node-group").remove();
   d3.select<SVGGElement, any>("#linkGroup").selectAll("g.link-group").remove();

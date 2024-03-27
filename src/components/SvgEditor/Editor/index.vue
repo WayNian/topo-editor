@@ -1,7 +1,7 @@
 <template>
-  <svg id="svgEditor">
-    <g id="topoMap">
-      <rect id="topoMapBackground" />
+  <svg id="svgEditor" style="width: 100%; height: 100%">
+    <g id="map">
+      <rect id="mapBackground" />
       <g id="linkGroup"></g>
       <g id="nodeGroup"></g>
       <g id="mergeLinkGroup"></g>

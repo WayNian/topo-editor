@@ -1,7 +1,7 @@
 import { useCommonStore } from "@/stores/modules/common";
-import { setSvgBg } from "@/utils/svg/event/svg";
+// import { setSvgBg } from "@/utils/svg/event";
 import { useMessage, useModal } from "naive-ui";
-import { onBeforeMount, onMounted } from "vue";
+// import { onBeforeMount, onMounted } from "vue";
 
 export const useSvg = () => {
   const common = useCommonStore();
@@ -9,11 +9,11 @@ export const useSvg = () => {
 
   window.$message = useMessage();
 
-  onMounted(() => {
-    window.addEventListener("resize", () => setSvgBg);
-  });
+  //   onMounted(() => {
+  //     window.addEventListener("resize", () => setSvgBg);
+  //   });
 
-  onBeforeMount(() => {
-    window.removeEventListener("resize", () => setSvgBg);
-  });
+  //   onBeforeMount(() => {
+  //     window.removeEventListener("resize", () => setSvgBg);
+  //   });
 };

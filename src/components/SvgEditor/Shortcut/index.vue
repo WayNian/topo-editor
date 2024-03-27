@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import Location from "@/assets/images/icons/Location.svg?component";
 import { useMenuStore, useSvgStore } from "@/stores";
-import { resetSvgSizePosition } from "@/utils/svg/event/svg";
+import { resetSvgSizePosition } from "@/utils/svg/event";
 import { computed } from "vue";
 
 const svgStore = useSvgStore();
