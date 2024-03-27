@@ -13,13 +13,14 @@ import {
 } from "../attr";
 import { bindLinkDrag, bindNodeDrag } from "../event";
 import { useDataStore } from "@/stores/modules/data";
-import type { IEnter, IExit, ISVGG, IUpdate } from "@/types";
+import type { IEnter, ISVGG, IUpdate } from "@/types";
 import type { ILink, INode } from "@/types/modules/canvas";
 import { bindMapZoom } from "../event/svg";
-import { useMenuStore } from "@/stores/";
+import { useCommonStore, useMenuStore } from "@/stores/";
 
 const dataStore = useDataStore();
 const menuStore = useMenuStore();
+const commonStore = useCommonStore();
 
 const appendEllipse = (nodeG: ISVGG<INode, any>) => {
   const ellipse = nodeG.append<SVGEllipseElement>("ellipse");
@@ -208,6 +209,7 @@ const drawMap = () => {
 
 export const clearSvg = () => {
   menuStore.setMapInfo();
+  commonStore.isAttributeViewVisible = false;
 
   const topoMap = d3.select<SVGGElement, any>("g#topoMap");
   const topoMapBackground = topoMap.select<SVGRectElement>("#topoMapBackground");
