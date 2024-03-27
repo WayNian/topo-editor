@@ -5,8 +5,11 @@ import { setInitTransform } from "../assistant";
 import { useDataStore } from "@/stores/modules/data";
 import { attrSeletView } from "../attr";
 import { getSvgSize } from "@/utils/tools/common";
+import { useSvgStore } from "@/stores";
 
-const store = useDataStore();
+const dataStore = useDataStore();
+const svgStore = useSvgStore();
+
 let zoom: d3.ZoomBehavior<SVGSVGElement, unknown>;
 const startPoint = {
   x: 0,
@@ -18,8 +21,8 @@ const click = (e: PointerEvent) => {
   const el = e.target as SVGElement;
 
   if (el.id === "topoMapBackground" || el.id === "svgEditor") {
-    store.currentNode = null;
-    store.currentLink = null;
+    dataStore.currentNode = null;
+    dataStore.currentLink = null;
     removeSelectedLink();
   }
 };
@@ -27,27 +30,29 @@ const click = (e: PointerEvent) => {
 const mousedown = (e: PointerEvent) => {
   startPoint.x = e.x;
   startPoint.y = e.y;
-  store.isSelectViewVisible = true;
+  dataStore.isSelectViewVisible = true;
 };
 
 const mousemove = (e: PointerEvent) => {
-  if (!store.isSelectViewVisible) return;
+  if (!dataStore.isSelectViewVisible) return;
   const width = e.x - startPoint.x;
   const height = e.y - startPoint.y;
   attrSeletView(d3.select<SVGRectElement, any>("#selectView"), startPoint, { width, height });
 };
 
 const mouseup = () => {
-  store.isSelectViewVisible = false;
+  dataStore.isSelectViewVisible = false;
   startPoint.x = 0;
   startPoint.y = 0;
 };
 export const bindMapZoom = (svg: ISVG, topoMap: ISVGG<any, HTMLElement>) => {
   const { x, y, k } = setInitTransform();
+
   zoom = d3
     .zoom<SVGSVGElement, unknown>()
     .scaleExtent([0.01, 10])
     .on("zoom", (e) => {
+      svgStore.scale = e.transform.k;
       topoMap.attr("transform", e.transform);
     });
 
