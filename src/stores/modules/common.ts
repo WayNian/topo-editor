@@ -7,5 +7,7 @@ export const useCommonStore = defineStore("common", () => {
   const modal = ref<ModalApiInjection>();
   const importType = ref<string>("addition");
 
-  return { isAttributeViewVisible, modal, importType };
+  const isSpaceDown = ref(false);
+
+  return { isAttributeViewVisible, modal, importType, isSpaceDown };
 });

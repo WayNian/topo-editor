@@ -4,13 +4,15 @@ import type { ISVG, ISVGG } from "@/types";
 import { setInitTransform } from "../assistant";
 import { useDataStore } from "@/stores/modules/data";
 import { attrSeletView } from "../attr/svg";
-import { getSvgSize } from "@/utils/tools/common";
-import { useSvgStore } from "@/stores";
+import { useCommonStore, useSvgStore } from "@/stores";
 
 const dataStore = useDataStore();
 const svgStore = useSvgStore();
+const commonStore = useCommonStore();
 
-let isSpaceDown = false;
+let zoomRecord = d3.zoomIdentity;
+let svg: ISVG;
+let map: ISVGG<any, HTMLElement>;
 
 let zoom: d3.ZoomBehavior<SVGSVGElement, unknown>;
 const startPoint = {
@@ -47,17 +49,19 @@ const mouseup = () => {
   startPoint.x = 0;
   startPoint.y = 0;
 };
-export const bindMapZoom = (svg: ISVG, map: ISVGG<any, HTMLElement>) => {
-  bindWindowEvent();
 
+const zooming = (e: any) => {
+  if (commonStore.isSpaceDown) return;
+  zoomRecord = e.transform;
+  svgStore.scale = e.transform.k;
+  map.attr("transform", e.transform);
+};
+
+export const bindMapZoom = (svgView: ISVG, mapView: ISVGG<any, HTMLElement>) => {
   const { x, y, k } = setInitTransform();
-  zoom = d3
-    .zoom<SVGSVGElement, unknown>()
-    .scaleExtent([0.01, 10])
-    .on("zoom", (e) => {
-      svgStore.scale = e.transform.k;
-      map.attr("transform", e.transform);
-    });
+  svg = svgView;
+  map = mapView;
+  zoom = d3.zoom<SVGSVGElement, unknown>().scaleExtent([0.01, 10]).on("zoom", zooming);
 
   svg
     .call(zoom)
@@ -85,28 +89,9 @@ export const resetSvgSizePosition = () => {
     .call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(k));
 };
 
-const bindWindowEvent = () => {
-  console.log("----", d3.select("#svgEditor"));
-
-  //   window.addEventListener("keydown", (e) => {
-  //     console.log("🚀 ~ window.addEventListener ~ e:", e);
-  //     if (e.key === " ") {
-  //       isSpaceDown = true;
-  //     }
-  //   });
-
-  // 是否按住空格
-  d3.select("#svgEditor").on("keydown", function (e) {
-    console.log("🚀 ~ e:", e);
-    if (e.key === "Space") {
-      console.log(51561);
-
-      isSpaceDown = true;
-    }
-  });
-  d3.select("#svgEditor").on("keyup", function (e) {
-    if (e.key === "Space") {
-      isSpaceDown = false;
-    }
-  });
+export const resetSvg = () => {
+  d3.select<SVGSVGElement, any>("#svgEditor").call(
+    zoom.transform,
+    d3.zoomIdentity.translate(zoomRecord.x, zoomRecord.y).scale(zoomRecord.k)
+  );
 };
