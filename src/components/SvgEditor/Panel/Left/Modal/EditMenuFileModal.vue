@@ -128,8 +128,7 @@ const initData = (isEdit: boolean, val: TreeOption | null) => {
     if (val) {
       menuId = val.key as string;
     }
-    resetMapModel();
-    resetMenuModel();
+
     mapModel.value.menuId = menuId;
     menuModel.value.menuParId = menuId;
   }

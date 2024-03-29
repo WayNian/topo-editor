@@ -2,7 +2,7 @@
   <div class="flex justify-end">
     <n-tooltip trigger="hover">
       <template #trigger>
-        <n-icon size="24" class="cursor-pointer" @click="handleCreateMenuFile(false)">
+        <n-icon size="24" class="cursor-pointer" @click="handleCreateMenuFile(false, 'new')">
           <Add />
         </n-icon>
       </template>
@@ -25,7 +25,7 @@
     trigger="manual"
     placement="bottom-start"
     :show="showDropdown"
-    :options="options"
+    :options="contentMenuoptions"
     :x="x"
     :y="y"
     @select="handleSelect"
@@ -56,8 +56,9 @@ const showDropdown = ref(false);
 const x = ref(0);
 const y = ref(0);
 
-const options = ref<TreeOption[]>([]);
+const contentMenuoptions = ref<TreeOption[]>([]);
 const currentMenu = ref<TreeOption | null>(null);
+const editedParam = ref<TreeOption | null>(null);
 const upload = ref<HTMLInputElement | null>(null);
 const editMenuFileModalRef = ref<InstanceType<typeof EditMenuFileModal> | null>(null);
 
@@ -94,10 +95,12 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
       if (option === currentMenu.value) {
         menuStore.currentMenu = null;
         currentMenu.value = null;
+        editedParam.value = null;
         clearSvg();
         return;
       }
 
+      editedParam.value = option;
       menuStore.currentMenu = option.raw as IMapSource | IMenuSource;
       if (!option.children && !option.disabled) {
         currentMenu.value = option;
@@ -105,7 +108,8 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
       }
     },
     onContextmenu(e: MouseEvent): void {
-      options.value = getContextMenu(option);
+      contentMenuoptions.value = getContextMenu(option);
+      editedParam.value = option;
       showDropdown.value = true;
       x.value = e.clientX;
       y.value = e.clientY;
@@ -184,17 +188,25 @@ const handleSelect = (key: string | number) => {
 };
 
 const handleContentmenu = (e: MouseEvent) => {
-  options.value = getContextMenu();
+  contentMenuoptions.value = getContextMenu();
   showDropdown.value = true;
   currentMenu.value = null;
+  editedParam.value = null;
+
   x.value = e.clientX;
   y.value = e.clientY;
   e.preventDefault();
   e.stopPropagation();
 };
 
-const handleCreateMenuFile = (isEdit: boolean) => {
-  editMenuFileModalRef.value?.show(isEdit, currentMenu.value);
+const handleCreateMenuFile = (isEdit: boolean, type?: string) => {
+  if (type) {
+    editedParam.value = null;
+  }
+
+  console.log("🚀 ~ handleCreateMenuFile ~ editedParam.value:", editedParam.value);
+
+  editMenuFileModalRef.value?.show(isEdit, editedParam.value);
 };
 
 onMounted(() => {

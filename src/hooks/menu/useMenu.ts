@@ -5,7 +5,7 @@ import { ref } from "vue";
 
 export const useMenu = () => {
   const menuRules: FormRules = {
-    folderName: {
+    menuName: {
       required: true,
       message: "请输入文件夹名称",
       trigger: ["input", "blur"]
