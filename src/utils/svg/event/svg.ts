@@ -45,34 +45,57 @@ const mousemove = (e: PointerEvent) => {
 };
 
 const mouseup = () => {
+  console.log("mouseup");
   dataStore.isSelectViewVisible = false;
   startPoint.x = 0;
   startPoint.y = 0;
 };
 
+let zoomTran = d3.zoomIdentity;
+let isZoom = false;
+
+const zoomstart = (e: any) => {};
+
 const zooming = (e: any) => {
-  if (commonStore.isSpaceDown) return;
-  zoomRecord = e.transform;
-  svgStore.scale = e.transform.k;
-  map.attr("transform", e.transform);
+  // 按下空格的时候，才能进行移动和缩放，否则只能缩放
+  if (zoomTran.k === e.transform.k && !commonStore.isSpaceDown) {
+    isZoom = false;
+  } else {
+    isZoom = true;
+    zoomRecord = e.transform;
+    svgStore.scale = e.transform.k;
+    map.attr("transform", e.transform);
+  }
 };
 
 export const bindMapZoom = (svgView: ISVG, mapView: ISVGG<any, HTMLElement>) => {
   const { x, y, k } = setInitTransform();
   svg = svgView;
   map = mapView;
-  zoom = d3.zoom<SVGSVGElement, unknown>().scaleExtent([0.01, 10]).on("zoom", zooming);
+  zoom = d3
+    .zoom<SVGSVGElement, unknown>()
+    .scaleExtent([0.01, 10])
+    .on("start", zoomstart)
+    .on("zoom", zooming)
+    .on("end", (e) => {
+      if (isZoom) {
+        zoomTran = e.transform;
+      } else {
+        // 只缩放 不移动的情况，鼠标按住拖动，会导致svg的e.transform和zoomTran不一致,需要重新设置
+        if (!e.sourceEvent) return;
+        svg.call(
+          zoom.transform,
+          d3.zoomIdentity.translate(zoomTran.x, zoomTran.y).scale(zoomTran.k)
+        );
+      }
+    });
 
   svg
     .call(zoom)
     .on("dblclick.zoom", null)
-    .call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(k));
-
-  svg
+    .call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(k))
     .on("click", click)
-    .on("mousedown", mousedown)
-    .on("mousemove", mousemove)
-    .on("mouseup", mouseup);
+    .on("mousemove", mousemove);
 };
 
 export const setPosition = () => {
