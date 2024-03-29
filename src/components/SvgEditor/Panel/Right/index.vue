@@ -20,7 +20,7 @@
 import { Close as CloseIcon } from "@vicons/ionicons5";
 import { useCommonStore, useMenuStore } from "@/stores/";
 import { computed } from "vue";
-import NodeAttribute from "../Panel/Right/Attribute/NodeAttribute.vue";
+import NodeAttribute from "./Attribute/NodeAttribute.vue";
 
 const commonStore = useCommonStore();
 const menuStore = useMenuStore();

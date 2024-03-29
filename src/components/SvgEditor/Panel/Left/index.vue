@@ -2,7 +2,7 @@
   <Sider>
     <Panel class="left-0 w-100% px-2">
       <n-tabs type="line" animated v-model:value="activeName">
-        <n-tab-pane name="files" tab="文件"> <LayerList /> </n-tab-pane>
+        <n-tab-pane name="files" tab="文件"> <MenuList /> </n-tab-pane>
         <n-tab-pane name="merge" tab="合并" v-if="isShowMerge"> <MergeList /></n-tab-pane>
         <n-tab-pane name="meta" tab="图元" v-if="menuStore.mapInfo"> </n-tab-pane>
       </n-tabs>
@@ -11,13 +11,13 @@
 </template>
 
 <script setup lang="ts">
-import { useMenuStore } from "@/stores/";
-import Panel from "../Common/Panel/index.vue";
-import LayerList from "./Left/LayerList.vue";
-import MergeList from "./Left/MergeList.vue";
+import Panel from "@/components/SvgEditor/Common/Panel/index.vue";
 import Sider from "@/components/SvgEditor/Sider/index.vue";
+import MenuList from "./MenuList/index.vue";
+import MergeList from "./MergeList/index.vue";
 import { computed, ref, watchEffect } from "vue";
 import { resetHighlight } from "@/utils/svg/draw/";
+import { useMenuStore } from "@/stores/";
 
 const menuStore = useMenuStore();
 const activeName = ref("files");

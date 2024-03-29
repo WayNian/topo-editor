@@ -16,8 +16,8 @@
 <script setup lang="ts">
 import SvgEditor from "@/components/SvgEditor/Editor/index.vue";
 import Header from "@/components/SvgEditor/Header/index.vue";
-import LeftPanel from "@/components/SvgEditor/Panel/LeftPanel.vue";
-import RightPanel from "@/components/SvgEditor/Panel/RightPanel.vue";
+import LeftPanel from "@/components/SvgEditor/Panel/Left/index.vue";
+import RightPanel from "@/components/SvgEditor/Panel/Right/index.vue";
 import AttributeTrigger from "@/components/SvgEditor/Panel/Right/Attribute/AttributeTrigger.vue";
 import Shortcut from "@/components/SvgEditor/Shortcut/index.vue";
 import { useSvg } from "@/hooks/svg/useSvg";
