@@ -11,7 +11,7 @@ export const useDataStore = defineStore("data", () => {
 
   const currentNode = ref<INode | null>(null);
   const currentLink = ref<ILink | null>(null);
-  const isSelectViewVisible = false;
+  const isSelectionRectVisible = false;
 
   const fetchNodeLinkList = async (mapId: string) => {
     const res = await fetchNodeLinkListByMapId(mapId);
@@ -38,7 +38,7 @@ export const useDataStore = defineStore("data", () => {
     links,
     currentNode,
     currentLink,
-    isSelectViewVisible,
+    isSelectionRectVisible,
     fetchNodeLinkList,
     addNodeLinkListFunc,
     deleteLinkFunc

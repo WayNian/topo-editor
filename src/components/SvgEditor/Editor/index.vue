@@ -30,7 +30,7 @@
         <circle id="dragPointRotate" r="8" />
       </g>
     </g>
-    <rect id="selectView" v-show="dataStore.isSelectViewVisible"></rect>
+    <rect id="selectionRect" v-show="dataStore.isSelectionRectVisible"></rect>
   </svg>
 </template>
 

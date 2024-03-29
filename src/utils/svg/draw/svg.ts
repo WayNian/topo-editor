@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { attrSvg, attrMap } from "../attr/";
+import { attrSvg, attrMapBackground } from "../attr/";
 import type { ILink, INode } from "@/types/modules/canvas";
 import { bindMapZoom } from "../event/svg";
 import { useCommonStore, useMenuStore } from "@/stores/";
@@ -65,7 +65,7 @@ const drawMap = () => {
   const map = svg.select<SVGGElement>("g#map");
 
   attrSvg();
-  attrMap(map.select<SVGRectElement>("#mapBackground"));
+  attrMapBackground(map.select<SVGRectElement>("#mapBackground"));
   bindMapZoom(svg, map);
 };
 
@@ -73,7 +73,7 @@ export const clearSvg = () => {
   menuStore.setMapInfo();
   commonStore.isAttributeViewVisible = false;
 
-  attrMap(d3.select<SVGRectElement, any>("#mapBackground"));
+  attrMapBackground(d3.select<SVGRectElement, any>("#mapBackground"));
 
   d3.select<SVGGElement, any>("#nodeGroup").selectAll("g.node-group").remove();
   d3.select<SVGGElement, any>("#linkGroup").selectAll("g.link-group").remove();

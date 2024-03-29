@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import type { ISVGRect } from "@/types";
+import type { ISVGG, ISVGRect } from "@/types";
 import { useMenuStore } from "@/stores";
 
 const menuStore = useMenuStore();
@@ -8,7 +8,7 @@ export const attrSvg = () => {
   d3.select<SVGSVGElement, any>("#svgEditor").style("background-color", "black");
 };
 
-export const attrMap = (mapBackground: ISVGRect<any>) => {
+export const attrMapBackground = (mapBackground: ISVGRect<any>) => {
   const { width, height } = menuStore.mapSize;
 
   mapBackground
@@ -18,12 +18,17 @@ export const attrMap = (mapBackground: ISVGRect<any>) => {
     .attr("fill", "#3b3b3b");
 };
 
+export const attrMap = (map: ISVGG<any, HTMLElement>, trans: d3.ZoomTransform) => {
+  map.attr("transform", `translate(${trans.x},${trans.y}) scale(${trans.k})`);
+};
+
 export const attrSeletView = (
-  selectView: ISVGRect<any>,
+  selectionRect: ISVGRect<any>,
   position: { x: number; y: number },
-  size: { width: number; height: number }
+  size: { width: number; height: number },
+  isHide?: boolean
 ) => {
-  selectView
+  selectionRect
     .attr("width", size.width)
     .attr("height", size.height)
     .attr("x", position.x)
@@ -31,5 +36,6 @@ export const attrSeletView = (
     .attr("fill", "transparent")
     .attr("stroke", "white")
     .attr("stroke-width", 2)
-    .attr("stroke-dasharray", "5 5");
+    .attr("stroke-dasharray", "5 5")
+    .style("display", isHide ? "none" : "block");
 };
