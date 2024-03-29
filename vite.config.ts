@@ -15,7 +15,9 @@ export default defineConfig({
     vue(),
     VueDevTools(),
     UnoCSS(),
-    svgLoader(),
+    svgLoader({
+      defaultImport: "url"
+    }),
     AutoImport({
       imports: [
         "vue",

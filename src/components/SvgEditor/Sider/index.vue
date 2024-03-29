@@ -2,7 +2,7 @@
   <n-layout-sider
     collapse-mode="width"
     :collapsed-width="0"
-    :width="240"
+    :width="300"
     :show-collapsed-content="false"
     show-trigger="arrow-circle"
     content-style="padding: 24px;"
