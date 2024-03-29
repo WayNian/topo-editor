@@ -37,17 +37,16 @@
 </template>
 
 <script setup lang="ts">
+import type { IImportSvgData, IMapSource, IMenuSource } from "@/types";
+import emitter from "@/utils/mitt";
+import EditMenuFileModal from "./Modal/EditMenuFileModal.vue";
 import { h, onMounted, ref } from "vue";
 import { NIcon, type TreeOption, useDialog } from "naive-ui";
 import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
-import { parseSvg } from "@/utils/parse";
-import emitter from "@/utils/mitt";
-import type { IImportSvgData, IMapSource, IMenuSource } from "@/types";
-import EditMenuFileModal from "./Modal/EditMenuFileModal.vue";
 import { deleteMap, deleteMenu } from "@/utils/http/apis/menu";
 import { useCommonStore } from "@/stores/";
 import { useMenuStore } from "@/stores/";
-import { getContextMenu } from "@/utils/assistant/";
+import { getContextMenu, parseSvg } from "@/utils/assistant/";
 import { clearSvg } from "@/utils/svg/draw/";
 
 const dialog = useDialog();

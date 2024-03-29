@@ -7,7 +7,6 @@
 </template>
 
 <script setup lang="ts">
-import { parseSvg } from "@/utils/parse";
 import type { UploadFileInfo } from "naive-ui";
 
 const handleChange = (options: { file: UploadFileInfo }) => {
@@ -18,7 +17,6 @@ const handleChange = (options: { file: UploadFileInfo }) => {
   reader.onload = function (event: ProgressEvent<FileReader>) {
     if (!event.target) return;
     const data = event.target.result; // 获取文件内容
-    // parseSvg(data as string);
   };
   reader.readAsText(file); // 以文本格式读取文件内容
 };

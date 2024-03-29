@@ -56,5 +56,3 @@ onMounted(() => {
 </script>
 
 <style scoped></style>
-@/utils/svg/event/drag-point @/hooks/svg/useSvgEditor @/hooks/svg/useSvgEditor @/stores/
-@/stores/modules/canvas @/utils/svg/event/dragPoint
