@@ -13,9 +13,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@unocss/reset": "^0.58.5",
-    "axios": "^1.6.7",
-    "d3": "^7.8.5",
+    "@unocss/reset": "^0.58.8",
+    "axios": "^1.6.8",
+    "d3": "^7.9.0",
     "js-cookie": "^3.0.5",
     "mitt": "^3.0.1",
     "pinia": "^2.1.7",
@@ -24,30 +24,30 @@
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.7.2",
-    "@tsconfig/node20": "^20.1.2",
+    "@rushstack/eslint-patch": "^1.10.1",
+    "@tsconfig/node20": "^20.1.4",
     "@types/d3": "^7.4.3",
     "@types/js-cookie": "^3.0.6",
-    "@types/node": "^20.11.24",
-    "@unocss/transformer-directives": "^0.58.5",
+    "@types/node": "^20.12.2",
+    "@unocss/transformer-directives": "^0.58.8",
     "@vicons/ionicons5": "^0.12.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^12.0.0",
     "@vue/tsconfig": "^0.5.1",
     "eslint": "^8.57.0",
-    "eslint-plugin-vue": "^9.22.0",
+    "eslint-plugin-vue": "^9.24.0",
     "naive-ui": "^2.38.1",
     "npm-run-all2": "^6.1.2",
     "prettier": "^3.2.5",
-    "typescript": "~5.3.0",
-    "unocss": "^0.58.5",
+    "typescript": "~5.3.3",
+    "unocss": "^0.58.8",
     "unplugin-auto-import": "^0.17.5",
     "unplugin-vue-components": "^0.26.0",
     "vfonts": "^0.0.3",
-    "vite": "^5.1.6",
-    "vite-plugin-vue-devtools": "^7.0.18",
+    "vite": "^5.2.7",
+    "vite-plugin-vue-devtools": "^7.0.25",
     "vite-svg-loader": "^5.1.0",
-    "vue-tsc": "^2.0.4"
+    "vue-tsc": "^2.0.7"
   }
 }
