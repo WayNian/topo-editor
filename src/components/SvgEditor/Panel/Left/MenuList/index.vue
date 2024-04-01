@@ -125,12 +125,10 @@ const onDeleteSuccess = () => {
   menuStore.setMapInfo();
   menuStore.getMenuList();
   //   删除当前选择的菜单
-  if (
-    currentMenu.value!.isMenu &&
-    currentMenu.value?.key === (menuStore.currentMenu as IMapSource).mapId
-  ) {
+  if (editedParam.value?.key === (menuStore.currentMenu as IMapSource).mapId) {
     menuStore.currentMenu = null;
     currentMenu.value = null;
+    editedParam.value = null;
     clearSvg();
   }
 };
@@ -144,9 +142,9 @@ const deleteMenuMap = () => {
     maskClosable: false,
     closeOnEsc: false,
     onPositiveClick: async () => {
-      currentMenu.value!.isMenu
-        ? await deleteMenu(currentMenu.value?.key as string)
-        : await deleteMap(currentMenu.value?.key as string);
+      editedParam.value!.isMenu
+        ? await deleteMenu(editedParam.value?.key as string)
+        : await deleteMap(editedParam.value?.key as string);
 
       onDeleteSuccess();
     },
