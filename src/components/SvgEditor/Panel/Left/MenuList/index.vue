@@ -12,12 +12,14 @@
   <n-divider />
   <n-scrollbar style="height: calc(100vh - 150px)" @contextmenu="handleContentmenu">
     <n-tree
-      :expanded-keys="menuStore.expandedKeys"
       block-line
       expand-on-click
       :data="menuStore.menuList"
+      :expanded-keys="menuStore.expandedKeys"
+      :selected-keys="selectedKeys"
       :node-props="nodeProps"
-      :on-update:expanded-keys="updatePrefixWithExpaned"
+      :on-update:expanded-keys="updateExpanedKeys"
+      :on-update:selected-keys="updateSelectedKeys"
     />
   </n-scrollbar>
 
@@ -60,9 +62,10 @@ const contentMenuoptions = ref<TreeOption[]>([]);
 const currentMenu = ref<TreeOption | null>(null);
 const editedParam = ref<TreeOption | null>(null);
 const upload = ref<HTMLInputElement | null>(null);
+const selectedKeys = ref<string[]>([]);
 const editMenuFileModalRef = ref<InstanceType<typeof EditMenuFileModal> | null>(null);
 
-const updatePrefixWithExpaned = (
+const updateExpanedKeys = (
   _keys: Array<string | number>,
   _option: Array<TreeOption | null>,
   meta: {
@@ -88,6 +91,15 @@ const updatePrefixWithExpaned = (
   }
 };
 
+const updateSelectedKeys = (keys: string[], _option: Array<TreeOption | null>) => {
+  if (!_option || !_option.length) return;
+  const option = _option[0];
+  if (!option) return;
+  if (!option.isMenu) {
+    selectedKeys.value = keys;
+  }
+};
+
 const nodeProps = ({ option }: { option: TreeOption }) => {
   return {
     title: option.label,
@@ -96,6 +108,7 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
         menuStore.currentMenu = null;
         currentMenu.value = null;
         editedParam.value = null;
+        selectedKeys.value = [];
         clearSvg();
         return;
       }
