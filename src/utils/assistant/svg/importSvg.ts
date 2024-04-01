@@ -89,34 +89,25 @@ export const importSvg = (val: IImportSvgData) => {
 
       drawMerge();
 
-      //   nodes = dataStore.nodes
-      //     .concat(addNodeList)
-      //     .filter((node) => {
-      //       return !deleteNodeList.some((item) => item.id === node.id && item.nodeId === node.nodeId);
-      //     })
-      //     .map((node) => {
-      //       return {
-      //         ...node,
-      //         mapId
-      //       };
-      //     });
-      //   links = dataStore.links
-      //     .concat(addLinkList)
-      //     .filter((link) => {
-      //       return !deleteLinkList.some((item) => item.linkId === link.linkId);
-      //     })
-      //     .map((link) => {
-      //       return {
-      //         ...link,
-      //         mapId
-      //       };
-      //     });
+      nodes = addNodeList.map((node) => {
+        return {
+          ...node,
+          mapId
+        };
+      });
 
-      console.log("links", links);
+      links = addLinkList.map((link) => {
+        return {
+          ...link,
+          mapId
+        };
+      });
 
+      await dataStore.deleteLinkFunc(deleteLinkList);
       await dataStore.deleteLinkFunc(deleteLinkList);
       await dataStore.addNodeLinkListFunc(nodes, links);
       await dataStore.fetchNodeLinkList(mapId);
+      window.$message.success("导入成功");
       draw();
     });
   }
