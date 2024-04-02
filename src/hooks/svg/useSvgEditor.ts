@@ -1,4 +1,4 @@
-import { importSvg, selectMap } from "@/utils/assistant";
+import { importSvg, selectMap } from "@/utils/tools";
 import emitter from "@/utils/mitt";
 import { onMounted } from "vue";
 

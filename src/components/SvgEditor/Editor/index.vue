@@ -44,7 +44,7 @@ import { computed, onMounted } from "vue";
 import { useSvgEditor } from "@/hooks/svg/useSvgEditor";
 import { useDataStore } from "@/stores/";
 import { bindDragPointEvent } from "@/utils/editor/event/dragPoint";
-import { onDroped } from "@/utils/assistant";
+import { onDroped } from "@/utils/tools";
 
 useSvgEditor();
 

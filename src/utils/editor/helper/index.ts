@@ -1,6 +1,6 @@
 import { useMenuStore } from "@/stores";
 import type { IPath } from "@/types";
-import { getSvgSize } from "@/utils/assistant";
+import { getSvgSize } from "@/utils/tools";
 const menuStore = useMenuStore();
 
 export const setInitTransform = () => {

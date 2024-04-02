@@ -8,8 +8,7 @@ import type {
   ITreeItem
 } from "@/types";
 import { fetchMenuList } from "@/utils/http/apis/menu";
-import { clearData, getSize } from "@/utils/assistant";
-import { formatMenuCascaderist, formatMenuList } from "@/utils/assistant";
+import { formatMenuCascaderist, formatMenuList, clearData, getSize } from "@/utils/tools";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 

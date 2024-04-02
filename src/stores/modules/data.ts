@@ -2,7 +2,7 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import type { ILink, INode } from "@/types/";
 import { addNodeLinkList, deleteLinks, fetchNodeLinkListByMapId } from "@/utils/http/apis/topo";
-import { formatLinks, formatNodes } from "@/utils/assistant/";
+import { formatLinks, formatNodes } from "@/utils/tools/";
 import { useMenuStore } from "..";
 
 export const useDataStore = defineStore("data", () => {
