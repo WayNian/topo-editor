@@ -1,4 +1,4 @@
-import { getTransPosition } from "@/utils/common";
+import { getTransPosition } from "@/utils/assistant";
 
 export const onDroped = (e: DragEvent) => {
   const svgEl = document.querySelector("#svgEditor");
