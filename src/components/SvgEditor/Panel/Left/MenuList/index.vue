@@ -49,7 +49,7 @@ import { deleteMap, deleteMenu } from "@/utils/http/apis/menu";
 import { useCommonStore } from "@/stores/";
 import { useMenuStore } from "@/stores/";
 import { getContextMenu, parseSvg } from "@/utils/assistant/";
-import { clearSvg } from "@/utils/svg/draw/";
+import { clearSvg } from "@/utils/editor/draw/";
 
 const dialog = useDialog();
 const commonStore = useCommonStore();

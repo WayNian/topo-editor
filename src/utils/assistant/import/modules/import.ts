@@ -1,6 +1,6 @@
 import { useDataStore } from "@/stores/modules/data";
 import type { IImportSvgData, ILink, IMapSource, INode } from "@/types";
-import { draw, drawMerge } from "@/utils/svg/draw/";
+import { draw, drawMerge } from "@/utils/editor/draw/";
 import { checkLinks, checkNodes } from "./helper";
 import { useCommonStore } from "@/stores/modules/common";
 import { addMap, updateMap } from "@/utils/http/apis/menu";

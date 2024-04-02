@@ -1,5 +1,5 @@
 import { useCommonStore } from "@/stores/modules/common";
-import { bindWindowEvent, unbindWindowEvent } from "@/utils/svg/event";
+import { bindWindowEvent, unbindWindowEvent } from "@/utils/editor/event";
 import { useMessage, useModal } from "naive-ui";
 import { onBeforeMount, onMounted } from "vue";
 

@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watchEffect } from "vue";
-import { resetHighlight } from "@/utils/svg/draw/";
+import { resetHighlight } from "@/utils/editor/draw/";
 import { useMenuStore } from "@/stores/";
 import Panel from "@/components/SvgEditor/Common/Panel/index.vue";
 import Sider from "@/components/SvgEditor/Sider/index.vue";
@@ -40,4 +40,4 @@ watchEffect(() => {
 </script>
 
 <style scoped></style>
-@/utils/svg/indexSvg @/stores/modules/common
+@/utils/editor/indexSvg @/stores/modules/common
