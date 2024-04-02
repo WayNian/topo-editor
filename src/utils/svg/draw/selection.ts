@@ -31,19 +31,38 @@ export const setStartPoint = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
 
   startPoint.x = x - rect.x;
   startPoint.y = y - rect.y;
+  dataStore.isSelectionRectVisible = true;
 };
 
 export const updateSelectionRect = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
-  if (!e.sourceEvent) return;
-  dataStore.isSelectionRectVisible = true;
-  size.width = e.sourceEvent.x - startPoint.x - svgOffset.x;
-  size.height = e.sourceEvent.y - startPoint.y - svgOffset.y;
+  if (!e.sourceEvent || !dataStore.isSelectionRectVisible) return;
+  let { x, y } = e.sourceEvent;
+  x = x - svgOffset.x;
+  y = y - svgOffset.y;
 
-  attrSeletView(selectionRect, startPoint, size);
+  const point = {
+    x: 0,
+    y: 0
+  };
+
+  size.width = Math.abs(x - startPoint.x);
+  size.height = Math.abs(y - startPoint.y);
+
+  point.x = startPoint.x;
+  point.y = startPoint.y;
+
+  if (x < startPoint.x) {
+    point.x = x;
+  }
+  if (y < startPoint.y) {
+    point.y = y;
+  }
+
+  attrSeletView(selectionRect, point, size);
 };
 
 export const hideSelectionRect = () => {
-  dataStore.isSelectionRectVisible = true;
+  dataStore.isSelectionRectVisible = false;
   startPoint.x = 0;
   startPoint.y = 0;
   size.width = 0;

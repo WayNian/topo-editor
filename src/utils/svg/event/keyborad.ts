@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import { useCommonStore } from "@/stores";
+import { hideSelectionRect } from "../draw";
 
 const commonStore = useCommonStore();
 export const bindWindowEvent = () => {
@@ -7,6 +8,7 @@ export const bindWindowEvent = () => {
   d3.select("body").on("keydown", function (e) {
     if (e.code === "Space") {
       commonStore.isSpaceDown = true;
+      hideSelectionRect();
     }
   });
   d3.select("body").on("keyup", function (e) {

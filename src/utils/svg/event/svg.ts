@@ -41,7 +41,7 @@ const zooming = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
     isZoom = true;
     zoomRecord = e.transform;
     svgStore.scale = e.transform.k;
-    dataStore.isSelectionRectVisible = true;
+    dataStore.isSelectionRectVisible = false;
 
     attrMap(map, e.transform);
   }
