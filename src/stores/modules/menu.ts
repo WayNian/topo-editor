@@ -9,7 +9,7 @@ import type {
 } from "@/types";
 import { fetchMenuList } from "@/utils/http/apis/menu";
 import { getSize } from "@/utils/tools/common";
-import { formatMenuCascaderist, formatMenuList } from "@/utils/tools/menu";
+import { formatMenuCascaderist, formatMenuList } from "@/utils/assistant";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { clearData } from "../../utils/assistant/data/storeData";
