@@ -8,10 +8,11 @@ import type {
   ITreeItem
 } from "@/types";
 import { fetchMenuList } from "@/utils/http/apis/menu";
-import { clearData, getSize } from "@/utils/assistant";
+import { clearData } from "@/utils/assistant";
 import { formatMenuCascaderist, formatMenuList } from "@/utils/assistant";
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { getSize } from "@/utils/common";
 
 export const useMenuStore = defineStore("menu", () => {
   const menuList = ref<ITreeItem[]>();

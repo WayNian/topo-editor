@@ -1,3 +1,3 @@
 export * from "./menu";
-export * from "./svg";
+export * from "./import";
 export * from "./data";

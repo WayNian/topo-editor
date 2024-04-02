@@ -1,6 +1,6 @@
+import { importSvg, selectMap } from "@/utils/assistant";
 import emitter from "@/utils/mitt";
 import { onMounted } from "vue";
-import { importSvg, selectMap } from "../../utils/assistant/svg/modules/import";
 
 export const useSvgEditor = () => {
   const initEvent = () => {
