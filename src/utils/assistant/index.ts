@@ -1,3 +1,3 @@
 export * from "./menu";
-export * from "./data/formatData";
-export * from "./svg/parseData";
+export * from "./svg";
+export * from "./data";
