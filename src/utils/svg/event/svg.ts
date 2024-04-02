@@ -6,7 +6,7 @@ import {
   updateSelectionRect
 } from "../draw/";
 import type { ISVG, ISVGG } from "@/types";
-import { setInitTransform } from "../assistant";
+import { setInitTransform } from "../helper";
 import { useDataStore } from "@/stores/modules/data";
 import { useCommonStore, useSvgStore } from "@/stores";
 import { attrMap } from "../attr";
