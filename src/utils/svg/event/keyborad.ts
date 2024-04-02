@@ -1,5 +1,4 @@
 import * as d3 from "d3";
-import { resetSvg } from ".";
 import { useCommonStore } from "@/stores";
 
 const commonStore = useCommonStore();
@@ -13,7 +12,6 @@ export const bindWindowEvent = () => {
   d3.select("body").on("keyup", function (e) {
     if (e.code === "Space") {
       commonStore.isSpaceDown = false;
-      resetSvg();
     }
   });
 };

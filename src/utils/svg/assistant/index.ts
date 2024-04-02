@@ -9,7 +9,6 @@ export const setInitTransform = () => {
   const mapHeight = menuStore.mapSize.height;
 
   const aspectRatio = mapWidth / mapHeight;
-  console.log("🚀 ~ setInitTransform ~ aspectRatio:", width, height, aspectRatio);
   const scaleFactor = aspectRatio > 1 ? (width - 50) / mapWidth : (height - 50) / mapHeight;
 
   const scaledWidth = mapWidth * scaleFactor;
