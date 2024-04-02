@@ -22,6 +22,15 @@ export function parseSvgPath(svgPath: string) {
   return coordinates;
 }
 
+const formatObject = (data: string): Record<string, string> => {
+  if (!data) return {};
+  if (typeof data === "object") return data;
+  try {
+    return JSON.parse(data);
+  } catch (error) {
+    return {};
+  }
+};
 export const formatNodes = (data: ISourceNode[]): INode[] => {
   return data.map((item) => {
     const { nodePosition, nodeSize, nodeStyles, textStyles } = item;
@@ -37,27 +46,19 @@ export const formatNodes = (data: ISourceNode[]): INode[] => {
       height,
       position: { x, y },
       size: { width, height },
-      style: typeof nodeStyles === "string" ? JSON.parse(nodeStyles) : nodeStyles,
-      nodeStyles: typeof nodeStyles === "string" ? JSON.parse(nodeStyles) : nodeStyles,
-      textStyles: typeof textStyles === "string" ? JSON.parse(textStyles) : textStyles
+      style: formatObject(nodeStyles),
+      textStyle: formatObject(textStyles)
     };
   });
 };
 
-const formatStyle = (style: string) => {
-  try {
-    return JSON.parse(style);
-  } catch (error) {
-    return {};
-  }
-};
 export const formatLinks = (data: ISourceLink[]): ILink[] => {
   return data.map((item) => {
     const { linkStyles } = item;
     return {
       ...item,
       pathArray: parseSvgPath(item.linkPath),
-      style: formatStyle(linkStyles)
+      style: formatObject(linkStyles)
     };
   });
 };

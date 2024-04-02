@@ -24,12 +24,12 @@ export interface ISourceNode {
   nodePosition: string;
   nodeSize: string;
   rotate: number;
-  nodeStyles: string | Record<string, string>;
+  nodeStyles: string;
   nodeText: string;
   fontSize: string;
   fontColor: string;
   textPosition: string;
-  textStyles: string | Record<string, string>;
+  textStyles: string;
   bindData: Record<string, string>;
   bindMap: any;
   bindLink: any;
@@ -48,8 +48,7 @@ export interface INode extends ISourceNode {
   height: number;
   id: string;
   style: Record<string, string>;
-  nodeStyles: Record<string, string>;
-  textStyles: Record<string, string>;
+  textStyle: Record<string, string>;
 }
 
 export interface ISourceLink {

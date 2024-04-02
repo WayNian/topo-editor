@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import { attrSvg, attrMapBackground } from "../attr/";
-import type { ILink, INode } from "@/types/modules/canvas";
+import type { ILink, INode } from "@/types/modules/data";
 import { bindMapZoom } from "../event/svg";
 import { useCommonStore, useMenuStore } from "@/stores/";
 import { drawLinks, drawMergeLinks, drawMergeNodes, drawNodes } from ".";

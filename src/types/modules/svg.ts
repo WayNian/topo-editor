@@ -1,5 +1,5 @@
 import type { EnterElement } from "d3";
-import type { ILink } from "./canvas";
+import type { ILink } from "./data";
 
 export type ISVG = d3.Selection<SVGSVGElement, any, HTMLElement, any>;
 

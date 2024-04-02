@@ -199,7 +199,7 @@ const formatData = (node: ISvgNode) => {
   const s = node.attr("style");
   const id = el.parentElement?.id;
 
-  if (!id) return;
+  //   if (!id) return;
 
   const matrixList = collectNodeMatrix(el);
   const { x, y, width, height } = formatTransform(el);
@@ -258,6 +258,11 @@ const formatData = (node: ISvgNode) => {
         });
       }
       break;
+    case "polyline":
+      {
+        const points = node.attr("points");
+      }
+      break;
     case "rect":
       {
         const x = +node.attr("x");
@@ -265,16 +270,29 @@ const formatData = (node: ISvgNode) => {
         const rect = el.getBoundingClientRect();
 
         const position = getPosionByMatrix([x, y], matrixList);
-        const position1 = [rect.width * xScale, rect.height * yScale];
+        const size = [rect.width * xScale, rect.height * yScale];
 
         nodes.push({
           domId: id,
           nodeType: "rect",
           type: "rect",
           position: { x: position[0], y: position[1] },
-          size: { width: position1[0], height: position1[1] },
-          styleSource: s,
-          style
+          size: { width: size[0], height: size[1] },
+          nodePosition: `${position[0]},${position[1]}`,
+          nodeSize: `${size[0]}*${size[1]}`,
+          nodeStyles: JSON.stringify(style),
+          style,
+          rotate: 0, //旋转角度
+          nodeText: "", //节点文字
+          fontSize: "", //节点字号
+          fontColor: "", //节点字色
+          textPosition: "", //文字位置
+          textStyles: "", //文字样式
+          bindData: {}, //关联数据
+          bindMap: {}, //关联图层
+          bindLink: "", //关联链路id
+          bindSubLink: "", //关联链路点
+          sublayerList: []
         });
       }
       break;
