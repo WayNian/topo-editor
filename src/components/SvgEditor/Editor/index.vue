@@ -1,5 +1,10 @@
 <template>
-  <svg id="svgEditor" style="width: 100%; height: 100%">
+  <svg
+    id="svgEditor"
+    style="width: 100%; height: 100%"
+    @dragover="handleDragover"
+    @drop="handleDrop"
+  >
     <g id="map">
       <rect id="mapBackground" />
       <g id="linkGroup"></g>
@@ -39,6 +44,7 @@ import { computed, onMounted } from "vue";
 import { useSvgEditor } from "@/hooks/svg/useSvgEditor";
 import { useDataStore } from "@/stores/";
 import { bindDragPointEvent } from "@/utils/svg/event/dragPoint";
+import { onDroped } from "@/utils/assistant";
 
 useSvgEditor();
 
@@ -49,6 +55,16 @@ const currentBBox = computed(() => {
   const { x, y, width, height } = dataStore.currentNode;
   return { x, y, width, height };
 });
+
+const handleDragover = (e: DragEvent) => {
+  e.preventDefault();
+  e.dataTransfer && (e.dataTransfer.dropEffect = "copy");
+};
+
+const handleDrop = (e: DragEvent) => {
+  e.preventDefault();
+  onDroped(e);
+};
 
 onMounted(() => {
   bindDragPointEvent();

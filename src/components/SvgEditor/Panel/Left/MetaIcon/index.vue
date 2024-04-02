@@ -4,11 +4,11 @@
     <n-grid-item
       v-for="(item, index) in MetaBaseIconList.objList"
       :key="index"
-      draggable
+      draggable="true"
       @dragstart="handleDragStart"
       class="flex flex-col items-center px-4 py-2 bg-#3b3b3b rounded-1 hover:opacity-80 cursor-grab"
     >
-      <img :src="item.objImg" class="w-6 h-6 select-none" :draggable="false" />
+      <img :src="item.objImg" class="w-6 h-6 select-none" draggable="false" />
       <span class="text-xs mt-2 select-none">{{ item.objName }}</span>
     </n-grid-item>
   </n-grid>

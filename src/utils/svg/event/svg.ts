@@ -48,6 +48,8 @@ const zooming = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
 };
 
 const zoomend = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
+  svgStore.zoomTrans = e.transform;
+
   if (isZoom) {
     zoomTran = e.transform;
   } else {
@@ -78,6 +80,8 @@ export const bindMapZoom = (svgView: ISVG, mapView: ISVGG<any, HTMLElement>) => 
 
   svg = svgView;
   map = mapView;
+  svgStore.zoomTrans = { x, y, k };
+
   zoom = d3
     .zoom<SVGSVGElement, unknown>()
     .scaleExtent([0.01, 10])
