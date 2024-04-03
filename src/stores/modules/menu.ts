@@ -16,6 +16,7 @@ export const useMenuStore = defineStore("menu", () => {
   const menuList = ref<ITreeItem[]>();
   const menuCascaderList = ref<IMenuCascaderItem[]>();
   const expandedKeys = ref<Array<string | number>>([]);
+  const selectedKeys = ref<Array<string | number>>([]);
 
   const mapInfo = ref<IMap | null>(null);
   const mapSize = ref({ width: 0, height: 0 });
@@ -57,6 +58,7 @@ export const useMenuStore = defineStore("menu", () => {
     menuList,
     menuCascaderList,
     expandedKeys,
+    selectedKeys,
     currentMenu,
     mapInfo,
     mapSize,

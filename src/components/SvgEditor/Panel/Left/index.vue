@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watchEffect } from "vue";
+import { computed, onBeforeMount, onMounted, ref, watchEffect } from "vue";
 import { resetHighlight } from "@/utils/editor/draw/";
 import { useMenuStore, useSvgStore } from "@/stores/";
 import Panel from "@/components/SvgEditor/Common/Panel/index.vue";
@@ -40,6 +40,14 @@ watchEffect(() => {
     resetHighlight();
   }
   svgStore.isEdit = activeName.value !== "merge";
+});
+
+onMounted(() => {
+  menuStore.getMenuList();
+});
+
+onBeforeMount(() => {
+  menuStore.selectedKeys = [];
 });
 </script>
 

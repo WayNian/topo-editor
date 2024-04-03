@@ -16,7 +16,7 @@
       expand-on-click
       :data="menuStore.menuList"
       :expanded-keys="menuStore.expandedKeys"
-      :selected-keys="selectedKeys"
+      :selected-keys="menuStore.selectedKeys"
       :node-props="nodeProps"
       :on-update:expanded-keys="updateExpanedKeys"
       :on-update:selected-keys="updateSelectedKeys"
@@ -42,7 +42,7 @@
 import type { IImportSvgData, IImportType, IMapSource, IMenuSource } from "@/types";
 import emitter from "@/utils/mitt";
 import EditMenuFileModal from "../Modal/EditMenuFileModal.vue";
-import { h, onMounted, ref } from "vue";
+import { h, ref } from "vue";
 import { NIcon, type TreeOption, useDialog } from "naive-ui";
 import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
 import { deleteMap, deleteMenu } from "@/utils/http/apis/menu";
@@ -62,7 +62,6 @@ const contentMenuoptions = ref<TreeOption[]>([]);
 const currentMenu = ref<TreeOption | null>(null);
 const editedParam = ref<TreeOption | null>(null);
 const upload = ref<HTMLInputElement | null>(null);
-const selectedKeys = ref<string[]>([]);
 const editMenuFileModalRef = ref<InstanceType<typeof EditMenuFileModal> | null>(null);
 
 const updateExpanedKeys = (
@@ -96,7 +95,7 @@ const updateSelectedKeys = (keys: string[], _option: Array<TreeOption | null>) =
   const option = _option[0];
   if (!option) return;
   if (!option.isMenu) {
-    selectedKeys.value = keys;
+    menuStore.selectedKeys = keys;
   }
 };
 
@@ -106,9 +105,9 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
     onClick() {
       if (option === currentMenu.value) {
         menuStore.currentMenu = null;
+        menuStore.selectedKeys = [];
         currentMenu.value = null;
         editedParam.value = null;
-        selectedKeys.value = [];
         clearSvg();
         return;
       }
@@ -236,10 +235,6 @@ const handleCreateMenuFile = (isEdit: boolean, type?: string) => {
 
   editMenuFileModalRef.value?.show(isEdit, editedParam.value);
 };
-
-onMounted(() => {
-  menuStore.getMenuList();
-});
 </script>
 
 <style>
