@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IImportSvgData, IMapSource, IMenuSource } from "@/types";
+import type { IImportSvgData, IImportType, IMapSource, IMenuSource } from "@/types";
 import emitter from "@/utils/mitt";
 import EditMenuFileModal from "../Modal/EditMenuFileModal.vue";
 import { h, onMounted, ref } from "vue";
@@ -176,6 +176,26 @@ const handleChange = () => {
       upload.value!.value = "";
     });
 };
+const importSvg = (type: IImportType) => {
+  if (type === "importAll") {
+    dialog.warning({
+      title: "警告",
+      content: "导入会覆盖当前数据？",
+      positiveText: "确定",
+      negativeText: "取消",
+      maskClosable: false,
+      closeOnEsc: false,
+      onPositiveClick: async () => {
+        commonStore.importType = type;
+        upload.value?.click();
+      },
+      onAfterLeave: () => {}
+    });
+  } else {
+    commonStore.importType = type;
+    upload.value?.click();
+  }
+};
 
 const handleSelect = (key: string | number) => {
   showDropdown.value = false;
@@ -192,8 +212,7 @@ const handleSelect = (key: string | number) => {
     case "import":
     case "importAddition":
     case "importAll":
-      commonStore.importType = key;
-      upload.value?.click();
+      importSvg(key);
       break;
   }
 };
