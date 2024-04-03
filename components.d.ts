@@ -21,7 +21,7 @@ declare module 'vue' {
     MetaIcom: typeof import('./src/components/SvgEditor/Panel/Left/MetaIcom/index.vue')['default']
     MetaIcon: typeof import('./src/components/SvgEditor/Panel/Left/MetaIcon/index.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
-    NCard: (typeof import("naive-ui"))["NCard"]
+    NCard: typeof import('naive-ui')['NCard']
     NCascader: typeof import('naive-ui')['NCascader']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
     NDialogProvider: typeof import('naive-ui')['NDialogProvider']

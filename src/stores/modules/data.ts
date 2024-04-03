@@ -1,7 +1,12 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
 import type { ILink, INode } from "@/types/";
-import { addNodeLinkList, deleteLinks, fetchNodeLinkListByMapId } from "@/utils/http/apis/topo";
+import {
+  addNodeLinkList,
+  deleteLinks,
+  deleteNodes,
+  fetchNodeLinkListByMapId
+} from "@/utils/http/apis/topo";
 import { formatLinks, formatNodes } from "@/utils/tools/";
 import { useMenuStore } from "..";
 
@@ -26,6 +31,14 @@ export const useDataStore = defineStore("data", () => {
     links = [];
   };
 
+  const deleteNodeFunc = async (nodes: INode[]) => {
+    if (!nodes.length) return;
+    const menuStore = useMenuStore();
+    const nodeIdList = nodes.map((item) => item.nodeId);
+    const mapId = menuStore.mapInfo!.mapId as string;
+    await deleteNodes({ nodeIdList, mapId });
+  };
+
   const deleteLinkFunc = async (links: ILink[]) => {
     if (!links.length) return;
     const menuStore = useMenuStore();
@@ -41,6 +54,7 @@ export const useDataStore = defineStore("data", () => {
     isSelectionRectVisible,
     fetchNodeLinkList,
     addNodeLinkListFunc,
+    deleteNodeFunc,
     deleteLinkFunc
   };
 });

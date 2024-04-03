@@ -103,7 +103,7 @@ export const importSvg = async (val: IImportSvgData) => {
     });
 
     await addUpdataMapFunc();
-    // await dataStore.deleteLinkFunc(deleteLinkList);
+    await dataStore.deleteNodeFunc(deleteNodeList);
     await dataStore.deleteLinkFunc(deleteLinkList);
     await dataStore.addNodeLinkListFunc(nodes, links);
     await dataStore.fetchNodeLinkList(mapId);
