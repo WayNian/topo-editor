@@ -15,8 +15,8 @@ export interface IMatrix {
   e: number;
   f: number;
 }
-export interface ISourceNode {
-  nodeId: string;
+
+export interface IOriginalNode {
   mapId: string;
   domId: string;
   nodeType: string;
@@ -32,12 +32,16 @@ export interface ISourceNode {
   textStyles: string;
   bindData: Record<string, string>;
   bindMap: any;
-  bindLink: any;
-  bindSubLink: string | null;
   metaData: Record<string, string> | null;
-  updatedBy: string | null;
-  updatedTime: string | null;
   sublayerList: string[] | null;
+}
+
+export interface ISourceNode extends IOriginalNode {
+  nodeId: string;
+  bindLink?: any;
+  bindSubLink?: string | null;
+  updatedBy?: string | null;
+  updatedTime?: string | null;
 }
 
 export interface INode extends ISourceNode {
@@ -51,8 +55,7 @@ export interface INode extends ISourceNode {
   textStyle: Record<string, string>;
 }
 
-export interface ISourceLink {
-  linkId: string;
+export interface IOriginalLink {
   domId: string;
   mapId: string;
   linkType: string;
@@ -67,10 +70,14 @@ export interface ISourceLink {
   bindData: Record<string, string>;
   bindMap: any;
   metaData: Record<string, string> | null;
+  sublayerList: string[] | null;
+}
+
+export interface ISourceLink extends IOriginalLink {
+  linkId: string;
   updatedBy: string | null;
   updatedTime: string | null;
   transform: string;
-  sublayerList: string[] | null;
 }
 
 export interface ILink extends ISourceLink {
@@ -83,3 +90,5 @@ export interface INodeLinkSource {
   nodes: ISourceNode[];
   links: ISourceLink[];
 }
+
+export type IImportType = "import" | "importAddition" | "importAll";

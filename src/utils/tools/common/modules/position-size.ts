@@ -8,7 +8,8 @@ export const getTransPosition = (x: number, y: number) => {
   return d3.zoomIdentity
     .translate(svgStore.zoomTrans.x, svgStore.zoomTrans.y)
     .scale(svgStore.zoomTrans.k)
-    .invert([x, y]);
+    .invert([x, y])
+    .map((item) => Math.round(item));
 };
 
 export const getScreenSize = () => {
