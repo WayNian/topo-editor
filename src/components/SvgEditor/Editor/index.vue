@@ -11,28 +11,46 @@
       <g id="nodeGroup"></g>
       <g id="mergeLinkGroup"></g>
       <g id="mergeNodeGroup"></g>
-      <g>
-        <rect
-          id="selectedRect"
-          :transform="`translate(${currentBBox.x}, ${currentBBox.y})`"
-          :width="currentBBox.width"
-          :height="currentBBox.height"
-          fill="none"
-          stroke="#409eff"
-          stroke-width="2"
-          stroke-dasharray="5,5"
-        />
-      </g>
       <g
         id="dragPoints"
         v-show="currentBBox.width || currentBBox.height"
         :transform="`translate(${currentBBox.x}, ${currentBBox.y})`"
+        fill="#ffffff"
       >
-        <circle id="dragPointLeftTop" r="8" />
-        <circle id="dragPointRightTop" r="8" :cx="currentBBox.width" />
-        <circle id="dragPointRightBottom" r="8" :cx="currentBBox.width" :cy="currentBBox.height" />
-        <circle id="dragPointLeftBottom" r="8" :cy="currentBBox.height" />
-        <circle id="dragPointRotate" r="8" />
+        <rect
+          id="selectedRect"
+          :width="currentBBox.width"
+          :height="currentBBox.height"
+          fill="none"
+          stroke-dasharray="5,5"
+          stroke="#409eff"
+          stroke-width="2"
+          pointer-events="none"
+        />
+        <circle id="dragPointLeftTop" r="8" stroke-width="1" stroke="#409eff" />
+        <circle
+          id="dragPointRightTop"
+          r="8"
+          :cx="currentBBox.width"
+          stroke-width="1"
+          stroke="#409eff"
+        />
+        <circle
+          id="dragPointRightBottom"
+          r="8"
+          :cx="currentBBox.width"
+          :cy="currentBBox.height"
+          stroke-width="1"
+          stroke="#409eff"
+        />
+        <circle
+          id="dragPointLeftBottom"
+          r="8"
+          :cy="currentBBox.height"
+          stroke-width="1"
+          stroke="#409eff"
+        />
+        <circle id="dragPointRotate" r="8" stroke-width="1" stroke="#409eff" />
       </g>
     </g>
     <rect id="selectionRect" v-show="dataStore.isSelectionRectVisible"></rect>
