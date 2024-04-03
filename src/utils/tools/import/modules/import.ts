@@ -1,6 +1,6 @@
 import { useDataStore } from "@/stores/modules/data";
 import type { IImportSvgData, ILink, IMapSource, INode } from "@/types";
-import { draw, drawMerge, transparentizeNodeLink } from "@/utils/editor/draw/";
+import { draw, drawMerge } from "@/utils/editor/draw/";
 import { checkLinks, checkNodes } from "./helper";
 import { useCommonStore } from "@/stores/modules/common";
 import { addMap, updateMap } from "@/utils/http/apis/menu";
@@ -15,9 +15,11 @@ const menuStore = useMenuStore();
  * @param map
  */
 export const selectMap = async (map: IMapSource) => {
+  commonStore.isLoading = true;
   menuStore.setMapInfo(map);
   await dataStore.fetchNodeLinkList(map.mapId);
   draw();
+  commonStore.isLoading = false;
 };
 
 const generateMap = (name?: string) => {
@@ -52,6 +54,8 @@ const addUpdataMapFunc = (name?: string) => {
 };
 
 export const importSvg = async (val: IImportSvgData) => {
+  commonStore.isLoading = true;
+
   let nodes: INode[] = [];
   let links: ILink[] = [];
   //   如果直接导入,先生成新的map文件
@@ -75,7 +79,7 @@ export const importSvg = async (val: IImportSvgData) => {
 
       await dataStore.addNodeLinkListFunc(nodes, links);
       window.$message.success("导入成功");
-      //   draw();
+      commonStore.isLoading = false;
     });
   } else {
     const mapId = menuStore.mapInfo?.mapId;
@@ -110,9 +114,10 @@ export const importSvg = async (val: IImportSvgData) => {
     window.$message.success("导入成功");
 
     draw();
-
     if (menuStore.mergeLinkList.length || menuStore.mergeNodeList.length) {
       drawMerge();
     }
+
+    commonStore.isLoading = false;
   }
 };

@@ -215,8 +215,6 @@ const handleCreateMenuFile = (isEdit: boolean, type?: string) => {
     editedParam.value = null;
   }
 
-  console.log("🚀 ~ handleCreateMenuFile ~ editedParam.value:", editedParam.value);
-
   editMenuFileModalRef.value?.show(isEdit, editedParam.value);
 };
 

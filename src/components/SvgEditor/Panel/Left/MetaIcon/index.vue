@@ -5,7 +5,7 @@
       v-for="(item, index) in MetaBaseIconList.objList"
       :key="index"
       draggable="true"
-      @dragstart="handleDragStart"
+      @dragstart="handleDragStart($event, item)"
       class="flex flex-col items-center px-4 py-2 bg-#3b3b3b rounded-1 hover:opacity-80 cursor-grab"
     >
       <img :src="item.objImg" class="w-6 h-6 select-none" draggable="false" />
@@ -15,11 +15,11 @@
 </template>
 
 <script setup lang="ts">
+import type { IObjItem } from "@/types";
 import { MetaBaseIconList } from "@/utils/constant";
 
-const handleDragStart = (e: DragEvent) => {
-  console.log("🚀 ~ handleDragStart ~ e:", e);
-  //   e.dataTransfer?.setData("text/plain", JSON.stringify(MetaBaseIconList.objList));
+const handleDragStart = (e: DragEvent, val: IObjItem) => {
+  e.dataTransfer?.setData("text/plain", JSON.stringify(val));
 };
 </script>
 

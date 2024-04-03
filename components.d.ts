@@ -46,6 +46,8 @@ declare module 'vue' {
     NModalProvider: typeof import('naive-ui')['NModalProvider']
     NodeAttribute: typeof import('./src/components/SvgEditor/Panel/Right/Attribute/NodeAttribute.vue')['default']
     NScrollbar: typeof import('naive-ui')['NScrollbar']
+    NSpace: typeof import('naive-ui')['NSpace']
+    NSpin: typeof import('naive-ui')['NSpin']
     NTabPane: typeof import('naive-ui')['NTabPane']
     NTabs: typeof import('naive-ui')['NTabs']
     NTag: typeof import('naive-ui')['NTag']

@@ -6,8 +6,9 @@ export const useCommonStore = defineStore("common", () => {
   const isAttributeViewVisible = ref(false);
   const modal = ref<ModalApiInjection>();
   const importType = ref<"import" | "importAddition" | "importAll">("importAddition");
+  const isLoading = ref(false);
 
   const isSpaceDown = ref(false);
 
-  return { isAttributeViewVisible, modal, importType, isSpaceDown };
+  return { isAttributeViewVisible, modal, importType, isSpaceDown, isLoading };
 });
