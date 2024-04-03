@@ -113,7 +113,6 @@ export const importSvg = async (val: IImportSvgData) => {
 
     if (menuStore.mergeLinkList.length || menuStore.mergeNodeList.length) {
       drawMerge();
-      transparentizeNodeLink();
     }
   }
 };
