@@ -1,10 +1,16 @@
 import type { INode, ILink, INodeLinkSource } from "@/types";
 import request from "../index";
 
-interface IDeleteModel {
+interface IDeleteNodeModel {
+  nodeIdList: string[];
+  mapId: string;
+}
+
+interface IDeleteLinkModel {
   linkIdList: string[];
   mapId: string;
 }
+
 export const fetchNodeLinkListByMapId = (mapId: string) => {
   return request.get<INodeLinkSource>({
     url: "/topoEdit/getNodeLinkListByMapId",
@@ -20,11 +26,15 @@ export const addNode = (params: INode) => {
   return request.post({ url: "/topoEdit/insertNode", data: params });
 };
 
+export const deleteNodes = (params: IDeleteNodeModel) => {
+  return request.post({ url: "/topoEdit/deleteNode", data: params });
+};
+
 export const addLink = (params: ILink) => {
   return request.post({ url: "/topoEdit/insertLink", data: params });
 };
 
-export const deleteLinks = (params: IDeleteModel) => {
+export const deleteLinks = (params: IDeleteLinkModel) => {
   return request.post({ url: "/topoEdit/deleteLink", data: params });
 };
 
