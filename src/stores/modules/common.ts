@@ -5,7 +5,7 @@ import { ref } from "vue";
 export const useCommonStore = defineStore("common", () => {
   const isAttributeViewVisible = ref(false);
   const modal = ref<ModalApiInjection>();
-  const importType = ref<string>("addition");
+  const importType = ref<"import" | "importAddition" | "importAll">("importAddition");
 
   const isSpaceDown = ref(false);
 

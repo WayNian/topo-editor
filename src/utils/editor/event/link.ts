@@ -1,10 +1,11 @@
 import * as d3 from "d3";
 import type { ILink, ISVGG } from "@/types";
 import { appenSelectedLink, removeSelectedLink } from "../draw";
-import { useCommonStore, useDataStore } from "@/stores";
+import { useCommonStore, useDataStore, useSvgStore } from "@/stores";
 
 const dataStore = useDataStore();
 const commonStore = useCommonStore();
+const svgStore = useSvgStore();
 
 export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
   const startPoint = {
@@ -19,13 +20,13 @@ export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
       startPoint.y = e.y;
     })
     .on("drag", function (e, d) {
-      if (commonStore.isSpaceDown) return;
+      if (!svgStore.isEdit || commonStore.isSpaceDown) return;
       const dx = e.x - startPoint.x;
       const dy = e.y - startPoint.y;
       d3.select(this).attr("transform", `translate(${dx}, ${dy})`);
     })
     .on("end", function (e, d) {
-      if (commonStore.isSpaceDown) return;
+      if (!svgStore.isEdit || commonStore.isSpaceDown) return;
 
       d3.select(this).attr("transform", `translate(${0}, ${0})`);
       d.pathArray = d.pathArray.map((item) => {

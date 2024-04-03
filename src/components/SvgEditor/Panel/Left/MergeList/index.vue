@@ -42,7 +42,6 @@
           :key="index"
           class="merge-item"
           @click="selectMergeNodeItem(item)"
-          @mouseenter="selectMergeNodeItem(item)"
         >
           <div class="break-words break-all">连线{{ item.domId }}</div>
           <div v-if="activeNodeItem === item" class="flex justify-between mt-4">
@@ -144,7 +143,6 @@
           :key="index"
           class="merge-item"
           @click.prevent="selectMergeLinkItem(item, 'all')"
-          @mouseenter="selectMergeLinkItem(item)"
         >
           <div class="break-words break-all">{{ item.domId }}</div>
           <div v-if="activeLinkItem === item" class="flex justify-between mt-4">

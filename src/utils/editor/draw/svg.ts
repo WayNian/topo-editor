@@ -36,10 +36,18 @@ export const highlightNode = (node: INode, type: string) => {
   }
 };
 
-export const highlightLink = (link: ILink, type: string) => {
+export const transparentizeNodeLink = () => {
   d3.selectAll<SVGPathElement, ILink>(`.link-group path.link`)
     .classed("hight-node-link", false)
     .style("opacity", 0.1);
+  d3.selectAll<SVGGElement, INode>(`.node-group .node`)
+    .classed("highlight-node", false)
+    .style("opacity", 0.1);
+};
+
+export const highlightLink = (link: ILink, type: string) => {
+  transparentizeNodeLink();
+
   const oldLink = d3.select<SVGPathElement, ILink>(`#link_${link.linkId} path.link`);
   const newLink = d3.select<SVGPathElement, ILink>(`#link_${link.linkId}_merge path.link`);
 

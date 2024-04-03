@@ -1,6 +1,6 @@
 import { useDataStore } from "@/stores/modules/data";
 import type { IImportSvgData, ILink, IMapSource, INode } from "@/types";
-import { draw, drawMerge } from "@/utils/editor/draw/";
+import { draw, drawMerge, transparentizeNodeLink } from "@/utils/editor/draw/";
 import { checkLinks, checkNodes } from "./helper";
 import { useCommonStore } from "@/stores/modules/common";
 import { addMap, updateMap } from "@/utils/http/apis/menu";
@@ -51,7 +51,7 @@ const addUpdataMapFunc = (name?: string) => {
   return name ? addMap(params) : updateMap(params);
 };
 
-export const importSvg = (val: IImportSvgData) => {
+export const importSvg = async (val: IImportSvgData) => {
   let nodes: INode[] = [];
   let links: ILink[] = [];
   //   如果直接导入,先生成新的map文件
@@ -80,35 +80,40 @@ export const importSvg = (val: IImportSvgData) => {
   } else {
     const mapId = menuStore.mapInfo?.mapId;
     if (!mapId) return;
-    addUpdataMapFunc()?.then(async () => {
-      const { deleteNodeList, mergeNodeList, addNodeList } = checkNodes(dataStore.nodes, val.nodes);
-      const { deleteLinkList, mergeLinkList, addLinkList } = checkLinks(dataStore.links, val.links);
 
-      menuStore.mergeNodeList = mergeNodeList;
-      menuStore.mergeLinkList = mergeLinkList;
+    // 增量
+    const { deleteNodeList, mergeNodeList, addNodeList } = checkNodes(dataStore.nodes, val.nodes);
+    const { deleteLinkList, mergeLinkList, addLinkList } = checkLinks(dataStore.links, val.links);
 
-      drawMerge();
+    menuStore.mergeNodeList = mergeNodeList;
+    menuStore.mergeLinkList = mergeLinkList;
 
-      nodes = addNodeList.map((node) => {
-        return {
-          ...node,
-          mapId
-        };
-      });
-
-      links = addLinkList.map((link) => {
-        return {
-          ...link,
-          mapId
-        };
-      });
-
-      await dataStore.deleteLinkFunc(deleteLinkList);
-      await dataStore.deleteLinkFunc(deleteLinkList);
-      await dataStore.addNodeLinkListFunc(nodes, links);
-      await dataStore.fetchNodeLinkList(mapId);
-      window.$message.success("导入成功");
-      draw();
+    nodes = addNodeList.map((node) => {
+      return {
+        ...node,
+        mapId
+      };
     });
+
+    links = addLinkList.map((link) => {
+      return {
+        ...link,
+        mapId
+      };
+    });
+
+    await addUpdataMapFunc();
+    // await dataStore.deleteLinkFunc(deleteLinkList);
+    await dataStore.deleteLinkFunc(deleteLinkList);
+    await dataStore.addNodeLinkListFunc(nodes, links);
+    await dataStore.fetchNodeLinkList(mapId);
+    window.$message.success("导入成功");
+
+    draw();
+
+    if (menuStore.mergeLinkList.length || menuStore.mergeNodeList.length) {
+      drawMerge();
+      transparentizeNodeLink();
+    }
   }
 };

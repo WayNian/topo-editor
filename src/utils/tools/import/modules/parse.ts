@@ -199,7 +199,7 @@ const formatData = (node: ISvgNode) => {
   const s = node.attr("style");
   const id = el.parentElement?.id;
 
-  //   if (!id) return;
+  if (!id) return;
 
   const matrixList = collectNodeMatrix(el);
   const { x, y, width, height } = formatTransform(el);

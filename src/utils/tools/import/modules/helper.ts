@@ -8,13 +8,20 @@ const commonStore = useCommonStore();
  * @param nodes
  * @param newNodes
  */
-export const checkNodes = (nodes: INode[], newNodes: INode[]) => {
+export const checkNodes = (
+  nodes: INode[],
+  newNodes: INode[]
+): {
+  deleteNodeList: INode[];
+  mergeNodeList: INode[];
+  addNodeList: INode[];
+} => {
   const deleteNodeList: INode[] = [];
   const mergeNodeList: INode[] = [];
   const addNodeList: INode[] = [];
 
+  //  如果nodes为空，则直接返回nodes
   if (!nodes.length) {
-    //  如果nodes为空，则直接返回nodes
     return {
       deleteNodeList,
       mergeNodeList,
@@ -22,9 +29,20 @@ export const checkNodes = (nodes: INode[], newNodes: INode[]) => {
     };
   }
 
+  //   全量导入，将之前的数据删除
+  if (commonStore.importType === "importAll") {
+    return {
+      deleteNodeList: nodes,
+      mergeNodeList,
+      addNodeList: newNodes
+    };
+  }
+
+  //   增量导入
+  //   找到已经存在的数据，对比，如果不同，则加载mergeNodeList中，否则就是新增数据
   newNodes.forEach((node) => {
     const item = nodes.find((item) => item.domId === node.domId);
-    if (item && commonStore.importType === "importAddition") {
+    if (item) {
       //   item 在 nodes中，判断是否有不同的字段
       if (JSON.stringify(item) !== JSON.stringify(node)) {
         mergeNodeList.push({
@@ -38,16 +56,6 @@ export const checkNodes = (nodes: INode[], newNodes: INode[]) => {
     }
   });
 
-  if (commonStore.importType === "importAll") {
-    // 获取要删除的数据
-    nodes.forEach((node) => {
-      const item = newNodes.find((item) => item.domId === node.domId);
-      if (!item) {
-        deleteNodeList.push(node);
-      }
-    });
-  }
-
   return {
     deleteNodeList,
     mergeNodeList,
@@ -60,7 +68,14 @@ export const checkNodes = (nodes: INode[], newNodes: INode[]) => {
  * @param links
  * @param newLinks
  */
-export const checkLinks = (links: ILink[], newLinks: ILink[]) => {
+export const checkLinks = (
+  links: ILink[],
+  newLinks: ILink[]
+): {
+  deleteLinkList: ILink[];
+  mergeLinkList: ILink[];
+  addLinkList: ILink[];
+} => {
   const deleteLinkList: ILink[] = [];
   const mergeLinkList: ILink[] = [];
   const addLinkList: ILink[] = [];
@@ -72,13 +87,23 @@ export const checkLinks = (links: ILink[], newLinks: ILink[]) => {
     };
   }
 
-  // 全量导入
+  //   全量导入
+  //   找到已经存在的数据，对比，如果不同，则加载mergeNodeList中，否则就是新增数据
+  if (commonStore.importType === "importAll") {
+    return {
+      deleteLinkList: links,
+      mergeLinkList,
+      addLinkList: newLinks
+    };
+  }
+
+  // 增量导入
   newLinks.forEach((link) => {
     const item = links.find((item) => {
       return item.domId === link.domId;
     });
     // 如果是增量导入，且item存在，则不做处理
-    if (item && commonStore.importType === "importAll") {
+    if (item) {
       link.linkId = item.linkId;
       link.mapId = item.mapId;
       //   item 在 links中，判断是否有不同的字段
@@ -94,19 +119,6 @@ export const checkLinks = (links: ILink[], newLinks: ILink[]) => {
       addLinkList.push(link);
     }
   });
-
-  if (commonStore.importType === "importAll") {
-    // 获取要删除的数据
-    links.forEach((link) => {
-      const item = newLinks.find((item) => {
-        return item.domId === link.domId;
-      });
-
-      if (!item) {
-        deleteLinkList.push(link);
-      }
-    });
-  }
 
   return {
     deleteLinkList,
