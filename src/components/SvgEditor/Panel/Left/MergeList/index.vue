@@ -1,5 +1,5 @@
 <template>
-  <n-scrollbar style="max-height: calc(100vh - 110px)">
+  <PanelScrollbar>
     <div v-show="menuStore.mergeNodeList.length">
       <div class="flex justify-between">
         <n-tag type="success" :bordered="false"> 节点 </n-tag>
@@ -200,18 +200,18 @@
         </n-list-item>
       </n-list>
     </div>
-
     <n-empty description="暂时无数据" v-show="isEmpty" class="mt-10vh"> </n-empty>
-  </n-scrollbar>
+  </PanelScrollbar>
 </template>
 
 <script setup lang="ts">
+import type { ILink, INode } from "@/types";
 import { useMenuStore } from "@/stores/";
 import { computed, ref } from "vue";
 import { Checkmark, Close } from "@vicons/ionicons5";
-import type { ILink, INode } from "@/types";
 import { highlightLink, highlightNode } from "@/utils/editor/draw/";
 import { useMerge } from "@/hooks/menu/useMerge";
+import PanelScrollbar from "@/components/SvgEditor/Common/PanelScrollbar/index.vue";
 
 const { mergeNodes, mergeLinks } = useMerge();
 const menuStore = useMenuStore();

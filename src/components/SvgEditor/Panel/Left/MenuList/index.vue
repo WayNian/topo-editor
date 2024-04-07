@@ -35,13 +35,13 @@
   ></n-dropdown>
 
   <input type="file" style="display: none" ref="upload" accept=".svg" @change="handleChange" />
-  <EditMenuFileModal ref="editMenuFileModalRef"></EditMenuFileModal>
+  <Edit ref="editModalRef"></Edit>
 </template>
 
 <script setup lang="ts">
 import type { IImportSvgData, IImportType, IMapSource, IMenuSource } from "@/types";
 import emitter from "@/utils/mitt";
-import EditMenuFileModal from "../Modal/EditMenuFileModal.vue";
+import Edit from "../Modal/Menu/Edit.vue";
 import { h, onMounted, ref } from "vue";
 import { NIcon, type TreeOption, useDialog } from "naive-ui";
 import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
@@ -62,7 +62,7 @@ const contentMenuoptions = ref<TreeOption[]>([]);
 const currentMenu = ref<TreeOption | null>(null);
 const editedParam = ref<TreeOption | null>(null);
 const upload = ref<HTMLInputElement | null>(null);
-const editMenuFileModalRef = ref<InstanceType<typeof EditMenuFileModal> | null>(null);
+const editModalRef = ref<InstanceType<typeof Edit> | null>(null);
 
 const updateExpanedKeys = (
   _keys: Array<string | number>,
@@ -233,7 +233,7 @@ const handleCreateMenuFile = (isEdit: boolean, type?: string) => {
     editedParam.value = null;
   }
 
-  editMenuFileModalRef.value?.show(isEdit, editedParam.value);
+  editModalRef.value?.show(isEdit, editedParam.value);
 };
 
 onMounted(() => {

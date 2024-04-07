@@ -30,9 +30,26 @@ export interface IMap extends IMapSource {
   width: number;
 }
 
-export type ILayer = {
+export type ISubLayer = {
   sublayerId: string;
   sublayerName: string;
-  isVisible: number;
-  listOrder: number;
+  isVisible: number; //是否显示 1 是 0 否,必传
+  listOrder: number; //排序,必传
 };
+
+export type ISubLayerModel = {
+  mapId: string;
+  sublayerId?: string;
+  sublayerName: string;
+  sublayerList?: [
+    {
+      sublayerId: string;
+      objType: number;
+      objId: string;
+    }
+  ];
+};
+
+export interface ISubLayerUpdateModel extends ISubLayer {
+  mapId: string;
+}

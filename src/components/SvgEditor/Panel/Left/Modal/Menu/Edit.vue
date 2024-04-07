@@ -179,6 +179,3 @@ defineExpose({
   show
 });
 </script>
-
-<style scoped></style>
-@/stores/ @/stores/modules/canvas
