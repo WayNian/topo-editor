@@ -2,10 +2,20 @@
   <Sider>
     <Panel class="left-0 w-100% px-2">
       <n-tabs type="line" animated v-model:value="activeName">
-        <n-tab-pane name="files" tab="文件" :disabled="isShowMerge"> <MenuList /> </n-tab-pane>
+        <n-tab-pane name="files" tab="文件" :disabled="isShowMerge" display-directive="show">
+          <MenuList />
+        </n-tab-pane>
         <n-tab-pane name="merge" tab="合并" v-if="isShowMerge"> <MergeList /></n-tab-pane>
         <n-tab-pane name="meta" tab="图元" :disabled="isShowMerge || !menuStore.mapInfo">
-          <MetaIcon
+          <MetaIconList
+        /></n-tab-pane>
+        <n-tab-pane
+          name="layer"
+          tab="图层"
+          :disabled="isShowMerge || !menuStore.mapInfo"
+          display-directive="show"
+        >
+          <LayerList
         /></n-tab-pane>
       </n-tabs>
     </Panel>
@@ -13,14 +23,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, onMounted, ref, watchEffect } from "vue";
+import { computed, onBeforeMount, ref, watchEffect } from "vue";
 import { resetHighlight } from "@/utils/editor/draw/";
 import { useMenuStore, useSvgStore } from "@/stores/";
 import Panel from "@/components/SvgEditor/Common/Panel/index.vue";
 import Sider from "@/components/SvgEditor/Sider/index.vue";
 import MenuList from "./MenuList/index.vue";
 import MergeList from "./MergeList/index.vue";
-import MetaIcon from "./MetaIcon/index.vue";
+import MetaIconList from "./MetaIconList/index.vue";
+import LayerList from "./LayerList/index.vue";
 
 const menuStore = useMenuStore();
 const svgStore = useSvgStore();
@@ -40,10 +51,6 @@ watchEffect(() => {
     resetHighlight();
   }
   svgStore.isEdit = activeName.value !== "merge";
-});
-
-onMounted(() => {
-  menuStore.getMenuList();
 });
 
 onBeforeMount(() => {

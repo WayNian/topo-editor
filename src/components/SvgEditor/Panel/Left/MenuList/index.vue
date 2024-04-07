@@ -42,7 +42,7 @@
 import type { IImportSvgData, IImportType, IMapSource, IMenuSource } from "@/types";
 import emitter from "@/utils/mitt";
 import EditMenuFileModal from "../Modal/EditMenuFileModal.vue";
-import { h, ref } from "vue";
+import { h, onMounted, ref } from "vue";
 import { NIcon, type TreeOption, useDialog } from "naive-ui";
 import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
 import { deleteMap, deleteMenu } from "@/utils/http/apis/menu";
@@ -235,6 +235,10 @@ const handleCreateMenuFile = (isEdit: boolean, type?: string) => {
 
   editMenuFileModalRef.value?.show(isEdit, editedParam.value);
 };
+
+onMounted(() => {
+  menuStore.getMenuList();
+});
 </script>
 
 <style>
