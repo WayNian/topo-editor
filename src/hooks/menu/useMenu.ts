@@ -1,5 +1,5 @@
 import type { IMenuModel } from "@/types";
-import { addMenu, updateMenu } from "@/utils/http/apis/menu";
+import { addMenu, updateMenu } from "@/utils/http/apis/";
 import type { FormRules } from "naive-ui";
 import { ref } from "vue";
 

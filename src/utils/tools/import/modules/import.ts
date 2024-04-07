@@ -3,7 +3,7 @@ import type { IImportSvgData, ILink, IMapSource, INode } from "@/types";
 import { draw, drawMerge } from "@/utils/editor/draw/";
 import { checkLinks, checkNodes } from "./helper";
 import { useCommonStore } from "@/stores/modules/common";
-import { addMap, updateMap } from "@/utils/http/apis/menu";
+import { addMap, updateMap } from "@/utils/http/apis/";
 import { useMenuStore } from "@/stores/modules/menu";
 
 const dataStore = useDataStore();

@@ -6,7 +6,7 @@ import type {
   IOriginalLink,
   ISourceNode
 } from "@/types";
-import request from "../index";
+import request from "../../index";
 
 interface IDeleteNodeModel {
   nodeIdList: string[];

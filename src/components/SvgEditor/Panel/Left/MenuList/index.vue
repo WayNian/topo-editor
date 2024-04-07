@@ -45,7 +45,7 @@ import EditMenuFileModal from "../Modal/EditMenuFileModal.vue";
 import { h, onMounted, ref } from "vue";
 import { NIcon, type TreeOption, useDialog } from "naive-ui";
 import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
-import { deleteMap, deleteMenu } from "@/utils/http/apis/menu";
+import { deleteMap, deleteMenu } from "@/utils/http/apis/";
 import { useCommonStore } from "@/stores/";
 import { useMenuStore } from "@/stores/";
 import { getContextMenu, parseSvg } from "@/utils/tools/";

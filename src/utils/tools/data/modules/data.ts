@@ -1,6 +1,6 @@
 import { useDataStore } from "@/stores";
 import type { IOriginalLink, IOriginalNode } from "@/types";
-import { addLink, addNode } from "@/utils/http/apis/topo";
+import { addLink, addNode } from "@/utils/http/apis/";
 import { formatNode } from "./format";
 import { drawNodes } from "@/utils/editor/draw";
 

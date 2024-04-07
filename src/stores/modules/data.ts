@@ -6,7 +6,7 @@ import {
   deleteLinks,
   deleteNodes,
   fetchNodeLinkListByMapId
-} from "@/utils/http/apis/topo";
+} from "@/utils/http/apis/";
 import { formatLinks, formatNodes } from "@/utils/tools/";
 import { useMenuStore } from "..";
 

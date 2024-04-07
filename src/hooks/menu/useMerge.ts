@@ -3,7 +3,7 @@ import { useDataStore } from "@/stores/modules/data";
 import type { ILink, INode } from "@/types";
 import { formatLinks } from "@/utils/tools";
 import { draw, drawMergeLinks, drawMergeNodes } from "@/utils/editor/draw/";
-import { updateLinks, updateNodes } from "@/utils/http/apis/topo";
+import { updateLinks, updateNodes } from "@/utils/http/apis/";
 
 export const useMerge = () => {
   const menuStore = useMenuStore();

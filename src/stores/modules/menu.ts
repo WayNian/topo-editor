@@ -7,7 +7,7 @@ import type {
   INode,
   ITreeItem
 } from "@/types";
-import { fetchMenuList } from "@/utils/http/apis/menu";
+import { fetchMenuList } from "@/utils/http/apis/";
 import { formatMenuCascaderist, formatMenuList, clearData, getSize } from "@/utils/tools";
 import { defineStore } from "pinia";
 import { ref } from "vue";

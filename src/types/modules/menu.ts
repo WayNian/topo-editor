@@ -1,18 +1,5 @@
 import type { RendererElement, RendererNode, VNode } from "vue";
-
-export interface IMapSource {
-  mapId: string;
-  mapName: string;
-  mapSize: string;
-  background: string;
-  mapIndex: number;
-  externalBind: Record<string, string>;
-  internalBind: Record<string, string>;
-  description: Record<string, string>;
-  menuId: string;
-  updatedBy: string;
-  updatedTime: string;
-}
+import type { IMapSource } from "./map";
 
 export interface IMenuSource {
   menuId: string;
@@ -26,24 +13,6 @@ export interface IMenuModel {
   menuId?: string;
   menuName: string;
   menuParId: string;
-}
-
-export interface IMapModel {
-  menuId?: string;
-  mapName: string;
-  mapSize: string;
-  height: number;
-  width: number;
-  background: string;
-  mapIndex: number;
-  externalBind: Record<string, string>;
-  internalBind: Record<string, string>;
-  description: Record<string, string>;
-}
-
-export interface IMap extends IMapSource {
-  height: number;
-  width: number;
 }
 
 export interface ITreeItem {

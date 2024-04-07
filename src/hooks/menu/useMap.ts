@@ -1,5 +1,5 @@
 import type { IMapModel } from "@/types";
-import { addMap, updateMap } from "@/utils/http/apis/menu";
+import { addMap, updateMap } from "@/utils/http/apis/";
 import type { FormItemRule, FormRules } from "naive-ui";
 import { ref } from "vue";
 

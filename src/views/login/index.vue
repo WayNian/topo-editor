@@ -58,7 +58,7 @@ import { ref } from "vue";
 import { useMessage } from "naive-ui";
 import type { FormInst } from "naive-ui";
 // import { User, Lock } from "@vicons/tabler";
-import { login } from "@/utils/http/apis/login";
+import { login } from "@/utils/http/apis/";
 import { useRouter } from "vue-router";
 import Cookie from "js-cookie";
 
