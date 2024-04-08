@@ -49,26 +49,10 @@ watch(
   }
 );
 
-const handleAddSublayer = () => {
-  const mapId = menuStore.mapInfo?.mapId;
-  if (!mapId) return;
-  mapStore.addSublayers({
-    mapId: mapId,
-    sublayerName: "新建图层1"
-    // sublayerList: [
-    //   {
-    //     sublayerId: dataStore.currentNode?.sublayerId,
-    //     objType: 1,
-    //     objId: dataStore.currentNode?.nodeId
-    //   }
-    // ]
-  });
-};
-
 // 根据子图层， 显示页面中的元素
 const handleUpdateValue = (val: string[]) => {
   mapStore.sublayerIds = val;
-  dataStore.filterNodesLinks(mapStore.sublayerIds);
+  dataStore.filterNodesLinks();
   drawNodesLinks();
 };
 

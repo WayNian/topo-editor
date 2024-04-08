@@ -8,7 +8,7 @@ import {
   fetchNodeLinkListByMapId
 } from "@/utils/http/apis/";
 import { formatLinks, formatNodes } from "@/utils/tools/";
-import { useMenuStore } from "..";
+import { useMapStore, useMenuStore } from "..";
 
 export const useDataStore = defineStore("data", () => {
   const nodesTotal = ref<INode[]>([]);
@@ -30,7 +30,9 @@ export const useDataStore = defineStore("data", () => {
     linksTotal.value = formatLinks(links);
   };
 
-  const filterNodesLinks = (sublayerIds: string[]) => {
+  const filterNodesLinks = () => {
+    const mapStore = useMapStore();
+    const sublayerIds = mapStore.sublayerIds;
     nodes.value = nodesTotal.value.filter((node) => {
       const sublayerList = node.sublayerList || [];
       if (!sublayerList.length) {

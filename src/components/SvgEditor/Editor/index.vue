@@ -95,12 +95,8 @@ console.log("🚀 ~ useSvgEditor ~ moveToSublayerModalRef:", moveToSublayerModal
 
 const contentMenuoptions = [
   {
-    label: "子图层",
-    key: "sublayer",
-    children: [
-      { label: "添加", key: "AddSublayer" },
-      { label: "移除", key: "RemoveNodeFromSublayer" }
-    ]
+    label: "修改子图层",
+    key: "sublayer"
   }
 ];
 
@@ -130,10 +126,9 @@ const handleDrop = (e: DragEvent) => {
 
 const handleSelect = (key: string) => {
   switch (key) {
-    case "AddSublayer":
+    case "sublayer":
       moveToSublayerModalRef.value?.show();
-      break;
-    case "RemoveNodeFromSublayer":
+      isDropdownVisible.value = false;
       break;
   }
 };

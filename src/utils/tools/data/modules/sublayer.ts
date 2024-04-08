@@ -1,5 +1,7 @@
-import { useDataStore, useMenuStore } from "@/stores";
+import { useDataStore, useMapStore, useMenuStore } from "@/stores";
 import type { ISublayer, ISublayerItem, ISublayerModel } from "@/types";
+import { drawNodesLinks } from "@/utils/editor/draw";
+import { updateNodesLinksSublayer } from "./data";
 
 const getSublayerList = (sublayer: ISublayer) => {
   const dataStore = useDataStore();
@@ -21,8 +23,10 @@ const getSublayerList = (sublayer: ISublayer) => {
 
   return sublayerList;
 };
-export const addNodesLinksToSublayer = (sublayer: ISublayer) => {
+// 更新 或者新建子图层
+export const addNodesLinksToSublayer = async (sublayer: ISublayer) => {
   const menuStore = useMenuStore();
+  const mapStore = useMapStore();
   const mapId = menuStore.mapInfo!.mapId;
 
   const sublayerList = getSublayerList(sublayer);
@@ -31,5 +35,8 @@ export const addNodesLinksToSublayer = (sublayer: ISublayer) => {
     ...sublayer,
     sublayerList
   };
-  console.log("--->>", params);
+
+  await mapStore.addSublayers(params);
+  updateNodesLinksSublayer(sublayer);
+  drawNodesLinks();
 };

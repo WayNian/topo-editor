@@ -39,6 +39,7 @@ export type ISublayer = {
 
 export type ISublayerItem = {
   sublayerId: string;
+  mapId?: string;
   objType: 1 | 2; //对象类型 1 节点， 2 连线
   objId: string;
 };

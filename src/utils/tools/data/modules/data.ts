@@ -1,5 +1,5 @@
 import { useCommonStore, useDataStore } from "@/stores";
-import type { ILink, INode, IOriginalLink, IOriginalNode } from "@/types";
+import type { ILink, INode, IOriginalLink, IOriginalNode, ISublayer } from "@/types";
 import { addLink, addNode } from "@/utils/http/apis/";
 import { formatNode } from "./format";
 import { drawNodes } from "@/utils/editor/draw";
@@ -80,4 +80,51 @@ export const setLinksSelected = (link?: ILink) => {
 export const clearNodesLinksSelected = () => {
   setNodesSelected();
   setLinksSelected();
+};
+
+export const updateNodesLinksSublayer = (sublayer: ISublayer) => {
+  const dataStore = useDataStore();
+
+  dataStore.nodesSelected.forEach((node) => {
+    node.selected = false;
+    if (sublayer.sublayerName === "other") {
+      node.sublayerList = [];
+      return;
+    }
+    const sublayerList = node.sublayerList || [];
+    const index = sublayerList.findIndex((item) => item.sublayerId === sublayer.sublayerId);
+    if (index !== -1) {
+      sublayerList.splice(index, 1);
+    } else {
+      sublayerList.push({
+        sublayerId: sublayer.sublayerId,
+        objType: 1,
+        objId: node.nodeId
+      });
+    }
+    node.sublayerList = sublayerList;
+  });
+
+  dataStore.linksSelected.forEach((link) => {
+    link.selected = false;
+    if (sublayer.sublayerName === "other") {
+      link.sublayerList = [];
+      return;
+    }
+    const sublayerList = link.sublayerList || [];
+    const index = sublayerList.findIndex((item) => item.sublayerId === sublayer.sublayerId);
+    if (index !== -1) {
+      sublayerList.splice(index, 1);
+    } else {
+      sublayerList.push({
+        sublayerId: sublayer.sublayerId,
+        objType: 2,
+        objId: link.linkId
+      });
+    }
+    link.sublayerList = sublayerList;
+  });
+
+  //   更新子图层数据
+  dataStore.filterNodesLinks();
 };

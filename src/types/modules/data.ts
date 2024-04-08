@@ -1,3 +1,5 @@
+import type { ISublayerItem } from "./map";
+
 export interface ISize {
   width: number;
   height: number;
@@ -14,13 +16,6 @@ export interface IMatrix {
   d: number;
   e: number;
   f: number;
-}
-
-interface ISublayerItem {
-  sublayerId: string;
-  mapId: string;
-  objType: number;
-  objId: string;
 }
 
 export interface IOriginalNode {
