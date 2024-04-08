@@ -8,6 +8,7 @@ import { ref } from "vue";
 
 export const useMapStore = defineStore("map", () => {
   const subLayers = ref<ISubLayer[]>([]);
+  const subLayerIds = ref<string[]>([]);
 
   const getSubLayers = async (mapId?: string) => {
     if (mapId) {
@@ -32,5 +33,5 @@ export const useMapStore = defineStore("map", () => {
       getSubLayers(params.mapId);
     });
   };
-  return { subLayers, getSubLayers, addSubLayers };
+  return { subLayers, subLayerIds, getSubLayers, addSubLayers };
 });

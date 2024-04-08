@@ -16,6 +16,13 @@ export interface IMatrix {
   f: number;
 }
 
+interface ISubLayerItem {
+  sublayerId: string;
+  mapId: string;
+  objType: number;
+  objId: string;
+}
+
 export interface IOriginalNode {
   mapId: string;
   domId: string;
@@ -33,7 +40,7 @@ export interface IOriginalNode {
   bindData: Record<string, string>;
   bindMap: any;
   metaData: Record<string, string> | null;
-  sublayerList: string[] | null;
+  sublayerList: ISubLayerItem[];
 }
 
 export interface ISourceNode extends IOriginalNode {
@@ -70,7 +77,7 @@ export interface IOriginalLink {
   bindData: Record<string, string>;
   bindMap: any;
   metaData: Record<string, string> | null;
-  sublayerList: string[] | null;
+  sublayerList: ISubLayerItem[];
 }
 
 export interface ISourceLink extends IOriginalLink {

@@ -9,8 +9,12 @@ import {
 } from "@/utils/http/apis/";
 import { formatLinks, formatNodes } from "@/utils/tools/";
 import { useMenuStore } from "..";
+import { drawNodesLinks } from "@/utils/editor/draw";
 
 export const useDataStore = defineStore("data", () => {
+  const nodesTotal = ref<INode[]>([]);
+  const linksTotal = ref<ILink[]>([]);
+
   const nodes = ref<INode[]>([]);
   const links = ref<ILink[]>([]);
 
@@ -19,9 +23,30 @@ export const useDataStore = defineStore("data", () => {
   const isSelectionRectVisible = false;
 
   const fetchNodeLinkList = async (mapId: string) => {
-    const res = await fetchNodeLinkListByMapId(mapId);
-    nodes.value = formatNodes(res.nodes);
-    links.value = formatLinks(res.links);
+    const { nodes, links } = await fetchNodeLinkListByMapId(mapId);
+    nodesTotal.value = formatNodes(nodes);
+    linksTotal.value = formatLinks(links);
+  };
+
+  const filterNodesLinks = (subLayerIds: string[]) => {
+    nodes.value = nodesTotal.value.filter((node) => {
+      const sublayerList = node.sublayerList || [];
+      if (!sublayerList.length) {
+        return subLayerIds.includes("other");
+      } else {
+        return sublayerList.some((sublayer) => subLayerIds.includes(sublayer.sublayerId));
+      }
+    });
+    links.value = linksTotal.value.filter((link) => {
+      const sublayerList = link.sublayerList || [];
+      if (!sublayerList.length) {
+        return subLayerIds.includes("other");
+      } else {
+        return sublayerList.some((sublayer) => subLayerIds.includes(sublayer.sublayerId));
+      }
+    });
+
+    drawNodesLinks();
   };
 
   const addNodeLinkListFunc = async (nodes: INode[], links: ILink[]) => {
@@ -46,6 +71,7 @@ export const useDataStore = defineStore("data", () => {
     const mapId = menuStore.mapInfo!.mapId as string;
     await deleteLinks({ linkIdList, mapId });
   };
+
   return {
     nodes,
     links,
@@ -55,6 +81,7 @@ export const useDataStore = defineStore("data", () => {
     fetchNodeLinkList,
     addNodeLinkListFunc,
     deleteNodeFunc,
-    deleteLinkFunc
+    deleteLinkFunc,
+    filterNodesLinks
   };
 });
