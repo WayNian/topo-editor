@@ -2,8 +2,9 @@ import * as d3 from "d3";
 import { useCommonStore } from "@/stores";
 import { hideSelectionRect } from "../draw";
 
-const commonStore = useCommonStore();
 export const bindWindowEvent = () => {
+  const commonStore = useCommonStore();
+
   // 是否按住空格
   d3.select("body").on("keydown", function (e) {
     switch (e.code) {

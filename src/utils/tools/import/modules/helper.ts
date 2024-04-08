@@ -1,8 +1,6 @@
 import { useCommonStore } from "@/stores";
 import type { ILink, INode } from "@/types";
 
-const commonStore = useCommonStore();
-
 /**
  * newNodes 与 nodes 对比，找出nodes中除id和nodeId字段之外不同的数据，然后返回不同的项
  * @param nodes
@@ -16,6 +14,8 @@ export const checkNodes = (
   mergeNodeList: INode[];
   addNodeList: INode[];
 } => {
+  const commonStore = useCommonStore();
+
   const deleteNodeList: INode[] = [];
   const mergeNodeList: INode[] = [];
   const addNodeList: INode[] = [];
@@ -76,6 +76,8 @@ export const checkLinks = (
   mergeLinkList: ILink[];
   addLinkList: ILink[];
 } => {
+  const commonStore = useCommonStore();
+
   const deleteLinkList: ILink[] = [];
   const mergeLinkList: ILink[] = [];
   const addLinkList: ILink[] = [];

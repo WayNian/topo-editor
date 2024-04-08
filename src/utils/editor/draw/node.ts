@@ -4,9 +4,6 @@ import { attrEllipse, attrForeignObject, attrNodeG, attrRect, attrText } from ".
 import { bindNodeDrag } from "../event";
 import { useDataStore, useMenuStore } from "@/stores";
 
-const dataStore = useDataStore();
-const menuStore = useMenuStore();
-
 const appendEllipse = (nodeG: ISVGG<INode, any>) => {
   const ellipse = nodeG.append<SVGEllipseElement>("ellipse");
   attrEllipse(ellipse);
@@ -70,6 +67,7 @@ const updateNode = (update: IUpdate<INode>) => {
 };
 
 export const drawNodes = () => {
+  const dataStore = useDataStore();
   const nodeGroup = d3.select<SVGGElement, any>("#nodeGroup");
   nodeGroup
     .selectAll<SVGGElement, INode>("g.node-group")
@@ -78,6 +76,7 @@ export const drawNodes = () => {
 };
 
 export const drawMergeNodes = () => {
+  const menuStore = useMenuStore();
   d3.select<SVGGElement, any>("#mergeNodeGroup")
     .selectAll<SVGGElement, INode>("g.node-group")
     .data(menuStore.mergeNodeList, (d: INode) => `${d.nodeId}`)

@@ -1,13 +1,12 @@
 import * as d3 from "d3";
-import { useCommonStore, useDataStore, useSvgStore } from "@/stores";
+import { useCommonStore, useSvgStore } from "@/stores";
 import type { INode, ISVGG } from "@/types";
 import { setNodesSelected } from "@/utils/tools";
 
-const dataStore = useDataStore();
-const commonStore = useCommonStore();
-const svgStore = useSvgStore();
-
 export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
+  const commonStore = useCommonStore();
+  const svgStore = useSvgStore();
+
   const drag = d3
     .drag<SVGGElement, INode>()
     .on("start", (e, d) => {
@@ -25,4 +24,10 @@ export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
     });
 
   nodeG.call(drag);
+
+  nodeG.on("contextmenu", (e, d) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setNodesSelected(d);
+  });
 };

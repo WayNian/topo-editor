@@ -6,15 +6,15 @@ import { useCommonStore } from "@/stores/modules/common";
 import { addMap, updateMap } from "@/utils/http/apis/";
 import { useMenuStore } from "@/stores/modules/menu";
 
-const dataStore = useDataStore();
-const commonStore = useCommonStore();
-const menuStore = useMenuStore();
-
 /**
  * 选择画布后，设置map(画布)信息，并获取节点和连线列表
  * @param map
  */
 export const selectMap = async (map: IMapSource) => {
+  const dataStore = useDataStore();
+  const commonStore = useCommonStore();
+  const menuStore = useMenuStore();
+
   commonStore.isLoading = true;
   menuStore.setMapInfo(map);
   await dataStore.fetchNodeLinkList(map.mapId);
@@ -23,6 +23,8 @@ export const selectMap = async (map: IMapSource) => {
 };
 
 const generateMap = (name?: string) => {
+  const menuStore = useMenuStore();
+
   const { width, height } = menuStore.mapSize;
   if (name) {
     //  新增
@@ -54,6 +56,10 @@ const addUpdataMapFunc = (name?: string) => {
 };
 
 export const importSvg = async (val: IImportSvgData) => {
+  const dataStore = useDataStore();
+  const commonStore = useCommonStore();
+  const menuStore = useMenuStore();
+
   commonStore.isLoading = true;
 
   let nodes: INode[] = [];

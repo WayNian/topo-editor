@@ -18,10 +18,11 @@ const size = {
   height: 0
 };
 
-const dataStore = useDataStore();
 let selectionRect: ISVGRect<any>;
 
 export const setStartPoint = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
+  const dataStore = useDataStore();
+
   selectionRect = d3.select<SVGRectElement, any>("#selectionRect");
   const rect = document.getElementById("svgEditor")?.getBoundingClientRect();
   if (!rect || !e.sourceEvent) return;
@@ -35,6 +36,8 @@ export const setStartPoint = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
 };
 
 export const updateSelectionRect = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
+  const dataStore = useDataStore();
+
   if (!e.sourceEvent || !dataStore.isSelectionRectVisible) return;
   let { x, y } = e.sourceEvent;
   x = x - svgOffset.x;
@@ -62,6 +65,8 @@ export const updateSelectionRect = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
 };
 
 export const hideSelectionRect = () => {
+  const dataStore = useDataStore();
+
   dataStore.isSelectionRectVisible = false;
   startPoint.x = 0;
   startPoint.y = 0;

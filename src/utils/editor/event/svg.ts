@@ -7,10 +7,6 @@ import { useCommonStore, useSvgStore } from "@/stores";
 import { attrMap } from "../attr";
 import { clearNodesLinksSelected } from "@/utils/tools";
 
-const dataStore = useDataStore();
-const svgStore = useSvgStore();
-const commonStore = useCommonStore();
-
 let zoomRecord = d3.zoomIdentity;
 let svg: ISVG;
 let map: ISVGG<any, HTMLElement>;
@@ -29,6 +25,10 @@ const zoomstart = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
 };
 
 const zooming = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
+  const dataStore = useDataStore();
+  const svgStore = useSvgStore();
+  const commonStore = useCommonStore();
+
   // 按下空格的时候，才能进行移动和缩放，否则只能缩放
   if (zoomTran.k === e.transform.k && !commonStore.isSpaceDown) {
     isZoom = false;
@@ -44,6 +44,9 @@ const zooming = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
 };
 
 const zoomend = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
+  const dataStore = useDataStore();
+  const svgStore = useSvgStore();
+
   svgStore.zoomTrans = e.transform;
 
   if (isZoom) {
@@ -61,6 +64,9 @@ const zoomend = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
 };
 
 const click = (e: PointerEvent) => {
+  const dataStore = useDataStore();
+  const commonStore = useCommonStore();
+
   if (!e.target) return;
   const el = e.target as SVGElement;
 
@@ -74,6 +80,7 @@ const click = (e: PointerEvent) => {
 };
 
 export const bindMapZoom = (svgView: ISVG, mapView: ISVGG<any, HTMLElement>) => {
+  const svgStore = useSvgStore();
   const { x, y, k } = setInitTransform();
 
   svg = svgView;

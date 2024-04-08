@@ -4,9 +4,6 @@ import { attrLink, attrLinkG, attrSelectedLink } from "../attr";
 import { bindLinkDrag } from "../event";
 import { useDataStore, useMenuStore } from "@/stores";
 
-const dataStore = useDataStore();
-const menuStore = useMenuStore();
-
 export const appenSelectedLink = (linkG: ISVGG<ILink, null>) => {
   if (!linkG.select<SVGGElement>("path.selected-link").empty()) return;
   const link = linkG.append("path");
@@ -35,6 +32,7 @@ const updateLink = (update: IUpdate<ILink>) => {
 };
 
 export const drawLinks = () => {
+  const dataStore = useDataStore();
   const linkGroup = d3.select<SVGGElement, any>("#linkGroup");
   console.log("dataStore.linkGroup", dataStore.links);
 
@@ -45,6 +43,7 @@ export const drawLinks = () => {
 };
 
 export const drawMergeLinks = () => {
+  const menuStore = useMenuStore();
   d3.select<SVGGElement, any>("#mergeLinkGroup")
     .selectAll<SVGGElement, ILink>("g.link-group")
     .data(menuStore.mergeLinkList, (d: ILink) => {

@@ -5,9 +5,6 @@ import { bindMapZoom } from "../event/svg";
 import { useCommonStore, useMenuStore } from "@/stores/";
 import { drawLinks, drawMergeLinks, drawMergeNodes, drawNodes } from ".";
 
-const menuStore = useMenuStore();
-const commonStore = useCommonStore();
-
 export const resetHighlight = () => {
   d3.selectAll<SVGPathElement, ILink>(`.link-group path.link`)
     .classed("hight-node-link", false)
@@ -78,6 +75,9 @@ const drawMap = () => {
 };
 
 export const clearSvg = () => {
+  const menuStore = useMenuStore();
+  const commonStore = useCommonStore();
+
   menuStore.setMapInfo();
   commonStore.isAttributeViewVisible = false;
 

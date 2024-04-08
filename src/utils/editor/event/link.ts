@@ -4,10 +4,10 @@ import { appenSelectedLink, removeSelectedLink } from "../draw";
 import { useCommonStore, useDataStore, useSvgStore } from "@/stores";
 import { setLinksSelected } from "@/utils/tools";
 
-const commonStore = useCommonStore();
-const svgStore = useSvgStore();
-
 export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
+  const commonStore = useCommonStore();
+  const svgStore = useSvgStore();
+
   const startPoint = {
     x: 0,
     y: 0
@@ -44,4 +44,10 @@ export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
     appenSelectedLink(d3.select<SVGGElement, ILink>(this));
   });
   linkG.call(drag);
+
+  linkG.on("contextmenu", (e, d) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setLinksSelected(d);
+  });
 };
