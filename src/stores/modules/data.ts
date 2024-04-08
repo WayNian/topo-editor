@@ -30,21 +30,21 @@ export const useDataStore = defineStore("data", () => {
     linksTotal.value = formatLinks(links);
   };
 
-  const filterNodesLinks = (subLayerIds: string[]) => {
+  const filterNodesLinks = (sublayerIds: string[]) => {
     nodes.value = nodesTotal.value.filter((node) => {
       const sublayerList = node.sublayerList || [];
       if (!sublayerList.length) {
-        return subLayerIds.includes("other");
+        return sublayerIds.includes("other");
       } else {
-        return sublayerList.some((sublayer) => subLayerIds.includes(sublayer.sublayerId));
+        return sublayerList.some((sublayer) => sublayerIds.includes(sublayer.sublayerId));
       }
     });
     links.value = linksTotal.value.filter((link) => {
       const sublayerList = link.sublayerList || [];
       if (!sublayerList.length) {
-        return subLayerIds.includes("other");
+        return sublayerIds.includes("other");
       } else {
-        return sublayerList.some((sublayer) => subLayerIds.includes(sublayer.sublayerId));
+        return sublayerList.some((sublayer) => sublayerIds.includes(sublayer.sublayerId));
       }
     });
   };

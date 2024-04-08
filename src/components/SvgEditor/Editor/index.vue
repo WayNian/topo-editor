@@ -4,8 +4,8 @@
     placement="bottom-start"
     :show="isDropdownVisible"
     :options="contentMenuoptions"
-    :x="x"
-    :y="y"
+    :x="position.x"
+    :y="position.y"
     @select="handleSelect"
     @clickoutside="() => (isDropdownVisible = false)"
     @contextmenu="($event: MouseEvent) => $event.preventDefault()"
@@ -73,40 +73,34 @@
     </g>
     <rect id="selectionRect" v-show="dataStore.isSelectionRectVisible"></rect>
   </svg>
+
+  <MoveToSublayerModal ref="moveToSublayerModalRef" />
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import { useSvgEditor } from "@/hooks/svg/useSvgEditor";
 import { useDataStore, useMenuStore } from "@/stores/";
 import { bindDragPointEvent } from "@/utils/editor/event/dragPoint";
 import { onDroped } from "@/utils/tools";
-
-useSvgEditor();
+import MoveToSublayerModal from "@/components/SvgEditor/Modal/MoveToSublayer/index.vue";
 
 const dataStore = useDataStore();
 const menuStore = useMenuStore();
 
 const isDropdownVisible = ref(false);
-const x = ref(0);
-const y = ref(0);
+const position = ref({ x: 0, y: 0 });
+
+const moveToSublayerModalRef = ref<InstanceType<typeof MoveToSublayerModal> | null>(null);
+console.log("🚀 ~ useSvgEditor ~ moveToSublayerModalRef:", moveToSublayerModalRef);
 
 const contentMenuoptions = [
   {
-    label: "新建",
-    key: "create"
-  },
-  {
-    label: "编辑",
-    key: "edit"
-  },
-  {
-    label: "导入",
-    key: "import"
-  },
-  {
-    label: "删除",
-    key: "delete"
+    label: "子图层",
+    key: "sublayer",
+    children: [
+      { label: "添加", key: "AddSublayer" },
+      { label: "移除", key: "RemoveNodeFromSublayer" }
+    ]
   }
 ];
 
@@ -135,20 +129,13 @@ const handleDrop = (e: DragEvent) => {
 };
 
 const handleSelect = (key: string) => {
-  //   switch (key) {
-  //     case "create":
-  //       dataStore.createNode();
-  //       break;
-  //     case "edit":
-  //       dataStore.editNode();
-  //       break;
-  //     case "import":
-  //       dataStore.importNode();
-  //       break;
-  //     case "delete":
-  //       dataStore.deleteNode();
-  //       break;
-  //   }
+  switch (key) {
+    case "AddSublayer":
+      moveToSublayerModalRef.value?.show();
+      break;
+    case "RemoveNodeFromSublayer":
+      break;
+  }
 };
 
 const handleContenxtMenu = (e: MouseEvent) => {
@@ -156,8 +143,8 @@ const handleContenxtMenu = (e: MouseEvent) => {
   const mapId = menuStore.mapInfo?.mapId;
   if (!mapId) return;
   isDropdownVisible.value = true;
-  x.value = e.clientX;
-  y.value = e.clientY;
+  position.value.x = e.clientX;
+  position.value.y = e.clientY;
 };
 
 onMounted(() => {

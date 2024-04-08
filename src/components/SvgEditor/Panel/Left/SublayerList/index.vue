@@ -2,7 +2,7 @@
   <PanelScrollbar>
     <n-checkbox-group @update:value="handleUpdateValue" class="px-3">
       <div
-        v-for="(item, index) in mapStore.subLayers"
+        v-for="(item, index) in mapStore.sublayers"
         :key="index"
         class="flex items-center justify-between mb-3"
       >
@@ -23,15 +23,15 @@
       </div>
     </n-checkbox-group>
   </PanelScrollbar>
-  <SubLayerModal ref="subLayerModalRef" />
+  <SublayerModal ref="sublayerModalRef" />
 </template>
 
 <script setup lang="ts">
-import type { ISubLayer } from "@/types";
+import type { ISublayer } from "@/types";
 import { useDataStore, useMapStore, useMenuStore } from "@/stores";
 import { ref, watch } from "vue";
 import PanelScrollbar from "@/components/SvgEditor/Common/PanelScrollbar/index.vue";
-import SubLayerModal from "@/components/SvgEditor/Panel/Left/Modal/SubLayer/index.vue";
+import SublayerModal from "@/components/SvgEditor/Panel/Left/Modal/Sublayer/index.vue";
 import InformationCircleOutline from "@/assets/images/icons/InformationCircleOutline.svg?component";
 import DeleteForeverOutlined from "@/assets/images/icons/DeleteForeverOutlined.svg?component";
 import { drawNodesLinks } from "@/utils/editor/draw";
@@ -40,19 +40,19 @@ const menuStore = useMenuStore();
 const mapStore = useMapStore();
 const dataStore = useDataStore();
 
-const subLayerModalRef = ref<InstanceType<typeof SubLayerModal> | null>(null);
+const sublayerModalRef = ref<InstanceType<typeof SublayerModal> | null>(null);
 
 watch(
   () => menuStore.mapInfo,
   (val) => {
-    mapStore.getSubLayers(val?.mapId);
+    mapStore.getSublayers(val?.mapId);
   }
 );
 
-const handleAddSubLayer = () => {
+const handleAddSublayer = () => {
   const mapId = menuStore.mapInfo?.mapId;
   if (!mapId) return;
-  mapStore.addSubLayers({
+  mapStore.addSublayers({
     mapId: mapId,
     sublayerName: "新建图层1"
     // sublayerList: [
@@ -67,13 +67,13 @@ const handleAddSubLayer = () => {
 
 // 根据子图层， 显示页面中的元素
 const handleUpdateValue = (val: string[]) => {
-  mapStore.subLayerIds = val;
-  dataStore.filterNodesLinks(mapStore.subLayerIds);
+  mapStore.sublayerIds = val;
+  dataStore.filterNodesLinks(mapStore.sublayerIds);
   drawNodesLinks();
 };
 
-const handleCheckInfo = (item: ISubLayer) => {
-  subLayerModalRef.value?.show(item);
+const handleCheckInfo = (item: ISublayer) => {
+  sublayerModalRef.value?.show(item);
 };
 
 // 删除元素含有当前的图层

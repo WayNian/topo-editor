@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import { useMapStore, useMenuStore } from "@/stores";
-import type { ISubLayer } from "@/types";
+import type { ISublayer } from "@/types";
 import { updateSublayer } from "@/utils/http/apis";
 import type { FormInst, FormItemRule } from "naive-ui";
 import { ref } from "vue";
@@ -48,7 +48,7 @@ const mapStore = useMapStore();
 
 const isVisible = ref(false);
 const formRef = ref<FormInst | null>(null);
-const formValue = ref<ISubLayer>({
+const formValue = ref<ISublayer>({
   sublayerId: "",
   sublayerName: "",
   isVisible: 1,
@@ -70,7 +70,7 @@ const rules = {
     }
   ]
 };
-const show = (val: ISubLayer) => {
+const show = (val: ISublayer) => {
   isVisible.value = true;
   formValue.value = { ...val };
 };
@@ -84,7 +84,7 @@ const submit = () => {
     const mapId = menuStore.mapInfo?.mapId;
     if (!mapId) return;
     await updateSublayer({ ...formValue.value, mapId });
-    mapStore.getSubLayers(mapId);
+    mapStore.getSublayers(mapId);
     window.$message.success("更新成功");
     hide();
   });

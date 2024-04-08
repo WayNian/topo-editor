@@ -1,19 +1,19 @@
-import type { ISubLayer, ISubLayerModel } from "@/types";
+import type { ISublayer, ISublayerModel } from "@/types";
 import {
-  addSubLayer as addSubLayerByHttp,
-  getSubLayers as getSubLayersByHttp
+  addSublayer as addSublayerByHttp,
+  getSublayers as getSublayersByHttp
 } from "@/utils/http/apis";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useMapStore = defineStore("map", () => {
-  const subLayers = ref<ISubLayer[]>([]);
-  const subLayerIds = ref<string[]>([]);
+  const sublayers = ref<ISublayer[]>([]);
+  const sublayerIds = ref<string[]>([]);
 
-  const getSubLayers = async (mapId?: string) => {
+  const getSublayers = async (mapId?: string) => {
     if (mapId) {
-      getSubLayersByHttp(mapId).then((res) => {
-        subLayers.value = [
+      getSublayersByHttp(mapId).then((res) => {
+        sublayers.value = [
           {
             sublayerId: "other",
             sublayerName: "其他",
@@ -24,14 +24,14 @@ export const useMapStore = defineStore("map", () => {
         ];
       });
     } else {
-      subLayers.value = [];
+      sublayers.value = [];
     }
   };
 
-  const addSubLayers = async (params: ISubLayerModel) => {
-    addSubLayerByHttp(params).then(() => {
-      getSubLayers(params.mapId);
+  const addSublayers = async (params: ISublayerModel) => {
+    addSublayerByHttp(params).then(() => {
+      getSublayers(params.mapId);
     });
   };
-  return { subLayers, subLayerIds, getSubLayers, addSubLayers };
+  return { sublayers, sublayerIds, getSublayers, addSublayers };
 });

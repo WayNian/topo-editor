@@ -30,26 +30,26 @@ export interface IMap extends IMapSource {
   width: number;
 }
 
-export type ISubLayer = {
+export type ISublayer = {
   sublayerId: string;
   sublayerName: string;
   isVisible: number; //是否显示 1 是 0 否,必传
   listOrder: number; //排序,必传
 };
 
-export type ISubLayerModel = {
+export type ISublayerItem = {
+  sublayerId: string;
+  objType: 1 | 2; //对象类型 1 节点， 2 连线
+  objId: string;
+};
+
+export type ISublayerModel = {
   mapId: string;
   sublayerId?: string;
   sublayerName: string;
-  sublayerList?: [
-    {
-      sublayerId: string;
-      objType: number;
-      objId: string;
-    }
-  ];
+  sublayerList?: ISublayerItem[];
 };
 
-export interface ISubLayerUpdateModel extends ISubLayer {
+export interface ISublayerUpdateModel extends ISublayer {
   mapId: string;
 }

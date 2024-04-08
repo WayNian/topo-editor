@@ -15,7 +15,7 @@
           :disabled="isShowMerge || !menuStore.mapInfo"
           display-directive="show"
         >
-          <SubLayerList
+          <SublayerList
         /></n-tab-pane>
       </n-tabs>
     </Panel>
@@ -31,7 +31,7 @@ import Sider from "@/components/SvgEditor/Sider/index.vue";
 import MenuList from "./MenuList/index.vue";
 import MergeList from "./MergeList/index.vue";
 import MetaIconList from "./MetaIconList/index.vue";
-import SubLayerList from "./SubLayerList/index.vue";
+import SublayerList from "./SublayerList/index.vue";
 
 const menuStore = useMenuStore();
 const svgStore = useSvgStore();

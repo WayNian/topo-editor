@@ -1,4 +1,4 @@
-import type { ISubLayer, ISubLayerModel, IMapModel, ISubLayerUpdateModel } from "@/types";
+import type { ISublayer, ISublayerModel, IMapModel, ISublayerUpdateModel } from "@/types";
 import request from "../../index";
 
 export const addMap = (params: IMapModel) => {
@@ -13,14 +13,14 @@ export const deleteMap = (mapId: string) => {
   return request.post({ url: "/topoEdit/deleteMap", data: { mapId } });
 };
 
-export const getSubLayers = (mapId: string) => {
-  return request.get<ISubLayer[]>({ url: "/topoEdit/getExistSublayerList", params: { mapId } });
+export const getSublayers = (mapId: string) => {
+  return request.get<ISublayer[]>({ url: "/topoEdit/getExistSublayerList", params: { mapId } });
 };
 
-export const addSubLayer = (params: ISubLayerModel) => {
+export const addSublayer = (params: ISublayerModel) => {
   return request.post({ url: "/topoEdit/insertTopoSublayerList", data: params });
 };
 
-export const updateSublayer = (params: ISubLayerUpdateModel) => {
+export const updateSublayer = (params: ISublayerUpdateModel) => {
   return request.post({ url: "/topoEdit/updateSublayer", data: params });
 };
