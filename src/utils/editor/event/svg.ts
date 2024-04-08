@@ -1,15 +1,11 @@
 import * as d3 from "d3";
-import {
-  hideSelectionRect,
-  removeSelectedLink,
-  setStartPoint,
-  updateSelectionRect
-} from "../draw/";
+import { hideSelectionRect, setStartPoint, updateSelectionRect } from "../draw/";
 import type { ISVG, ISVGG } from "@/types";
 import { setInitTransform } from "../helper";
 import { useDataStore } from "@/stores/modules/data";
 import { useCommonStore, useSvgStore } from "@/stores";
 import { attrMap } from "../attr";
+import { clearNodesLinksSelected } from "@/utils/tools";
 
 const dataStore = useDataStore();
 const svgStore = useSvgStore();
@@ -68,10 +64,12 @@ const click = (e: PointerEvent) => {
   if (!e.target) return;
   const el = e.target as SVGElement;
 
+  if (commonStore.isShiftDown) return;
   if (el.id === "mapBackground" || el.id === "svgEditor") {
     dataStore.currentNode = null;
     dataStore.currentLink = null;
-    removeSelectedLink();
+    // removeSelectedLink();
+    clearNodesLinksSelected();
   }
 };
 

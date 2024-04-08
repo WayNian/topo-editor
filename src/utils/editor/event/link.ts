@@ -2,8 +2,8 @@ import * as d3 from "d3";
 import type { ILink, ISVGG } from "@/types";
 import { appenSelectedLink, removeSelectedLink } from "../draw";
 import { useCommonStore, useDataStore, useSvgStore } from "@/stores";
+import { setLinksSelected } from "@/utils/tools";
 
-const dataStore = useDataStore();
 const commonStore = useCommonStore();
 const svgStore = useSvgStore();
 
@@ -15,7 +15,8 @@ export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
   const drag = d3
     .drag<SVGGElement, ILink>()
     .on("start", (e, d) => {
-      dataStore.currentLink = d;
+      if (!svgStore.isEdit || commonStore.isSpaceDown) return;
+      setLinksSelected(d);
       startPoint.x = e.x;
       startPoint.y = e.y;
     })

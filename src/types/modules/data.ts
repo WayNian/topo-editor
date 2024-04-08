@@ -60,6 +60,7 @@ export interface INode extends ISourceNode {
   id: string;
   style: Record<string, string>;
   textStyle: Record<string, string>;
+  selected?: boolean;
 }
 
 export interface IOriginalLink {
@@ -91,6 +92,7 @@ export interface ILink extends ISourceLink {
   isMerge?: boolean;
   style: Record<string, string>;
   pathArray: any[];
+  selected?: boolean;
 }
 
 export interface INodeLinkSource {

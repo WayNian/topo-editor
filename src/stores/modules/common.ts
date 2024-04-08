@@ -10,6 +10,7 @@ export const useCommonStore = defineStore("common", () => {
   const isLoading = ref(false);
 
   const isSpaceDown = ref(false);
+  const isShiftDown = ref(false);
 
-  return { isAttributeViewVisible, modal, importType, isSpaceDown, isLoading };
+  return { isAttributeViewVisible, modal, importType, isSpaceDown, isShiftDown, isLoading };
 });

@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import { useCommonStore, useDataStore, useSvgStore } from "@/stores";
 import type { INode, ISVGG } from "@/types";
+import { setNodesSelected } from "@/utils/tools";
 
 const dataStore = useDataStore();
 const commonStore = useCommonStore();
@@ -10,7 +11,8 @@ export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
   const drag = d3
     .drag<SVGGElement, INode>()
     .on("start", (e, d) => {
-      dataStore.currentNode = d;
+      if (!svgStore.isEdit || commonStore.isSpaceDown) return;
+      setNodesSelected(d);
     })
     .on("drag", function (e, d) {
       if (!svgStore.isEdit || commonStore.isSpaceDown) return;
@@ -22,6 +24,5 @@ export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
       if (!svgStore.isEdit || commonStore.isSpaceDown) return;
     });
 
-  nodeG.on("click", (e, d) => {});
   nodeG.call(drag);
 };

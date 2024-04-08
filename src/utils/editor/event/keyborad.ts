@@ -6,14 +6,24 @@ const commonStore = useCommonStore();
 export const bindWindowEvent = () => {
   // 是否按住空格
   d3.select("body").on("keydown", function (e) {
-    if (e.code === "Space") {
-      commonStore.isSpaceDown = true;
-      hideSelectionRect();
+    switch (e.code) {
+      case "ShiftLeft":
+        commonStore.isShiftDown = true;
+        break;
+      case "Space":
+        commonStore.isSpaceDown = true;
+        hideSelectionRect();
+        break;
     }
   });
   d3.select("body").on("keyup", function (e) {
-    if (e.code === "Space") {
-      commonStore.isSpaceDown = false;
+    switch (e.code) {
+      case "ShiftLeft":
+        commonStore.isShiftDown = false;
+        break;
+      case "Space":
+        commonStore.isSpaceDown = false;
+        break;
     }
   });
 };

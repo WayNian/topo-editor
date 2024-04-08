@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { defineStore } from "pinia";
 import type { ILink, INode } from "@/types/";
 import {
@@ -9,7 +9,6 @@ import {
 } from "@/utils/http/apis/";
 import { formatLinks, formatNodes } from "@/utils/tools/";
 import { useMenuStore } from "..";
-import { drawNodesLinks } from "@/utils/editor/draw";
 
 export const useDataStore = defineStore("data", () => {
   const nodesTotal = ref<INode[]>([]);
@@ -21,6 +20,9 @@ export const useDataStore = defineStore("data", () => {
   const currentNode = ref<INode | null>(null);
   const currentLink = ref<ILink | null>(null);
   const isSelectionRectVisible = false;
+
+  const nodesSelected = computed(() => nodes.value.filter((node) => node.selected));
+  const linksSelected = computed(() => links.value.filter((link) => link.selected));
 
   const fetchNodeLinkList = async (mapId: string) => {
     const { nodes, links } = await fetchNodeLinkListByMapId(mapId);
@@ -45,8 +47,6 @@ export const useDataStore = defineStore("data", () => {
         return sublayerList.some((sublayer) => subLayerIds.includes(sublayer.sublayerId));
       }
     });
-
-    drawNodesLinks();
   };
 
   const addNodeLinkListFunc = async (nodes: INode[], links: ILink[]) => {
@@ -78,6 +78,9 @@ export const useDataStore = defineStore("data", () => {
     currentNode,
     currentLink,
     isSelectionRectVisible,
+    nodesSelected,
+    linksSelected,
+
     fetchNodeLinkList,
     addNodeLinkListFunc,
     deleteNodeFunc,

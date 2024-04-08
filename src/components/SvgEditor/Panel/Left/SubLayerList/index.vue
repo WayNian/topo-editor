@@ -34,6 +34,7 @@ import PanelScrollbar from "@/components/SvgEditor/Common/PanelScrollbar/index.v
 import SubLayerModal from "@/components/SvgEditor/Panel/Left/Modal/SubLayer/index.vue";
 import InformationCircleOutline from "@/assets/images/icons/InformationCircleOutline.svg?component";
 import DeleteForeverOutlined from "@/assets/images/icons/DeleteForeverOutlined.svg?component";
+import { drawNodesLinks } from "@/utils/editor/draw";
 
 const menuStore = useMenuStore();
 const mapStore = useMapStore();
@@ -68,6 +69,7 @@ const handleAddSubLayer = () => {
 const handleUpdateValue = (val: string[]) => {
   mapStore.subLayerIds = val;
   dataStore.filterNodesLinks(mapStore.subLayerIds);
+  drawNodesLinks();
 };
 
 const handleCheckInfo = (item: ISubLayer) => {
