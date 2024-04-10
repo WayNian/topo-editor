@@ -1,12 +1,13 @@
 import * as d3 from "d3";
 import type { ILink, ISVGG } from "@/types";
 import { appenSelectedLink, removeSelectedLink } from "../draw";
-import { useCommonStore, useDataStore, useSvgStore } from "@/stores";
+import { useCommonStore, useMapStore, useSvgStore } from "@/stores";
 import { setLinksSelected } from "@/utils/tools";
 
 export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
   const commonStore = useCommonStore();
   const svgStore = useSvgStore();
+  const mapStore = useMapStore();
 
   const startPoint = {
     x: 0,
@@ -49,5 +50,6 @@ export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setLinksSelected(d);
+    mapStore.showMapMenu({ x: e.clientX, y: e.clientY });
   });
 };

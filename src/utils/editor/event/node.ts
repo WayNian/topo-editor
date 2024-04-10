@@ -1,11 +1,12 @@
 import * as d3 from "d3";
-import { useCommonStore, useSvgStore } from "@/stores";
+import { useCommonStore, useMapStore, useSvgStore } from "@/stores";
 import type { INode, ISVGG } from "@/types";
 import { setNodesSelected } from "@/utils/tools";
 
 export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
   const commonStore = useCommonStore();
   const svgStore = useSvgStore();
+  const mapStore = useMapStore();
 
   const drag = d3
     .drag<SVGGElement, INode>()
@@ -29,5 +30,6 @@ export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setNodesSelected(d);
+    mapStore.showMapMenu({ x: e.clientX, y: e.clientY });
   });
 };

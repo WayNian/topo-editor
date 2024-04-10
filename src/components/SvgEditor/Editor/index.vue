@@ -2,12 +2,12 @@
   <n-dropdown
     trigger="manual"
     placement="bottom-start"
-    :show="isDropdownVisible"
+    :show="mapStore.isMenuVisible"
     :options="contentMenuoptions"
-    :x="position.x"
-    :y="position.y"
+    :x="mapStore.menuePosition.x"
+    :y="mapStore.menuePosition.y"
     @select="handleSelect"
-    @clickoutside="() => (isDropdownVisible = false)"
+    @clickoutside="() => (mapStore.isMenuVisible = false)"
     @contextmenu="($event: MouseEvent) => $event.preventDefault()"
   ></n-dropdown>
 
@@ -89,9 +89,6 @@ import RemoveSingleFromSublayer from "@/components/SvgEditor/Modal/Sublayer/Remo
 const dataStore = useDataStore();
 const mapStore = useMapStore();
 
-const isDropdownVisible = ref(false);
-const position = ref({ x: 0, y: 0 });
-
 const moveToSublayerModalRef = ref<InstanceType<typeof MoveToSublayerModal> | null>(null);
 const removeSingleFromSublayerRef = ref<InstanceType<typeof RemoveSingleFromSublayer> | null>(null);
 
@@ -137,7 +134,7 @@ const handleDrop = (e: DragEvent) => {
 };
 
 const handleSelect = (key: string) => {
-  isDropdownVisible.value = false;
+  mapStore.isMenuVisible = false;
 
   switch (key) {
     case "UpdateSublayer":
@@ -153,14 +150,13 @@ const handleContenxtMenu = (e: MouseEvent) => {
   e.preventDefault();
   const mapId = mapStore.mapInfo?.mapId;
   if (!mapId) return;
-  isDropdownVisible.value = true;
-  position.value.x = e.clientX;
-  position.value.y = e.clientY;
+  mapStore.showMapMenu({
+    x: e.clientX,
+    y: e.clientY
+  });
 };
 
 onMounted(() => {
   bindDragPointEvent();
 });
 </script>
-
-<style scoped></style>

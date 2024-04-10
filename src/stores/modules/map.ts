@@ -20,6 +20,7 @@ import { ref } from "vue";
 export const useMapStore = defineStore("map", () => {
   const sublayers = ref<ISublayer[]>([]);
   const sublayerIds = ref<string[]>([]);
+  const isMenuVisible = ref(false);
   const menuePosition = ref<IPosition>({
     x: 0,
     y: 0
@@ -30,6 +31,11 @@ export const useMapStore = defineStore("map", () => {
 
   const mergeNodeList = ref<INode[]>([]);
   const mergeLinkList = ref<ILink[]>([]);
+
+  const showMapMenu = (position: IPosition) => {
+    menuePosition.value = position;
+    isMenuVisible.value = true;
+  };
 
   const setMapSize = (width: number, height: number) => {
     mapSize.value = { width, height };
@@ -88,10 +94,12 @@ export const useMapStore = defineStore("map", () => {
     sublayers,
     sublayerIds,
     menuePosition,
+    isMenuVisible,
     getSublayers,
     addSublayers,
     deleteSublayer,
     setMapInfo,
-    setMapSize
+    setMapSize,
+    showMapMenu
   };
 });
