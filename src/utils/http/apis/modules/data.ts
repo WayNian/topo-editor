@@ -62,3 +62,9 @@ export const updateLinks = (params: ILink[]) => {
     }
   });
 };
+
+export const updateNodesLinks = async (params: { nodes: INode[]; links: ILink[] }) => {
+  const p1 = params.nodes.length && updateNodes(params.nodes);
+  const p2 = params.links.length && updateLinks(params.links);
+  await Promise.all([p1, p2]);
+};

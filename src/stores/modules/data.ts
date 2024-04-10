@@ -30,7 +30,7 @@ export const useDataStore = defineStore("data", () => {
     linksTotal.value = formatLinks(links);
   };
 
-  const filterNodesLinks = () => {
+  const renewNodesLinks = () => {
     const mapStore = useMapStore();
     const sublayerIds = mapStore.sublayerIds;
     nodes.value = nodesTotal.value.filter((node) => {
@@ -75,6 +75,8 @@ export const useDataStore = defineStore("data", () => {
   };
 
   return {
+    nodesTotal,
+    linksTotal,
     nodes,
     links,
     currentNode,
@@ -87,6 +89,6 @@ export const useDataStore = defineStore("data", () => {
     addNodeLinkListFunc,
     deleteNodeFunc,
     deleteLinkFunc,
-    filterNodesLinks
+    renewNodesLinks
   };
 });

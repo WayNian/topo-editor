@@ -14,37 +14,40 @@
     @negative-click="hide"
     style="margin-top: 20vh"
   >
-    <p class="text-xs my-2 text-yellow-400 opacity-70">
-      提示：选择“其他”，会将节点、连线所属子图层移除
-    </p>
-    <n-select v-model:value="sublayerId" placeholder="请选择子图层" :options="options" />
+    <n-tabs type="line" animated v-model:value="activeName">
+      <n-tab-pane name="list" tab="列表">
+        <p class="text-xs my-2 text-yellow-400 opacity-70">提示：选择“其他”，会将所属子图层移除</p>
+        <n-select v-model:value="sublayerId" placeholder="请选择子图层" :options="options" />
+      </n-tab-pane>
+      <n-tab-pane name="new" tab="新建">
+        <n-input v-model:value="newSublayer" type="text" placeholder="请输入子图层名称" />
+      </n-tab-pane>
+    </n-tabs>
   </n-modal>
 </template>
 
 <script setup lang="ts">
 import { useMapStore } from "@/stores";
-import type { ISublayer } from "@/types";
+import type { ISublayer, ISublayerAddModel } from "@/types";
 import { addNodesLinksToSublayer } from "@/utils/tools";
-import type { FormInst } from "naive-ui";
 import { computed, ref } from "vue";
 
 const mapStore = useMapStore();
 
 const isVisible = ref(false);
-const formRef = ref<FormInst | null>(null);
-const sublayerId = ref<string>("other");
+const activeName = ref("list");
+const newSublayer = ref<string>("");
+const sublayerId = ref<string>("");
 
 const options = computed(() => {
-  console.log("mapStore.sublayers", mapStore.sublayers);
-
-  return mapStore.sublayers.map((item) => ({
-    label: item.sublayerName,
-    value: item.sublayerId
-  }));
+  return mapStore.sublayers
+    .filter((ele) => ele.sublayerId !== "other")
+    .map((item) => ({
+      label: item.sublayerName,
+      value: item.sublayerId
+    }));
 });
 const show = () => {
-  console.log("----");
-
   isVisible.value = true;
 };
 
@@ -52,13 +55,19 @@ const hide = () => {
   isVisible.value = false;
 };
 
-const submit = () => {
-  const sublayer = mapStore.sublayers.find(
-    (item) => item.sublayerId === sublayerId.value
-  ) as ISublayer;
-  addNodesLinksToSublayer(sublayer);
+const submit = async () => {
+  const sublayer: ISublayerAddModel =
+    activeName.value === "new"
+      ? {
+          sublayerName: newSublayer.value,
+          isVisible: 1,
+          listOrder: 0
+        }
+      : (mapStore.sublayers.find(
+          (item) => item.sublayerId === sublayerId.value
+        ) as ISublayerAddModel);
   hide();
-  //   formRef.value?.validate().then(async () => {});
+  addNodesLinksToSublayer(sublayer);
   return false;
 };
 

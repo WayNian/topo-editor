@@ -1,21 +1,24 @@
 import { useDataStore, useMapStore, useMenuStore } from "@/stores";
-import type { ISublayer, ISublayerItem, ISublayerModel } from "@/types";
+import type { ISublayerAddModel, ISublayerItemModel, ISublayerModel } from "@/types";
 import { drawNodesLinks } from "@/utils/editor/draw";
-import { updateNodesLinksSublayer } from "./data";
+import { clearNodesLinksSubler, updateNodesLinksSublayer } from "./data";
+import { updateNodesLinks } from "@/utils/http/apis";
 
-const getSublayerList = (sublayer: ISublayer) => {
+const getSublayerList = (sublayer: ISublayerAddModel) => {
   const dataStore = useDataStore();
-  const sublayerList: ISublayerItem[] = [];
+  const sublayerList: ISublayerItemModel[] = [];
+
+  const sublayerId = sublayer?.sublayerId;
   dataStore.nodesSelected.forEach((node) => {
     sublayerList.push({
-      sublayerId: sublayer.sublayerId,
+      sublayerId,
       objType: 1,
       objId: node.nodeId
     });
   });
   dataStore.linksSelected.forEach((link) => {
     sublayerList.push({
-      sublayerId: sublayer.sublayerId,
+      sublayerId,
       objType: 2,
       objId: link.linkId
     });
@@ -23,10 +26,13 @@ const getSublayerList = (sublayer: ISublayer) => {
 
   return sublayerList;
 };
+
 // 更新 或者新建子图层
-export const addNodesLinksToSublayer = async (sublayer: ISublayer) => {
+export const addNodesLinksToSublayer = async (sublayer: ISublayerAddModel) => {
   const menuStore = useMenuStore();
   const mapStore = useMapStore();
+  const dataStore = useDataStore();
+
   const mapId = menuStore.mapInfo!.mapId;
 
   const sublayerList = getSublayerList(sublayer);
@@ -35,8 +41,8 @@ export const addNodesLinksToSublayer = async (sublayer: ISublayer) => {
     ...sublayer,
     sublayerList
   };
-
   await mapStore.addSublayers(params);
-  updateNodesLinksSublayer(sublayer);
+  await dataStore.fetchNodeLinkList(mapId);
+  dataStore.renewNodesLinks();
   drawNodesLinks();
 };

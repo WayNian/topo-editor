@@ -82,15 +82,38 @@ export const clearNodesLinksSelected = () => {
   setLinksSelected();
 };
 
+export const clearNodesLinksSubler = () => {
+  const dataStore = useDataStore();
+  const nodeIds = dataStore.nodesSelected.map((node) => {
+    node.selected = false;
+    node.sublayerList = [];
+
+    return node.nodeId;
+  });
+  const linkIds = dataStore.linksSelected.map((link) => {
+    link.selected = false;
+    link.sublayerList = [];
+
+    return link.linkId;
+  });
+
+  return {
+    nodeIds,
+    linkIds
+  };
+};
+
+// 对应更新子图层数据
 export const updateNodesLinksSublayer = (sublayer: ISublayer) => {
   const dataStore = useDataStore();
 
+  if (sublayer.sublayerName === "other") {
+    clearNodesLinksSubler();
+    return;
+  }
+
   dataStore.nodesSelected.forEach((node) => {
     node.selected = false;
-    if (sublayer.sublayerName === "other") {
-      node.sublayerList = [];
-      return;
-    }
     const sublayerList = node.sublayerList || [];
     const index = sublayerList.findIndex((item) => item.sublayerId === sublayer.sublayerId);
     if (index !== -1) {
@@ -107,10 +130,6 @@ export const updateNodesLinksSublayer = (sublayer: ISublayer) => {
 
   dataStore.linksSelected.forEach((link) => {
     link.selected = false;
-    if (sublayer.sublayerName === "other") {
-      link.sublayerList = [];
-      return;
-    }
     const sublayerList = link.sublayerList || [];
     const index = sublayerList.findIndex((item) => item.sublayerId === sublayer.sublayerId);
     if (index !== -1) {
@@ -124,7 +143,4 @@ export const updateNodesLinksSublayer = (sublayer: ISublayer) => {
     }
     link.sublayerList = sublayerList;
   });
-
-  //   更新子图层数据
-  dataStore.filterNodesLinks();
 };

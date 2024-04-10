@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AttributeTrigger: typeof import('./src/components/SvgEditor/Panel/Right/Attribute/AttributeTrigger.vue')['default']
+    copy: typeof import('./src/components/SvgEditor/Modal/MoveToSublayer copy/index.vue')['default']
     Edit: typeof import('./src/components/SvgEditor/Panel/Left/Modal/Menu/Edit.vue')['default']
     EditMenuFileModal: (typeof import("./src/components/SvgEditor/Panel/Left/Modal/Menu/EditMenuFileModal.vue"))["default"]
     EditModal: (typeof import("./src/components/SvgEditor/Panel/Left/Modal/Menu/EditModal.vue"))["default"]
@@ -55,7 +56,7 @@ declare module 'vue' {
     NodeAttribute: typeof import('./src/components/SvgEditor/Panel/Right/Attribute/NodeAttribute.vue')['default']
     NScrollbar: typeof import('naive-ui')['NScrollbar']
     NSelect: typeof import('naive-ui')['NSelect']
-    NSpace: (typeof import("naive-ui"))["NSpace"]
+    NSpace: typeof import('naive-ui')['NSpace']
     NSpin: typeof import('naive-ui')['NSpin']
     NSwitch: typeof import('naive-ui')['NSwitch']
     NTabPane: typeof import('naive-ui')['NTabPane']
@@ -67,6 +68,7 @@ declare module 'vue' {
     NUpload: (typeof import("naive-ui"))["NUpload"]
     Panel: typeof import('./src/components/SvgEditor/Common/Panel/index.vue')['default']
     PanelScrollbar: typeof import('./src/components/SvgEditor/Common/PanelScrollbar/index.vue')['default']
+    RemoveFromSublayer: typeof import('./src/components/SvgEditor/Modal/RemoveFromSublayer/index.vue')['default']
     Right: typeof import('./src/components/SvgEditor/Panel/Right/index.vue')['default']
     RightPanel: (typeof import("./src/components/SvgEditor/Panel/Right/RightPanel.vue"))["default"]
     RouterLink: typeof import('vue-router')['RouterLink']

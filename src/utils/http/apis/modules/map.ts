@@ -1,4 +1,10 @@
-import type { ISublayer, ISublayerModel, IMapModel, ISublayerUpdateModel } from "@/types";
+import type {
+  ISublayer,
+  ISublayerModel,
+  IMapModel,
+  ISublayerUpdateModel,
+  ISublayerDeleteModel
+} from "@/types";
 import request from "../../index";
 
 export const addMap = (params: IMapModel) => {
@@ -23,4 +29,8 @@ export const addSublayer = (params: ISublayerModel) => {
 
 export const updateSublayer = (params: ISublayerUpdateModel) => {
   return request.post({ url: "/topoEdit/updateSublayer", data: params });
+};
+
+export const deleteSublayer = (params: ISublayerDeleteModel) => {
+  return request.post({ url: "/topoEdit/deleteTopoSublayer", data: params });
 };

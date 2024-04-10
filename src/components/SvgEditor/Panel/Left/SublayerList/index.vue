@@ -14,7 +14,7 @@
             </n-icon>
           </n-button>
 
-          <n-button text style="font-size: 20px" @click="handleDelete()">
+          <n-button text style="font-size: 20px" @click="handleDelete(item)">
             <n-icon>
               <DeleteForeverOutlined />
             </n-icon>
@@ -24,6 +24,7 @@
     </n-checkbox-group>
   </PanelScrollbar>
   <SublayerModal ref="sublayerModalRef" />
+  <RemoveFromSublayer ref="removeFromSublayerRef" />
 </template>
 
 <script setup lang="ts">
@@ -32,6 +33,7 @@ import { useDataStore, useMapStore, useMenuStore } from "@/stores";
 import { ref, watch } from "vue";
 import PanelScrollbar from "@/components/SvgEditor/Common/PanelScrollbar/index.vue";
 import SublayerModal from "@/components/SvgEditor/Panel/Left/Modal/Sublayer/index.vue";
+import RemoveFromSublayer from "@/components/SvgEditor/Modal/RemoveFromSublayer/index.vue";
 import InformationCircleOutline from "@/assets/images/icons/InformationCircleOutline.svg?component";
 import DeleteForeverOutlined from "@/assets/images/icons/DeleteForeverOutlined.svg?component";
 import { drawNodesLinks } from "@/utils/editor/draw";
@@ -41,6 +43,7 @@ const mapStore = useMapStore();
 const dataStore = useDataStore();
 
 const sublayerModalRef = ref<InstanceType<typeof SublayerModal> | null>(null);
+const removeFromSublayerRef = ref<InstanceType<typeof RemoveFromSublayer> | null>(null);
 
 watch(
   () => menuStore.mapInfo,
@@ -52,16 +55,18 @@ watch(
 // 根据子图层， 显示页面中的元素
 const handleUpdateValue = (val: string[]) => {
   mapStore.sublayerIds = val;
-  dataStore.filterNodesLinks();
+  dataStore.renewNodesLinks();
   drawNodesLinks();
 };
 
-const handleCheckInfo = (item: ISublayer) => {
-  sublayerModalRef.value?.show(item);
+const handleCheckInfo = (sublayer: ISublayer) => {
+  sublayerModalRef.value?.show(sublayer);
 };
 
 // 删除元素含有当前的图层
-const handleDelete = () => {};
+const handleDelete = (sublayer: ISublayer) => {
+  removeFromSublayerRef.value?.show(sublayer);
+};
 </script>
 
 <style>

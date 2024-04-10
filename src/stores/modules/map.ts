@@ -1,6 +1,7 @@
-import type { ISublayer, ISublayerModel } from "@/types";
+import type { ISublayer, ISublayerDeleteModel, ISublayerModel } from "@/types";
 import {
   addSublayer as addSublayerByHttp,
+  deleteSublayer as deleteSublayerByHttp,
   getSublayers as getSublayersByHttp
 } from "@/utils/http/apis";
 import { defineStore } from "pinia";
@@ -11,6 +12,7 @@ export const useMapStore = defineStore("map", () => {
   const sublayerIds = ref<string[]>([]);
 
   const getSublayers = async (mapId?: string) => {
+    console.log("🚀 ~ getSublayers ~ mapId:", mapId);
     if (mapId) {
       getSublayersByHttp(mapId).then((res) => {
         sublayers.value = [
@@ -29,10 +31,17 @@ export const useMapStore = defineStore("map", () => {
   };
 
   const addSublayers = async (params: ISublayerModel) => {
-    return addSublayerByHttp(params).then(() => {
-      window.$message.success("修改成功");
-      getSublayers(params.mapId);
-    });
+    await addSublayerByHttp(params);
+    window.$message.success("修改成功");
+    console.log("---->", params);
+
+    getSublayers(params.mapId);
   };
-  return { sublayers, sublayerIds, getSublayers, addSublayers };
+
+  const deleteSublayer = async (params: ISublayerDeleteModel) => {
+    await deleteSublayerByHttp(params);
+    window.$message.success("移除成功");
+    getSublayers(params.mapId);
+  };
+  return { sublayers, sublayerIds, getSublayers, addSublayers, deleteSublayer };
 });

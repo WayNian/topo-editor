@@ -91,12 +91,20 @@ const isDropdownVisible = ref(false);
 const position = ref({ x: 0, y: 0 });
 
 const moveToSublayerModalRef = ref<InstanceType<typeof MoveToSublayerModal> | null>(null);
-console.log("🚀 ~ useSvgEditor ~ moveToSublayerModalRef:", moveToSublayerModalRef);
-
 const contentMenuoptions = [
   {
-    label: "修改子图层",
-    key: "sublayer"
+    label: "子图层",
+    key: "Sublayer",
+    children: [
+      {
+        label: "添加",
+        key: "UpdateSublayer"
+      },
+      {
+        label: "移除",
+        key: "RemoveFromSublayer"
+      }
+    ]
   }
 ];
 
@@ -125,10 +133,13 @@ const handleDrop = (e: DragEvent) => {
 };
 
 const handleSelect = (key: string) => {
+  isDropdownVisible.value = false;
+
   switch (key) {
-    case "sublayer":
+    case "UpdateSublayer":
       moveToSublayerModalRef.value?.show();
-      isDropdownVisible.value = false;
+      break;
+    case "RemoveFromSublayer":
       break;
   }
 };
