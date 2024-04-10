@@ -75,6 +75,7 @@
   </svg>
 
   <MoveToSublayerModal ref="moveToSublayerModalRef" />
+  <RemoveSingleFromSublayer ref="removeSingleFromSublayerRef" />
 </template>
 
 <script setup lang="ts">
@@ -83,6 +84,7 @@ import { useDataStore, useMenuStore } from "@/stores/";
 import { bindDragPointEvent } from "@/utils/editor/event/dragPoint";
 import { onDroped } from "@/utils/tools";
 import MoveToSublayerModal from "@/components/SvgEditor/Modal/MoveToSublayer/index.vue";
+import RemoveSingleFromSublayer from "@/components/SvgEditor/Modal/RemoveSingleFromSublayer/index.vue";
 
 const dataStore = useDataStore();
 const menuStore = useMenuStore();
@@ -91,6 +93,8 @@ const isDropdownVisible = ref(false);
 const position = ref({ x: 0, y: 0 });
 
 const moveToSublayerModalRef = ref<InstanceType<typeof MoveToSublayerModal> | null>(null);
+const removeSingleFromSublayerRef = ref<InstanceType<typeof RemoveSingleFromSublayer> | null>(null);
+
 const contentMenuoptions = [
   {
     label: "子图层",
@@ -102,7 +106,7 @@ const contentMenuoptions = [
       },
       {
         label: "移除",
-        key: "RemoveFromSublayer"
+        key: "RemoveMultiFromSublayer"
       }
     ]
   }
@@ -139,7 +143,8 @@ const handleSelect = (key: string) => {
     case "UpdateSublayer":
       moveToSublayerModalRef.value?.show();
       break;
-    case "RemoveFromSublayer":
+    case "RemoveMultiFromSublayer":
+      removeSingleFromSublayerRef.value?.show();
       break;
   }
 };

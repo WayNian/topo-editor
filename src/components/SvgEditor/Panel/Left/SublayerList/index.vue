@@ -24,7 +24,7 @@
     </n-checkbox-group>
   </PanelScrollbar>
   <SublayerModal ref="sublayerModalRef" />
-  <RemoveFromSublayer ref="removeFromSublayerRef" />
+  <RemoveMultiFromSublayer ref="RemoveMultiFromSublayerRef" />
 </template>
 
 <script setup lang="ts">
@@ -33,7 +33,7 @@ import { useDataStore, useMapStore, useMenuStore } from "@/stores";
 import { ref, watch } from "vue";
 import PanelScrollbar from "@/components/SvgEditor/Common/PanelScrollbar/index.vue";
 import SublayerModal from "@/components/SvgEditor/Panel/Left/Modal/Sublayer/index.vue";
-import RemoveFromSublayer from "@/components/SvgEditor/Modal/RemoveFromSublayer/index.vue";
+import RemoveMultiFromSublayer from "@/components/SvgEditor/Modal/RemoveMultiFromSublayer/index.vue";
 import InformationCircleOutline from "@/assets/images/icons/InformationCircleOutline.svg?component";
 import DeleteForeverOutlined from "@/assets/images/icons/DeleteForeverOutlined.svg?component";
 import { drawNodesLinks } from "@/utils/editor/draw";
@@ -43,7 +43,7 @@ const mapStore = useMapStore();
 const dataStore = useDataStore();
 
 const sublayerModalRef = ref<InstanceType<typeof SublayerModal> | null>(null);
-const removeFromSublayerRef = ref<InstanceType<typeof RemoveFromSublayer> | null>(null);
+const RemoveMultiFromSublayerRef = ref<InstanceType<typeof RemoveMultiFromSublayer> | null>(null);
 
 watch(
   () => menuStore.mapInfo,
@@ -65,7 +65,7 @@ const handleCheckInfo = (sublayer: ISublayer) => {
 
 // 删除元素含有当前的图层
 const handleDelete = (sublayer: ISublayer) => {
-  removeFromSublayerRef.value?.show(sublayer);
+  RemoveMultiFromSublayerRef.value?.show(sublayer);
 };
 </script>
 

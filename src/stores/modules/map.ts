@@ -33,8 +33,6 @@ export const useMapStore = defineStore("map", () => {
   const addSublayers = async (params: ISublayerModel) => {
     await addSublayerByHttp(params);
     window.$message.success("修改成功");
-    console.log("---->", params);
-
     getSublayers(params.mapId);
   };
 

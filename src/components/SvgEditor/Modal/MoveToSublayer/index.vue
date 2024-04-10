@@ -50,6 +50,7 @@ const show = () => {
 
 const hide = () => {
   isVisible.value = false;
+  sublayerId.value = "";
 };
 
 const submit = async () => {
