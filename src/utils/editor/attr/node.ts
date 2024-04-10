@@ -24,8 +24,8 @@ export const attrEllipse = (ellipse: ISVGEllipse<INode>) => {
     .attr("class", "node")
     .attr("rx", (d) => d.width / 2)
     .attr("ry", (d) => d.height / 2)
-    // .attr("cx", (d) => d.width / 2)
-    // .attr("cy", (d) => d.height / 2)
+    .attr("cx", (d) => d.width / 2)
+    .attr("cy", (d) => d.height / 2)
     .attr("style", (d) => {
       let style = "";
       for (const key in d.style) {
