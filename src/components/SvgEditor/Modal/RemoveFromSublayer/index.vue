@@ -28,15 +28,13 @@ import { useDataStore, useMapStore, useMenuStore } from "@/stores";
 import type { ISublayer, ISublayerDeleteModel } from "@/types";
 import { drawNodesLinks } from "@/utils/editor/draw";
 import { deleteSublayer } from "@/utils/http/apis";
-import { addNodesLinksToSublayer } from "@/utils/tools";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 
 const mapStore = useMapStore();
 const menuStore = useMenuStore();
 const dataStore = useDataStore();
 
 const isVisible = ref(false);
-const activeName = ref("list");
 const sublayerId = ref<string>("");
 
 const nodeIds = ref<string[]>([]);

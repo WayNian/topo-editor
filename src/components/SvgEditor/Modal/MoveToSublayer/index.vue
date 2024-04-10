@@ -14,29 +14,26 @@
     @negative-click="hide"
     style="margin-top: 20vh"
   >
-    <n-tabs type="line" animated v-model:value="activeName">
-      <n-tab-pane name="list" tab="列表">
-        <p class="text-xs my-2 text-yellow-400 opacity-70">提示：选择“其他”，会将所属子图层移除</p>
-        <n-select v-model:value="sublayerId" placeholder="请选择子图层" :options="options" />
-      </n-tab-pane>
-      <n-tab-pane name="new" tab="新建">
-        <n-input v-model:value="newSublayer" type="text" placeholder="请输入子图层名称" />
-      </n-tab-pane>
-    </n-tabs>
+    <p class="text-xs my-2 text-yellow-400 opacity-70">输入新的名称，保存将创建新的图层</p>
+    <n-select
+      v-model:value="sublayerId"
+      filterable
+      tag
+      placeholder="请选择子图层"
+      :options="options"
+    />
   </n-modal>
 </template>
 
 <script setup lang="ts">
 import { useMapStore } from "@/stores";
-import type { ISublayer, ISublayerAddModel } from "@/types";
+import type { ISublayerAddModel } from "@/types";
 import { addNodesLinksToSublayer } from "@/utils/tools";
 import { computed, ref } from "vue";
 
 const mapStore = useMapStore();
 
 const isVisible = ref(false);
-const activeName = ref("list");
-const newSublayer = ref<string>("");
 const sublayerId = ref<string>("");
 
 const options = computed(() => {
@@ -56,16 +53,18 @@ const hide = () => {
 };
 
 const submit = async () => {
-  const sublayer: ISublayerAddModel =
-    activeName.value === "new"
-      ? {
-          sublayerName: newSublayer.value,
-          isVisible: 1,
-          listOrder: 0
-        }
-      : (mapStore.sublayers.find(
-          (item) => item.sublayerId === sublayerId.value
-        ) as ISublayerAddModel);
+  let sublayer: ISublayerAddModel | undefined = mapStore.sublayers.find(
+    (item) => item.sublayerId === sublayerId.value
+  );
+
+  if (!sublayer) {
+    sublayer = {
+      sublayerName: sublayerId.value,
+      isVisible: 1,
+      listOrder: 0
+    };
+  }
+
   hide();
   addNodesLinksToSublayer(sublayer);
   return false;

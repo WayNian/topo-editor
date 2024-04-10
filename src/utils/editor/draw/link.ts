@@ -34,7 +34,6 @@ const updateLink = (update: IUpdate<ILink>) => {
 export const drawLinks = () => {
   const dataStore = useDataStore();
   const linkGroup = d3.select<SVGGElement, any>("#linkGroup");
-  console.log("dataStore.linkGroup", dataStore.links);
 
   linkGroup
     .selectAll<SVGGElement, ILink>("g.link-group")
