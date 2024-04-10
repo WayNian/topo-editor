@@ -83,8 +83,8 @@ import { computed, onMounted, ref } from "vue";
 import { useDataStore, useMenuStore } from "@/stores/";
 import { bindDragPointEvent } from "@/utils/editor/event/dragPoint";
 import { onDroped } from "@/utils/tools";
-import MoveToSublayerModal from "@/components/SvgEditor/Modal/MoveToSublayer/index.vue";
-import RemoveSingleFromSublayer from "@/components/SvgEditor/Modal/RemoveSingleFromSublayer/index.vue";
+import MoveToSublayerModal from "@/components/SvgEditor/Modal/Sublayer/MoveToSublayer.vue";
+import RemoveSingleFromSublayer from "@/components/SvgEditor/Modal/Sublayer/RemoveSingleFromSublayer.vue";
 
 const dataStore = useDataStore();
 const menuStore = useMenuStore();

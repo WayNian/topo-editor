@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import type { IImportSvgData, IImportType, IMapSource, IMenuSource } from "@/types";
 import emitter from "@/utils/mitt";
-import Edit from "../Modal/Menu/Edit.vue";
+import Edit from "@/components/SvgEditor/Modal/Menu/Edit.vue";
 import { h, onMounted, ref } from "vue";
 import { NIcon, type TreeOption, useDialog } from "naive-ui";
 import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
