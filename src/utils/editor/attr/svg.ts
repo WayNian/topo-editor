@@ -1,14 +1,14 @@
 import * as d3 from "d3";
 import type { ISVGG, ISVGRect } from "@/types";
-import { useMenuStore } from "@/stores";
+import { useMapStore } from "@/stores";
 
 export const attrSvg = () => {
   d3.select<SVGSVGElement, any>("#svgEditor").style("background-color", "black");
 };
 
 export const attrMapBackground = (mapBackground: ISVGRect<any>) => {
-  const menuStore = useMenuStore();
-  const { width, height } = menuStore.mapSize;
+  const mapStore = useMapStore();
+  const { width, height } = mapStore.mapSize;
 
   mapBackground
     .attr("width", width)

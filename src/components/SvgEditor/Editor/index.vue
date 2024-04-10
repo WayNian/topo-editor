@@ -80,14 +80,14 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import { useDataStore, useMenuStore } from "@/stores/";
+import { useDataStore, useMapStore } from "@/stores/";
 import { bindDragPointEvent } from "@/utils/editor/event/dragPoint";
 import { onDroped } from "@/utils/tools";
 import MoveToSublayerModal from "@/components/SvgEditor/Modal/Sublayer/MoveToSublayer.vue";
 import RemoveSingleFromSublayer from "@/components/SvgEditor/Modal/Sublayer/RemoveSingleFromSublayer.vue";
 
 const dataStore = useDataStore();
-const menuStore = useMenuStore();
+const mapStore = useMapStore();
 
 const isDropdownVisible = ref(false);
 const position = ref({ x: 0, y: 0 });
@@ -151,7 +151,7 @@ const handleSelect = (key: string) => {
 
 const handleContenxtMenu = (e: MouseEvent) => {
   e.preventDefault();
-  const mapId = menuStore.mapInfo?.mapId;
+  const mapId = mapStore.mapInfo?.mapId;
   if (!mapId) return;
   isDropdownVisible.value = true;
   position.value.x = e.clientX;

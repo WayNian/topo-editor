@@ -46,7 +46,7 @@ import { h, onMounted, ref } from "vue";
 import { NIcon, type TreeOption, useDialog } from "naive-ui";
 import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
 import { deleteMap, deleteMenu } from "@/utils/http/apis/";
-import { useCommonStore } from "@/stores/";
+import { useCommonStore, useMapStore } from "@/stores/";
 import { useMenuStore } from "@/stores/";
 import { getContextMenu, parseSvg } from "@/utils/tools/";
 import { clearSvg } from "@/utils/editor/draw/";
@@ -54,6 +54,8 @@ import { clearSvg } from "@/utils/editor/draw/";
 const dialog = useDialog();
 const commonStore = useCommonStore();
 const menuStore = useMenuStore();
+const mapStore = useMapStore();
+
 const showDropdown = ref(false);
 const x = ref(0);
 const y = ref(0);
@@ -134,7 +136,7 @@ const nodeProps = ({ option }: { option: TreeOption }) => {
 
 const onDeleteSuccess = () => {
   window.$message.success("删除成功");
-  menuStore.setMapInfo();
+  mapStore.setMapInfo();
   menuStore.getMenuList();
   //   删除当前选择的菜单
   if (editedParam.value?.key === (menuStore.currentMenu as IMapSource).mapId) {

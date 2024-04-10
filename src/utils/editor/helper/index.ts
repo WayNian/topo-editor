@@ -1,13 +1,13 @@
-import { useMenuStore } from "@/stores";
+import { useMapStore } from "@/stores";
 import type { IPath } from "@/types";
 import { getSvgSize } from "@/utils/tools";
 
 export const setInitTransform = () => {
-  const menuStore = useMenuStore();
+  const mapStore = useMapStore();
 
   const { width, height } = getSvgSize();
-  const mapWidth = menuStore.mapSize.width;
-  const mapHeight = menuStore.mapSize.height;
+  const mapWidth = mapStore.mapSize.width;
+  const mapHeight = mapStore.mapSize.height;
 
   const aspectRatio = mapWidth / mapHeight;
   const scaleFactor = aspectRatio > 1 ? (width - 50) / mapWidth : (height - 50) / mapHeight;

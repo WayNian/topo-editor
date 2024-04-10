@@ -8,7 +8,7 @@ import {
   fetchNodeLinkListByMapId
 } from "@/utils/http/apis/";
 import { formatLinks, formatNodes } from "@/utils/tools/";
-import { useMapStore, useMenuStore } from "..";
+import { useMapStore } from "..";
 
 export const useDataStore = defineStore("data", () => {
   const nodesTotal = ref<INode[]>([]);
@@ -60,17 +60,17 @@ export const useDataStore = defineStore("data", () => {
 
   const deleteNodeFunc = async (nodes: INode[]) => {
     if (!nodes.length) return;
-    const menuStore = useMenuStore();
+    const mapStore = useMapStore();
     const nodeIdList = nodes.map((item) => item.nodeId);
-    const mapId = menuStore.mapInfo!.mapId as string;
+    const mapId = mapStore.mapInfo!.mapId as string;
     await deleteNodes({ nodeIdList, mapId });
   };
 
   const deleteLinkFunc = async (links: ILink[]) => {
     if (!links.length) return;
-    const menuStore = useMenuStore();
+    const mapStore = useMapStore();
     const linkIdList = links.map((item) => item.linkId);
-    const mapId = menuStore.mapInfo!.mapId as string;
+    const mapId = mapStore.mapInfo!.mapId as string;
     await deleteLinks({ linkIdList, mapId });
   };
 

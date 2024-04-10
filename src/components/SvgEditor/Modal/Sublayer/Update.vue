@@ -37,13 +37,12 @@
 </template>
 
 <script setup lang="ts">
-import { useMapStore, useMenuStore } from "@/stores";
+import { useMapStore } from "@/stores";
 import type { ISublayer } from "@/types";
 import { updateSublayer } from "@/utils/http/apis";
 import type { FormInst, FormItemRule } from "naive-ui";
 import { ref } from "vue";
 
-const menuStore = useMenuStore();
 const mapStore = useMapStore();
 
 const isVisible = ref(false);
@@ -81,7 +80,7 @@ const hide = () => {
 
 const submit = () => {
   formRef.value?.validate().then(async () => {
-    const mapId = menuStore.mapInfo?.mapId;
+    const mapId = mapStore.mapInfo?.mapId;
     if (!mapId) return;
     await updateSublayer({ ...formValue.value, mapId });
     mapStore.getSublayers(mapId);

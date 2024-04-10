@@ -1,6 +1,6 @@
 <template>
   <PanelScrollbar>
-    <div v-show="menuStore.mergeNodeList.length">
+    <div v-show="mapStore.mergeNodeList.length">
       <div class="flex justify-between">
         <n-tag type="success" :bordered="false"> 节点 </n-tag>
         <div>
@@ -10,7 +10,7 @@
                 quaternary
                 size="tiny"
                 class="mr-2"
-                @click.stop="handleMergeNodeClick(menuStore.mergeNodeList, 'cancel')"
+                @click.stop="handleMergeNodeClick(mapStore.mergeNodeList, 'cancel')"
               >
                 <template #icon>
                   <n-icon><Close /></n-icon>
@@ -24,7 +24,7 @@
               <n-button
                 quaternary
                 size="tiny"
-                @click.stop="handleMergeNodeClick(menuStore.mergeNodeList, 'cancel')"
+                @click.stop="handleMergeNodeClick(mapStore.mergeNodeList, 'cancel')"
               >
                 <template #icon>
                   <n-icon><Checkmark /></n-icon>
@@ -38,7 +38,7 @@
 
       <n-list hoverable clickable>
         <n-list-item
-          v-for="(item, index) in menuStore.mergeNodeList"
+          v-for="(item, index) in mapStore.mergeNodeList"
           :key="index"
           class="merge-item"
           @click="selectMergeNodeItem(item)"
@@ -100,7 +100,7 @@
       </n-list>
     </div>
 
-    <div v-show="menuStore.mergeLinkList.length">
+    <div v-show="mapStore.mergeLinkList.length">
       <div class="flex justify-between">
         <n-tag type="success" :bordered="false"> 连线 </n-tag>
         <div>
@@ -110,7 +110,7 @@
                 quaternary
                 size="tiny"
                 class="mr-2"
-                @click.stop="handleMergeLinkClick(menuStore.mergeLinkList, 'cancel')"
+                @click.stop="handleMergeLinkClick(mapStore.mergeLinkList, 'cancel')"
               >
                 <template #icon>
                   <n-icon><Close /></n-icon>
@@ -124,7 +124,7 @@
               <n-button
                 quaternary
                 size="tiny"
-                @click.stop="handleMergeLinkClick(menuStore.mergeLinkList, 'apply')"
+                @click.stop="handleMergeLinkClick(mapStore.mergeLinkList, 'apply')"
               >
                 <template #icon>
                   <n-icon><Checkmark /></n-icon>
@@ -139,7 +139,7 @@
 
       <n-list hoverable clickable>
         <n-list-item
-          v-for="(item, index) in menuStore.mergeLinkList"
+          v-for="(item, index) in mapStore.mergeLinkList"
           :key="index"
           class="merge-item"
           @click.prevent="selectMergeLinkItem(item, 'all')"
@@ -206,7 +206,7 @@
 
 <script setup lang="ts">
 import type { ILink, INode } from "@/types";
-import { useMenuStore } from "@/stores/";
+import { useMapStore } from "@/stores/";
 import { computed, ref } from "vue";
 import { Checkmark, Close } from "@vicons/ionicons5";
 import { highlightLink, highlightNode } from "@/utils/editor/draw/";
@@ -214,7 +214,7 @@ import { useMerge } from "@/hooks/menu/useMerge";
 import PanelScrollbar from "@/components/SvgEditor/Common/PanelScrollbar/index.vue";
 
 const { mergeNodes, mergeLinks } = useMerge();
-const menuStore = useMenuStore();
+const mapStore = useMapStore();
 const activeNodeItem = ref<INode>();
 const activeLinkItem = ref<ILink>();
 
@@ -241,7 +241,7 @@ const handleMergeLinkClick = (val: ILink | ILink[], type: string) => {
 };
 
 const isEmpty = computed(() => {
-  return !menuStore.mergeNodeList.length && !menuStore.mergeLinkList.length;
+  return !mapStore.mergeNodeList.length && !mapStore.mergeLinkList.length;
 });
 </script>
 

@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import type { ISublayer } from "@/types";
-import { useDataStore, useMapStore, useMenuStore } from "@/stores";
+import { useDataStore, useMapStore } from "@/stores";
 import { ref, watch } from "vue";
 import PanelScrollbar from "@/components/SvgEditor/Common/PanelScrollbar/index.vue";
 import SublayerModal from "@/components/SvgEditor/Modal/Sublayer/Update.vue";
@@ -38,7 +38,6 @@ import InformationCircleOutline from "@/assets/images/icons/InformationCircleOut
 import DeleteForeverOutlined from "@/assets/images/icons/DeleteForeverOutlined.svg?component";
 import { drawNodesLinks } from "@/utils/editor/draw";
 
-const menuStore = useMenuStore();
 const mapStore = useMapStore();
 const dataStore = useDataStore();
 
@@ -46,7 +45,7 @@ const sublayerModalRef = ref<InstanceType<typeof SublayerModal> | null>(null);
 const RemoveMultiFromSublayerRef = ref<InstanceType<typeof RemoveMultiFromSublayer> | null>(null);
 
 watch(
-  () => menuStore.mapInfo,
+  () => mapStore.mapInfo,
   (val) => {
     mapStore.getSublayers(val?.mapId);
   }

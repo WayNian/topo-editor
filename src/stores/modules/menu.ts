@@ -18,14 +18,8 @@ export const useMenuStore = defineStore("menu", () => {
   const expandedKeys = ref<Array<string | number>>([]);
   const selectedKeys = ref<Array<string | number>>([]);
 
-  const mapInfo = ref<IMap | null>(null);
-  const mapSize = ref({ width: 0, height: 0 });
-
   const currentMenu = ref<IMapSource | IMenuSource | null>(null);
   const collapsed = ref(false);
-
-  const mergeNodeList = ref<INode[]>([]);
-  const mergeLinkList = ref<ILink[]>([]);
 
   const getMenuList = () => {
     fetchMenuList().then((res) => {
@@ -34,39 +28,13 @@ export const useMenuStore = defineStore("menu", () => {
     });
   };
 
-  const setMapSize = (width: number, height: number) => {
-    mapSize.value = { width, height };
-  };
-
-  const setMapInfo = (info?: IMapSource) => {
-    if (!info) {
-      mapInfo.value = null;
-      setMapSize(0, 0);
-      clearData();
-      return;
-    }
-    const { width, height } = getSize(info.mapSize);
-    setMapSize(width, height);
-    mapInfo.value = {
-      ...info,
-      width,
-      height
-    };
-  };
-
   return {
     menuList,
     menuCascaderList,
     expandedKeys,
     selectedKeys,
     currentMenu,
-    mapInfo,
-    mapSize,
     collapsed,
-    mergeNodeList,
-    mergeLinkList,
-    getMenuList,
-    setMapInfo,
-    setMapSize
+    getMenuList
   };
 });

@@ -1,4 +1,4 @@
-import { useMenuStore } from "@/stores/";
+import { useMapStore } from "@/stores/";
 import { useDataStore } from "@/stores/modules/data";
 import type { ILink, INode } from "@/types";
 import { formatLinks } from "@/utils/tools";
@@ -6,11 +6,11 @@ import { draw, drawMergeLinks, drawMergeNodes } from "@/utils/editor/draw/";
 import { updateLinks, updateNodes } from "@/utils/http/apis/";
 
 export const useMerge = () => {
-  const menuStore = useMenuStore();
+  const mapStore = useMapStore();
   const dataStore = useDataStore();
 
   const mergeNodes = async (nodes: INode[], type: string) => {
-    menuStore.mergeNodeList = menuStore.mergeNodeList.filter(
+    mapStore.mergeNodeList = mapStore.mergeNodeList.filter(
       (item) => nodes.findIndex((node) => node.domId === item.domId) === -1
     );
 
@@ -31,7 +31,7 @@ export const useMerge = () => {
   };
 
   const mergeLinks = async (links: ILink[], type: string) => {
-    menuStore.mergeLinkList = menuStore.mergeLinkList.filter(
+    mapStore.mergeLinkList = mapStore.mergeLinkList.filter(
       (item) => links.findIndex((link) => link.domId === item.domId) === -1
     );
 

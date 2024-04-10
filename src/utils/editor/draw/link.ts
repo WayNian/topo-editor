@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import type { IEnter, ILink, ISVGG, IUpdate } from "@/types";
 import { attrLink, attrLinkG, attrSelectedLink } from "../attr";
 import { bindLinkDrag } from "../event";
-import { useDataStore, useMenuStore } from "@/stores";
+import { useDataStore, useMapStore } from "@/stores";
 
 export const appenSelectedLink = (linkG: ISVGG<ILink, null>) => {
   if (!linkG.select<SVGGElement>("path.selected-link").empty()) return;
@@ -42,10 +42,10 @@ export const drawLinks = () => {
 };
 
 export const drawMergeLinks = () => {
-  const menuStore = useMenuStore();
+  const mapStore = useMapStore();
   d3.select<SVGGElement, any>("#mergeLinkGroup")
     .selectAll<SVGGElement, ILink>("g.link-group")
-    .data(menuStore.mergeLinkList, (d: ILink) => {
+    .data(mapStore.mergeLinkList, (d: ILink) => {
       return `${d.linkId}`;
     })
     .join(appendLink);

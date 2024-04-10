@@ -29,11 +29,10 @@ const getSublayerList = (sublayer: ISublayerAddModel) => {
 
 // 更新 或者新建子图层
 export const addNodesLinksToSublayer = async (sublayer: ISublayerAddModel) => {
-  const menuStore = useMenuStore();
   const mapStore = useMapStore();
   const dataStore = useDataStore();
 
-  const mapId = menuStore.mapInfo!.mapId;
+  const mapId = mapStore.mapInfo!.mapId;
 
   const sublayerList = getSublayerList(sublayer);
   const params: ISublayerModel = {

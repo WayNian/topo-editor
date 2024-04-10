@@ -1,7 +1,7 @@
 <template>
   <div
     class="fixed right-2 bottom-2 h-12 px-2 flex items-center bg-#181818"
-    v-if="menuStore.mapInfo"
+    v-if="mapStore.mapInfo"
   >
     <div class="w-16 text-lg text-center text-#d5d5d5">{{ scale }}</div>
     <div class="mx-4">|</div>
@@ -23,12 +23,12 @@
 
 <script setup lang="ts">
 import Location from "@/assets/images/icons/Location.svg?component";
-import { useMenuStore, useSvgStore } from "@/stores";
+import { useMapStore, useSvgStore } from "@/stores";
 import { resetSvgSizePosition } from "@/utils/editor/event";
 import { computed } from "vue";
 
 const svgStore = useSvgStore();
-const menuStore = useMenuStore();
+const mapStore = useMapStore();
 
 const scale = computed(() => {
   return (svgStore.scale * 100).toFixed(1) + "%";

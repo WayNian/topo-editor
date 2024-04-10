@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDataStore, useMapStore, useMenuStore } from "@/stores";
+import { useDataStore, useMapStore } from "@/stores";
 import type { ISublayer, ISublayerDeleteModel } from "@/types";
 import { drawNodesLinks } from "@/utils/editor/draw";
 import { deleteSublayer } from "@/utils/http/apis";
@@ -36,7 +36,6 @@ import type { FormInst } from "naive-ui";
 import { ref } from "vue";
 
 const mapStore = useMapStore();
-const menuStore = useMenuStore();
 const dataStore = useDataStore();
 
 const formRef = ref<FormInst | null>(null);
@@ -77,7 +76,7 @@ const hide = () => {
 const submit = () => {
   formRef.value?.validate((errors) => {
     if (!errors) {
-      const mapId = menuStore.mapInfo!.mapId;
+      const mapId = mapStore.mapInfo!.mapId;
       const p = [];
       if (formValue.value.checkValue.includes("node") && nodeIds.value.length) {
         const nodeParams: ISublayerDeleteModel = {

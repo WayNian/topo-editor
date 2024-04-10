@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import type { IEnter, INode, ISVGG, IUpdate } from "@/types";
 import { attrEllipse, attrForeignObject, attrNodeG, attrRect, attrText } from "../attr";
 import { bindNodeDrag } from "../event";
-import { useDataStore, useMenuStore } from "@/stores";
+import { useDataStore, useMapStore } from "@/stores";
 
 const appendEllipse = (nodeG: ISVGG<INode, any>) => {
   const ellipse = nodeG.append<SVGEllipseElement>("ellipse");
@@ -76,9 +76,9 @@ export const drawNodes = () => {
 };
 
 export const drawMergeNodes = () => {
-  const menuStore = useMenuStore();
+  const mapStore = useMapStore();
   d3.select<SVGGElement, any>("#mergeNodeGroup")
     .selectAll<SVGGElement, INode>("g.node-group")
-    .data(menuStore.mergeNodeList, (d: INode) => `${d.nodeId}`)
+    .data(mapStore.mergeNodeList, (d: INode) => `${d.nodeId}`)
     .join(appendNode);
 };

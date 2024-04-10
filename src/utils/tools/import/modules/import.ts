@@ -5,6 +5,7 @@ import { checkLinks, checkNodes } from "./helper";
 import { useCommonStore } from "@/stores/modules/common";
 import { addMap, updateMap } from "@/utils/http/apis/";
 import { useMenuStore } from "@/stores/modules/menu";
+import { useMapStore } from "@/stores";
 
 /**
  * 选择画布后，设置map(画布)信息，并获取节点和连线列表
@@ -13,10 +14,10 @@ import { useMenuStore } from "@/stores/modules/menu";
 export const selectMap = async (map: IMapSource) => {
   const dataStore = useDataStore();
   const commonStore = useCommonStore();
-  const menuStore = useMenuStore();
+  const mapStore = useMapStore();
 
   commonStore.isLoading = true;
-  menuStore.setMapInfo(map);
+  mapStore.setMapInfo(map);
   await dataStore.fetchNodeLinkList(map.mapId);
   draw();
   commonStore.isLoading = false;
@@ -24,8 +25,9 @@ export const selectMap = async (map: IMapSource) => {
 
 const generateMap = (name?: string) => {
   const menuStore = useMenuStore();
+  const mapStore = useMapStore();
 
-  const { width, height } = menuStore.mapSize;
+  const { width, height } = mapStore.mapSize;
   if (name) {
     //  新增
     return {
@@ -41,9 +43,9 @@ const generateMap = (name?: string) => {
       menuId: menuStore.currentMenu?.menuId || "0"
     };
   }
-  if (menuStore.mapInfo) {
+  if (mapStore.mapInfo) {
     return {
-      ...menuStore.mapInfo,
+      ...mapStore.mapInfo,
       mapSize: `${width}*${height}`
     };
   }
@@ -59,6 +61,7 @@ export const importSvg = async (val: IImportSvgData) => {
   const dataStore = useDataStore();
   const commonStore = useCommonStore();
   const menuStore = useMenuStore();
+  const mapStore = useMapStore();
 
   commonStore.isLoading = true;
 
@@ -88,15 +91,15 @@ export const importSvg = async (val: IImportSvgData) => {
       commonStore.isLoading = false;
     });
   } else {
-    const mapId = menuStore.mapInfo?.mapId;
+    const mapId = mapStore.mapInfo?.mapId;
     if (!mapId) return;
 
     // 增量
     const { deleteNodeList, mergeNodeList, addNodeList } = checkNodes(dataStore.nodes, val.nodes);
     const { deleteLinkList, mergeLinkList, addLinkList } = checkLinks(dataStore.links, val.links);
 
-    menuStore.mergeNodeList = mergeNodeList;
-    menuStore.mergeLinkList = mergeLinkList;
+    mapStore.mergeNodeList = mergeNodeList;
+    mapStore.mergeLinkList = mergeLinkList;
 
     nodes = addNodeList.map((node) => {
       return {
@@ -120,7 +123,7 @@ export const importSvg = async (val: IImportSvgData) => {
     window.$message.success("导入成功");
 
     draw();
-    if (menuStore.mergeLinkList.length || menuStore.mergeNodeList.length) {
+    if (mapStore.mergeLinkList.length || mapStore.mergeNodeList.length) {
       drawMerge();
     }
 

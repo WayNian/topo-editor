@@ -1,4 +1,4 @@
-import { useMenuStore } from "@/stores";
+import { useMapStore } from "@/stores";
 import type { IOriginalNode, IOriginalLink, IObjItem, IPosition } from "@/types";
 import { addLinkFunc, addNodeFunc, formatObject, getTransPosition } from "@/utils/tools";
 
@@ -22,8 +22,8 @@ export const generateNodeLink = (
   val: IObjItem,
   position: IPosition
 ): [IOriginalNode | null, IOriginalLink | null] => {
-  const menuStore = useMenuStore();
-  const mapId = menuStore.mapInfo?.mapId || "";
+  const mapStore = useMapStore();
+  const mapId = mapStore.mapInfo?.mapId || "";
   let node: IOriginalNode | null = null;
   let link: IOriginalLink | null = null;
 

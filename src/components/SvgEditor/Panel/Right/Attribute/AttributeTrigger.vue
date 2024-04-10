@@ -4,7 +4,7 @@
       class="fixed right-5 top-20 w-10 h-10 rounded-full cursor-pointer"
       type="primary"
       @click="handleChangeAttributeStatus"
-      v-if="menuStore.mapInfo"
+      v-if="mapStore.mapInfo"
     >
       <n-icon color="#f5f5f5">
         <Brush />
@@ -14,11 +14,11 @@
 </template>
 
 <script setup lang="ts">
-import { useCommonStore, useMenuStore } from "@/stores/";
+import { useCommonStore, useMapStore } from "@/stores/";
 import { Brush } from "@vicons/ionicons5";
 
 const commonStore = useCommonStore();
-const menuStore = useMenuStore();
+const mapStore = useMapStore();
 
 const handleChangeAttributeStatus = () => {
   commonStore.isAttributeViewVisible = true;

@@ -18,17 +18,17 @@
 
 <script setup lang="ts">
 import { Close as CloseIcon } from "@vicons/ionicons5";
-import { useCommonStore, useMenuStore } from "@/stores/";
+import { useCommonStore, useMapStore } from "@/stores/";
 import { computed } from "vue";
 import NodeAttribute from "./Attribute/NodeAttribute.vue";
 
 const commonStore = useCommonStore();
-const menuStore = useMenuStore();
+const mapStore = useMapStore();
 
 const translate = computed(() => {
   return {
     transform:
-      commonStore.isAttributeViewVisible && menuStore.mapInfo
+      commonStore.isAttributeViewVisible && mapStore.mapInfo
         ? "translateX(-20px)"
         : "translateX(100%)"
   };

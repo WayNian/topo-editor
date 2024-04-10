@@ -1,4 +1,4 @@
-import { useMenuStore } from "@/stores";
+import { useMapStore } from "@/stores";
 import { type TreeOption } from "naive-ui";
 import type { IMapSource, IMenuCascaderItem, IMenuSource, ITreeItem } from "@/types";
 import { Folder, FileTrayFullOutline, FolderOpenOutline } from "@vicons/ionicons5";
@@ -6,7 +6,7 @@ import { NIcon } from "naive-ui";
 import { h } from "vue";
 
 export const getContextMenu = (option?: TreeOption) => {
-  const menuStore = useMenuStore();
+  const mapStore = useMapStore();
 
   let menus: TreeOption[] = [];
   if (!option) {
@@ -38,7 +38,7 @@ export const getContextMenu = (option?: TreeOption) => {
       }
     ];
   } else {
-    if (menuStore.mapInfo?.mapId === option.key) {
+    if (mapStore.mapInfo?.mapId === option.key) {
       menus = [
         {
           label: "编辑",
