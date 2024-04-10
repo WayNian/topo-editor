@@ -14,12 +14,16 @@
     @negative-click="hide"
     style="margin-top: 20vh"
   >
-    <n-checkbox-group v-model:value="checkValue" @update:value="handleUpdateValue">
-      <n-space item-style="display: flex;">
-        <n-checkbox value="node" label="节点" />
-        <n-checkbox value="link" label="连线" />
-      </n-space>
-    </n-checkbox-group>
+    <n-form ref="formRef" label-placement="left" :model="formValue" :rules="rules">
+      <n-form-item path="checkValue">
+        <n-checkbox-group v-model:value="formValue.checkValue" @update:value="handleUpdateValue">
+          <n-space item-style="display: flex;">
+            <n-checkbox value="node" label="节点" />
+            <n-checkbox value="link" label="连线" />
+          </n-space>
+        </n-checkbox-group>
+      </n-form-item>
+    </n-form>
   </n-modal>
 </template>
 
@@ -28,19 +32,34 @@ import { useDataStore, useMapStore, useMenuStore } from "@/stores";
 import type { ISublayer, ISublayerDeleteModel } from "@/types";
 import { drawNodesLinks } from "@/utils/editor/draw";
 import { deleteSublayer } from "@/utils/http/apis";
+import type { FormInst } from "naive-ui";
 import { ref } from "vue";
 
 const mapStore = useMapStore();
 const menuStore = useMenuStore();
 const dataStore = useDataStore();
 
+const formRef = ref<FormInst | null>(null);
 const isVisible = ref(false);
 const sublayerId = ref<string>("");
 
 const nodeIds = ref<string[]>([]);
 const linkIds = ref<string[]>([]);
 
-const checkValue = ref<string[]>([]);
+const formValue = ref<{
+  checkValue: string[];
+}>({
+  checkValue: []
+});
+
+const rules = {
+  checkValue: {
+    type: "array",
+    required: true,
+    message: "请选择类型",
+    trigger: "change"
+  }
+};
 
 const show = (sublayer: ISublayer) => {
   sublayerId.value = sublayer.sublayerId;
@@ -52,39 +71,43 @@ const hide = () => {
   sublayerId.value = "";
   nodeIds.value = [];
   linkIds.value = [];
-  checkValue.value = [];
+  formValue.value.checkValue = [];
 };
 
 const submit = () => {
-  const mapId = menuStore.mapInfo!.mapId;
-  const p = [];
-  if (checkValue.value.includes("node") && nodeIds.value.length) {
-    const nodeParams: ISublayerDeleteModel = {
-      mapId,
-      sublayerId: sublayerId.value,
-      objType: 1,
-      objIdList: nodeIds.value
-    };
-    p.push(deleteSublayer(nodeParams));
-  }
-  if (checkValue.value.includes("link") && linkIds.value.length) {
-    const linkParams: ISublayerDeleteModel = {
-      mapId,
-      sublayerId: sublayerId.value,
-      objType: 2,
-      objIdList: linkIds.value
-    };
-    p.push(deleteSublayer(linkParams));
-  }
-
-  Promise.all(p).then(async () => {
-    hide();
-    window.$message.success("移除成功");
-    await dataStore.fetchNodeLinkList(mapId);
-    mapStore.getSublayers(mapId);
-    dataStore.renewNodesLinks();
-    drawNodesLinks();
+  formRef.value?.validate((errors) => {
+    if (!errors) {
+      const mapId = menuStore.mapInfo!.mapId;
+      const p = [];
+      if (formValue.value.checkValue.includes("node") && nodeIds.value.length) {
+        const nodeParams: ISublayerDeleteModel = {
+          mapId,
+          sublayerId: sublayerId.value,
+          objType: 1,
+          objIdList: nodeIds.value
+        };
+        p.push(deleteSublayer(nodeParams));
+      }
+      if (formValue.value.checkValue.includes("link") && linkIds.value.length) {
+        const linkParams: ISublayerDeleteModel = {
+          mapId,
+          sublayerId: sublayerId.value,
+          objType: 2,
+          objIdList: linkIds.value
+        };
+        p.push(deleteSublayer(linkParams));
+      }
+      Promise.all(p).then(async () => {
+        hide();
+        window.$message.success("移除成功");
+        await dataStore.fetchNodeLinkList(mapId);
+        mapStore.getSublayers(mapId);
+        dataStore.renewNodesLinks();
+        drawNodesLinks();
+      });
+    }
   });
+
   return false;
 };
 
