@@ -8,13 +8,21 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: HomeView
+      component: HomeView,
+      children: [
+        {
+          path: "/meta-icon",
+          name: "MetaIcon",
+          component: () => import("../views/meta/index.vue")
+        }
+      ]
     },
     {
       path: "/editor",
-      name: "editor",
+      name: "Editor",
       component: () => import("../views/editor/index.vue")
     },
+
     {
       path: "/parse",
       name: "parse",

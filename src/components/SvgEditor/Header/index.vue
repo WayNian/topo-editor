@@ -1,53 +1,36 @@
 <template>
-  <div class="w-full h-12 flex flex-shrink-0 items-center justify-between px-3">
-    <div>
-      <n-button text style="font-size: 24px" class="mr-3">
-        <n-icon>
-          <MenuSharp />
-        </n-icon>
-      </n-button>
-
-      <n-button text style="font-size: 24px" class="mr-3">
-        <n-icon>
-          <ColorFilterSharp />
-        </n-icon>
-      </n-button>
-
-      <n-button text style="font-size: 24px">
-        <n-icon>
-          <LibrarySharp />
-        </n-icon>
-      </n-button>
-    </div>
-    <!-- <div>操作</div> -->
-    <div>
-      <n-dropdown :options="exportOptions">
-        <n-button text style="font-size: 24px" class="mx-3">
+  <Header>
+    <div class="flex flex-1 justify-between items-center">
+      <div class="flex">
+        <n-button text style="font-size: 24px" class="mr-3">
           <n-icon>
-            <FileExport />
+            <ColorFilterSharp />
           </n-icon>
         </n-button>
-      </n-dropdown>
 
-      <n-dropdown :options="settingOptions">
         <n-button text style="font-size: 24px">
           <n-icon>
-            <SettingsSharp />
+            <LibrarySharp />
           </n-icon>
         </n-button>
-      </n-dropdown>
+      </div>
+      <div class="flex">
+        <n-dropdown :options="exportOptions">
+          <n-button text style="font-size: 24px" class="mx-3">
+            <n-icon>
+              <FileExport />
+            </n-icon>
+          </n-button>
+        </n-dropdown>
+      </div>
     </div>
-  </div>
+  </Header>
 </template>
 
 <script setup lang="ts">
-import { ColorFilterSharp, LibrarySharp, SettingsSharp } from "@vicons/ionicons5";
-import MenuSharp from "@/assets/images/icons/MenuSharp.svg?component";
+import { ColorFilterSharp, LibrarySharp } from "@vicons/ionicons5";
 import FileExport from "@/assets/images/icons/FileExport.svg?component";
-
-import { useMenuStore } from "@/stores";
-
-const menuStore = useMenuStore();
+import Header from "@/components/Common/Header/index.vue";
 
 const exportOptions = [
   {
@@ -63,17 +46,6 @@ const exportOptions = [
     key: "PDF"
   }
 ];
-
-const settingOptions = [
-  {
-    label: "退出登录",
-    key: "logout"
-  }
-];
-
-const toggleCollapsed = () => {
-  menuStore.collapsed = !menuStore.collapsed;
-};
 </script>
 
 <style scoped></style>

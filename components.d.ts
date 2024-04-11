@@ -8,7 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AttributeTrigger: typeof import('./src/components/SvgEditor/Panel/Right/Attribute/AttributeTrigger.vue')['default']
-    copy: (typeof import("./src/components/SvgEditor/Modal/RemoveMultiFromSublayer copy/index.vue"))["default"]
+    copy: typeof import('./src/components/Common/Header/index copy.vue')['default']
     Edit: typeof import('./src/components/SvgEditor/Modal/Menu/Edit.vue')['default']
     EditMenuFileModal: (typeof import("./src/components/SvgEditor/Panel/Left/Modal/Menu/EditMenuFileModal.vue"))["default"]
     EditModal: (typeof import("./src/components/SvgEditor/Panel/Left/Modal/Menu/EditModal.vue"))["default"]
@@ -36,6 +36,8 @@ declare module 'vue' {
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
     NDialogProvider: typeof import('naive-ui')['NDialogProvider']
     NDivider: typeof import('naive-ui')['NDivider']
+    NDrawer: typeof import('naive-ui')['NDrawer']
+    NDrawerContent: typeof import('naive-ui')['NDrawerContent']
     NDropdown: typeof import('naive-ui')['NDropdown']
     NEmpty: typeof import('naive-ui')['NEmpty']
     NFloatButton: typeof import('naive-ui')['NFloatButton']
@@ -52,6 +54,7 @@ declare module 'vue' {
     NList: typeof import('naive-ui')['NList']
     NListItem: typeof import('naive-ui')['NListItem']
     NMention: typeof import('naive-ui')['NMention']
+    NMenu: typeof import('naive-ui')['NMenu']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NModal: typeof import('naive-ui')['NModal']
     NModalProvider: typeof import('naive-ui')['NModalProvider']
@@ -78,6 +81,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Scrollbar: (typeof import("./src/components/SvgEditor/Common/Scrollbar/index.vue"))["default"]
     Shortcut: typeof import('./src/components/SvgEditor/Shortcut/index.vue')['default']
+    SideDrawer: typeof import('./src/components/Common/SideDrawer/index.vue')['default']
     Sider: typeof import('./src/components/SvgEditor/Sider/index.vue')['default']
     Sublayer: typeof import('./src/components/SvgEditor/Modal/Sublayer/index.vue')['default']
     SubLayer: (typeof import("./src/components/SvgEditor/Panel/Left/Modal/Sublayer

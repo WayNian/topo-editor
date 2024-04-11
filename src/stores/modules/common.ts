@@ -9,8 +9,18 @@ export const useCommonStore = defineStore("common", () => {
   const importType = ref<IImportType>("importAddition");
   const isLoading = ref(false);
 
+  const collapsed = ref(false);
+
   const isSpaceDown = ref(false);
   const isShiftDown = ref(false);
 
-  return { isAttributeViewVisible, modal, importType, isSpaceDown, isShiftDown, isLoading };
+  return {
+    isAttributeViewVisible,
+    modal,
+    importType,
+    isSpaceDown,
+    isShiftDown,
+    isLoading,
+    collapsed
+  };
 });
