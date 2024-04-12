@@ -69,6 +69,7 @@ const handleClickoutside = () => {
 
 const nodeProps = ({ option }: { option: TreeOption }) => {
   return {
+    title: option.label,
     onClick() {},
     onContextmenu(e: MouseEvent): void {
       e.preventDefault();
@@ -105,4 +106,9 @@ const deleteGroup = () => {
 };
 </script>
 
-<style></style>
+<style>
+.n-tree-node-content__text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+</style>
