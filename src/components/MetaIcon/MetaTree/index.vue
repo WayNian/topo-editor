@@ -99,7 +99,7 @@ const deleteGroup = () => {
     onPositiveClick: async () => {
       await deleteGroupHttp(group.value!.groupId);
       window.$message.success("删除成功");
-      metaStore.getMetaList();
+      metaStore.getMetaData();
     },
     onAfterLeave: () => {}
   });

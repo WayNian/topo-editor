@@ -62,7 +62,7 @@ import type { FormInst, UploadCustomRequestOptions } from "naive-ui";
 import { computed, ref } from "vue";
 import { useMetaStore } from "@/stores";
 import { addMeta, updateMeta, uploadFile } from "@/utils/http/apis";
-import type { IMetaTableItem, IMetaModel } from "@/types";
+import type { IMetaItem, IMetaModel } from "@/types";
 
 const metaStore = useMetaStore();
 const groupFormRef = ref<FormInst | null>(null);
@@ -124,11 +124,11 @@ const handleRemove = () => {
   groupModel.value.objImg = "";
 };
 
-const show = (val?: IMetaTableItem) => {
+const show = (val?: IMetaItem) => {
   isVisible.value = true;
   isEdit.value = !!val;
   if (val) {
-    const { objType, objName, groupId, compClass, objImg, imgScale } = val;
+    const { objType, objName, groupId = "", compClass = "", objImg, imgScale = "" } = val;
     groupModel.value = {
       objType,
       objName,
@@ -162,7 +162,7 @@ const hide = () => {
 const finish = () => {
   const msg = isEdit.value ? "更新成功" : "创建成功";
   hide();
-  metaStore.getMetaList();
+  metaStore.getMetaData();
   window.$message.success(msg);
 };
 

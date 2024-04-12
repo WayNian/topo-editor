@@ -45,7 +45,7 @@ import Delete from "@/assets/images/icons/Delete.svg?component";
 import EditGroup from "@/components/MetaIcon/Modal/EditGroup.vue";
 import EditMeta from "@/components/MetaIcon/Modal/EditMeta.vue";
 import MetaTree from "@/components/MetaIcon/MetaTree/index.vue";
-import type { IMetaTableItem, IGroupModel } from "@/types";
+import type { IMetaItem, IGroupModel } from "@/types";
 import { deleteMeta as deleteMetaByHttp } from "@/utils/http/apis";
 
 const dialog = useDialog();
@@ -78,7 +78,7 @@ const columns = [
   {
     title: "图标",
     key: "objImg",
-    render(row: IMetaTableItem) {
+    render(row: IMetaItem) {
       return h(NImage, {
         src: row.objImg,
         width: 30,
@@ -90,7 +90,7 @@ const columns = [
     title: "操作",
     key: "actions",
     width: 100,
-    render(row: IMetaTableItem) {
+    render(row: IMetaItem) {
       return [
         h(
           NButton,
@@ -138,7 +138,7 @@ const columns = [
   }
 ];
 
-const deleteMeta = (row: IMetaTableItem) => {
+const deleteMeta = (row: IMetaItem) => {
   dialog.warning({
     title: "警告",
     content: "确定删除当前数据吗？",
@@ -149,7 +149,7 @@ const deleteMeta = (row: IMetaTableItem) => {
     onPositiveClick: async () => {
       await deleteMetaByHttp(row.objType);
       window.$message.success("删除成功");
-      metaStore.getMetaList();
+      metaStore.getMetaData();
     },
     onAfterLeave: () => {}
   });
@@ -158,11 +158,11 @@ const deleteMeta = (row: IMetaTableItem) => {
 const editwAddGroupModal = (val?: IGroupModel) => {
   editGroupModalRef.value?.show(val);
 };
-const showEditMetaModal = (val?: IMetaTableItem) => {
+const showEditMetaModal = (val?: IMetaItem) => {
   editMetaModalRef.value?.show(val);
 };
 onMounted(() => {
-  metaStore.getMetaList();
+  metaStore.getMetaData();
 });
 </script>
 

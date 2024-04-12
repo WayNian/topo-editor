@@ -1,4 +1,5 @@
-import type { IMetaSource, IMetaTableItem } from "@/types";
+import type { IMetaSource, IMetaItem } from "@/types";
+import { MetaBaseIconList } from "@/utils/constant";
 import { getGroupList } from "@/utils/http/apis";
 import type { TreeOption } from "naive-ui";
 import { defineStore } from "pinia";
@@ -39,13 +40,19 @@ const getTableData = (list: IMetaSource[]) => {
 };
 
 export const useMetaStore = defineStore("meta", () => {
-  const metaTableData = ref<IMetaTableItem[]>([]);
+  const metaTableData = ref<IMetaItem[]>([]);
   const metaGroupData = ref<TreeOption[]>([]);
+  const metaList = ref<IMetaSource[]>([]);
 
-  const getMetaList = async () => {
+  const getMetaData = async () => {
     const list = await getGroupList();
     metaGroupData.value = getGroupData(list);
     metaTableData.value = getTableData(list);
+  };
+
+  const getMetaList = async () => {
+    metaList.value = await getGroupList();
+    metaList.value.unshift(MetaBaseIconList);
   };
 
   const groupSelectOptions = computed(() => {
@@ -57,5 +64,12 @@ export const useMetaStore = defineStore("meta", () => {
     });
   });
 
-  return { metaGroupData, metaTableData, getMetaList, groupSelectOptions };
+  return {
+    metaGroupData,
+    metaTableData,
+    metaList,
+    getMetaList,
+    getMetaData,
+    groupSelectOptions
+  };
 });

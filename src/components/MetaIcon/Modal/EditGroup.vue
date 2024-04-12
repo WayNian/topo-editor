@@ -70,7 +70,7 @@ const hide = () => {
 const finish = () => {
   const msg = isEdit.value ? "更新成功" : "创建成功";
   hide();
-  metaStore.getMetaList();
+  metaStore.getMetaData();
   window.$message.success(msg);
 };
 
