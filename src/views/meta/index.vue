@@ -50,6 +50,7 @@ import Delete from "@/assets/images/icons/Delete.svg?component";
 import AddGroup from "@/components/MetaIcon/Modal/AddGroup.vue";
 import AddMeta from "@/components/MetaIcon/Modal/AddMeta.vue";
 import type { IMetaTableItem } from "@/types";
+import { deleteMeta as deleteMetaByHttp } from "@/utils/http/apis";
 
 const dialog = useDialog();
 
@@ -150,7 +151,11 @@ const deleteMeta = (row: IMetaTableItem) => {
     negativeText: "取消",
     maskClosable: false,
     closeOnEsc: false,
-    onPositiveClick: async () => {},
+    onPositiveClick: async () => {
+      await deleteMetaByHttp(row.objType);
+      window.$message.success("删除成功");
+      metaStore.getMetaList();
+    },
     onAfterLeave: () => {}
   });
 };

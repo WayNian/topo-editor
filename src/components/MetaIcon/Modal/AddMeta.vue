@@ -91,24 +91,24 @@ const customRequest = ({ file, onFinish, onError }: UploadCustomRequestOptions) 
 
   groupModel.value.objImg = "res";
 
-  //   uploadFile(formData)
-  //     .then((res) => {
-  //       groupModel.value.objImg = res;
-  //       onFinish();
-  //     })
-  //     .catch(() => {
-  //       groupModel.value.objImg = "";
-  //       window.$message.error("上传失败");
-  //       onError();
-  //     })
-  //     .finally(() => {
-  //       groupFormRef.value?.validate(
-  //         () => {},
-  //         (rule) => {
-  //           return rule?.key === "objImg";
-  //         }
-  //       );
-  //     });
+  uploadFile(formData)
+    .then((res) => {
+      groupModel.value.objImg = res;
+      onFinish();
+    })
+    .catch(() => {
+      groupModel.value.objImg = "";
+      window.$message.error("上传失败");
+      onError();
+    })
+    .finally(() => {
+      groupFormRef.value?.validate(
+        () => {},
+        (rule) => {
+          return rule?.key === "objImg";
+        }
+      );
+    });
 };
 const show = () => {
   isVisible.value = true;

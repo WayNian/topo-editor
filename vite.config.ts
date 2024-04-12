@@ -45,11 +45,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/action/, "")
       },
-      "/file": {
-        target: "http://172.19.139.246:6722/file",
+      "/wiscom": {
+        target: "http://172.19.42.25:6818/",
         // target: "http://172.19.42.25:6722/",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/file/, "")
+        rewrite: (path) => path.replace(/^\/wiscom/, "")
       }
     }
   }
