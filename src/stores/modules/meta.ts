@@ -48,10 +48,6 @@ export const useMetaStore = defineStore("meta", () => {
     metaTableData.value = getTableData(list);
   };
 
-  /**
-   *  label: 'groode',
-          value: 'groode',
-   */
   const groupSelectOptions = computed(() => {
     return metaGroupData.value.map((item) => {
       return {

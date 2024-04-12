@@ -2,7 +2,7 @@
   <n-modal
     v-model:show="isVisible"
     preset="dialog"
-    title="创建分组"
+    :title="title"
     size="huge"
     :bordered="false"
     :show-icon="false"
@@ -31,38 +31,54 @@
 
 <script setup lang="ts">
 import type { FormInst } from "naive-ui";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useMetaStore } from "@/stores";
-import { addGroup } from "@/utils/http/apis";
+import { addGroup, updateGroup } from "@/utils/http/apis";
+import type { IGroupModel } from "@/types";
 
 const metaStore = useMetaStore();
 const groupFormRef = ref<FormInst | null>(null);
 const groupModel = ref({
+  groupId: "",
   groupName: ""
 });
 
 const isVisible = ref(false);
+const isEdit = ref(false);
 const groupRules = {
   groupName: [{ required: true, message: "请输入分组名称", trigger: "blur" }]
 };
-const show = () => {
+
+const title = computed(() => (isEdit.value ? "编辑分组" : "新增分组"));
+
+const show = (val?: IGroupModel) => {
   isVisible.value = true;
+  isEdit.value = !!val;
+  if (val) {
+    groupModel.value = { ...val };
+  }
 };
 
 const hide = () => {
   isVisible.value = false;
+  groupModel.value = {
+    groupId: "",
+    groupName: ""
+  };
 };
 
 const finish = () => {
+  const msg = isEdit.value ? "更新成功" : "创建成功";
   hide();
   metaStore.getMetaList();
-  window.$message.success("创建成功");
+  window.$message.success(msg);
 };
 
 const submit = () => {
   groupFormRef.value?.validate((errors) => {
     if (errors) return;
-    addGroup(groupModel.value.groupName).then(() => {
+    const fn = isEdit.value ? updateGroup : addGroup;
+    fn(groupModel.value).then(() => {
       finish();
     });
   });

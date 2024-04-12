@@ -24,7 +24,12 @@ export interface IMetaSource {
   objList: IMetaTableItem[];
 }
 
-export interface MetaModel {
+export interface IGroupModel {
+  groupId: string;
+  groupName: string;
+}
+
+export interface IMetaModel {
   objType: string;
   objName: string;
   groupId: string;

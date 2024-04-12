@@ -1,25 +1,39 @@
-import type { IMetaSource, MetaModel } from "@/types";
+import type { IMetaSource, IMetaModel, IGroupModel } from "@/types";
 import request from "../../index";
 
 export const getGroupList = () => {
   return request.get<IMetaSource[]>({ url: "/topoEdit/getGroupList" });
 };
 
-export const addGroup = (groupName: string) => {
+export const addGroup = (params: IGroupModel) => {
   return request.post<IMetaSource[]>({
     url: "/topoEdit/insertGroup",
-    data: { groupName }
+    data: { groupName: params.groupName }
   });
 };
 
-export const addMeta = (params: MetaModel) => {
+export const updateGroup = (params: IGroupModel) => {
+  return request.post<IMetaSource[]>({
+    url: "/topoEdit/updateGroup",
+    data: params
+  });
+};
+
+export const deleteGroup = (groupId: string) => {
+  return request.post<IMetaSource[]>({
+    url: "/topoEdit/deleteGroup",
+    data: { groupId }
+  });
+};
+
+export const addMeta = (params: IMetaModel) => {
   return request.post({
     url: "/topoEdit/insertObj",
     data: params
   });
 };
 
-export const updateMeta = (params: MetaModel) => {
+export const updateMeta = (params: IMetaModel) => {
   return request.post({
     url: "/topoEdit/updateObj",
     data: params

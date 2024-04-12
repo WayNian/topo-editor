@@ -2,7 +2,7 @@
   <n-modal
     v-model:show="isVisible"
     preset="dialog"
-    title="创建对象"
+    :title="title"
     size="huge"
     :bordered="false"
     :show-icon="false"
@@ -59,10 +59,10 @@
 
 <script setup lang="ts">
 import type { FormInst, UploadCustomRequestOptions } from "naive-ui";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useMetaStore } from "@/stores";
 import { addMeta, updateMeta, uploadFile } from "@/utils/http/apis";
-import type { IMetaTableItem, MetaModel } from "@/types";
+import type { IMetaTableItem, IMetaModel } from "@/types";
 
 const metaStore = useMetaStore();
 const groupFormRef = ref<FormInst | null>(null);
@@ -74,7 +74,7 @@ const previewFileList = ref<
     status: string;
   }[]
 >([]);
-const groupModel = ref<MetaModel>({
+const groupModel = ref<IMetaModel>({
   objType: "",
   objName: "",
   groupId: "",
@@ -93,6 +93,8 @@ const groupRules = {
     { key: "objImg", required: true, message: "请选择对象图标", trigger: ["change", "blur"] }
   ]
 };
+
+const title = computed(() => (isEdit.value ? "编辑对象" : "新增对象"));
 
 const customRequest = ({ file, onFinish, onError }: UploadCustomRequestOptions) => {
   const formData = new FormData();

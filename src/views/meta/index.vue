@@ -1,17 +1,12 @@
 <template>
   <div class="flex flex-1 p-2">
     <div class="w-60 pl-4">
-      <n-tree
-        block-line
-        :data="metaStore.metaGroupData"
-        :default-expanded-keys="defaultExpandedKeys"
-        expand-on-click
-      />
+      <MetaTree @edit="editwAddGroupModal"></MetaTree>
     </div>
 
     <div class="flex flex-1 flex-col ml-2">
       <div class="flex my-2 justify-end">
-        <n-button type="primary" size="small" class="mr-4" @click="showAddGroupModal">
+        <n-button type="primary" size="small" class="mr-4" @click="editwAddGroupModal()">
           <template #icon>
             <n-icon>
               <AddFilled />
@@ -35,7 +30,7 @@
         :bordered="false"
       />
     </div>
-    <AddGroup ref="addGroupModalRef" />
+    <EditGroup ref="editGroupModalRef" />
     <EditMeta ref="editMetaModalRef" />
   </div>
 </template>
@@ -47,18 +42,18 @@ import { h, onMounted, ref } from "vue";
 import AddFilled from "@/assets/images/icons/AddFilled.svg?component";
 import ImageEdit24Regular from "@/assets/images/icons/ImageEdit24Regular.svg?component";
 import Delete from "@/assets/images/icons/Delete.svg?component";
-import AddGroup from "@/components/MetaIcon/Modal/AddGroup.vue";
+import EditGroup from "@/components/MetaIcon/Modal/EditGroup.vue";
 import EditMeta from "@/components/MetaIcon/Modal/EditMeta.vue";
-import type { IMetaTableItem } from "@/types";
+import MetaTree from "@/components/MetaIcon/MetaTree/index.vue";
+import type { IMetaTableItem, IGroupModel } from "@/types";
 import { deleteMeta as deleteMetaByHttp } from "@/utils/http/apis";
 
 const dialog = useDialog();
 
 const metaStore = useMetaStore();
-const addGroupModalRef = ref<InstanceType<typeof AddGroup> | null>(null);
+const editGroupModalRef = ref<InstanceType<typeof EditGroup> | null>(null);
 const editMetaModalRef = ref<InstanceType<typeof EditMeta> | null>(null);
 
-const defaultExpandedKeys = ref(["40", "41"]);
 const pagination = {
   pageSize: 10
 };
@@ -160,8 +155,8 @@ const deleteMeta = (row: IMetaTableItem) => {
   });
 };
 
-const showAddGroupModal = () => {
-  addGroupModalRef.value?.show();
+const editwAddGroupModal = (val?: IGroupModel) => {
+  editGroupModalRef.value?.show(val);
 };
 const showEditMetaModal = (val?: IMetaTableItem) => {
   editMetaModalRef.value?.show(val);
