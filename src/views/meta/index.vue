@@ -19,7 +19,7 @@
           </template>
           分组
         </n-button>
-        <n-button type="info" size="small" @click="showAddMetaModal">
+        <n-button type="info" size="small" @click="showEditMetaModal()">
           <template #icon>
             <n-icon>
               <AddFilled />
@@ -36,7 +36,7 @@
       />
     </div>
     <AddGroup ref="addGroupModalRef" />
-    <AddMeta ref="addMetaModalRef" />
+    <EditMeta ref="editMetaModalRef" />
   </div>
 </template>
 
@@ -48,7 +48,7 @@ import AddFilled from "@/assets/images/icons/AddFilled.svg?component";
 import ImageEdit24Regular from "@/assets/images/icons/ImageEdit24Regular.svg?component";
 import Delete from "@/assets/images/icons/Delete.svg?component";
 import AddGroup from "@/components/MetaIcon/Modal/AddGroup.vue";
-import AddMeta from "@/components/MetaIcon/Modal/AddMeta.vue";
+import EditMeta from "@/components/MetaIcon/Modal/EditMeta.vue";
 import type { IMetaTableItem } from "@/types";
 import { deleteMeta as deleteMetaByHttp } from "@/utils/http/apis";
 
@@ -56,7 +56,7 @@ const dialog = useDialog();
 
 const metaStore = useMetaStore();
 const addGroupModalRef = ref<InstanceType<typeof AddGroup> | null>(null);
-const addMetaModalRef = ref<InstanceType<typeof AddMeta> | null>(null);
+const editMetaModalRef = ref<InstanceType<typeof EditMeta> | null>(null);
 
 const defaultExpandedKeys = ref(["40", "41"]);
 const pagination = {
@@ -111,7 +111,7 @@ const columns = [
                   size: 20,
                   class: "mr-2",
                   onClick: () => {
-                    console.log("edit", row);
+                    showEditMetaModal(row);
                   }
                 },
                 { default: () => h(ImageEdit24Regular) }
@@ -163,8 +163,8 @@ const deleteMeta = (row: IMetaTableItem) => {
 const showAddGroupModal = () => {
   addGroupModalRef.value?.show();
 };
-const showAddMetaModal = () => {
-  addMetaModalRef.value?.show();
+const showEditMetaModal = (val?: IMetaTableItem) => {
+  editMetaModalRef.value?.show(val);
 };
 onMounted(() => {
   metaStore.getMetaList();

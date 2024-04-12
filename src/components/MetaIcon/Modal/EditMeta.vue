@@ -45,6 +45,7 @@
           :max="1"
           :default-file-list="previewFileList"
           :custom-request="customRequest"
+          @remove="handleRemove"
         >
           <n-button>选择文件</n-button>
         </n-upload>
@@ -57,15 +58,22 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInst, UploadCustomRequestOptions, UploadFileInfo } from "naive-ui";
-import { computed, ref } from "vue";
+import type { FormInst, UploadCustomRequestOptions } from "naive-ui";
+import { ref } from "vue";
 import { useMetaStore } from "@/stores";
-import { addMeta, uploadFile } from "@/utils/http/apis";
-import type { MetaModel } from "@/types";
+import { addMeta, updateMeta, uploadFile } from "@/utils/http/apis";
+import type { IMetaTableItem, MetaModel } from "@/types";
 
 const metaStore = useMetaStore();
 const groupFormRef = ref<FormInst | null>(null);
-const previewFileList = ref([]);
+const previewFileList = ref<
+  {
+    id?: string;
+    name: string;
+    url: string;
+    status: string;
+  }[]
+>([]);
 const groupModel = ref<MetaModel>({
   objType: "",
   objName: "",
@@ -76,6 +84,7 @@ const groupModel = ref<MetaModel>({
 });
 
 const isVisible = ref(false);
+const isEdit = ref(false);
 const groupRules = {
   objType: [{ required: true, message: "请输入类型编码", trigger: "blur" }],
   objName: [{ required: true, message: "请输入对象名称", trigger: "blur" }],
@@ -88,8 +97,6 @@ const groupRules = {
 const customRequest = ({ file, onFinish, onError }: UploadCustomRequestOptions) => {
   const formData = new FormData();
   formData.append("file", file.file as File);
-
-  groupModel.value.objImg = "res";
 
   uploadFile(formData)
     .then((res) => {
@@ -110,24 +117,58 @@ const customRequest = ({ file, onFinish, onError }: UploadCustomRequestOptions) 
       );
     });
 };
-const show = () => {
+
+const handleRemove = () => {
+  groupModel.value.objImg = "";
+};
+
+const show = (val?: IMetaTableItem) => {
   isVisible.value = true;
+  isEdit.value = !!val;
+  if (val) {
+    const { objType, objName, groupId, compClass, objImg, imgScale } = val;
+    groupModel.value = {
+      objType,
+      objName,
+      groupId,
+      compClass,
+      objImg,
+      imgScale
+    };
+    previewFileList.value = [
+      {
+        name: objName,
+        url: objImg,
+        status: "finished"
+      }
+    ];
+  }
 };
 
 const hide = () => {
   isVisible.value = false;
+  groupModel.value = {
+    objType: "",
+    objName: "",
+    groupId: "",
+    compClass: "",
+    objImg: "",
+    imgScale: "1"
+  };
 };
 
 const finish = () => {
+  const msg = isEdit.value ? "更新成功" : "创建成功";
   hide();
   metaStore.getMetaList();
-  window.$message.success("创建成功");
+  window.$message.success(msg);
 };
 
 const submit = () => {
   groupFormRef.value?.validate((errors) => {
     if (errors) return;
-    addMeta(groupModel.value).then(() => {
+    const fn = isEdit.value ? updateMeta : addMeta;
+    fn(groupModel.value).then(() => {
       finish();
     });
   });

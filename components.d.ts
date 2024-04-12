@@ -14,6 +14,7 @@ declare module 'vue' {
     copy: typeof import('./src/components/Common/Header/index copy.vue')['default']
     Edit: typeof import('./src/components/SvgEditor/Modal/Menu/Edit.vue')['default']
     EditMenuFileModal: (typeof import("./src/components/SvgEditor/Panel/Left/Modal/Menu/EditMenuFileModal.vue"))["default"]
+    EditMeta: typeof import('./src/components/MetaIcon/Modal/EditMeta.vue')['default']
     EditModal: (typeof import("./src/components/SvgEditor/Panel/Left/Modal/Menu/EditModal.vue"))["default"]
     Editor: typeof import('./src/components/SvgEditor/Editor/index.vue')['default']
     Header: typeof import('./src/components/Common/Header/index.vue')['default']
@@ -94,5 +95,6 @@ declare module 'vue' {
     SubLayerList: (typeof import("./src/components/SvgEditor/Panel/Left/SubLayerList/index.vue"))["default"]
     SublayerList1: (typeof import("./src/components/SvgEditor/Panel/Left/SublayerList1/index.vue"))["default"]
     Update: typeof import('./src/components/SvgEditor/Modal/Sublayer/Update.vue')['default']
+    UpdateMeta: typeof import('./src/components/MetaIcon/Modal/UpdateMeta.vue')['default']
   }
 }

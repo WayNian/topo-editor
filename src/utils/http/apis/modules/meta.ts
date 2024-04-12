@@ -19,6 +19,13 @@ export const addMeta = (params: MetaModel) => {
   });
 };
 
+export const updateMeta = (params: MetaModel) => {
+  return request.post({
+    url: "/topoEdit/updateObj",
+    data: params
+  });
+};
+
 export const deleteMeta = (objType: string) => {
   return request.post({
     url: "/topoEdit/deleteObj",
