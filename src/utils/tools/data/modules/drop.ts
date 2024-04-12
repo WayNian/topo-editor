@@ -1,5 +1,5 @@
 import { useMapStore } from "@/stores";
-import type { IOriginalNode, IOriginalLink, IObjItem, IPosition } from "@/types";
+import type { IOriginalNode, IOriginalLink, IMetaItem, IPosition } from "@/types";
 import { addLinkFunc, addNodeFunc, formatObject, getTransPosition } from "@/utils/tools";
 
 export const onDroped = (evt: DragEvent) => {
@@ -11,7 +11,7 @@ export const onDroped = (evt: DragEvent) => {
   const y1 = evt.y - rect.y;
 
   const [x, y] = getTransPosition(x1, y1);
-  const obj = formatObject(val) as unknown as IObjItem;
+  const obj = formatObject(val) as unknown as IMetaItem;
   const [node, link] = generateNodeLink(obj, { x, y });
 
   node && addNodeFunc(node);
@@ -19,7 +19,7 @@ export const onDroped = (evt: DragEvent) => {
 };
 
 export const generateNodeLink = (
-  val: IObjItem,
+  val: IMetaItem,
   position: IPosition
 ): [IOriginalNode | null, IOriginalLink | null] => {
   const mapStore = useMapStore();

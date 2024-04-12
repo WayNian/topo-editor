@@ -15,10 +15,10 @@
 </template>
 
 <script setup lang="ts">
-import type { IObjItem } from "@/types";
+import type { IMetaItem } from "@/types";
 import { MetaBaseIconList } from "@/utils/constant";
 
-const handleDragStart = (e: DragEvent, val: IObjItem) => {
+const handleDragStart = (e: DragEvent, val: IMetaItem) => {
   e.dataTransfer?.setData("text/plain", JSON.stringify(val));
 };
 </script>

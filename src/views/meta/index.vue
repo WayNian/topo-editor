@@ -1,30 +1,169 @@
 <template>
-  <div class="flex flex-1">
-    <n-tree
-      block-line
-      :data="data"
-      :default-expanded-keys="defaultExpandedKeys"
-      expand-on-click
-      checkable
-    />
-    <div>516515</div>
+  <div class="flex flex-1 p-2">
+    <div class="w-60 pl-4">
+      <n-tree
+        block-line
+        :data="metaStore.metaGroupData"
+        :default-expanded-keys="defaultExpandedKeys"
+        expand-on-click
+      />
+    </div>
+
+    <div class="flex flex-1 flex-col ml-2">
+      <div class="flex my-2 justify-end">
+        <n-button type="primary" size="small" class="mr-4" @click="showAddGroupModal">
+          <template #icon>
+            <n-icon>
+              <AddFilled />
+            </n-icon>
+          </template>
+          分组
+        </n-button>
+        <n-button type="info" size="small" @click="showAddMetaModal">
+          <template #icon>
+            <n-icon>
+              <AddFilled />
+            </n-icon>
+          </template>
+          对象
+        </n-button>
+      </div>
+      <n-data-table
+        :columns="columns"
+        :data="metaStore.metaTableData"
+        :pagination="pagination"
+        :bordered="false"
+      />
+    </div>
+    <AddGroup ref="addGroupModalRef" />
+    <AddMeta ref="addMetaModalRef" />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { TreeOption } from "naive-ui";
-import { ref } from "vue";
+import { useMetaStore } from "@/stores";
+import { NButton, NIcon, NImage, useDialog } from "naive-ui";
+import { h, onMounted, ref } from "vue";
+import AddFilled from "@/assets/images/icons/AddFilled.svg?component";
+import ImageEdit24Regular from "@/assets/images/icons/ImageEdit24Regular.svg?component";
+import Delete from "@/assets/images/icons/Delete.svg?component";
+import AddGroup from "@/components/MetaIcon/Modal/AddGroup.vue";
+import AddMeta from "@/components/MetaIcon/Modal/AddMeta.vue";
+import type { IMetaTableItem } from "@/types";
 
-const data = [];
+const dialog = useDialog();
+
+const metaStore = useMetaStore();
+const addGroupModalRef = ref<InstanceType<typeof AddGroup> | null>(null);
+const addMetaModalRef = ref<InstanceType<typeof AddMeta> | null>(null);
+
 const defaultExpandedKeys = ref(["40", "41"]);
+const pagination = {
+  pageSize: 10
+};
 
-function createLabel(level: number): string {
-  if (level === 4) return "道生一";
-  if (level === 3) return "一生二";
-  if (level === 2) return "二生三";
-  if (level === 1) return "三生万物";
-  return "";
-}
+const columns = [
+  {
+    title: "序号",
+    key: "index"
+  },
+  {
+    title: "类型",
+    key: "objType"
+  },
+  {
+    title: "名称",
+    key: "objName"
+  },
+  {
+    title: "关联组件",
+    key: "compClass"
+  },
+  {
+    title: "图标",
+    key: "objImg",
+    render(row: IMetaTableItem) {
+      return h(NImage, {
+        src: row.objImg,
+        width: 30,
+        height: 30
+      });
+    }
+  },
+  {
+    title: "操作",
+    key: "actions",
+    width: 100,
+    render(row: IMetaTableItem) {
+      return [
+        h(
+          NButton,
+          {
+            text: true,
+            style: "font-size: 24px"
+          },
+          {
+            default: () =>
+              h(
+                NIcon,
+                {
+                  size: 20,
+                  class: "mr-2",
+                  onClick: () => {
+                    console.log("edit", row);
+                  }
+                },
+                { default: () => h(ImageEdit24Regular) }
+              )
+          }
+        ),
+        h(
+          NButton,
+          {
+            text: true,
+            style: "font-size: 24px"
+          },
+          {
+            default: () =>
+              h(
+                NIcon,
+                {
+                  size: 20,
+                  onClick: () => {
+                    deleteMeta(row);
+                  }
+                },
+                { default: () => h(Delete) }
+              )
+          }
+        )
+      ];
+    }
+  }
+];
+
+const deleteMeta = (row: IMetaTableItem) => {
+  dialog.warning({
+    title: "警告",
+    content: "确定删除当前数据吗？",
+    positiveText: "确定",
+    negativeText: "取消",
+    maskClosable: false,
+    closeOnEsc: false,
+    onPositiveClick: async () => {},
+    onAfterLeave: () => {}
+  });
+};
+
+const showAddGroupModal = () => {
+  addGroupModalRef.value?.show();
+};
+const showAddMetaModal = () => {
+  addMetaModalRef.value?.show();
+};
+onMounted(() => {
+  metaStore.getMetaList();
+});
 </script>
 
 <style></style>

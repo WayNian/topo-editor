@@ -3,8 +3,8 @@
     <n-dialog-provider>
       <n-modal-provider>
         <n-message-provider>
-          <RouterView />
           <SideDrawer></SideDrawer>
+          <BaseView></BaseView>
         </n-message-provider>
       </n-modal-provider>
     </n-dialog-provider>
@@ -14,6 +14,5 @@
 <script setup lang="ts">
 import { darkTheme } from "naive-ui";
 import SideDrawer from "@/components/Common/SideDrawer/index.vue";
+import BaseView from "@/components/Common/BaseView/index.vue";
 </script>
-
-<style scoped></style>

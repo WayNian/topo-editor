@@ -16,7 +16,7 @@
 
           <n-button text style="font-size: 20px" @click="handleDelete(item)">
             <n-icon>
-              <DeleteForeverOutlined />
+              <Delete />
             </n-icon>
           </n-button>
         </div>
@@ -35,7 +35,7 @@ import PanelScrollbar from "@/components/SvgEditor/Common/PanelScrollbar/index.v
 import SublayerModal from "@/components/SvgEditor/Modal/Sublayer/Update.vue";
 import RemoveMultiFromSublayer from "@/components/SvgEditor/Modal/Sublayer/RemoveMultiFromSublayer.vue";
 import InformationCircleOutline from "@/assets/images/icons/InformationCircleOutline.svg?component";
-import DeleteForeverOutlined from "@/assets/images/icons/DeleteForeverOutlined.svg?component";
+import Delete from "@/assets/images/icons/Delete.svg?component";
 import { drawNodesLinks } from "@/utils/editor/draw";
 
 const mapStore = useMapStore();
