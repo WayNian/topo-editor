@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { attrSvg, attrMapBackground } from "../attr/";
 import type { ILink, INode } from "@/types/modules/data";
 import { bindMapZoom } from "../event/svg";
-import { useCommonStore, useMenuStore } from "@/stores/";
+import { useCommonStore, useMapStore, useMenuStore } from "@/stores/";
 import { drawLinks, drawMergeLinks, drawMergeNodes, drawNodes } from ".";
 
 export const resetHighlight = () => {
@@ -75,10 +75,10 @@ const drawMap = () => {
 };
 
 export const clearSvg = () => {
-  const menuStore = useMenuStore();
+  const mapStore = useMapStore();
   const commonStore = useCommonStore();
 
-  menuStore.setMapInfo();
+  mapStore.setMapInfo();
   commonStore.isAttributeViewVisible = false;
 
   attrMapBackground(d3.select<SVGRectElement, any>("#mapBackground"));
