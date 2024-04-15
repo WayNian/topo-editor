@@ -53,18 +53,21 @@ export const attrText = (text: ISVGText<INode>, tspan: ISVGTspant<INode>) => {
 
 export const attrForeignObject = (
   foreignObject: ISVGForeignObject<INode>,
-  img: ISVGBase<INode>
+  imgCon: ISVGBase<INode>
 ) => {
   foreignObject
     .attr("class", "node")
     .attr("width", (d) => d.width)
     .attr("height", (d) => d.height);
 
-  img
+  imgCon
     .attr("class", "node-content")
     .style("width", "100%")
     .style("height", "100%")
-    .style("background-color", "red")
+    .style("background-color", (d) => `${d.style.fill}`)
+    .style("background", (d) => `url(${d.style.image}) 100% 100% no-repeat`)
+    .style("background-size", "100% 100%")
+    .style("background-repeat", "no-repeat")
     .style("border-radius", "50%")
     .style("text-align", "center")
     .style("line-height", "100%");
