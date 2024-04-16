@@ -1,6 +1,6 @@
-import type { IMapSource } from "./menu";
 import type { INode, ILink } from "./data";
-export interface IImportSvgData {
+import type { IMapSource } from "./map";
+export interface IImportData {
   nodes: INode[];
   links: ILink[];
   name: string;
@@ -8,6 +8,6 @@ export interface IImportSvgData {
 
 export type MittType = {
   "on:draw": void;
-  "on:importSvg": IImportSvgData;
+  "on:importSvg": IImportData;
   "on:selectMap": IMapSource;
 };

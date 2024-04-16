@@ -50,7 +50,7 @@ export const getContextMenu = (option?: TreeOption) => {
           children: [
             {
               label: "增量",
-              key: "importAddition"
+              key: "importPart"
             },
             {
               label: "全量",

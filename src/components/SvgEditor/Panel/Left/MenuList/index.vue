@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IImportSvgData, IImportType, IMapSource, IMenuSource } from "@/types";
+import type { IImportData, IImportType, IMapSource, IMenuSource } from "@/types";
 import emitter from "@/utils/mitt";
 import Edit from "@/components/SvgEditor/Modal/Menu/Edit.vue";
 import { h, onMounted, ref } from "vue";
@@ -171,31 +171,31 @@ const handleChange = () => {
   if (!file) return;
   parseSvg(file)
     ?.then((res) => {
-      emitter.emit("on:importSvg", res as IImportSvgData);
+      emitter.emit("on:importSvg", res as IImportData);
     })
     .finally(() => {
       upload.value!.value = "";
     });
 };
-const importSvg = (type: IImportType) => {
-  if (type === "importAll") {
-    dialog.warning({
-      title: "警告",
-      content: "导入会覆盖当前数据？",
-      positiveText: "确定",
-      negativeText: "取消",
-      maskClosable: false,
-      closeOnEsc: false,
-      onPositiveClick: async () => {
-        commonStore.importType = type;
-        upload.value?.click();
-      },
-      onAfterLeave: () => {}
-    });
-  } else {
-    commonStore.importType = type;
-    upload.value?.click();
-  }
+const importData = (type: IImportType) => {
+  commonStore.importType = type;
+  upload.value?.click();
+};
+
+const importPartData = (type: IImportType) => {
+  dialog.warning({
+    title: "警告",
+    content: "导入会覆盖当前数据？",
+    positiveText: "确定",
+    negativeText: "取消",
+    maskClosable: false,
+    closeOnEsc: false,
+    onPositiveClick: async () => {
+      commonStore.importType = type;
+      upload.value?.click();
+    },
+    onAfterLeave: () => {}
+  });
 };
 
 const handleSelect = (key: string | number) => {
@@ -211,9 +211,11 @@ const handleSelect = (key: string | number) => {
       deleteMenuMap();
       break;
     case "import":
-    case "importAddition":
+    case "importPart":
+      importData(key);
+      break;
     case "importAll":
-      importSvg(key);
+      importPartData(key);
       break;
   }
 };

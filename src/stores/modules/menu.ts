@@ -21,11 +21,10 @@ export const useMenuStore = defineStore("menu", () => {
   const currentMenu = ref<IMapSource | IMenuSource | null>(null);
   const collapsed = ref(false);
 
-  const getMenuList = () => {
-    fetchMenuList().then((res) => {
-      menuList.value = formatMenuList(res[0].children || [], expandedKeys.value);
-      menuCascaderList.value = formatMenuCascaderist(res);
-    });
+  const getMenuList = async () => {
+    const res = await fetchMenuList();
+    menuList.value = formatMenuList(res[0].children || [], expandedKeys.value);
+    menuCascaderList.value = formatMenuCascaderist(res);
   };
 
   return {

@@ -6,7 +6,7 @@ import { ref } from "vue";
 export const useCommonStore = defineStore("common", () => {
   const isAttributeViewVisible = ref(false);
   const modal = ref<ModalApiInjection>();
-  const importType = ref<IImportType>("importAddition");
+  const importType = ref<IImportType>("importPart");
   const isLoading = ref(false);
 
   const collapsed = ref(false);

@@ -114,7 +114,7 @@ const handleUpdateValue = (val: string[]) => {
   nodeIds.value = [];
   linkIds.value = [];
   if (val.includes("node")) {
-    nodeIds.value = dataStore.nodesTotal
+    nodeIds.value = dataStore.nodesAll
       .filter(
         (item) =>
           item.sublayerList &&
@@ -123,7 +123,7 @@ const handleUpdateValue = (val: string[]) => {
       .map((item) => item.nodeId);
   }
   if (val.includes("link")) {
-    linkIds.value = dataStore.linksTotal
+    linkIds.value = dataStore.linksAll
       .filter(
         (item) =>
           item.sublayerList &&

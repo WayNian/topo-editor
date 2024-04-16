@@ -11,8 +11,8 @@ import { formatLinks, formatNodes } from "@/utils/tools/";
 import { useMapStore } from "..";
 
 export const useDataStore = defineStore("data", () => {
-  const nodesTotal = ref<INode[]>([]);
-  const linksTotal = ref<ILink[]>([]);
+  const nodesAll = ref<INode[]>([]);
+  const linksAll = ref<ILink[]>([]);
 
   const nodes = ref<INode[]>([]);
   const links = ref<ILink[]>([]);
@@ -26,14 +26,14 @@ export const useDataStore = defineStore("data", () => {
 
   const fetchNodeLinkList = async (mapId: string) => {
     const { nodes, links } = await fetchNodeLinkListByMapId(mapId);
-    nodesTotal.value = formatNodes(nodes);
-    linksTotal.value = formatLinks(links);
+    nodesAll.value = formatNodes(nodes);
+    linksAll.value = formatLinks(links);
   };
 
   const renewNodesLinks = () => {
     const mapStore = useMapStore();
     const sublayerIds = mapStore.sublayerIds;
-    nodes.value = nodesTotal.value.filter((node) => {
+    nodes.value = nodesAll.value.filter((node) => {
       const sublayerList = node.sublayerList || [];
       if (!sublayerList.length) {
         return sublayerIds.includes("other");
@@ -41,7 +41,7 @@ export const useDataStore = defineStore("data", () => {
         return sublayerList.some((sublayer) => sublayerIds.includes(sublayer.sublayerId));
       }
     });
-    links.value = linksTotal.value.filter((link) => {
+    links.value = linksAll.value.filter((link) => {
       const sublayerList = link.sublayerList || [];
       if (!sublayerList.length) {
         return sublayerIds.includes("other");
@@ -75,8 +75,8 @@ export const useDataStore = defineStore("data", () => {
   };
 
   return {
-    nodesTotal,
-    linksTotal,
+    nodesAll,
+    linksAll,
     nodes,
     links,
     currentNode,

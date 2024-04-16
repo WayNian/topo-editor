@@ -1,5 +1,5 @@
 import { useDataStore } from "@/stores/modules/data";
-import type { IImportSvgData, ILink, IMapSource, INode } from "@/types";
+import type { IImportData, ILink, IMapSource, INode } from "@/types";
 import { draw, drawMerge } from "@/utils/editor/draw/";
 import { checkLinks, checkNodes } from "./helper";
 import { useCommonStore } from "@/stores/modules/common";
@@ -51,82 +51,92 @@ const generateMap = (name?: string) => {
   }
 };
 
-const addUpdataMapFunc = (name?: string) => {
+const addUpdataMapFunc = async (name?: string) => {
   const params = generateMap(name);
   if (!params) return;
-  return name ? addMap(params) : updateMap(params);
+  return name ? await addMap(params) : await updateMap(params);
 };
 
-export const importSvg = async (val: IImportSvgData) => {
-  const dataStore = useDataStore();
+export const importSvg = async (val: IImportData) => {
   const commonStore = useCommonStore();
-  const menuStore = useMenuStore();
-  const mapStore = useMapStore();
-
   commonStore.isLoading = true;
+
+  if (commonStore.importType === "import") {
+    await importAllSvg(val);
+  } else {
+    await importPartSvg(val);
+  }
+
+  commonStore.isLoading = false;
+};
+
+const importAllSvg = async (val: IImportData) => {
+  let nodes: INode[] = [];
+  let links: ILink[] = [];
+  const menuStore = useMenuStore();
+  const dataStore = useDataStore();
+
+  // 全量导入,生成新的map文件
+  const mapId = await addUpdataMapFunc(val.name);
+  await menuStore.getMenuList();
+  if (!mapId) return;
+  nodes = val.nodes.map((node) => {
+    return {
+      ...node,
+      mapId
+    };
+  });
+  links = val.links.map((link) => {
+    return {
+      ...link,
+      mapId
+    };
+  });
+
+  await dataStore.addNodeLinkListFunc(nodes, links);
+  window.$message.success("导入成功");
+};
+
+const importPartSvg = async (val: IImportData) => {
+  const dataStore = useDataStore();
+  const mapStore = useMapStore();
 
   let nodes: INode[] = [];
   let links: ILink[] = [];
-  //   如果直接导入,先生成新的map文件
-  if (commonStore.importType === "import") {
-    // 全量导入,生成新的map文件
-    addUpdataMapFunc(val.name)?.then(async (mapId) => {
-      await menuStore.getMenuList();
-      if (!mapId) return;
-      nodes = val.nodes.map((node) => {
-        return {
-          ...node,
-          mapId
-        };
-      });
-      links = val.links.map((link) => {
-        return {
-          ...link,
-          mapId
-        };
-      });
 
-      await dataStore.addNodeLinkListFunc(nodes, links);
-      window.$message.success("导入成功");
-      commonStore.isLoading = false;
-    });
-  } else {
-    const mapId = mapStore.mapInfo?.mapId;
-    if (!mapId) return;
+  const mapId = mapStore.mapInfo?.mapId;
+  if (!mapId) return;
 
-    // 增量
-    const { deleteNodeList, mergeNodeList, addNodeList } = checkNodes(dataStore.nodes, val.nodes);
-    const { deleteLinkList, mergeLinkList, addLinkList } = checkLinks(dataStore.links, val.links);
+  const { deleteNodeList, mergeNodeList, addNodeList } = checkNodes(dataStore.nodesAll, val.nodes);
+  console.log("🚀 ~ importPartSvg ~ deleteNodeList:", deleteNodeList);
+  const { deleteLinkList, mergeLinkList, addLinkList } = checkLinks(dataStore.linksAll, val.links);
+  console.log("🚀 ~ importPartSvg ~ deleteLinkList:", deleteLinkList);
 
-    mapStore.mergeNodeList = mergeNodeList;
-    mapStore.mergeLinkList = mergeLinkList;
+  mapStore.mergeNodeList = mergeNodeList;
+  mapStore.mergeLinkList = mergeLinkList;
+  nodes = addNodeList.map((node) => {
+    return {
+      ...node,
+      mapId
+    };
+  });
 
-    nodes = addNodeList.map((node) => {
-      return {
-        ...node,
-        mapId
-      };
-    });
+  links = addLinkList.map((link) => {
+    return {
+      ...link,
+      mapId
+    };
+  });
 
-    links = addLinkList.map((link) => {
-      return {
-        ...link,
-        mapId
-      };
-    });
+  await addUpdataMapFunc();
+  await dataStore.deleteNodeFunc(deleteNodeList);
+  await dataStore.deleteLinkFunc(deleteLinkList);
+  await dataStore.addNodeLinkListFunc(nodes, links);
+  await dataStore.fetchNodeLinkList(mapId);
+  window.$message.success("导入成功");
 
-    await addUpdataMapFunc();
-    await dataStore.deleteNodeFunc(deleteNodeList);
-    await dataStore.deleteLinkFunc(deleteLinkList);
-    await dataStore.addNodeLinkListFunc(nodes, links);
-    await dataStore.fetchNodeLinkList(mapId);
-    window.$message.success("导入成功");
-
-    draw();
-    if (mapStore.mergeLinkList.length || mapStore.mergeNodeList.length) {
-      drawMerge();
-    }
-
-    commonStore.isLoading = false;
+  draw();
+  if (mapStore.mergeLinkList.length || mapStore.mergeNodeList.length) {
+    drawMerge();
   }
 };

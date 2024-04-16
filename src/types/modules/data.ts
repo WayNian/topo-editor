@@ -95,4 +95,4 @@ export interface INodeLinkSource {
   links: ISourceLink[];
 }
 
-export type IImportType = "import" | "importAddition" | "importAll";
+export type IImportType = "import" | "importPart" | "importAll";
