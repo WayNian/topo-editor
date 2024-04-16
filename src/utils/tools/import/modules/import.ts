@@ -108,9 +108,7 @@ const importPartSvg = async (val: IImportData) => {
   if (!mapId) return;
 
   const { deleteNodeList, mergeNodeList, addNodeList } = checkNodes(dataStore.nodesAll, val.nodes);
-  console.log("🚀 ~ importPartSvg ~ deleteNodeList:", deleteNodeList);
   const { deleteLinkList, mergeLinkList, addLinkList } = checkLinks(dataStore.linksAll, val.links);
-  console.log("🚀 ~ importPartSvg ~ deleteLinkList:", deleteLinkList);
 
   mapStore.mergeNodeList = mergeNodeList;
   mapStore.mergeLinkList = mergeLinkList;
@@ -132,11 +130,19 @@ const importPartSvg = async (val: IImportData) => {
   await dataStore.deleteNodeFunc(deleteNodeList);
   await dataStore.deleteLinkFunc(deleteLinkList);
   await dataStore.addNodeLinkListFunc(nodes, links);
-  await dataStore.fetchNodeLinkList(mapId);
-  window.$message.success("导入成功");
 
-  draw();
+  if (deleteNodeList.length || deleteLinkList.length || nodes.length || links.length) {
+    await dataStore.fetchNodeLinkList(mapId);
+  }
+  if (!nodes.length && !links.length) {
+    window.$message.info("无新数据导入");
+  } else {
+    window.$message.success("导入成功");
+  }
+
   if (mapStore.mergeLinkList.length || mapStore.mergeNodeList.length) {
     drawMerge();
   }
+
+  draw();
 };

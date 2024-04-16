@@ -44,7 +44,11 @@ export const checkNodes = (
     const item = nodes.find((item) => item.domId === node.domId);
     if (item) {
       //   item 在 nodes中，判断是否有不同的字段
-      if (JSON.stringify(item) !== JSON.stringify(node)) {
+      if (
+        item.nodePosition !== node.nodePosition ||
+        item.nodeSize !== node.nodeSize ||
+        item.nodeStyles !== node.nodeStyles
+      ) {
         mergeNodeList.push({
           ...node,
           nodeId: item.nodeId,
@@ -110,7 +114,7 @@ export const checkLinks = (
       link.mapId = item.mapId;
       //   item 在 links中，判断是否有不同的字段
       // 如果有，则说明是冲突数据
-      if (JSON.stringify(item) !== JSON.stringify(link)) {
+      if (item.linkPath !== link.linkPath || item.linkStyles !== link.linkStyles) {
         mergeLinkList.push({
           ...link,
           isMerge: true
