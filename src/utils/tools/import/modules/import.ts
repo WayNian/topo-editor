@@ -141,6 +141,7 @@ const importPartSvg = async (val: IImportData) => {
   }
 
   if (mapStore.mergeLinkList.length || mapStore.mergeNodeList.length) {
+    dataStore.renewMergeNodesLinks();
     drawMerge();
   }
 

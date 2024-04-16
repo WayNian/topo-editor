@@ -51,6 +51,17 @@ export const useDataStore = defineStore("data", () => {
     });
   };
 
+  // 只渲染需要merge的节点
+  const renewMergeNodesLinks = () => {
+    const mapStore = useMapStore();
+    nodes.value = nodesAll.value.filter((node) => {
+      return mapStore.mergeNodeList.some((mergeNode) => mergeNode.domId === node.domId);
+    });
+    links.value = linksAll.value.filter((link) => {
+      return mapStore.mergeLinkList.some((mergeLink) => mergeLink.domId === link.domId);
+    });
+  };
+
   const addNodeLinkListFunc = async (nodes: INode[], links: ILink[]) => {
     if (!nodes.length && !links.length) return;
     await addNodeLinkList({ nodeList: nodes, linkList: links });
@@ -89,6 +100,7 @@ export const useDataStore = defineStore("data", () => {
     addNodeLinkListFunc,
     deleteNodeFunc,
     deleteLinkFunc,
-    renewNodesLinks
+    renewNodesLinks,
+    renewMergeNodesLinks
   };
 });
