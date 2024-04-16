@@ -18,7 +18,7 @@ export const useMerge = () => {
 
     if (type === "apply") {
       const res: INode[] = [];
-      dataStore.nodes = dataStore.nodes.map((item) => {
+      dataStore.nodesAll = dataStore.nodesAll.map((item) => {
         const node = nodes.find((node) => node.nodeId === item.nodeId);
         if (node && item.nodeId === node.nodeId) {
           res.push(item);
@@ -26,6 +26,7 @@ export const useMerge = () => {
         return item;
       });
       await updateNodes(res);
+      window.$message.success("合并成功");
       draw();
     }
   };
@@ -39,7 +40,7 @@ export const useMerge = () => {
 
     if (type === "apply") {
       const res: ILink[] = [];
-      dataStore.links = dataStore.links.map((item) => {
+      dataStore.linksAll = dataStore.linksAll.map((item) => {
         const link = links.find((link) => link.linkId === item.linkId);
         if (link && item.linkId === link.linkId) {
           item = {
@@ -53,6 +54,7 @@ export const useMerge = () => {
         return item;
       });
       await updateLinks(res);
+      window.$message.success("合并成功");
       draw();
     }
   };
