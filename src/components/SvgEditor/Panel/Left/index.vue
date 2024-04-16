@@ -6,7 +6,12 @@
           <MenuList />
         </n-tab-pane>
         <n-tab-pane name="merge" tab="合并" v-if="isShowMerge"> <MergeList /></n-tab-pane>
-        <n-tab-pane name="meta" tab="图元" :disabled="isShowMerge || !mapStore.mapInfo">
+        <n-tab-pane
+          name="meta"
+          tab="图元"
+          :disabled="isShowMerge || !mapStore.mapInfo"
+          display-directive="show"
+        >
           <MetaIconList
         /></n-tab-pane>
         <n-tab-pane
