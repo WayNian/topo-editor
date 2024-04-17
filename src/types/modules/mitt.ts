@@ -8,6 +8,5 @@ export interface IImportData {
 
 export type MittType = {
   "on:draw": void;
-  "on:importSvg": IImportData;
   "on:selectMap": IMapSource;
 };

@@ -32,6 +32,8 @@ export const useMapStore = defineStore("map", () => {
   const mergeNodeList = ref<INode[]>([]);
   const mergeLinkList = ref<ILink[]>([]);
 
+  const isMoveToSublayerVisible = ref(false);
+
   const showMapMenu = (position: IPosition) => {
     menuePosition.value = position;
     isMenuVisible.value = true;
@@ -91,6 +93,7 @@ export const useMapStore = defineStore("map", () => {
     mapSize,
     mergeNodeList,
     mergeLinkList,
+    isMoveToSublayerVisible,
     sublayers,
     sublayerIds,
     menuePosition,

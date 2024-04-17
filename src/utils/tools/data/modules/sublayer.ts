@@ -1,28 +1,47 @@
-import { useDataStore, useMapStore, useMenuStore } from "@/stores";
+import { useDataStore, useMapStore } from "@/stores";
 import type { ISublayerAddModel, ISublayerItemModel, ISublayerModel } from "@/types";
 import { drawNodesLinks } from "@/utils/editor/draw";
-import { clearNodesLinksSubler, updateNodesLinksSublayer } from "./data";
-import { updateNodesLinks } from "@/utils/http/apis";
 
 const getSublayerList = (sublayer: ISublayerAddModel) => {
   const dataStore = useDataStore();
+  const mapStore = useMapStore();
+
   const sublayerList: ISublayerItemModel[] = [];
 
   const sublayerId = sublayer?.sublayerId;
-  dataStore.nodesSelected.forEach((node) => {
-    sublayerList.push({
-      sublayerId,
-      objType: 1,
-      objId: node.nodeId
+
+  if (mapStore.isMoveToSublayerVisible) {
+    const { nodeList, linkList } = dataStore.nodeLinkListByImport;
+    nodeList.forEach((node) => {
+      sublayerList.push({
+        sublayerId,
+        objType: 1,
+        objId: node.nodeId
+      });
     });
-  });
-  dataStore.linksSelected.forEach((link) => {
-    sublayerList.push({
-      sublayerId,
-      objType: 2,
-      objId: link.linkId
+    linkList.forEach((link) => {
+      sublayerList.push({
+        sublayerId,
+        objType: 2,
+        objId: link.linkId
+      });
     });
-  });
+  } else {
+    dataStore.nodesSelected.forEach((node) => {
+      sublayerList.push({
+        sublayerId,
+        objType: 1,
+        objId: node.nodeId
+      });
+    });
+    dataStore.linksSelected.forEach((link) => {
+      sublayerList.push({
+        sublayerId,
+        objType: 2,
+        objId: link.linkId
+      });
+    });
+  }
 
   return sublayerList;
 };

@@ -1,6 +1,6 @@
 import { useDataStore } from "@/stores/modules/data";
 import type { IImportData, ILink, IMapSource, INode } from "@/types";
-import { clearSvg, draw, drawMerge, drawNodes, drawNodesLinks } from "@/utils/editor/draw/";
+import { clearSvg, draw, drawMerge, drawNodesLinks } from "@/utils/editor/draw/";
 import { checkLinks, checkNodes } from "./helper";
 import { useCommonStore } from "@/stores/modules/common";
 import { addMap, updateMap } from "@/utils/http/apis/";
@@ -133,21 +133,21 @@ const importPartSvg = async (val: IImportData) => {
   await dataStore.deleteLinkFunc(deleteLinkList);
   await dataStore.addNodeLinkListFunc(nodes, links);
 
-  //   if (!mergeNodeList.length && !mergeLinkList.length && !nodes.length && !links.length) {
-  //     window.$message.info("无新数据导入");
-  //   } else {
   window.$message.success("导入成功");
-  //   }
 
   if (mapStore.mergeLinkList.length || mapStore.mergeNodeList.length) {
     dataStore.renewMergeNodesLinks();
     drawMerge();
     drawNodesLinks();
   } else {
-    if (deleteNodeList.length || deleteLinkList.length || nodes.length || links.length) {
-      await dataStore.fetchNodeLinkList(mapId);
+    if (deleteNodeList.length || deleteLinkList.length) {
       dataStore.renewNodesLinks();
       drawNodesLinks();
     }
+  }
+
+  //   有新数据，是否移动到其他子图层
+  if (nodes.length || links.length) {
+    mapStore.isMoveToSublayerVisible = true;
   }
 };

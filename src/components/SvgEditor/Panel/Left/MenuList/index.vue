@@ -36,19 +36,21 @@
 
   <input type="file" style="display: none" ref="upload" accept=".svg" @change="handleChange" />
   <Edit ref="editModalRef"></Edit>
+  <ImportMoveToSublayer></ImportMoveToSublayer>
 </template>
 
 <script setup lang="ts">
 import type { IImportData, IImportType, IMapSource, IMenuSource } from "@/types";
 import emitter from "@/utils/mitt";
 import Edit from "@/components/SvgEditor/Modal/Menu/Edit.vue";
-import { h, onMounted, ref, watch } from "vue";
+import ImportMoveToSublayer from "@/components/SvgEditor/Modal/Sublayer/ImportMoveToSublayer.vue";
+import { h, onMounted, ref } from "vue";
 import { NIcon, type TreeOption, useDialog } from "naive-ui";
 import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
 import { deleteMap, deleteMenu } from "@/utils/http/apis/";
 import { useCommonStore, useMapStore } from "@/stores/";
 import { useMenuStore } from "@/stores/";
-import { getContextMenu, parseSvg } from "@/utils/tools/";
+import { getContextMenu, importSvg, parseSvg } from "@/utils/tools/";
 import { clearSvg } from "@/utils/editor/draw/";
 
 const dialog = useDialog();
@@ -171,7 +173,8 @@ const handleChange = () => {
   if (!file) return;
   parseSvg(file)
     ?.then((res) => {
-      emitter.emit("on:importSvg", res as IImportData);
+      //   emitter.emit("on:importSvg", res as IImportData);
+      importSvg(res as IImportData);
     })
     .finally(() => {
       upload.value!.value = "";
@@ -182,7 +185,7 @@ const importData = (type: IImportType) => {
   upload.value?.click();
 };
 
-const importPartData = (type: IImportType) => {
+const importDataTip = (type: IImportType) => {
   dialog.warning({
     title: "警告",
     content: "导入会覆盖当前数据？",
@@ -191,8 +194,7 @@ const importPartData = (type: IImportType) => {
     maskClosable: false,
     closeOnEsc: false,
     onPositiveClick: async () => {
-      commonStore.importType = type;
-      upload.value?.click();
+      importData(type);
     },
     onAfterLeave: () => {}
   });
@@ -215,7 +217,7 @@ const handleSelect = (key: string | number) => {
       importData(key);
       break;
     case "importAll":
-      importPartData(key);
+      importDataTip(key);
       break;
   }
 };

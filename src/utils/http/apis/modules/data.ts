@@ -4,7 +4,8 @@ import type {
   INodeLinkSource,
   IOriginalNode,
   IOriginalLink,
-  ISourceNode
+  ISourceNode,
+  ISourceLink
 } from "@/types";
 import request from "../../index";
 
@@ -26,7 +27,10 @@ export const fetchNodeLinkListByMapId = (mapId: string) => {
 };
 
 export const addNodeLinkList = (params: { nodeList: INode[]; linkList: ILink[] }) => {
-  return request.post({ url: "/topoEdit/insertNodeLinkList", data: params });
+  return request.post<{
+    nodeList: ISourceNode[];
+    linkList: ISourceLink[];
+  }>({ url: "/topoEdit/insertNodeLinkList", data: params });
 };
 
 export const addNode = (params: IOriginalNode) => {

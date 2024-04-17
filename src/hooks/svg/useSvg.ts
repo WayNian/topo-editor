@@ -2,7 +2,7 @@ import { useCommonStore } from "@/stores/modules/common";
 import { bindWindowEvent, unbindWindowEvent } from "@/utils/editor/event";
 import { useMessage, useModal } from "naive-ui";
 import { onBeforeMount, onMounted } from "vue";
-import { importSvg, selectMap } from "@/utils/tools";
+import { selectMap } from "@/utils/tools";
 import emitter from "@/utils/mitt";
 
 export const useSvg = () => {
@@ -12,12 +12,10 @@ export const useSvg = () => {
   window.$message = useMessage();
 
   const initEvent = () => {
-    emitter.on("on:importSvg", importSvg);
     emitter.on("on:selectMap", selectMap);
   };
 
   const offEvent = () => {
-    emitter.off("on:importSvg", importSvg);
     emitter.off("on:selectMap", selectMap);
   };
   onMounted(() => {

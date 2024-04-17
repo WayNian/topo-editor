@@ -1,6 +1,6 @@
 import { computed, ref } from "vue";
 import { defineStore } from "pinia";
-import type { ILink, INode } from "@/types/";
+import type { ILink, INode, INodeLinkSource, ISourceLink, ISourceNode } from "@/types/";
 import {
   addNodeLinkList,
   deleteLinks,
@@ -20,6 +20,14 @@ export const useDataStore = defineStore("data", () => {
   const currentNode = ref<INode | null>(null);
   const currentLink = ref<ILink | null>(null);
   const isSelectionRectVisible = false;
+
+  const nodeLinkListByImport = ref<{
+    nodeList: ISourceNode[];
+    linkList: ISourceLink[];
+  }>({
+    nodeList: [],
+    linkList: []
+  });
 
   const nodesSelected = computed(() => nodes.value.filter((node) => node.selected));
   const linksSelected = computed(() => links.value.filter((link) => link.selected));
@@ -64,9 +72,8 @@ export const useDataStore = defineStore("data", () => {
 
   const addNodeLinkListFunc = async (nodes: INode[], links: ILink[]) => {
     if (!nodes.length && !links.length) return;
-    await addNodeLinkList({ nodeList: nodes, linkList: links });
-    nodes = [];
-    links = [];
+    nodeLinkListByImport.value = await addNodeLinkList({ nodeList: nodes, linkList: links });
+    console.log("🚀 ~ addNodeLinkListFunc ~ nodeLinkListByImport:", nodeLinkListByImport);
   };
 
   const deleteNodeFunc = async (nodes: INode[]) => {
@@ -75,6 +82,7 @@ export const useDataStore = defineStore("data", () => {
     const nodeIdList = nodes.map((item) => item.nodeId);
     const mapId = mapStore.mapInfo!.mapId as string;
     await deleteNodes({ nodeIdList, mapId });
+    nodesAll.value = nodesAll.value.filter((node) => !nodeIdList.includes(node.nodeId));
   };
 
   const deleteLinkFunc = async (links: ILink[]) => {
@@ -83,11 +91,13 @@ export const useDataStore = defineStore("data", () => {
     const linkIdList = links.map((item) => item.linkId);
     const mapId = mapStore.mapInfo!.mapId as string;
     await deleteLinks({ linkIdList, mapId });
+    linksAll.value = linksAll.value.filter((link) => !linkIdList.includes(link.linkId));
   };
 
   return {
     nodesAll,
     linksAll,
+    nodeLinkListByImport,
     nodes,
     links,
     currentNode,
