@@ -1,6 +1,6 @@
 import { useDataStore } from "@/stores/modules/data";
 import type { IImportData, ILink, IMapSource, INode } from "@/types";
-import { draw, drawMerge, drawNodes, drawNodesLinks } from "@/utils/editor/draw/";
+import { clearSvg, draw, drawMerge, drawNodes, drawNodesLinks } from "@/utils/editor/draw/";
 import { checkLinks, checkNodes } from "./helper";
 import { useCommonStore } from "@/stores/modules/common";
 import { addMap, updateMap } from "@/utils/http/apis/";
@@ -17,6 +17,8 @@ export const selectMap = async (map: IMapSource) => {
   const mapStore = useMapStore();
 
   commonStore.isLoading = true;
+  clearSvg();
+  mapStore.sublayerIds = [];
   mapStore.setMapInfo(map);
   await dataStore.fetchNodeLinkList(map.mapId);
   draw();

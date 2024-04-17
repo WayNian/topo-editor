@@ -1,6 +1,6 @@
 <template>
   <PanelScrollbar>
-    <n-checkbox-group @update:value="handleUpdateValue" class="px-3">
+    <n-checkbox-group :value="mapStore.sublayerIds" @update:value="handleUpdateValue" class="px-3">
       <div
         v-for="(item, index) in mapStore.sublayers"
         :key="index"
