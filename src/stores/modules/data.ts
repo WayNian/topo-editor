@@ -1,6 +1,6 @@
 import { computed, ref } from "vue";
 import { defineStore } from "pinia";
-import type { ILink, INode, INodeLinkSource, ISourceLink, ISourceNode } from "@/types/";
+import type { ILink, INode, ISourceLink, ISourceNode } from "@/types/";
 import {
   addNodeLinkList,
   deleteLinks,
@@ -73,7 +73,6 @@ export const useDataStore = defineStore("data", () => {
   const addNodeLinkListFunc = async (nodes: INode[], links: ILink[]) => {
     if (!nodes.length && !links.length) return;
     nodeLinkListByImport.value = await addNodeLinkList({ nodeList: nodes, linkList: links });
-    console.log("🚀 ~ addNodeLinkListFunc ~ nodeLinkListByImport:", nodeLinkListByImport);
   };
 
   const deleteNodeFunc = async (nodes: INode[]) => {
