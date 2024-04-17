@@ -200,14 +200,14 @@
         </n-list-item>
       </n-list>
     </div>
-    <n-empty description="暂时无数据" v-show="isEmpty" class="mt-10vh"> </n-empty>
+    <!-- <n-empty description="暂时无数据" v-show="isEmpty" class="mt-10vh"> </n-empty> -->
   </PanelScrollbar>
 </template>
 
 <script setup lang="ts">
 import type { ILink, INode } from "@/types";
 import { useMapStore } from "@/stores/";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { Checkmark, Close } from "@vicons/ionicons5";
 import { highlightLink, highlightNode } from "@/utils/editor/draw/";
 import { useMerge } from "@/hooks/menu/useMerge";
@@ -240,9 +240,9 @@ const handleMergeLinkClick = (val: ILink | ILink[], type: string) => {
   mergeLinks(list, type);
 };
 
-const isEmpty = computed(() => {
-  return !mapStore.mergeNodeList.length && !mapStore.mergeLinkList.length;
-});
+// const isEmpty = computed(() => {
+//   return !mapStore.mergeNodeList.length && !mapStore.mergeLinkList.length;
+// });
 </script>
 
 <style>
@@ -252,4 +252,3 @@ const isEmpty = computed(() => {
   }
 }
 </style>
-@/utils/editor/indexSvg @/stores/modules/common

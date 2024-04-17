@@ -134,16 +134,14 @@ const importPartSvg = async (val: IImportData) => {
   if (deleteNodeList.length || deleteLinkList.length || nodes.length || links.length) {
     await dataStore.fetchNodeLinkList(mapId);
   }
-  if (!nodes.length && !links.length) {
-    window.$message.info("无新数据导入");
-  } else {
-    window.$message.success("导入成功");
-  }
+  //   if (!mergeNodeList.length && !mergeLinkList.length && !nodes.length && !links.length) {
+  //     window.$message.info("无新数据导入");
+  //   } else {
+  window.$message.success("导入成功");
+  //   }
 
   if (mapStore.mergeLinkList.length || mapStore.mergeNodeList.length) {
     dataStore.renewMergeNodesLinks();
     drawMerge();
   }
-
-  draw();
 };

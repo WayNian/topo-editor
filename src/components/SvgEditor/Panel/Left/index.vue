@@ -28,9 +28,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref, watchEffect } from "vue";
-import { resetHighlight } from "@/utils/editor/draw/";
-import { useMapStore, useMenuStore, useSvgStore } from "@/stores/";
+import { computed, onBeforeMount, ref, watch, watchEffect } from "vue";
+import { drawNodesLinks, resetHighlight } from "@/utils/editor/draw/";
+import { useDataStore, useMapStore, useMenuStore, useSvgStore } from "@/stores/";
 import Panel from "@/components/SvgEditor/Common/Panel/index.vue";
 import Sider from "@/components/SvgEditor/Sider/index.vue";
 import MenuList from "./MenuList/index.vue";
@@ -41,6 +41,7 @@ import SublayerList from "./SublayerList/index.vue";
 const menuStore = useMenuStore();
 const mapStore = useMapStore();
 const svgStore = useSvgStore();
+const dataStore = useDataStore();
 const activeName = ref("files");
 
 const isShowMerge = computed(() => {
@@ -50,6 +51,14 @@ const isShowMerge = computed(() => {
 watchEffect(() => {
   activeName.value =
     mapStore.mergeNodeList.length || mapStore.mergeLinkList.length ? "merge" : "files";
+});
+
+// 合并结束，刷新节点和连线
+watch(isShowMerge, (val) => {
+  if (!val) {
+    dataStore.renewNodesLinks();
+    drawNodesLinks();
+  }
 });
 
 watchEffect(() => {
