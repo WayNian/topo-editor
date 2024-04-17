@@ -1,6 +1,6 @@
 import { useDataStore } from "@/stores/modules/data";
 import type { IImportData, ILink, IMapSource, INode } from "@/types";
-import { draw, drawMerge } from "@/utils/editor/draw/";
+import { draw, drawMerge, drawNodes, drawNodesLinks } from "@/utils/editor/draw/";
 import { checkLinks, checkNodes } from "./helper";
 import { useCommonStore } from "@/stores/modules/common";
 import { addMap, updateMap } from "@/utils/http/apis/";
@@ -131,9 +131,6 @@ const importPartSvg = async (val: IImportData) => {
   await dataStore.deleteLinkFunc(deleteLinkList);
   await dataStore.addNodeLinkListFunc(nodes, links);
 
-  if (deleteNodeList.length || deleteLinkList.length || nodes.length || links.length) {
-    await dataStore.fetchNodeLinkList(mapId);
-  }
   //   if (!mergeNodeList.length && !mergeLinkList.length && !nodes.length && !links.length) {
   //     window.$message.info("无新数据导入");
   //   } else {
@@ -143,5 +140,12 @@ const importPartSvg = async (val: IImportData) => {
   if (mapStore.mergeLinkList.length || mapStore.mergeNodeList.length) {
     dataStore.renewMergeNodesLinks();
     drawMerge();
+    drawNodesLinks();
+  } else {
+    if (deleteNodeList.length || deleteLinkList.length || nodes.length || links.length) {
+      await dataStore.fetchNodeLinkList(mapId);
+      dataStore.renewNodesLinks();
+      drawNodesLinks();
+    }
   }
 };
