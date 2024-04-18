@@ -1,5 +1,4 @@
 <template>
-  <div>节点属性</div>
   <p>{{ dataStore.currentNode }}</p>
 </template>
 

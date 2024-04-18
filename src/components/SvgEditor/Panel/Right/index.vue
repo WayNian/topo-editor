@@ -1,7 +1,7 @@
 <template>
   <div class="attribute-panel absolute top-5 right-0 w-80 h-90% px-2" :style="translate">
     <n-tabs type="line" animated>
-      <n-tab-pane name="oasis" tab="节点">
+      <n-tab-pane name="oasis" tab="属性">
         <Attribute></Attribute>
       </n-tab-pane>
       <!-- <n-tab-pane name="model" tab="模型"> 模型 </n-tab-pane> -->

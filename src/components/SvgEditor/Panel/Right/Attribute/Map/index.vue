@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div>属性设置</div>
 </template>
 
 <script setup lang="ts"></script>
