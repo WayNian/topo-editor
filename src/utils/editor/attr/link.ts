@@ -18,7 +18,8 @@ export const attrLink = (link: IPath, shadowlink: IPath) => {
         style += `${key}:${d.style[key]};`;
       }
       return style;
-    });
+    })
+    .style("pointer-events", "stroke");
 
   // .attr("stroke", "white")
   // .attr("stroke-width", 2)

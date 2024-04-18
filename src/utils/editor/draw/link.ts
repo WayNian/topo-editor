@@ -45,8 +45,6 @@ export const drawMergeLinks = () => {
   const mapStore = useMapStore();
   d3.select<SVGGElement, any>("#mergeLinkGroup")
     .selectAll<SVGGElement, ILink>("g.link-group")
-    .data(mapStore.mergeLinkList, (d: ILink) => {
-      return `${d.linkId}`;
-    })
+    .data(mapStore.mergeLinkList, (d: ILink) => d.linkId)
     .join(appendLink);
 };
