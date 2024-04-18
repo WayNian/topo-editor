@@ -78,9 +78,9 @@ export interface IOriginalLink {
 
 export interface ISourceLink extends IOriginalLink {
   linkId: string;
-  updatedBy: string | null;
-  updatedTime: string | null;
-  transform: string;
+  updatedBy?: string | null;
+  updatedTime?: string | null;
+  transform?: string;
 }
 
 export interface ILink extends ISourceLink {

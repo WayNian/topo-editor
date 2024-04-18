@@ -6,13 +6,20 @@ import { useCommonStore } from "@/stores/modules/common";
 import { addMap, updateMap } from "@/utils/http/apis/";
 import { useMenuStore } from "@/stores/modules/menu";
 import { useMapStore } from "@/stores";
+import {
+  addNodeLinkList,
+  deleteLinks,
+  deleteNodes,
+  getNodeLinkList,
+  renewMergeNodesLinks,
+  renewNodesLinks
+} from "../../data";
 
 /**
  * 选择画布后，设置map(画布)信息，并获取节点和连线列表
  * @param map
  */
 export const selectMap = async (map: IMapSource) => {
-  const dataStore = useDataStore();
   const commonStore = useCommonStore();
   const mapStore = useMapStore();
 
@@ -20,7 +27,7 @@ export const selectMap = async (map: IMapSource) => {
   clearSvg();
   mapStore.sublayerIds = [];
   mapStore.setMapInfo(map);
-  await dataStore.fetchNodeLinkList(map.mapId);
+  await getNodeLinkList(map.mapId);
   draw();
   commonStore.isLoading = false;
 };
@@ -76,7 +83,6 @@ const importAllSvg = async (val: IImportData) => {
   let nodes: INode[] = [];
   let links: ILink[] = [];
   const menuStore = useMenuStore();
-  const dataStore = useDataStore();
 
   // 全量导入,生成新的map文件
   const mapId = await addUpdataMapFunc(val.name);
@@ -95,7 +101,7 @@ const importAllSvg = async (val: IImportData) => {
     };
   });
 
-  await dataStore.addNodeLinkListFunc(nodes, links);
+  await addNodeLinkList(nodes, links);
   window.$message.success("导入成功");
 };
 
@@ -129,19 +135,19 @@ const importPartSvg = async (val: IImportData) => {
   });
 
   await addUpdataMapFunc();
-  await dataStore.deleteNodeFunc(deleteNodeList);
-  await dataStore.deleteLinkFunc(deleteLinkList);
-  await dataStore.addNodeLinkListFunc(nodes, links);
+  await deleteNodes(deleteNodeList);
+  await deleteLinks(deleteLinkList);
+  await addNodeLinkList(nodes, links);
 
   window.$message.success("导入成功");
 
   if (mapStore.mergeLinkList.length || mapStore.mergeNodeList.length) {
-    dataStore.renewMergeNodesLinks();
+    renewMergeNodesLinks();
     drawMerge();
     drawNodesLinks();
   } else {
     if (deleteNodeList.length || deleteLinkList.length) {
-      dataStore.renewNodesLinks();
+      renewNodesLinks();
       drawNodesLinks();
     }
   }

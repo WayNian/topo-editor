@@ -36,6 +36,7 @@ import Sider from "@/components/SvgEditor/Sider/index.vue";
 import MenuList from "./MenuList/index.vue";
 import MergeList from "./MergeList/index.vue";
 import MetaIconList from "./MetaIconList/index.vue";
+import { renewNodesLinks } from "@/utils/tools";
 
 const menuStore = useMenuStore();
 const mapStore = useMapStore();
@@ -55,7 +56,7 @@ watchEffect(() => {
 // 合并结束，刷新节点和连线
 watch(isShowMerge, (val) => {
   if (!val) {
-    dataStore.renewNodesLinks();
+    renewNodesLinks();
     drawNodesLinks();
   }
 });

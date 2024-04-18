@@ -34,7 +34,7 @@ import { useDataStore, useMapStore } from "@/stores";
 import type { ISublayerAddModel } from "@/types";
 import type { FormInst } from "naive-ui";
 import { drawNodesLinks } from "@/utils/editor/draw";
-import { addNodesLinksToSublayer } from "@/utils/tools";
+import { addNodesLinksToSublayer, getNodeLinkList, renewNodesLinks } from "@/utils/tools";
 import { computed, ref } from "vue";
 
 const mapStore = useMapStore();
@@ -65,8 +65,8 @@ const options = computed(() => {
 const refreshNodesLinks = async () => {
   const mapId = mapStore.mapInfo!.mapId;
 
-  await dataStore.fetchNodeLinkList(mapId);
-  dataStore.renewNodesLinks();
+  await getNodeLinkList(mapId);
+  renewNodesLinks();
   drawNodesLinks();
 };
 const hide = async () => {

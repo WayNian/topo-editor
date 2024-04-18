@@ -37,6 +37,7 @@ import RemoveMultiFromSublayer from "@/components/SvgEditor/Modal/Sublayer/Remov
 import InformationCircleOutline from "@/assets/images/icons/InformationCircleOutline.svg?component";
 import Delete from "@/assets/images/icons/Delete.svg?component";
 import { drawNodesLinks } from "@/utils/editor/draw";
+import { renewNodesLinks } from "@/utils/tools";
 
 const mapStore = useMapStore();
 const dataStore = useDataStore();
@@ -54,7 +55,7 @@ watch(
 // 根据子图层， 显示页面中的元素
 const handleUpdateValue = (val: string[]) => {
   mapStore.sublayerIds = val;
-  dataStore.renewNodesLinks();
+  renewNodesLinks();
   drawNodesLinks();
 };
 

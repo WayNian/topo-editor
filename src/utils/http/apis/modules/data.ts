@@ -19,7 +19,7 @@ interface IDeleteLinkModel {
   mapId: string;
 }
 
-export const fetchNodeLinkListByMapId = (mapId: string) => {
+export const getNodeLinkListByMapId = (mapId: string) => {
   return request.get<INodeLinkSource>({
     url: "/topoEdit/getNodeLinkListByMapId",
     params: { mapId }
@@ -42,7 +42,7 @@ export const deleteNodes = (params: IDeleteNodeModel) => {
 };
 
 export const addLink = (params: IOriginalLink) => {
-  return request.post({ url: "/topoEdit/insertLink", data: params });
+  return request.post<string>({ url: "/topoEdit/insertLink", data: params });
 };
 
 export const deleteLinks = (params: IDeleteLinkModel) => {

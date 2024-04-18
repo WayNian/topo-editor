@@ -45,13 +45,17 @@ export const formatNodes = (data: ISourceNode[]): INode[] => {
   });
 };
 
+export const formatLink = (link: ISourceLink): ILink => {
+  const { linkStyles } = link;
+  return {
+    ...link,
+    pathArray: parseSvgPath(link.linkPath),
+    style: formatObject(linkStyles)
+  };
+};
+
 export const formatLinks = (data: ISourceLink[]): ILink[] => {
   return data.map((item) => {
-    const { linkStyles } = item;
-    return {
-      ...item,
-      pathArray: parseSvgPath(item.linkPath),
-      style: formatObject(linkStyles)
-    };
+    return formatLink(item);
   });
 };

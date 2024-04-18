@@ -32,6 +32,7 @@ import { useDataStore, useMapStore } from "@/stores";
 import type { ISublayer, ISublayerDeleteModel } from "@/types";
 import { drawNodesLinks } from "@/utils/editor/draw";
 import { deleteSublayer } from "@/utils/http/apis";
+import { getNodeLinkList, renewNodesLinks } from "@/utils/tools";
 import type { FormInst } from "naive-ui";
 import { ref } from "vue";
 
@@ -99,9 +100,9 @@ const submit = () => {
       Promise.all(p).then(async () => {
         hide();
         window.$message.success("移除成功");
-        await dataStore.fetchNodeLinkList(mapId);
+        await getNodeLinkList(mapId);
         mapStore.getSublayers(mapId);
-        dataStore.renewNodesLinks();
+        renewNodesLinks();
         drawNodesLinks();
       });
     }
