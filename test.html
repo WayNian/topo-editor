@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const d = "M 4453.5 3443 L 4951.5 3443 L 4951.5 4153 L 5640 4153 L 5640 4968 L 4453.5 4968 Z"
+        const parsePathD = (d) => {
+            // 使用正则表达式分割命令，同时保留命令字符
+            const commands = d.matchAll(/([a-zA-Z])(?:([+-]?\d+(?:\.\d+)?(?:e[+-]?\d+)?\s*,?\s*)+)/g);
+            const pathSegments = [];
+
+            for (const [, cmdTypeRaw, ...argsStr] of commands) {
+                const cmdType = cmdTypeRaw.toUpperCase(); // 转换为大写以统一处理
+                const isRelative = cmdTypeRaw !== cmdType; // 检查是否为小写（相对坐标）
+                const args = argsStr.join(",").split(",").map(parseFloat); // 合并并解析参数
+                console.log("🚀 ~ parsePathD ~ argsStr:", argsStr)
+
+                // 根据命令类型创建对应的对象
+                let segment = null;
+                switch (cmdType) {
+                    case "M": // MoveTo
+                        segment = { type: "M", data: args, isRelative: isRelative };
+                        break;
+                    case "L": // LineTo
+                        segment = { type: "L", data: args, isRelative: isRelative };
+                        break;
+                    case "H": // HorizontalLineTo
+                        // H 命令只有一个参数，代表 x 坐标的变化
+                        segment = { type: "H", data: [args[0]], isRelative: isRelative };
+                        break;
+                    case "V": // VerticalLineTo
+                        // V 命令只有一个参数，代表 y 坐标的变化
+                        segment = { type: "V", data: [args[0]], isRelative: isRelative };
+                        break;
+                    case "C": // CurveTo
+                        // C 命令有 6 个参数，代表三次贝塞尔曲线的控制点和结束点
+                        segment = { type: "C", data: args, isRelative: isRelative };
+                        break;
+                    case "S": // SmoothCurveTo
+                        // S 命令有 4 个参数，代表平滑三次贝塞尔曲线的第二个控制点和结束点
+                        segment = { type: "S", data: args, isRelative: isRelative };
+                        break;
+                    case "Q": // QuadraticBezierCurveTo
+                        // Q 命令有 4 个参数，代表二次贝塞尔曲线的控制点和结束点
+                        segment = { type: "Q", data: args, isRelative: isRelative };
+                        break;
+                    case "T": // SmoothQuadraticBezierCurveTo
+                        // T 命令有 2 个参数，代表平滑二次贝塞尔曲线的结束点
+                        segment = { type: "T", data: args, isRelative: isRelative };
+                        break;
+                    case "A": // ArcTo
+                        // A 命令有 7 个或更多参数，代表椭圆弧
+                        segment = { type: "A", data: args, isRelative: isRelative };
+                        break;
+                    case "Z": // ClosePath
+                        // Z 命令没有参数，表示闭合路径
+                        segment = { type: "Z", data: [], isRelative: false };
+                        break;
+                    default:
+                        // 对于不支持的命令，可以选择忽略或抛出错误
+                        console.warn(`Unsupported command: ${cmdTypeRaw}`);
+                        continue;
+                }
+
+                // 将解析的段添加到路径段数组中
+                if (segment) {
+                    console.log("🚀 ~ parsePathD ~ segment:", segment);
+                    pathSegments.push(segment);
+                }
+            }
+
+            console.log("🚀 ~ parsePathD ~ pathSegments:", d, pathSegments);
+
+            return pathSegments;
+        };
+
+        const res = parsePathD(d)
+        console.log(res);
+    </script>
+</body>
+
+</html>

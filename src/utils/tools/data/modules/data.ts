@@ -1,8 +1,8 @@
-import { useCommonStore, useDataStore } from "@/stores";
+import { useCommonStore, useDataStore, useMapStore } from "@/stores";
 import type { ILink, INode, IOriginalLink, IOriginalNode, ISublayer } from "@/types";
 import { addLink, addNode } from "@/utils/http/apis/";
 import { formatNode } from "./format";
-import { drawNodes } from "@/utils/editor/draw";
+import { drawNodes, drawNodesLinks } from "@/utils/editor/draw";
 
 export const clearData = () => {
   const dataStore = useDataStore();

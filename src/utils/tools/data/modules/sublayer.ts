@@ -1,6 +1,5 @@
 import { useCommonStore, useDataStore, useMapStore } from "@/stores";
 import type { ISublayerAddModel, ISublayerItemModel, ISublayerModel } from "@/types";
-import { drawNodesLinks } from "@/utils/editor/draw";
 
 const getSublayerList = (sublayer: ISublayerAddModel) => {
   const dataStore = useDataStore();
@@ -49,7 +48,6 @@ const getSublayerList = (sublayer: ISublayerAddModel) => {
 // 更新 或者新建子图层
 export const addNodesLinksToSublayer = async (sublayer: ISublayerAddModel) => {
   const mapStore = useMapStore();
-  const dataStore = useDataStore();
   const commonStore = useCommonStore();
 
   const mapId = mapStore.mapInfo!.mapId;
@@ -64,8 +62,6 @@ export const addNodesLinksToSublayer = async (sublayer: ISublayerAddModel) => {
   if (commonStore.importType === "importAll") {
     delete params.sublayerId;
   }
+
   await mapStore.addSublayers(params);
-  await dataStore.fetchNodeLinkList(mapId);
-  dataStore.renewNodesLinks();
-  drawNodesLinks();
 };

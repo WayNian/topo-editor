@@ -30,13 +30,15 @@
 </template>
 
 <script setup lang="ts">
-import { useMapStore } from "@/stores";
+import { useDataStore, useMapStore } from "@/stores";
 import type { ISublayerAddModel } from "@/types";
-import { addNodesLinksToSublayer } from "@/utils/tools";
 import type { FormInst } from "naive-ui";
+import { drawNodesLinks } from "@/utils/editor/draw";
+import { addNodesLinksToSublayer } from "@/utils/tools";
 import { computed, ref } from "vue";
 
 const mapStore = useMapStore();
+const dataStore = useDataStore();
 
 const formRef = ref<FormInst | null>(null);
 const formValue = ref({
@@ -60,9 +62,17 @@ const options = computed(() => {
     }));
 });
 
-const hide = () => {
+const refreshNodesLinks = async () => {
+  const mapId = mapStore.mapInfo!.mapId;
+
+  await dataStore.fetchNodeLinkList(mapId);
+  dataStore.renewNodesLinks();
+  drawNodesLinks();
+};
+const hide = async () => {
   mapStore.isMoveToSublayerVisible = false;
   formValue.value.sublayerId = "";
+  refreshNodesLinks();
 };
 
 const submit = async () => {

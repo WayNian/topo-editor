@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import type { ILink, INode } from "@/types";
 import { useMapStore } from "@/stores";
+import { SVGPathData, SVGPathDataTransformer, SVGPathDataParser } from "svg-pathdata";
 
 type ISvg = d3.Selection<SVGSVGElement, unknown, d3.BaseType, any>;
 type ISvgNode = d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>;
@@ -9,6 +10,7 @@ type IPoint = number[];
 type IPointInfo = {
   type: string;
   data: number[];
+  isRelative: boolean;
 };
 
 const nodes: any = [];
@@ -19,13 +21,17 @@ let xScale = 1;
 let yScale = 1;
 
 function parseMatrix(matrixString: string) {
-  // 正则表达式匹配matrix函数的参数
-  const regex = /matrix\(([^)]*)\)/;
+  // 正则表达式匹配matrix函数的参数，允许使用逗号或空格作为分隔符
+  // 注意：这里假设参数不会包含括号或其他在正则表达式中需要转义的特殊字符
+  const regex = /matrix\((.*?)\)/;
   const match = matrixString.match(regex);
 
   if (match && match[1]) {
-    // 将匹配到的参数字符串按逗号分割
-    const params = match[1].split(",").map(parseFloat);
+    // 将匹配到的参数字符串按逗号或空格分割
+    const params = match[1]
+      .trim()
+      .split(/[\s,]+/)
+      .map(parseFloat);
 
     // 返回包含所有参数的数组
     return params;
@@ -140,39 +146,15 @@ const getPathByMatrix = (points: IPointInfo[], matrixList: number[][]) => {
 
   return res;
 };
-// 解析路径为数组 js实现path路径解析为数组
-const parsePathD = (d: string) => {
-  const commands = d.split(/(?=[MLHVCSQTAZ])/); // 分割命令
-  const pathSegments: IPointInfo[] = [];
 
-  for (let i = 0; i < commands.length; i++) {
-    const command = commands[i];
-    const cmdType = command[0]; // 命令类型
-    const args = command.replaceAll(" ", ",").slice(1).split(",").map(parseFloat); // 参数
+const transPathD = (d: string, matrixList: number[][]) => {
+  let d1 = new SVGPathData(d);
+  matrixList.forEach((matrix) => {
+    d1 = d1.matrix(matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]);
+  });
 
-    // 根据命令类型创建对应的对象
-    let segment;
-    switch (cmdType) {
-      case "M": // MoveTo
-      case "L": // LineTo
-        segment = { type: cmdType, data: args };
-        break;
-      // 你可以在这里添加对其他命令的处理，如C（CurveTo）、Q（QuadraticBezierCurveTo）等
-      case "C":
-        segment = { type: cmdType, data: args };
-        break;
-      default:
-        // 对于不支持的命令，可以选择忽略或抛出错误
-        console.warn(`Unsupported command: ${cmdType}`);
-        continue;
-    }
-
-    pathSegments.push(segment);
-  }
-
-  return pathSegments;
+  return d1.toAbs().encode();
 };
-
 const getDByPoints = (points: IPointInfo[]) => {
   // 将paths转换为path的d
   const d = points
@@ -201,8 +183,11 @@ const formatData = (node: ISvgNode) => {
 
   if (!id) return;
 
+  if (!["circle", "ellipse", "image", "text", "rect", "polyline", "line", "path"].includes(tagName))
+    return;
+
   const matrixList = collectNodeMatrix(el);
-  const { x, y, width, height } = formatTransform(el);
+  const { x, y } = formatTransform(el);
   const { style } = formatStyle(s, 0.5);
 
   switch (tagName) {
@@ -314,16 +299,19 @@ const formatData = (node: ISvgNode) => {
     case "path":
       {
         const dStr = node.attr("d");
-        const points = parsePathD(dStr);
-        const pointsByMatrix = getPathByMatrix(points, matrixList);
-        const d = getDByPoints(pointsByMatrix);
+        if (!dStr) return;
+        const d = transPathD(dStr, matrixList);
+        // console.log("🚀 ~ formatData ~ points:", points);
+
+        // const pointsByMatrix = getPathByMatrix(points, matrixList);
+        // const d = getDByPoints(pointsByMatrix);
         const link = {
           //   linkId: id,
           domId: id,
           linkType: "link",
           linkPath: d,
           testD: dStr,
-          pathArray: pointsByMatrix,
+          //   pathArray: pointsByMatrix,
           linkStyles: JSON.stringify(style),
           style
         };
@@ -355,9 +343,16 @@ export const parseSvg = (file: File) => {
         .style("height", "100%")
         .html(data as string);
       const svg = con.select("svg");
-      const viewBoxList = svg.attr("viewBox").split(" ");
-      const width = +viewBoxList[2];
-      const height = +viewBoxList[3];
+      let width = +svg.attr("width");
+      let height = +svg.attr("height");
+
+      const viewBox = svg.attr("viewBox");
+      if (viewBox) {
+        const viewBoxList = viewBox.split(" ");
+        width = +viewBoxList[2];
+        height = +viewBoxList[3];
+      }
+
       mapStore.setMapSize(width, height);
       //   获取svg的getBoundingClientRect和实际的大小
       //  再获取子节点getBoundingClientRect
@@ -370,6 +365,8 @@ export const parseSvg = (file: File) => {
 
       traverse(svg.selectChildren());
       con.remove();
+
+      console.log("nodes", links);
 
       resolve({
         nodes: structuredClone<INode[]>(nodes),
