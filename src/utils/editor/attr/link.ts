@@ -19,7 +19,7 @@ export const attrLink = (link: IPath, shadowlink: IPath) => {
       }
       return style;
     })
-    .style("pointer-events", "stroke");
+    .style("pointer-events", "none");
 
   // .attr("stroke", "white")
   // .attr("stroke-width", 2)
@@ -29,7 +29,7 @@ export const attrLink = (link: IPath, shadowlink: IPath) => {
     .attr("class", "shadow-link")
     .attr("d", (d) => d.linkPath)
     .attr("stroke", "transparent")
-    .attr("stroke-width", 10)
+    .attr("stroke-width", (d) => (d.style["stroke-width"] ? d.style["stroke-width"] + 5 : 5))
     .attr("fill", "none")
     .style("pointer-events", "stroke")
     .style("cursor", "pointer");
@@ -38,7 +38,7 @@ export const attrLink = (link: IPath, shadowlink: IPath) => {
 export const attrSelectedLink = (link: IPath) => {
   link
     .attr("class", "selected-link")
-    .attr("d", (d) => d3.line()(d.pathArray))
+    .attr("d", (d) => d.linkPath)
     .attr("stroke", "green")
     .attr("fill", "none")
     .attr("stroke-width", 1)
