@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import type { ILink, INode } from "@/types";
 import { useMapStore } from "@/stores";
-import { SVGPathData, SVGPathDataTransformer, SVGPathDataParser } from "svg-pathdata";
+import { SVGPathData } from "svg-pathdata";
 
 type ISvg = d3.Selection<SVGSVGElement, unknown, d3.BaseType, any>;
 type ISvgNode = d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>;
