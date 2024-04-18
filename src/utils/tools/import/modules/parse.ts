@@ -181,7 +181,7 @@ const formatData = (node: ISvgNode) => {
   const s = node.attr("style");
   const id = el.parentElement?.id;
 
-  if (!id) return;
+  //   if (!id) return;
 
   if (!["circle", "ellipse", "image", "text", "rect", "polyline", "line", "path"].includes(tagName))
     return;

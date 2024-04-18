@@ -14,14 +14,14 @@
         >
           <MetaIconList
         /></n-tab-pane>
-        <n-tab-pane
+        <!-- <n-tab-pane
           name="layer"
           tab="子图层"
           :disabled="isShowMerge || !mapStore.mapInfo"
           display-directive="show"
         >
           <SublayerList
-        /></n-tab-pane>
+        /></n-tab-pane> -->
       </n-tabs>
     </Panel>
   </Sider>
@@ -36,7 +36,6 @@ import Sider from "@/components/SvgEditor/Sider/index.vue";
 import MenuList from "./MenuList/index.vue";
 import MergeList from "./MergeList/index.vue";
 import MetaIconList from "./MetaIconList/index.vue";
-import SublayerList from "./SublayerList/index.vue";
 
 const menuStore = useMenuStore();
 const mapStore = useMapStore();
