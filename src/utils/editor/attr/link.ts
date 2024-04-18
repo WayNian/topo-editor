@@ -9,9 +9,7 @@ export const attrLinkG = (linkG: ISVGG<ILink, SVGGElement>) => {
 export const attrLink = (link: IPath, shadowlink: IPath) => {
   link
     .attr("class", "link")
-    .attr("d", (d) => {
-      return d.linkPath;
-    })
+    .attr("d", (d) => d.linkPath)
     .attr("style", (d) => {
       let style = "";
       for (const key in d.style) {
@@ -21,15 +19,11 @@ export const attrLink = (link: IPath, shadowlink: IPath) => {
     })
     .style("pointer-events", "none");
 
-  // .attr("stroke", "white")
-  // .attr("stroke-width", 2)
-  // .attr("fill", "none");
-
   shadowlink
     .attr("class", "shadow-link")
     .attr("d", (d) => d.linkPath)
     .attr("stroke", "transparent")
-    .attr("stroke-width", (d) => (d.style["stroke-width"] ? d.style["stroke-width"] + 5 : 5))
+    .attr("stroke-width", (d) => d.style["stroke-width"] || 10)
     .attr("fill", "none")
     .style("pointer-events", "stroke")
     .style("cursor", "pointer");
