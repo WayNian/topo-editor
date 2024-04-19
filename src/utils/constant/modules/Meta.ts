@@ -1,4 +1,3 @@
-import Path from "@/assets/images/meta/Path.svg?url";
 import Text from "@/assets/images/meta/Text.svg?url";
 import Rect from "@/assets/images/meta/Rect.svg?url";
 import Circle from "@/assets/images/meta/Circle.svg?url";
@@ -9,12 +8,6 @@ export const MetaBaseIconList: IMetaSource = {
   groupId: "base",
   groupName: "基本图元",
   objList: [
-    {
-      objType: "path",
-      objName: "直线",
-      groupId: "base",
-      objImg: Path
-    },
     {
       objType: "text",
       objName: "文字",

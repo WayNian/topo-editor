@@ -1,5 +1,13 @@
 <template>
   <n-scrollbar style="height: calc(100vh - 110px)">
+    <div class="flex flex-col">
+      <div>
+        <n-tag class="my-2" :bordered="false" type="success"> 连线 </n-tag>
+      </div>
+
+      <n-checkbox> 开启画线 </n-checkbox>
+    </div>
+
     <div v-for="(item, index) in metaStore.metaList" :key="index">
       <n-tag class="my-2" :bordered="false" type="success">
         {{ item.groupName }}
