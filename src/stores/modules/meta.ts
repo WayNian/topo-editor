@@ -39,10 +39,25 @@ const getTableData = (list: IMetaSource[]) => {
     });
 };
 
+const getSelectOption = (list: IMetaSource[]) => {
+  return list
+    .map((item) => {
+      return item.objList.map((obj) => {
+        return {
+          label: obj.objName,
+          value: obj.objType,
+          row: obj
+        };
+      });
+    })
+    .flat();
+};
+
 export const useMetaStore = defineStore("meta", () => {
   const metaTableData = ref<IMetaItem[]>([]);
   const metaGroupData = ref<TreeOption[]>([]);
   const metaList = ref<IMetaSource[]>([]);
+  const metaOptions = ref<{ label: string; value: string; row: IMetaItem }[]>([]);
 
   const getMetaData = async () => {
     const list = await getGroupList();
@@ -53,6 +68,8 @@ export const useMetaStore = defineStore("meta", () => {
   const getMetaList = async () => {
     metaList.value = await getGroupList();
     metaList.value.unshift(MetaBaseIconList);
+
+    metaOptions.value = getSelectOption(metaList.value);
   };
 
   const groupSelectOptions = computed(() => {
@@ -67,6 +84,7 @@ export const useMetaStore = defineStore("meta", () => {
   return {
     metaGroupData,
     metaTableData,
+    metaOptions,
     metaList,
     getMetaList,
     getMetaData,

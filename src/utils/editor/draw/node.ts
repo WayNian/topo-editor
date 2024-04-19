@@ -46,6 +46,49 @@ const drawNode = (nodeG: ISVGG<INode, any>, d: INode) => {
   }
 };
 
+const updateEllipse = (nodeG: ISVGG<INode, any>) => {
+  const ellipse = nodeG.select<SVGEllipseElement>("ellipse");
+  attrEllipse(ellipse);
+};
+
+const updateText = (nodeG: ISVGG<INode, any>) => {
+  const text = nodeG.select<SVGTextElement>("text");
+  const tspan = text.select<SVGTSpanElement>("tspan");
+  attrText(text, tspan);
+};
+
+const updateImage = (nodeG: ISVGG<INode, any>) => {
+  const foreignObject = nodeG.select<SVGForeignObjectElement>("foreignObject");
+  const img = foreignObject.select<d3.BaseType>("div");
+
+  attrForeignObject(foreignObject, img);
+};
+
+const updateRect = (nodeG: ISVGG<INode, any>) => {
+  const rect = nodeG.select<SVGRectElement>("rect");
+  attrRect(rect);
+};
+
+const updateNodeAttr = (nodeG: ISVGG<INode, any>) => {
+  if (!nodeG.size()) return;
+  const d = nodeG.datum();
+  switch (d.nodeType) {
+    case "circle":
+    case "ellipse":
+      updateEllipse(nodeG);
+      break;
+    case "text":
+      updateText(nodeG);
+      break;
+    case "rect":
+      updateRect(nodeG);
+      break;
+    default:
+      updateImage(nodeG);
+      break;
+  }
+};
+
 export const appendNode = (enter: IEnter<INode>) => {
   const enterG = enter.append<SVGGElement>("g");
 
@@ -60,19 +103,19 @@ export const appendNode = (enter: IEnter<INode>) => {
 };
 
 const updateNode = (update: IUpdate<INode>) => {
-  const nodeG = update.select<SVGGElement>("g");
-  attrNodeG(nodeG);
-
-  return nodeG;
+  attrNodeG(update);
+  updateNodeAttr(update);
+  return update;
 };
 
 export const drawNodes = () => {
   const dataStore = useDataStore();
   const nodeGroup = d3.select<SVGGElement, any>("#nodeGroup");
+
   nodeGroup
     .selectAll<SVGGElement, INode>("g.node-group")
     .data(dataStore.nodes, (d: INode) => d.nodeId)
-    .join(appendNode, updateNode);
+    .join(appendNode, updateNode, (exit) => exit.remove());
 };
 
 export const drawMergeNodes = () => {
@@ -81,4 +124,8 @@ export const drawMergeNodes = () => {
     .selectAll<SVGGElement, INode>("g.node-group")
     .data(mapStore.mergeNodeList, (d: INode) => `${d.nodeId}`)
     .join(appendNode);
+};
+
+export const removeNode = (nodeId: string) => {
+  d3.select<SVGGElement, any>("#nodeGroup").select(`#node_${nodeId}`).remove();
 };

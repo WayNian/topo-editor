@@ -1,7 +1,31 @@
 <template>
-  <div>属性设置</div>
+  <Item title="ID">
+    <p class="truncate" :title="mapStore.mapInfo?.mapId">
+      {{ mapStore.mapInfo?.mapId }}
+    </p>
+  </Item>
+  <Item title="尺寸">
+    <n-flex :wrap="false">
+      <n-input-number v-model:value="mapStore.mapSize.width" size="small" />
+      <n-input-number v-model:value="mapStore.mapSize.height" size="small" />
+    </n-flex>
+  </Item>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useMapStore } from "@/stores";
+import Item from "../Item/index.vue";
 
-<style scoped></style>
+const mapStore = useMapStore();
+</script>
+
+<style scoped>
+.light-green {
+  height: 50px;
+  background-color: rgba(0, 128, 0, 0.12);
+}
+.green {
+  height: 50px;
+  background-color: rgba(0, 128, 0, 0.24);
+}
+</style>

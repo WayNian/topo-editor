@@ -10,6 +10,7 @@ import type {
 } from "@/types";
 
 export const attrNodeG = (nodeG: ISVGG<INode, SVGGElement>) => {
+  console.log("🚀 ~ attrNodeG ~ nodeG:", nodeG);
   nodeG
     .attr("class", "node-group")
     .attr("id", (d) => {
@@ -65,7 +66,11 @@ export const attrForeignObject = (
     .style("width", "100%")
     .style("height", "100%")
     .style("background-color", (d) => `${d.style.fill}`)
-    .style("background", (d) => `url(${d.style.image}) 100% 100% no-repeat`)
+    .style("background", (d) => {
+      console.log(d.nodeId, d, d.style.image);
+
+      return `url(${d.style.image}) 100% 100% no-repeat`;
+    })
     .style("background-size", "100% 100%")
     .style("background-repeat", "no-repeat")
     .style("border-radius", "50%")
