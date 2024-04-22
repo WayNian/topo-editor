@@ -23,7 +23,7 @@ export const attrLink = (link: IPath, shadowlink: IPath) => {
     .attr("class", "shadow-link")
     .attr("d", (d) => d.linkPath)
     .attr("stroke", "transparent")
-    .attr("stroke-width", (d) => d.style["stroke-width"] || 10)
+    .attr("stroke-width", (d) => parseFloat(d.style["stroke-width"]) * 2)
     .attr("fill", "none")
     .style("pointer-events", "stroke")
     .style("cursor", "pointer");
@@ -35,6 +35,6 @@ export const attrSelectedLink = (link: IPath) => {
     .attr("d", (d) => d.linkPath)
     .attr("stroke", "green")
     .attr("fill", "none")
-    .attr("stroke-width", 1)
-    .attr("stroke-dasharray", "5 5");
+    .attr("stroke-width", (d) => parseFloat(d.style["stroke-width"]) * 0.8)
+    .attr("stroke-dasharray", "15 5");
 };
