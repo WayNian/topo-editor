@@ -59,3 +59,14 @@ export const formatLinks = (data: ISourceLink[]): ILink[] => {
     return formatLink(item);
   });
 };
+
+export function getRgb(colorName: string) {
+  if (colorName === "transparent") return colorName;
+  if (colorName === "none") return "rgba(0, 0, 0, 0)";
+  const el = document.createElement("div");
+  el.style.color = colorName;
+  document.body.appendChild(el);
+  const rgbColor = getComputedStyle(el).color;
+  document.body.removeChild(el);
+  return rgbColor;
+}
