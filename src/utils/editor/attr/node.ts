@@ -8,9 +8,9 @@ import type {
   ISVGText,
   ISVGTspant
 } from "@/types";
+import * as d3 from "d3";
 
 export const attrNodeG = (nodeG: ISVGG<INode, SVGGElement>) => {
-  console.log("🚀 ~ attrNodeG ~ nodeG:", nodeG);
   nodeG
     .attr("class", "node-group")
     .attr("id", (d) => {
@@ -18,6 +18,10 @@ export const attrNodeG = (nodeG: ISVGG<INode, SVGGElement>) => {
     })
     .attr("transform", (d) => `translate(${d.x}, ${d.y})`)
     .attr("cursor", "move");
+};
+
+export const attrNodeDrag = (isSpaceDown: boolean) => {
+  d3.selectAll("g.node-group").style("pointer-events", isSpaceDown ? "none" : "all");
 };
 
 export const attrEllipse = (ellipse: ISVGEllipse<INode>) => {

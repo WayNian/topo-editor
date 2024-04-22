@@ -79,15 +79,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
-import { useDataStore, useMapStore } from "@/stores/";
+import { computed, onMounted, ref, watch } from "vue";
+import { useCommonStore, useDataStore, useMapStore } from "@/stores/";
 import { bindDragPointEvent } from "@/utils/editor/event/dragPoint";
 import { onDroped } from "@/utils/tools";
 import MoveToSublayerModal from "@/components/SvgEditor/Modal/Sublayer/MoveToSublayer.vue";
 import RemoveSingleFromSublayer from "@/components/SvgEditor/Modal/Sublayer/RemoveSingleFromSublayer.vue";
+import { attrLinkDrag, attrNodeDrag } from "@/utils/editor/attr";
 
 const dataStore = useDataStore();
 const mapStore = useMapStore();
+const commonStore = useCommonStore();
 
 const moveToSublayerModalRef = ref<InstanceType<typeof MoveToSublayerModal> | null>(null);
 const removeSingleFromSublayerRef = ref<InstanceType<typeof RemoveSingleFromSublayer> | null>(null);
@@ -159,4 +161,12 @@ const handleContenxtMenu = (e: MouseEvent) => {
 onMounted(() => {
   bindDragPointEvent();
 });
+
+watch(
+  () => commonStore.isSpaceDown,
+  (val) => {
+    attrLinkDrag(val);
+    attrNodeDrag(val);
+  }
+);
 </script>

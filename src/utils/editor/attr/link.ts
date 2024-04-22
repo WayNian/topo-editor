@@ -25,8 +25,12 @@ export const attrLink = (link: IPath, shadowlink: IPath) => {
     .attr("stroke", "transparent")
     .attr("stroke-width", (d) => parseFloat(d.style["stroke-width"]) * 2)
     .attr("fill", "none")
-    .style("pointer-events", "stroke")
+    .style("pointer-events", "fill")
     .style("cursor", "pointer");
+};
+
+export const attrLinkDrag = (isSpaceDown: boolean) => {
+  d3.selectAll("path.shadow-link").style("pointer-events", isSpaceDown ? "none" : "fill");
 };
 
 export const attrSelectedLink = (link: IPath) => {
@@ -35,6 +39,6 @@ export const attrSelectedLink = (link: IPath) => {
     .attr("d", (d) => d.linkPath)
     .attr("stroke", "green")
     .attr("fill", "none")
-    .attr("stroke-width", (d) => parseFloat(d.style["stroke-width"]) * 0.8)
+    .attr("stroke-width", (d) => parseFloat(d.style["stroke-width"]) * 0.5)
     .attr("stroke-dasharray", "15 5");
 };
