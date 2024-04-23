@@ -7,31 +7,37 @@
   <Item title="类型">
     <p class="truncate">{{ dataStore.currentNode?.nodeType }}</p>
   </Item>
-  <Item title="尺寸">
-    <n-flex :wrap="false">
-      <n-input-number :value="dataStore.currentNode?.width" size="small" :min="0" />
-      <n-input-number :value="dataStore.currentNode?.height" size="small" :min="0" />
-    </n-flex>
-  </Item>
-  <Item title="位置">
-    <n-flex :wrap="false">
-      <n-input-number :value="dataStore.currentNode?.x" size="small" />
-      <n-input-number :value="dataStore.currentNode?.y" size="small" />
-    </n-flex>
-  </Item>
-  <n-divider> 其他 </n-divider>
-  <Item title="图元">
-    <n-flex :wrap="false">
-      <n-select
-        :value="dataStore.currentNode?.nodeType"
-        filterable
-        placeholder="选择图元"
-        size="small"
-        :options="metaStore.metaOptions"
-        @update:value="changeMetaIcon"
-      />
-    </n-flex>
-  </Item>
+  <n-divider />
+  <n-collapse>
+    <n-collapse-item title="基础" name="1">
+      <Item title="尺寸">
+        <n-flex :wrap="false">
+          <n-input-number :value="dataStore.currentNode?.width" size="small" :min="0" />
+          <n-input-number :value="dataStore.currentNode?.height" size="small" :min="0" />
+        </n-flex>
+      </Item>
+      <Item title="位置">
+        <n-flex :wrap="false">
+          <n-input-number :value="dataStore.currentNode?.x" size="small" />
+          <n-input-number :value="dataStore.currentNode?.y" size="small" />
+        </n-flex>
+      </Item>
+    </n-collapse-item>
+    <n-collapse-item title="其他" name="2">
+      <Item title="图元">
+        <n-flex :wrap="false">
+          <n-select
+            :value="dataStore.currentNode?.nodeType"
+            filterable
+            placeholder="选择图元"
+            size="small"
+            :options="metaStore.metaOptions"
+            @update:value="changeMetaIcon"
+          />
+        </n-flex>
+      </Item>
+    </n-collapse-item>
+  </n-collapse>
 </template>
 
 <script setup lang="ts">

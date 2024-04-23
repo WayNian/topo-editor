@@ -1,12 +1,11 @@
 <template>
+  <Item title="ID">
+    <p class="truncate" :title="dataStore.currentLink?.linkId">
+      {{ dataStore.currentLink?.linkId }}
+    </p>
+  </Item>
+  <n-divider />
   <n-collapse :default-expanded-names="['1', '2', '3']">
-    <n-collapse-item title="基础" name="1">
-      <Item title="属性">
-        <p class="truncate" :title="dataStore.currentLink?.linkId">
-          {{ dataStore.currentLink?.linkId }}
-        </p>
-      </Item>
-    </n-collapse-item>
     <n-collapse-item title="连线点" name="2">
       <Item title="d">
         <p>

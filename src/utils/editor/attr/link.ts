@@ -40,5 +40,6 @@ export const attrSelectedLink = (link: IPath) => {
     .attr("stroke", "green")
     .attr("fill", "none")
     .attr("stroke-width", (d) => parseFloat(d.style["stroke-width"]) * 0.5)
-    .attr("stroke-dasharray", "15 5");
+    .attr("stroke-dasharray", "15 5")
+    .style("pointer-events", "none");
 };
