@@ -9,5 +9,9 @@ export const useSvgStore = defineStore("svg", () => {
     y: 0,
     k: 1
   });
-  return { scale, isEdit, zoomTrans };
+  const startPoint = ref({
+    x: 0,
+    y: 0
+  });
+  return { scale, isEdit, zoomTrans, startPoint };
 });

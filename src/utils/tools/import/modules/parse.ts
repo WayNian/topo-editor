@@ -310,6 +310,7 @@ const formatData = (node: ISvgNode) => {
           domId: id,
           linkType: "link",
           linkPath: d,
+          linkWidth: parseFloat(style["stroke-width"] + "" || node.attr("stroke-width")) || 1,
           testD: dStr,
           //   pathArray: pointsByMatrix,
           linkStyles: JSON.stringify(style),

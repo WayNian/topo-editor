@@ -80,7 +80,6 @@ export interface ISourceLink extends IOriginalLink {
   linkId: string;
   updatedBy?: string | null;
   updatedTime?: string | null;
-  transform?: string;
 }
 
 export interface ILink extends ISourceLink {
@@ -88,6 +87,16 @@ export interface ILink extends ISourceLink {
   style: Record<string, string>;
   pathArray: any[];
   selected?: boolean;
+  transform: {
+    x: number;
+    y: number;
+  };
+  rect: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
 }
 
 export interface INodeLinkSource {

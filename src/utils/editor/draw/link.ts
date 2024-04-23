@@ -3,6 +3,7 @@ import type { IEnter, ILink, ISVGG, IUpdate } from "@/types";
 import { attrLink, attrLinkG, attrSelectedLink } from "../attr";
 import { bindLinkDrag } from "../event";
 import { useDataStore, useMapStore } from "@/stores";
+import { setLinkRect } from "@/utils/tools";
 
 export const appenSelectedLink = (linkG: ISVGG<ILink, null>) => {
   if (!linkG.select<SVGGElement>("path.selected-link").empty()) return;
@@ -21,6 +22,8 @@ const appendLink = (enter: IEnter<ILink>) => {
   attrLinkG(enterG);
   attrLink(link, shadowlink);
   bindLinkDrag(enterG);
+  setLinkRect(enterG);
+
   return enterG;
 };
 
@@ -47,4 +50,36 @@ export const drawMergeLinks = () => {
     .selectAll<SVGGElement, ILink>("g.link-group")
     .data(mapStore.mergeLinkList, (d: ILink) => d.linkId)
     .join(appendLink);
+};
+
+const appendLinkSelection = (enter: IEnter<ILink>) => {
+  const enterG = enter.append<SVGRectElement>("rect");
+  enterG
+    .attr("class", "link-selection")
+    .attr("fill", "none")
+    .attr("stroke-dasharray", "5,5")
+    .attr("stroke", "#409eff")
+    .attr("stroke-width", 2)
+    .attr("pointer-events", "none")
+    .attr("x", (d) => d.rect.x - d.linkWidth * 0.5 - 2)
+    .attr("y", (d) => d.rect.y - d.linkWidth * 0.5 - 2)
+    .attr("width", (d) => d.rect.width + d.linkWidth + 4)
+    .attr("height", (d) => d.rect.height + d.linkWidth + 4);
+  return enterG;
+};
+
+const updateLinkSelection = (update: d3.Selection<SVGRectElement, ILink, SVGGElement, any>) => {
+  update.attr("transform", (d) => `translate(${d.transform.x}, ${d.transform.y})`);
+
+  return update;
+};
+
+export const drawLinkSelections = () => {
+  const dataStore = useDataStore();
+  console.log("dataStore.linksSelected", dataStore.linksSelected);
+
+  d3.select<SVGGElement, any>("#linkSelectionGroup")
+    .selectAll<SVGRectElement, ILink>("rect.link-selection")
+    .data(dataStore.linksSelected, (d: ILink) => d.linkId)
+    .join(appendLinkSelection, updateLinkSelection, (exit) => exit.remove());
 };

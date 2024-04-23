@@ -24,7 +24,7 @@
       <g id="nodeGroup"></g>
       <g id="mergeLinkGroup"></g>
       <g id="mergeNodeGroup"></g>
-      <g>
+      <g id="nodeSelectionGroup">
         <rect
           v-for="item in dataStore.nodesSelected"
           :key="item.nodeId"
@@ -32,6 +32,22 @@
           :height="item.height"
           :x="item.x"
           :y="item.y"
+          fill="none"
+          stroke-dasharray="5,5"
+          stroke="#409eff"
+          stroke-width="2"
+          pointer-events="none"
+        />
+      </g>
+      <g id="linkSelectionGroup">
+        <rect
+          v-for="item in dataStore.linksSelected"
+          :key="item.linkId"
+          :width="item.rect.width + item.linkWidth + 4"
+          :height="item.rect.height + item.linkWidth + 4"
+          :x="item.rect.x - item.linkWidth * 0.5 - 2"
+          :y="item.rect.y - item.linkWidth * 0.5 - 2"
+          :transform="`translate(${item.transform.x}, ${item.transform.y})`"
           fill="none"
           stroke-dasharray="5,5"
           stroke="#409eff"

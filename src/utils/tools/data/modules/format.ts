@@ -1,4 +1,4 @@
-import type { ILink, INode, ISourceLink, ISourceNode } from "@/types";
+import type { ILink, INode, ISVGG, ISourceLink, ISourceNode } from "@/types";
 import { formatObject } from "../..";
 
 // 解析路径为数组 js实现path路径解析为数组  M 283.00767973501206 301.5652924636853 L 716 673
@@ -47,16 +47,38 @@ export const formatNodes = (data: ISourceNode[]): INode[] => {
 
 export const formatLink = (link: ISourceLink): ILink => {
   const { linkStyles } = link;
+  const style = formatObject(linkStyles);
   return {
     ...link,
+    transform: {
+      x: 0,
+      y: 0
+    },
+    rect: {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0
+    },
+    linkWidth: link.linkWidth ? link.linkWidth : parseFloat(style["stroke-width"]),
     pathArray: parseSvgPath(link.linkPath),
-    style: formatObject(linkStyles)
+    style
   };
 };
 
 export const formatLinks = (data: ISourceLink[]): ILink[] => {
   return data.map((item) => {
     return formatLink(item);
+  });
+};
+
+/**
+ * 设置连接线的rect
+ * @param enterG
+ */
+export const setLinkRect = (enterG: ISVGG<ILink, SVGGElement>) => {
+  enterG.each(function (d) {
+    d.rect = this.getBBox();
   });
 };
 
