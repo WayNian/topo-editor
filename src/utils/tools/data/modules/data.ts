@@ -106,9 +106,9 @@ export const setLinksSelected = (link?: ILink) => {
 
   if (commonStore.isShiftDown) {
     link.selected = !link.selected;
-    dataStore.currentNode = null;
+    dataStore.currentLink = null;
   } else {
-    dataStore.nodes.forEach((item) => {
+    dataStore.links.forEach((item) => {
       item.selected = false;
     });
     link.selected = true;
