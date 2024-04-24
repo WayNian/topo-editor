@@ -20,6 +20,10 @@ export const attrNodeG = (nodeG: ISVGG<INode, SVGGElement>) => {
     .attr("cursor", "move");
 };
 
+export const attrNodeGTrans = (el: SVGGElement, tx: number, ty: number) => {
+  d3.select(el).attr("transform", `translate(${tx}, ${ty})`);
+};
+
 export const attrNodeDrag = (isSpaceDown: boolean) => {
   d3.selectAll("g.node-group").style("pointer-events", isSpaceDown ? "none" : "all");
 };

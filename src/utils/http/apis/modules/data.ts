@@ -37,12 +37,20 @@ export const addNode = (params: IOriginalNode) => {
   return request.post<string>({ url: "/topoEdit/insertNode", data: params });
 };
 
+export const updateNode = (params: INode[]) => {
+  return request.post<string>({ url: "/topoEdit/updateNode", data: { nodeList: params } });
+};
+
 export const deleteNodes = (params: IDeleteNodeModel) => {
   return request.post({ url: "/topoEdit/deleteNode", data: params });
 };
 
 export const addLink = (params: IOriginalLink) => {
   return request.post<string>({ url: "/topoEdit/insertLink", data: params });
+};
+
+export const updateLink = (params: ILink[]) => {
+  return request.post<string>({ url: "/topoEdit/updateLink", data: { linkList: params } });
 };
 
 export const deleteLinks = (params: IDeleteLinkModel) => {

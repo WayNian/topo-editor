@@ -28,10 +28,10 @@
         <rect
           v-for="item in dataStore.nodesSelected"
           :key="item.nodeId"
-          :width="item.width"
-          :height="item.height"
-          :x="item.x"
-          :y="item.y"
+          :width="item.width + 4"
+          :height="item.height + 4"
+          :x="item.x - 2"
+          :y="item.y - 2"
           fill="none"
           stroke-dasharray="5,5"
           stroke="#409eff"
@@ -130,7 +130,7 @@ const contentMenuoptions = [
 const currentBBox = computed(() => {
   if (!dataStore.currentNode) return { x: 0, y: 0, width: 0, height: 0 };
   const { x, y, width, height } = dataStore.currentNode;
-  return { x, y, width, height };
+  return { x: x - 2, y: y - 2, width: width + 4, height: height + 4 };
 });
 
 const isDragPointsVisible = computed(() => {

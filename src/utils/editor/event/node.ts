@@ -2,26 +2,65 @@ import * as d3 from "d3";
 import { useCommonStore, useMapStore, useSvgStore } from "@/stores";
 import type { INode, ISVGG } from "@/types";
 import { setNodesSelected } from "@/utils/tools";
+import { attrNodeGTrans } from "../attr";
+import { updateNode } from "@/utils/http/apis";
+import { drawNodes } from "../draw";
 
-export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
+const startPoint = {
+  x: 0,
+  y: 0
+};
+
+let tx = 0;
+let ty = 0;
+
+const dragStart = (e: any, d: INode) => {
   const commonStore = useCommonStore();
   const svgStore = useSvgStore();
+  if (!svgStore.isEdit || commonStore.isSpaceDown) return;
+  setNodesSelected(d);
+  startPoint.x = e.x;
+  startPoint.y = e.y;
+};
+
+const dragging = (e: any, d: INode, el: SVGGElement) => {
+  const commonStore = useCommonStore();
+  const svgStore = useSvgStore();
+  if (!svgStore.isEdit || commonStore.isSpaceDown) return;
+
+  d.x = e.x;
+  d.y = e.y;
+
+  tx = e.x - startPoint.x;
+  ty = e.y - startPoint.y;
+  attrNodeGTrans(el, e.x, e.y);
+};
+
+const dragEnd = (e: any, d: INode, el: SVGGElement) => {
+  const commonStore = useCommonStore();
+  const svgStore = useSvgStore();
+
+  //   表示节点没有移动
+  if (tx === 0 && ty === 0) return;
+  if (!svgStore.isEdit || commonStore.isSpaceDown) return;
+
+  drawNodes();
+
+  //   更新接口
+  updateNode([d]);
+};
+
+export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
   const mapStore = useMapStore();
 
   const drag = d3
     .drag<SVGGElement, INode>()
-    .on("start", (e, d) => {
-      if (!svgStore.isEdit || commonStore.isSpaceDown) return;
-      setNodesSelected(d);
-    })
+    .on("start", dragStart)
     .on("drag", function (e, d) {
-      if (!svgStore.isEdit || commonStore.isSpaceDown) return;
-      d.x = e.x;
-      d.y = e.y;
-      d3.select(this).attr("transform", `translate(${e.x}, ${e.y})`);
+      dragging(e, d, this);
     })
-    .on("end", (e, d) => {
-      if (!svgStore.isEdit || commonStore.isSpaceDown) return;
+    .on("end", function (e, d) {
+      dragEnd(e, d, this);
     });
 
   nodeG.call(drag);

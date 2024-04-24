@@ -6,6 +6,11 @@ export const attrLinkG = (linkG: ISVGG<ILink, SVGGElement>) => {
     return `link_${d.linkId}${d.isMerge ? "_merge" : ""}`;
   });
 };
+
+export const attrLinkGTrans = (el: SVGGElement, tx: number, ty: number) => {
+  d3.select(el).attr("transform", `translate(${tx}, ${ty})`);
+};
+
 export const attrLink = (link: IPath, shadowlink: IPath) => {
   link
     .attr("class", "link")
