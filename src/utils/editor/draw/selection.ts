@@ -2,6 +2,7 @@ import * as d3 from "d3";
 import { useDataStore } from "@/stores";
 import { attrSeletView } from "../attr";
 import type { ISVGRect } from "@/types";
+import { selectNodesLinksByDebounce, getTransPosition } from "@/utils/tools";
 
 const startPoint = {
   x: 0,
@@ -62,6 +63,11 @@ export const updateSelectionRect = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
   }
 
   attrSeletView(selectionRect, point, size);
+
+  const startPointSelection = getTransPosition(point.x, point.y);
+  const endPointSelection = getTransPosition(point.x + size.width, point.y + size.height);
+
+  selectNodesLinksByDebounce(startPointSelection, endPointSelection);
 };
 
 export const hideSelectionRect = () => {

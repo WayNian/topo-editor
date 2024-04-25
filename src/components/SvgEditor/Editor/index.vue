@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
 import { useCommonStore, useDataStore, useMapStore } from "@/stores/";
-import { bindDragPointEvent } from "@/utils/editor/event/dragPoint";
+import { bindDragPointEvent } from "@/utils/editor/event/point";
 import { onDroped } from "@/utils/tools";
 import { attrLinkDrag, attrNodeDrag } from "@/utils/editor/attr";
 import MoveToSublayerModal from "@/components/SvgEditor/Modal/Sublayer/MoveToSublayer.vue";
@@ -112,3 +112,4 @@ watch(
   }
 );
 </script>
+@/utils/editor/event/point

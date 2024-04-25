@@ -21,6 +21,15 @@ let zoomTran = d3.zoomIdentity;
 let isZoom = false;
 
 const zoomstart = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
+  const dataStore = useDataStore();
+  const el = e.sourceEvent;
+  if (el && el.type === "mousedown") {
+    if (el.target.id === "mapBackground" || el.target.id === "svgEditor") {
+      dataStore.currentNode = null;
+      dataStore.currentLink = null;
+      clearNodesLinksSelected();
+    }
+  }
   setStartPoint(e);
 };
 
@@ -97,8 +106,8 @@ export const bindMapZoom = (svgView: ISVG, mapView: ISVGG<any, HTMLElement>) => 
   svg
     .call(zoom)
     .on("dblclick.zoom", null)
-    .call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(k))
-    .on("click", click);
+    .call(zoom.transform, d3.zoomIdentity.translate(x, y).scale(k));
+  // .on("click", click);
 };
 
 export const setPosition = () => {

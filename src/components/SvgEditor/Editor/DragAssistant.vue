@@ -89,10 +89,10 @@ const currentBBox = computed(() => {
 });
 
 const isDragPointsVisible = computed(() => {
-  console.log(dataStore.nodesSelected.length, dataStore.linksSelected.length);
-
-  if (dataStore.nodesSelected.length + dataStore.linksSelected.length === 1) return true;
-  return false;
+  return (
+    (dataStore.currentNode || dataStore.currentLink) &&
+    dataStore.nodesSelected.length + dataStore.linksSelected.length === 1
+  );
 });
 
 const getStrokeWidth = (item: ILink) => {
