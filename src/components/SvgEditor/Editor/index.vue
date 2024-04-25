@@ -131,7 +131,9 @@ const currentBBox = computed(() => {
   if (!dataStore.currentNode && !dataStore.currentLink) return { x: 0, y: 0, width: 0, height: 0 };
 
   const { x, y, width, height } = dataStore.currentNode || dataStore.currentLink!.rect;
-  return { x: x - 2, y: y - 2, width: width + 4, height: height + 4 };
+  const transform = dataStore.currentLink ? dataStore.currentLink.transform : { x: 0, y: 0 };
+
+  return { x: x - 2 + transform.x, y: y - 2 + transform.y, width: width + 4, height: height + 4 };
 });
 
 const isDragPointsVisible = computed(() => {
