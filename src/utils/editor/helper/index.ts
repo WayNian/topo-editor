@@ -9,8 +9,7 @@ export const setInitTransform = () => {
   const mapWidth = mapStore.mapSize.width;
   const mapHeight = mapStore.mapSize.height;
 
-  const aspectRatio = mapWidth / mapHeight;
-  const scaleFactor = aspectRatio > 1 ? (width - 50) / mapWidth : (height - 50) / mapHeight;
+  const scaleFactor = Math.min((width - 50) / mapWidth, (height - 50) / mapHeight);
 
   const scaledWidth = mapWidth * scaleFactor;
   const scaledHeight = mapHeight * scaleFactor;
