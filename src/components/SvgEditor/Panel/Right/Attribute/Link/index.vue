@@ -25,6 +25,7 @@
           :show-preview="true"
           :modes="['hex', 'rgb']"
           size="small"
+          @update:value="updateLinkAttribute(key, $event)"
         />
         <n-input-number
           v-else-if="StyleNameMap[key].type === 'number'"
@@ -33,6 +34,7 @@
           :min="getRange(key)[0]"
           :max="getRange(key)[1]"
           placeholder="请输入"
+          @update:value="updateLinkAttribute(key, $event)"
         >
           <template #suffix v-if="StyleNameMap[key].suffix">
             {{ StyleNameMap[key].suffix }}
@@ -45,6 +47,7 @@
 
 <script setup lang="ts">
 import { useDataStore } from "@/stores";
+import { attrUpdateLink } from "@/utils/editor/attr";
 import { getRgb } from "@/utils/tools";
 
 const dataStore = useDataStore();
@@ -69,6 +72,7 @@ const StyleNameMap: {
   "stroke-width": {
     title: "描边宽度",
     type: "number",
+    range: [0],
     suffix: "px"
   },
   "stroke-dasharray": {
@@ -134,6 +138,13 @@ const StyleNameMap: {
 
 const getRange = (key: string) => {
   return StyleNameMap[key].range || [];
+};
+
+const updateLinkAttribute = (key: string, value: string) => {
+  if (dataStore.currentLink) {
+    dataStore.currentLink.style[key] = value;
+    attrUpdateLink(dataStore.currentLink);
+  }
 };
 </script>
 

@@ -18,10 +18,10 @@
     <rect
       v-for="item in dataStore.linksSelected"
       :key="item.linkId"
-      :width="item.rect.width + item.linkWidth + 4"
-      :height="item.rect.height + item.linkWidth + 4"
-      :x="item.rect.x - item.linkWidth * 0.5 - 2"
-      :y="item.rect.y - item.linkWidth * 0.5 - 2"
+      :width="item.rect.width + item.linkWidth + getStrokeWidth(item) + 4"
+      :height="item.rect.height + item.linkWidth + getStrokeWidth(item) + 4"
+      :x="item.rect.x - item.linkWidth * 0.5 - 2 - getStrokeWidth(item) / 2"
+      :y="item.rect.y - item.linkWidth * 0.5 - 2 - getStrokeWidth(item) / 2"
       :transform="`translate(${item.transform.x}, ${item.transform.y})`"
       fill="none"
       stroke-dasharray="5,5"
@@ -65,6 +65,7 @@
 
 <script setup lang="ts">
 import { useDataStore } from "@/stores";
+import type { ILink } from "@/types";
 import { computed } from "vue";
 
 const dataStore = useDataStore();
@@ -75,7 +76,16 @@ const currentBBox = computed(() => {
   const { x, y, width, height } = dataStore.currentNode || dataStore.currentLink!.rect;
   const transform = dataStore.currentLink ? dataStore.currentLink.transform : { x: 0, y: 0 };
 
-  return { x: x - 2 + transform.x, y: y - 2 + transform.y, width: width + 4, height: height + 4 };
+  const strokeWidth = dataStore.currentLink
+    ? +parseFloat(dataStore.currentLink.style["stroke-width"])
+    : 0;
+  const realWidth = strokeWidth + width + 4;
+  const realHeight = strokeWidth + height + 4;
+
+  const realX = x - 2 - strokeWidth * 0.5 + transform.x;
+  const realY = y - 2 - strokeWidth * 0.5 + transform.y;
+
+  return { x: realX, y: realY, width: realWidth, height: realHeight };
 });
 
 const isDragPointsVisible = computed(() => {
@@ -84,6 +94,10 @@ const isDragPointsVisible = computed(() => {
   if (dataStore.nodesSelected.length + dataStore.linksSelected.length === 1) return true;
   return false;
 });
+
+const getStrokeWidth = (item: ILink) => {
+  return parseFloat(item.style["stroke-width"]);
+};
 </script>
 
 <style></style>

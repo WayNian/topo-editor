@@ -30,12 +30,36 @@ export const attrLink = (link: IPath, shadowlink: IPath) => {
     .attr("stroke", "transparent")
     .attr("stroke-width", (d) => parseFloat(d.style["stroke-width"]) * 2)
     .attr("fill", "none")
-    .style("pointer-events", "stroke")
+    .style("pointer-events", "all")
     .style("cursor", "pointer");
 };
 
+export const attrUpdateLink = (d: ILink) => {
+  const linkG = d3.select<SVGGElement, ILink>(`#link_${d.linkId}`);
+  linkG
+    .select("path.link")
+    .attr("d", d.linkPath)
+    .attr("style", () => {
+      let style = "";
+      for (const key in d.style) {
+        style += `${key}:${d.style[key]};`;
+      }
+      return style;
+    });
+
+  linkG
+    .select("path.shadow-link")
+    .attr("d", d.linkPath)
+    .attr("stroke-width", parseFloat(d.style["stroke-width"]) * 2);
+
+  //   if (linkG.empty()) return;
+  console.log("linkG.node()!.getBBox()", linkG.node()!.getBBox());
+
+  d.rect = linkG.node()!.getBBox();
+};
+
 export const attrLinkDrag = (isSpaceDown: boolean) => {
-  d3.selectAll("path.shadow-link").style("pointer-events", isSpaceDown ? "none" : "stroke");
+  d3.selectAll("path.shadow-link").style("pointer-events", isSpaceDown ? "none" : "all");
 };
 
 export const attrSelectedLink = (link: IPath) => {

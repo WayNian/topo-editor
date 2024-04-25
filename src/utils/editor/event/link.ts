@@ -14,7 +14,7 @@ const startPoint = {
 
 let tx = 0;
 let ty = 0;
-const dragStart = (e: any, d: ILink) => {
+const dragStart = (e: any, d: ILink, el: SVGGElement) => {
   const commonStore = useCommonStore();
   const svgStore = useSvgStore();
   if (!svgStore.isEdit || commonStore.isSpaceDown) return;
@@ -66,7 +66,9 @@ export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
 
   const drag = d3
     .drag<SVGGElement, ILink>()
-    .on("start", dragStart)
+    .on("start", function (e, d) {
+      dragStart(e, d, this);
+    })
     .on("drag", function (e, d) {
       dragging(e, d, this);
     })
