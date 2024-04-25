@@ -20,10 +20,20 @@ const startPoint = {
 let zoomTran = d3.zoomIdentity;
 let isZoom = false;
 
+function wheelDelta(event: any) {
+  return (
+    -event.deltaY *
+    (event.deltaMode === 1 ? 0.05 : event.deltaMode ? 1 : 0.002) *
+    (event.ctrlKey ? 10 : 1)
+  );
+}
+
 const zoomstart = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
   const dataStore = useDataStore();
+  const commonStore = useCommonStore();
+
   const el = e.sourceEvent;
-  if (el && el.type === "mousedown") {
+  if (el && el.type === "mousedown" && !commonStore.isSpaceDown) {
     if (el.target.id === "mapBackground" || el.target.id === "svgEditor") {
       dataStore.currentNode = null;
       dataStore.currentLink = null;
@@ -42,6 +52,7 @@ const zooming = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
   if (zoomTran.k === e.transform.k && !commonStore.isSpaceDown) {
     isZoom = false;
     updateSelectionRect(e);
+    zoom.wheelDelta(() => 0);
   } else {
     isZoom = true;
     zoomRecord = e.transform;
@@ -61,6 +72,8 @@ const zoomend = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
   if (isZoom) {
     zoomTran = e.transform;
   } else {
+    zoom.wheelDelta(wheelDelta);
+
     dataStore.isSelectionRectVisible = false;
     startPoint.x = 0;
     startPoint.y = 0;
