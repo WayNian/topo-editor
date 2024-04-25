@@ -83,6 +83,7 @@ export const setNodesSelected = (node?: INode) => {
     dataStore.nodes.forEach((item) => {
       item.selected = false;
     });
+    setLinksSelected();
     node.selected = true;
     dataStore.currentNode = node;
   }
@@ -111,6 +112,7 @@ export const setLinksSelected = (link?: ILink) => {
     dataStore.links.forEach((item) => {
       item.selected = false;
     });
+    setNodesSelected();
     link.selected = true;
     dataStore.currentLink = link;
   }

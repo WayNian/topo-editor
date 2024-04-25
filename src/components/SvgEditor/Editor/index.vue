@@ -128,17 +128,17 @@ const contentMenuoptions = [
 ];
 
 const currentBBox = computed(() => {
-  if (!dataStore.currentNode) return { x: 0, y: 0, width: 0, height: 0 };
-  const { x, y, width, height } = dataStore.currentNode;
+  if (!dataStore.currentNode && !dataStore.currentLink) return { x: 0, y: 0, width: 0, height: 0 };
+
+  const { x, y, width, height } = dataStore.currentNode || dataStore.currentLink!.rect;
   return { x: x - 2, y: y - 2, width: width + 4, height: height + 4 };
 });
 
 const isDragPointsVisible = computed(() => {
-  if (!dataStore.currentNode || dataStore.nodesSelected.length !== 1) {
-    return false;
-  }
+  console.log(dataStore.nodesSelected.length, dataStore.linksSelected.length);
 
-  return dataStore.nodesSelected[0].nodeId === dataStore.currentNode.nodeId;
+  if (dataStore.nodesSelected.length + dataStore.linksSelected.length === 1) return true;
+  return false;
 });
 
 const handleDragover = (e: DragEvent) => {
