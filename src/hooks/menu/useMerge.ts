@@ -2,7 +2,7 @@ import { useMapStore } from "@/stores/";
 import { useDataStore } from "@/stores/modules/data";
 import type { ILink, INode } from "@/types";
 import { formatLinks } from "@/utils/tools";
-import { draw, drawMergeLinks, drawMergeNodes } from "@/utils/editor/draw/";
+import { drawLinks, drawMergeLinks, drawMergeNodes, drawNodes } from "@/utils/editor/draw/";
 import { updateLinks, updateNodes } from "@/utils/http/apis/";
 
 export const useMerge = () => {
@@ -27,7 +27,7 @@ export const useMerge = () => {
       });
       await updateNodes(res);
       window.$message.success("合并成功");
-      draw();
+      drawNodes();
     }
   };
 
@@ -55,7 +55,7 @@ export const useMerge = () => {
       });
       await updateLinks(res);
       window.$message.success("合并成功");
-      draw();
+      drawLinks();
     }
   };
 

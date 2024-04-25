@@ -89,6 +89,15 @@ const currentBBox = computed(() => {
 });
 
 const isDragPointsVisible = computed(() => {
+  console.log(
+    dataStore.nodesSelected.length,
+    dataStore.linksSelected.length,
+    dataStore.currentNode,
+    dataStore.currentLink,
+    (dataStore.currentNode || dataStore.currentLink) &&
+      dataStore.nodesSelected.length + dataStore.linksSelected.length === 1
+  );
+
   return (
     (dataStore.currentNode || dataStore.currentLink) &&
     dataStore.nodesSelected.length + dataStore.linksSelected.length === 1

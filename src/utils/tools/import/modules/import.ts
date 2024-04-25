@@ -8,6 +8,7 @@ import { useMenuStore } from "@/stores/modules/menu";
 import { useMapStore } from "@/stores";
 import {
   addNodeLinkList,
+  clearNodesLinksSelected,
   deleteLinks,
   deleteNodes,
   getNodeLinkList,
@@ -69,6 +70,8 @@ const addUpdataMapFunc = async (name?: string) => {
 export const importSvg = async (val: IImportData) => {
   const commonStore = useCommonStore();
   commonStore.isLoading = true;
+
+  clearNodesLinksSelected();
 
   if (commonStore.importType === "import") {
     await importAllSvg(val);

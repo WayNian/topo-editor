@@ -31,6 +31,7 @@ const updateLink = (update: IUpdate<ILink>) => {
   const link = update.select<SVGPathElement>("path.link");
   const shadowlink = update.select<SVGPathElement>("path.shadow-link");
   attrLink(link, shadowlink);
+  setLinkRect(update);
   return update;
 };
 
