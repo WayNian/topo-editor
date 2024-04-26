@@ -1,6 +1,6 @@
 import { useDataStore } from "@/stores/modules/data";
 import type { IImportData, ILink, IMapSource, INode } from "@/types";
-import { clearSvg, draw, drawMerge, drawNodesLinks } from "@/utils/editor/draw/";
+import { clearSvg, draw, drawMerge } from "@/utils/editor/draw/";
 import { checkLinks, checkNodes } from "./helper";
 import { useCommonStore } from "@/stores/modules/common";
 import { addMap, updateMap } from "@/utils/http/apis/";
@@ -147,11 +147,11 @@ const importPartSvg = async (val: IImportData) => {
   if (mapStore.mergeLinkList.length || mapStore.mergeNodeList.length) {
     renewMergeNodesLinks();
     drawMerge();
-    drawNodesLinks();
+    draw();
   } else {
     if (deleteNodeList.length || deleteLinkList.length) {
       renewNodesLinks();
-      drawNodesLinks();
+      draw();
     }
   }
 

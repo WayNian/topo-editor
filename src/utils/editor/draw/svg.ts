@@ -65,7 +65,7 @@ export const drawMerge = () => {
   drawMergeLinks();
 };
 
-const drawMap = () => {
+export const drawMap = () => {
   const svg = d3.select<SVGSVGElement, any>("#svgEditor");
   const map = svg.select<SVGGElement>("g#map");
 

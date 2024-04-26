@@ -15,6 +15,7 @@ const startPoint = {
 let tx = 0;
 let ty = 0;
 const dragStart = (e: any, d: ILink, el: SVGGElement) => {
+  console.log("🚀 ~ dragStart ~ d:", d);
   const commonStore = useCommonStore();
   const svgStore = useSvgStore();
   if (!svgStore.isEdit || commonStore.isSpaceDown) return;

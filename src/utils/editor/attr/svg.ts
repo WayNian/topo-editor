@@ -9,12 +9,7 @@ export const attrSvg = () => {
 export const attrMapBackground = (mapBackground: ISVGRect<any>) => {
   const mapStore = useMapStore();
   const { width, height } = mapStore.mapSize;
-
-  mapBackground
-    .attr("width", width)
-    .attr("height", height)
-    .attr("fill", "white")
-    .attr("fill", "#3b3b3b");
+  mapBackground.attr("width", width).attr("height", height).attr("fill", "#3b3b3b");
 };
 
 export const attrMap = (map: ISVGG<any, HTMLElement>, trans: d3.ZoomTransform) => {

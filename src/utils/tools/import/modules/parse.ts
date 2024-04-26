@@ -3,9 +3,7 @@ import type { ILink, INode } from "@/types";
 import { useMapStore } from "@/stores";
 import { SVGPathData } from "svg-pathdata";
 
-type ISvg = d3.Selection<SVGSVGElement, unknown, d3.BaseType, any>;
 type ISvgNode = d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>;
-type ISvgLink<T extends d3.BaseType> = d3.Selection<T, unknown, d3.BaseType, unknown>;
 type IPoint = number[];
 type IPointInfo = {
   type: string;
@@ -134,19 +132,6 @@ const getPosionByMatrix = (point: IPoint, matrixList: number[][]) => {
   return point;
 };
 
-const getPathByMatrix = (points: IPointInfo[], matrixList: number[][]) => {
-  const res: IPointInfo[] = [];
-  points.forEach((point) => {
-    // 获取最后的计算结果
-    matrixList.forEach((matrix) => {
-      point.data = transformPointByMatrix(point.data, matrix);
-    });
-    res.push(point);
-  });
-
-  return res;
-};
-
 const transPathD = (d: string, matrixList: number[][]) => {
   let d1 = new SVGPathData(d);
   matrixList.forEach((matrix) => {
@@ -155,22 +140,19 @@ const transPathD = (d: string, matrixList: number[][]) => {
 
   return d1.toAbs().encode();
 };
-const getDByPoints = (points: IPointInfo[]) => {
-  // 将paths转换为path的d
-  const d = points
-    .map((point) => {
-      return `${point.type}${point.data.join(" ")}`;
-    })
-    .join("");
 
-  return d;
-};
-
-const getScale = (svgElement: SVGAElement) => {
-  const matrix = svgElement.getScreenCTM();
-  const averageScale = matrix ? +((matrix.a + matrix.d) / 2).toFixed(4) : 1;
-
-  return averageScale;
+const commonNode = {
+  rotate: 0, //旋转角度
+  nodeText: "", //节点文字
+  fontSize: "", //节点字号
+  fontColor: "", //节点字色
+  textPosition: "", //文字位置
+  textStyles: "", //文字样式
+  bindData: {}, //关联数据
+  bindMap: {}, //关联图层
+  bindLink: "", //关联链路id
+  bindSubLink: "", //关联链路点
+  sublayerList: []
 };
 /**
  * 将svg节点解析成数据
@@ -179,7 +161,7 @@ const formatData = (node: ISvgNode) => {
   const el = node.node() as SVGAElement;
   const tagName = el?.tagName;
   const s = node.attr("style");
-  const id = el.parentElement?.id;
+  const id = el.id || el.parentElement?.id;
 
   //   if (!id) return;
 
@@ -187,10 +169,10 @@ const formatData = (node: ISvgNode) => {
     return;
 
   const matrixList = collectNodeMatrix(el);
-  const { x, y } = formatTransform(el);
   const { style } = formatStyle(s, 0.5);
 
   switch (tagName) {
+    case "ellipse":
     case "circle":
       {
         const x = +node.attr("cx");
@@ -199,55 +181,79 @@ const formatData = (node: ISvgNode) => {
 
         const position = getPosionByMatrix([x, y], matrixList);
         const position1 = [rect.width * xScale, rect.height * yScale];
+        const size = [rect.width * xScale, rect.height * yScale];
+        const nodePosition = `${position[0]},${position[1]}`;
+
+        if (nodes.some((item: any) => item.nodePosition === nodePosition)) return;
 
         nodes.push({
+          ...commonNode,
           domId: id,
           nodeType: "circle",
-          type: "circle",
           position: { x: position[0], y: position[1] },
           size: { width: position1[0], height: position1[1] },
+          nodePosition,
+          nodeSize: `${size[0]}*${size[1]}`,
           style
         });
       }
       break;
-    case "ellipse":
     case "image":
       {
+        const text = node.text();
         const x = +node.attr("x");
         const y = +node.attr("y");
         const rect = el.getBoundingClientRect();
 
         const position = getPosionByMatrix([x, y], matrixList);
-        const position1 = [rect.width * xScale, rect.height * yScale];
+        const size = [rect.width * xScale, rect.height * yScale];
+
+        const nodePosition = `${position[0]},${position[1]}`;
+
+        if (nodes.some((item: any) => item.nodePosition === nodePosition)) return;
 
         nodes.push({
+          ...commonNode,
           domId: id,
           nodeType: "image",
-          type: "image",
           position: { x: position[0], y: position[1] },
-          size: { width: position1[0], height: position1[1] },
-          styleSource: s,
-          style
+          size: { width: size[0], height: size[1] },
+          nodePosition,
+          nodeSize: `${size[0]}*${size[1]}`,
+          nodeStyles: JSON.stringify(style),
+          style,
+          nodeText: text
         });
       }
       break;
     case "text":
       {
         const text = node.text();
+        const x = +node.attr("x");
+        const y = +node.attr("y");
+        const rect = el.getBoundingClientRect();
+
+        const position = getPosionByMatrix([x, y], matrixList);
+        const size = [rect.width * xScale, rect.height * yScale];
+
+        const nodePosition = `${position[0]},${position[1]}`;
+        if (nodes.some((item: any) => item.nodePosition === nodePosition)) return;
+
         nodes.push({
-          id,
-          type: "text",
-          position: { x, y },
-          text,
-          style
+          ...commonNode,
+          domId: id,
+          nodeType: "text",
+          position: { x: position[0], y: position[1] },
+          size: { width: size[0], height: size[1] },
+          nodePosition,
+          nodeSize: `${size[0]}*${size[1]}`,
+          nodeStyles: JSON.stringify(style),
+          style,
+          text
         });
       }
       break;
-    case "polyline":
-      {
-        const points = node.attr("points");
-      }
-      break;
+
     case "rect":
       {
         const x = +node.attr("x");
@@ -257,27 +263,19 @@ const formatData = (node: ISvgNode) => {
         const position = getPosionByMatrix([x, y], matrixList);
         const size = [rect.width * xScale, rect.height * yScale];
 
+        const nodePosition = `${position[0]},${position[1]}`;
+
+        if (nodes.some((item: any) => item.nodePosition === nodePosition)) return;
         nodes.push({
+          ...commonNode,
           domId: id,
           nodeType: "rect",
-          type: "rect",
           position: { x: position[0], y: position[1] },
           size: { width: size[0], height: size[1] },
-          nodePosition: `${position[0]},${position[1]}`,
+          nodePosition,
           nodeSize: `${size[0]}*${size[1]}`,
           nodeStyles: JSON.stringify(style),
-          style,
-          rotate: 0, //旋转角度
-          nodeText: "", //节点文字
-          fontSize: "", //节点字号
-          fontColor: "", //节点字色
-          textPosition: "", //文字位置
-          textStyles: "", //文字样式
-          bindData: {}, //关联数据
-          bindMap: {}, //关联图层
-          bindLink: "", //关联链路id
-          bindSubLink: "", //关联链路点
-          sublayerList: []
+          style
         });
       }
       break;
@@ -287,13 +285,51 @@ const formatData = (node: ISvgNode) => {
         const y1 = +node.attr("y1");
         const x2 = +node.attr("x2");
         const y2 = +node.attr("y2");
-        // const d = `M${x1 * xScale} ${y1 * yScale} L${x2 * xScale} ${y2 * yScale}`;
-        // links.push({
-        //   id,
-        //   type: "path",
-        //   linkPath: `M${x1 * xScale} ${y1 * yScale} L${x2 * xScale} ${y2 * yScale}`,
-        //   linkStyles
-        // });
+        const d = `M${x1 * xScale} ${y1 * yScale} L${x2 * xScale} ${y2 * yScale}`;
+        if (links.some((item: any) => item.linkWidth === d)) return;
+        links.push({
+          domId: id,
+          linkType: "link",
+          linkPath: d,
+          linkWidth: parseFloat(style["stroke-width"] + "" || node.attr("stroke-width")) || 1,
+          linkStyles: JSON.stringify(style),
+          style
+        });
+      }
+      break;
+    case "polyline":
+      {
+        const points = node
+          .attr("points")
+          .split(" ")
+          .filter((item) => !!item)
+          .map((item) => item.split(",").map(parseFloat));
+        // 创建D3.js line生成器，指定x和y坐标提取函数（这里直接使用索引）
+        const lineGenerator = d3
+          .line()
+          .x((d) => d[0])
+          .y((d) => d[1]);
+
+        // 使用lineGenerator将点坐标数组转换为路径数据字符串
+        const d = lineGenerator(points as [number, number][]);
+
+        const style = {
+          fill: "none",
+          stroke: "#23A815",
+          "stroke-width": 0.8,
+          "stroke-miterlimit": 10
+        };
+        const link = {
+          domId: id,
+          linkType: "link",
+          linkPath: d,
+          linkWidth: parseFloat(style["stroke-width"] + "" || node.attr("stroke-width")) || 1,
+          linkStyles: JSON.stringify(style),
+          style
+        };
+
+        if (links.some((item: any) => item.linkWidth === d)) return;
+        links.push(link);
       }
       break;
     case "path":
@@ -301,21 +337,16 @@ const formatData = (node: ISvgNode) => {
         const dStr = node.attr("d");
         if (!dStr) return;
         const d = transPathD(dStr, matrixList);
-        // console.log("🚀 ~ formatData ~ points:", points);
-
-        // const pointsByMatrix = getPathByMatrix(points, matrixList);
-        // const d = getDByPoints(pointsByMatrix);
         const link = {
-          //   linkId: id,
           domId: id,
           linkType: "link",
           linkPath: d,
           linkWidth: parseFloat(style["stroke-width"] + "" || node.attr("stroke-width")) || 1,
-          testD: dStr,
-          //   pathArray: pointsByMatrix,
           linkStyles: JSON.stringify(style),
           style
         };
+
+        if (links.some((item: any) => item.linkWidth === d)) return;
         links.push(link);
       }
       break;
@@ -348,11 +379,14 @@ export const parseSvg = (file: File) => {
       let height = +svg.attr("height");
 
       const viewBox = svg.attr("viewBox");
+
       if (viewBox) {
         const viewBoxList = viewBox.split(" ");
         width = +viewBoxList[2];
         height = +viewBoxList[3];
       }
+
+      console.log(width, height);
 
       mapStore.setMapSize(width, height);
       //   获取svg的getBoundingClientRect和实际的大小
@@ -366,8 +400,6 @@ export const parseSvg = (file: File) => {
 
       traverse(svg.selectChildren());
       con.remove();
-
-      console.log("nodes", links);
 
       resolve({
         nodes: structuredClone<INode[]>(nodes),

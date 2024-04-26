@@ -79,6 +79,7 @@ const currentBBox = computed(() => {
   const strokeWidth = dataStore.currentLink
     ? +parseFloat(dataStore.currentLink.style["stroke-width"])
     : 0;
+
   const realWidth = strokeWidth + width + 4;
   const realHeight = strokeWidth + height + 4;
 

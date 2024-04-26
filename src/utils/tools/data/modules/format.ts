@@ -61,7 +61,6 @@ export const formatLink = (link: ISourceLink): ILink => {
       height: 0
     },
     linkWidth: link.linkWidth ? link.linkWidth : parseFloat(style["stroke-width"]),
-    pathArray: parseSvgPath(link.linkPath),
     style
   };
 };
