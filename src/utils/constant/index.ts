@@ -1,1 +1,1 @@
-export * from "./modules/Meta";
+export * from "./modules/meta";
