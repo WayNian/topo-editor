@@ -56,8 +56,14 @@ export const attrText = (text: ISVGText<INode>, tspan: ISVGTspant<INode>) => {
   tspan
     .attr("x", 0)
     .attr("dy", 12)
-    .style("user-select", "none")
-    .text((d) => d.nodeId);
+    .attr("style", (d) => {
+      let style = "";
+      for (const key in d.style) {
+        style += `${key}:${d.style[key]};`;
+      }
+      return style;
+    })
+    .text((d) => d.nodeText);
 };
 
 export const attrForeignObject = (
@@ -75,8 +81,6 @@ export const attrForeignObject = (
     .style("height", "100%")
     .style("background-color", (d) => `${d.style.fill}`)
     .style("background", (d) => {
-      console.log(d.nodeId, d, d.style.image);
-
       return `url(${d.style.image}) 100% 100% no-repeat`;
     })
     .style("background-size", "100% 100%")

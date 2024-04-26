@@ -229,6 +229,7 @@ const formatData = (node: ISvgNode) => {
     case "text":
       {
         const text = node.text();
+        console.log("🚀 ~ formatData ~ text:", text);
         const x = +node.attr("x");
         const y = +node.attr("y");
         const rect = el.getBoundingClientRect();
@@ -249,7 +250,7 @@ const formatData = (node: ISvgNode) => {
           nodeSize: `${size[0]}*${size[1]}`,
           nodeStyles: JSON.stringify(style),
           style,
-          text
+          nodeText: text
         });
       }
       break;
