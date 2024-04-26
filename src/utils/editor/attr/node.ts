@@ -41,10 +41,7 @@ export const attrEllipse = (ellipse: ISVGEllipse<INode>) => {
         style += `${key}:${d.style[key]};`;
       }
       return style;
-    })
-    .attr("fill", "red")
-    .attr("stroke", "white")
-    .attr("stroke-width", 2);
+    });
 };
 
 export const attrText = (text: ISVGText<INode>, tspan: ISVGTspant<INode>) => {

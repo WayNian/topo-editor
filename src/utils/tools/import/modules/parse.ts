@@ -65,7 +65,7 @@ const formatStyle = (style: string, scale: number) => {
     if (!key) return;
     obj[key] = value;
     if (key === "stroke-width") {
-      obj[key] = parseInt(value) * scale + "px";
+      obj[key] = parseFloat(value) * scale + "px";
     }
   });
 
@@ -180,9 +180,10 @@ const formatData = (node: ISvgNode) => {
         const rect = el.getBoundingClientRect();
 
         const position = getPosionByMatrix([x, y], matrixList);
-        const position1 = [rect.width * xScale, rect.height * yScale];
-        const size = [rect.width * xScale, rect.height * yScale];
-        const nodePosition = `${position[0]},${position[1]}`;
+        const width = rect.width * xScale;
+        const height = rect.height * yScale;
+
+        const nodePosition = `${position[0] - width / 2},${position[1] - height / 2}`;
 
         if (nodes.some((item: any) => item.nodePosition === nodePosition)) return;
 
@@ -191,9 +192,9 @@ const formatData = (node: ISvgNode) => {
           domId: id,
           nodeType: "circle",
           position: { x: position[0], y: position[1] },
-          size: { width: position1[0], height: position1[1] },
           nodePosition,
-          nodeSize: `${size[0]}*${size[1]}`,
+          nodeSize: `${width}*${height}`,
+          nodeStyles: JSON.stringify(style),
           style
         });
       }
@@ -267,6 +268,7 @@ const formatData = (node: ISvgNode) => {
         const nodePosition = `${position[0]},${position[1]}`;
 
         if (nodes.some((item: any) => item.nodePosition === nodePosition)) return;
+
         nodes.push({
           ...commonNode,
           domId: id,
