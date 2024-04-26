@@ -53,8 +53,6 @@ export const attrUpdateLink = (d: ILink) => {
     .attr("stroke-width", parseFloat(d.style["stroke-width"]) * 2);
 
   //   if (linkG.empty()) return;
-  console.log("linkG.node()!.getBBox()", linkG.node()!.getBBox());
-
   d.rect = linkG.node()!.getBBox();
 };
 

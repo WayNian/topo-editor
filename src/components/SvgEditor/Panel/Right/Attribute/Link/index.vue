@@ -26,6 +26,7 @@
           :modes="['hex', 'rgb']"
           size="small"
           @update:value="updateLinkAttribute(key, $event)"
+          @complete="completeLinkAttribute(key, $event)"
         />
         <n-input-number
           v-else-if="StyleNameMap[key].type === 'number'"
@@ -48,6 +49,7 @@
 <script setup lang="ts">
 import { useDataStore } from "@/stores";
 import { attrUpdateLink } from "@/utils/editor/attr";
+import { updateLink } from "@/utils/http/apis";
 import { getRgb } from "@/utils/tools";
 
 const dataStore = useDataStore();
@@ -141,8 +143,20 @@ const getRange = (key: string) => {
 };
 
 const updateLinkAttribute = (key: string, value: string) => {
-  if (dataStore.currentLink) {
-    dataStore.currentLink.style[key] = value;
+  if (!dataStore.currentLink) return;
+  dataStore.currentLink.style[key] = value;
+  attrUpdateLink(dataStore.currentLink);
+};
+
+const completeLinkAttribute = async (key: string, value: string) => {
+  if (!dataStore.currentLink) return;
+  const recordLink = window.structuredClone(dataStore.currentLink);
+  updateLinkAttribute(key, value);
+  dataStore.currentLink.linkStyles = JSON.stringify(dataStore.currentLink.style);
+  try {
+    await updateLink([dataStore.currentLink]);
+  } catch (error) {
+    dataStore.currentLink = recordLink;
     attrUpdateLink(dataStore.currentLink);
   }
 };
