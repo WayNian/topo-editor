@@ -25,8 +25,8 @@
           :show-preview="true"
           :modes="['hex', 'rgb']"
           size="small"
-          @update:value="updateLinkAttribute(key, $event)"
-          @complete="completeLinkAttribute(key, $event)"
+          @update:value="updateLinkColorAttribute(key, $event)"
+          @complete="updateLinkAttribute(key, $event)"
         />
         <n-input-number
           v-else-if="StyleNameMap[key].type === 'number'"
@@ -142,23 +142,26 @@ const getRange = (key: string) => {
   return StyleNameMap[key].range || [];
 };
 
-const updateLinkAttribute = (key: string, value: string) => {
+// 颜色选择器
+const updateLinkColorAttribute = (key: string, value: string) => {
   if (!dataStore.currentLink) return;
   dataStore.currentLink.style[key] = value;
   attrUpdateLink(dataStore.currentLink);
 };
 
-const completeLinkAttribute = async (key: string, value: string) => {
+const updateLinkAttribute = async (key: string, value: string) => {
   if (!dataStore.currentLink) return;
-  const recordLink = window.structuredClone(dataStore.currentLink);
-  updateLinkAttribute(key, value);
+  //   const recordLink = window.structuredClone(dataStore.currentLink);
+  updateLinkColorAttribute(key, value);
+  console.log("🚀 ~ updateLinkAttribute ~ key, value:", key, value);
+
   dataStore.currentLink.linkStyles = JSON.stringify(dataStore.currentLink.style);
-  try {
-    await updateLink([dataStore.currentLink]);
-  } catch (error) {
-    dataStore.currentLink = recordLink;
-    attrUpdateLink(dataStore.currentLink);
-  }
+  //   try {
+  await updateLink([dataStore.currentLink]);
+  //   } catch (error) {
+  //     dataStore.currentLink = recordLink;
+  //     attrUpdateLink(dataStore.currentLink);
+  //   }
 };
 </script>
 
