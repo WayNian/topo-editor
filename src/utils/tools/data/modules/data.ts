@@ -1,5 +1,7 @@
 import { useCommonStore, useDataStore, useMapStore } from "@/stores";
 import type { ILink, INode, ISublayer } from "@/types";
+import { drawNodesLinks } from "@/utils/editor/draw";
+import { deleteLinks, deleteNodes } from "@/utils/http/apis";
 
 /**
  * 重新获取节点
@@ -191,4 +193,39 @@ export const updateNodesLinksSublayer = (sublayer: ISublayer) => {
     }
     link.sublayerList = sublayerList;
   });
+};
+
+export const deleteNodesLinks = async () => {
+  const dataStore = useDataStore();
+  const mapStore = useMapStore();
+  const commonStore = useCommonStore();
+
+  if (!mapStore.mapInfo) {
+    window.$message.warning("请先选择画布");
+    return;
+  }
+  commonStore.isLoading = true;
+  const nodeIdList = dataStore.nodesSelected.map((node) => node.nodeId);
+  const linkIdList = dataStore.linksSelected.map((link) => link.linkId);
+
+  const { mapId } = mapStore.mapInfo;
+  nodeIdList.length &&
+    (await deleteNodes({
+      nodeIdList,
+      mapId
+    }));
+
+  linkIdList.length &&
+    (await deleteLinks({
+      linkIdList,
+      mapId
+    }));
+
+  dataStore.nodes = dataStore.nodes.filter((node) => !nodeIdList.includes(node.nodeId));
+  dataStore.links = dataStore.links.filter((link) => !linkIdList.includes(link.linkId));
+  window.$message.success("删除成功");
+  commonStore.isLoading = false;
+
+  drawNodesLinks();
+  mapStore.getSublayers(mapId);
 };

@@ -68,7 +68,6 @@ export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
   nodeG.on("contextmenu", (e, d) => {
     e.preventDefault();
     e.stopPropagation();
-    setNodesSelected(d);
-    mapStore.showMapMenu({ x: e.clientX, y: e.clientY });
+    mapStore.showMapMenu({ x: e.clientX, y: e.clientY }, "node");
   });
 };

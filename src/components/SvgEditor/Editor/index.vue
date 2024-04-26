@@ -3,7 +3,7 @@
     trigger="manual"
     placement="bottom-start"
     :show="mapStore.isMenuVisible"
-    :options="contentMenuoptions"
+    :options="MenuOptions"
     :x="mapStore.menuePosition.x"
     :y="mapStore.menuePosition.y"
     @select="handleSelect"
@@ -34,38 +34,27 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, watch } from "vue";
 import { useCommonStore, useDataStore, useMapStore } from "@/stores/";
 import { bindDragPointEvent } from "@/utils/editor/event/point";
 import { onDroped } from "@/utils/tools";
+import { EditMenu } from "@/utils/constant";
 import { attrLinkDrag, attrNodeDrag } from "@/utils/editor/attr";
 import MoveToSublayerModal from "@/components/SvgEditor/Modal/Sublayer/MoveToSublayer.vue";
 import RemoveSingleFromSublayer from "@/components/SvgEditor/Modal/Sublayer/RemoveSingleFromSublayer.vue";
 import DragAssistant from "@/components/SvgEditor/Editor/DragAssistant.vue";
+import { useSvgMenu } from "@/hooks/svg/useSvgMenu";
 
 const dataStore = useDataStore();
 const mapStore = useMapStore();
 const commonStore = useCommonStore();
 
-const moveToSublayerModalRef = ref<InstanceType<typeof MoveToSublayerModal> | null>(null);
-const removeSingleFromSublayerRef = ref<InstanceType<typeof RemoveSingleFromSublayer> | null>(null);
+const { removeSingleFromSublayerRef, moveToSublayerModalRef, handleSelect, handleContenxtMenu } =
+  useSvgMenu();
 
-const contentMenuoptions = [
-  {
-    label: "子图层",
-    key: "Sublayer",
-    children: [
-      {
-        label: "添加",
-        key: "UpdateSublayer"
-      },
-      {
-        label: "移除",
-        key: "RemoveMultiFromSublayer"
-      }
-    ]
-  }
-];
+const MenuOptions = computed(() => {
+  return EditMenu[mapStore.selectType];
+});
 
 const handleDragover = (e: DragEvent) => {
   e.preventDefault();
@@ -75,29 +64,6 @@ const handleDragover = (e: DragEvent) => {
 const handleDrop = (e: DragEvent) => {
   e.preventDefault();
   onDroped(e);
-};
-
-const handleSelect = (key: string) => {
-  mapStore.isMenuVisible = false;
-
-  switch (key) {
-    case "UpdateSublayer":
-      moveToSublayerModalRef.value?.show();
-      break;
-    case "RemoveMultiFromSublayer":
-      removeSingleFromSublayerRef.value?.show();
-      break;
-  }
-};
-
-const handleContenxtMenu = (e: MouseEvent) => {
-  e.preventDefault();
-  const mapId = mapStore.mapInfo?.mapId;
-  if (!mapId) return;
-  mapStore.showMapMenu({
-    x: e.clientX,
-    y: e.clientY
-  });
 };
 
 onMounted(() => {
@@ -112,4 +78,3 @@ watch(
   }
 );
 </script>
-@/utils/editor/event/point

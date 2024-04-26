@@ -81,7 +81,6 @@ export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
   linkG.on("contextmenu", (e, d) => {
     e.preventDefault();
     e.stopPropagation();
-    setLinksSelected(d);
-    mapStore.showMapMenu({ x: e.clientX, y: e.clientY });
+    mapStore.showMapMenu({ x: e.clientX, y: e.clientY }, "link");
   });
 };

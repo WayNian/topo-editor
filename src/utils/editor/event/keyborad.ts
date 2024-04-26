@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import { useCommonStore } from "@/stores";
 import { hideSelectionRect } from "../draw";
+import emitter from "@/utils/mitt";
 
 export const bindWindowEvent = () => {
   const commonStore = useCommonStore();
@@ -14,6 +15,9 @@ export const bindWindowEvent = () => {
       case "Space":
         commonStore.isSpaceDown = true;
         hideSelectionRect();
+        break;
+      case "Delete":
+        emitter.emit("on:delete");
         break;
     }
   });

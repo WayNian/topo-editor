@@ -4,6 +4,7 @@ import type {
   IMapSource,
   INode,
   IPosition,
+  ISelectType,
   ISublayer,
   ISublayerDeleteModel,
   ISublayerModel
@@ -31,12 +32,14 @@ export const useMapStore = defineStore("map", () => {
 
   const mergeNodeList = ref<INode[]>([]);
   const mergeLinkList = ref<ILink[]>([]);
+  const selectType = ref<"node" | "link" | "svg">("svg");
 
   const isMoveToSublayerVisible = ref(false);
 
-  const showMapMenu = (position: IPosition) => {
+  const showMapMenu = (position: IPosition, type: ISelectType) => {
     menuePosition.value = position;
     isMenuVisible.value = true;
+    selectType.value = type;
   };
 
   const setMapSize = (width: number, height: number) => {
@@ -91,6 +94,7 @@ export const useMapStore = defineStore("map", () => {
   return {
     mapInfo,
     mapSize,
+    selectType,
     mergeNodeList,
     mergeLinkList,
     isMoveToSublayerVisible,

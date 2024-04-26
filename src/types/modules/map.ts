@@ -75,3 +75,5 @@ export type ISublayerDeleteModel = {
 export interface ISublayerUpdateModel extends ISublayer {
   mapId: string;
 }
+
+export type ISelectType = "node" | "link" | "svg";
