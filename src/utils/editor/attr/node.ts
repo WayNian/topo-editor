@@ -77,12 +77,12 @@ export const attrForeignObject = (
     .style("width", "100%")
     .style("height", "100%")
     .style("background-color", (d) => `${d.style.fill}`)
-    .style("background", (d) => {
-      return `url(${d.style.image}) 100% 100% no-repeat`;
+    .style("background-image", (d) => {
+      return `url(${d.style.image})`;
     })
-    .style("background-size", "100% 100%")
+    .style("background-size", "contain")
+    .style("background-position", "center")
     .style("background-repeat", "no-repeat")
-    .style("border-radius", "50%")
     .style("text-align", "center")
     .style("line-height", "100%");
 };
