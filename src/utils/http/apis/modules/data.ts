@@ -8,6 +8,7 @@ import type {
   ISourceLink
 } from "@/types";
 import request from "../../index";
+import { debounce } from "radash";
 
 interface IDeleteNodeModel {
   nodeIdList: string[];
@@ -37,9 +38,11 @@ export const addNode = (params: IOriginalNode) => {
   return request.post<string>({ url: "/topoEdit/insertNode", data: params });
 };
 
-export const updateNode = (params: INode[]) => {
+const updateNodeByHttp = (params: INode[]) => {
   return request.post<string>({ url: "/topoEdit/updateNode", data: { nodeList: params } });
 };
+
+export const updateNode = debounce({ delay: 100 }, updateNodeByHttp);
 
 export const deleteNodes = (params: IDeleteNodeModel) => {
   return request.post({ url: "/topoEdit/deleteNode", data: params });
@@ -49,9 +52,11 @@ export const addLink = (params: IOriginalLink) => {
   return request.post<string>({ url: "/topoEdit/insertLink", data: params });
 };
 
-export const updateLink = (params: ILink[]) => {
+export const updateLinkBhttp = (params: ILink[]) => {
   return request.post<string>({ url: "/topoEdit/updateLink", data: { linkList: params } });
 };
+
+export const updateLink = debounce({ delay: 100 }, updateLinkBhttp);
 
 export const deleteLinks = (params: IDeleteLinkModel) => {
   return request.post({ url: "/topoEdit/deleteLink", data: params });

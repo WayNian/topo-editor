@@ -12,14 +12,32 @@
     <n-collapse-item title="基础" name="1">
       <Item title="尺寸">
         <n-flex :wrap="false">
-          <n-input-number :value="dataStore.currentNode?.width" size="small" :min="0" />
-          <n-input-number :value="dataStore.currentNode?.height" size="small" :min="0" />
+          <n-input-number
+            :value="dataStore.currentNode?.width"
+            size="small"
+            :min="0"
+            @update:value="updateSize('width', $event)"
+          />
+          <n-input-number
+            :value="dataStore.currentNode?.height"
+            size="small"
+            :min="0"
+            @update:value="updateSize('height', $event)"
+          />
         </n-flex>
       </Item>
       <Item title="位置">
         <n-flex :wrap="false">
-          <n-input-number :value="dataStore.currentNode?.x" size="small" />
-          <n-input-number :value="dataStore.currentNode?.y" size="small" />
+          <n-input-number
+            :value="dataStore.currentNode?.x"
+            size="small"
+            @update:value="updatePosition('x', $event)"
+          />
+          <n-input-number
+            :value="dataStore.currentNode?.y"
+            size="small"
+            @update:value="updatePosition('y', $event)"
+          />
         </n-flex>
       </Item>
     </n-collapse-item>
@@ -47,6 +65,7 @@ import { ref, watch } from "vue";
 import { formatObject } from "@/utils/tools";
 import type { IMetaItem } from "@/types";
 import { drawNodes, removeNode } from "@/utils/editor/draw";
+import { updateNode } from "@/utils/http/apis";
 
 const dataStore = useDataStore();
 const metaStore = useMetaStore();
@@ -66,13 +85,31 @@ const changeMetaIcon = (value: string, { row }: { row: IMetaItem }) => {
   style.value.image = row.objImg;
   dataStore.currentNode.nodeStyles = JSON.stringify(style.value);
   dataStore.currentNode.style = style.value;
-
-  updateNode(dataStore.currentNode.nodeId);
+  removeNode(dataStore.currentNode.nodeId);
+  updateNodeAttribute();
 };
 
-const updateNode = (nodeId: string) => {
-  removeNode(nodeId);
+const updateSize = (key: "width" | "height", value: number) => {
+  if (!dataStore.currentNode) return;
+  dataStore.currentNode[key] = value;
+  updateNodeAttribute();
+};
+
+const updatePosition = (key: "x" | "y", value: number) => {
+  if (!dataStore.currentNode) return;
+  dataStore.currentNode[key] = value;
+  updateNodeAttribute();
+};
+
+const updateNodeAttribute = () => {
+  if (!dataStore.currentNode) return;
+
+  dataStore.currentNode.nodePosition = `${dataStore.currentNode.x},${dataStore.currentNode.y}`;
+  dataStore.currentNode.nodeSize = `${dataStore.currentNode.width}*${dataStore.currentNode.height}`;
+  dataStore.currentNode.nodeStyles = JSON.stringify(style.value);
+
   drawNodes();
+  updateNode([dataStore.currentNode]);
 };
 </script>
 

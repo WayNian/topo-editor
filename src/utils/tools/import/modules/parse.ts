@@ -65,7 +65,7 @@ const formatStyle = (style: string, scale: number) => {
     if (!key) return;
     obj[key] = value;
     if (key === "stroke-width") {
-      obj[key] = parseFloat(value) * scale + "px";
+      obj[key] = parseFloat(value) * scale;
     }
   });
 
