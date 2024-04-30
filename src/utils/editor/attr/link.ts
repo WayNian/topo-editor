@@ -22,15 +22,16 @@ export const attrLink = (link: IPath, shadowlink: IPath) => {
       }
       return style;
     })
+    .style("fill", "none")
     .style("pointer-events", "none");
 
   shadowlink
     .attr("class", "shadow-link")
     .attr("d", (d) => d.linkPath)
     .attr("stroke", "transparent")
-    .attr("stroke-width", (d) => parseFloat(d.style["stroke-width"]) * 2)
+    .attr("stroke-width", (d) => parseFloat(d.style["stroke-width"] + "") * 2)
     .attr("fill", "none")
-    .style("pointer-events", "all")
+    .style("pointer-events", "painted")
     .style("cursor", "pointer");
 };
 
@@ -50,14 +51,14 @@ export const attrUpdateLink = (d: ILink) => {
   linkG
     .select("path.shadow-link")
     .attr("d", d.linkPath)
-    .attr("stroke-width", parseFloat(d.style["stroke-width"]) * 2);
+    .attr("stroke-width", parseFloat(d.style["stroke-width"] + "") * 2);
 
   //   if (linkG.empty()) return;
   d.rect = linkG.node()!.getBBox();
 };
 
 export const attrLinkDrag = (isSpaceDown: boolean) => {
-  d3.selectAll("path.shadow-link").style("pointer-events", isSpaceDown ? "none" : "all");
+  d3.selectAll("path.shadow-link").style("pointer-events", isSpaceDown ? "none" : "painted");
 };
 
 export const attrSelectedLink = (link: IPath) => {
@@ -66,7 +67,7 @@ export const attrSelectedLink = (link: IPath) => {
     .attr("d", (d) => d.linkPath)
     .attr("stroke", "green")
     .attr("fill", "none")
-    .attr("stroke-width", (d) => parseFloat(d.style["stroke-width"]) * 0.5)
+    .attr("stroke-width", (d) => parseFloat(d.style["stroke-width"] + "") * 0.5)
     .attr("stroke-dasharray", "15 5")
     .style("pointer-events", "none");
 };

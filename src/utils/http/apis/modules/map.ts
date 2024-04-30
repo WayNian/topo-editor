@@ -34,3 +34,11 @@ export const updateSublayer = (params: ISublayerUpdateModel) => {
 export const deleteSublayer = (params: ISublayerDeleteModel) => {
   return request.post({ url: "/topoEdit/deleteTopoSublayer", data: params });
 };
+
+export const importMap = (params: FormData) => {
+  return request.post({
+    url: "/topoEdit/importMap",
+    data: params,
+    headers: { "Content-Type": "multipart/form-data" }
+  });
+};

@@ -34,7 +34,13 @@
     @clickoutside="() => (showDropdown = false)"
   ></n-dropdown>
 
-  <input type="file" style="display: none" ref="upload" accept=".svg" @change="handleChange" />
+  <input
+    type="file"
+    style="display: none"
+    ref="upload"
+    accept=".svg,.json"
+    @change="handleChange"
+  />
   <Edit ref="editModalRef"></Edit>
   <ImportMoveToSublayer></ImportMoveToSublayer>
 </template>
@@ -47,7 +53,7 @@ import ImportMoveToSublayer from "@/components/SvgEditor/Modal/Sublayer/ImportMo
 import { h, onMounted, ref } from "vue";
 import { NIcon, type TreeOption, useDialog } from "naive-ui";
 import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
-import { deleteMap, deleteMenu } from "@/utils/http/apis/";
+import { deleteMap, deleteMenu, importMap } from "@/utils/http/apis/";
 import { useCommonStore, useMapStore } from "@/stores/";
 import { useMenuStore } from "@/stores/";
 import { getContextMenu, importSvg, parseSvg } from "@/utils/tools/";
@@ -168,17 +174,31 @@ const deleteMenuMap = () => {
   });
 };
 
+const importFile = (file: File) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("menuId", editedParam.value?.key as string);
+
+  importMap(formData);
+};
+
 const handleChange = () => {
   const file = upload.value?.files?.[0];
   if (!file) return;
-  parseSvg(file)
-    ?.then((res) => {
-      //   emitter.emit("on:importSvg", res as IImportData);
-      importSvg(res as IImportData);
-    })
-    .finally(() => {
-      upload.value!.value = "";
-    });
+  console.log("🚀 ~ handleChange ~ file:", file);
+
+  if (file.type === "application/json") {
+    console.log("json格式");
+    importFile(file);
+  } else {
+    parseSvg(file)
+      ?.then((res) => {
+        importSvg(res as IImportData);
+      })
+      .finally(() => {
+        upload.value!.value = "";
+      });
+  }
 };
 const importData = (type: IImportType) => {
   commonStore.importType = type;

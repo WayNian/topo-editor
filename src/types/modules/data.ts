@@ -84,7 +84,7 @@ export interface ISourceLink extends IOriginalLink {
 
 export interface ILink extends ISourceLink {
   isMerge?: boolean;
-  style: Record<string, string>;
+  style: Record<string, string | number>;
   //   pathArray: any[];
   selected?: boolean;
   transform: {

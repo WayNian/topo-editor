@@ -45,6 +45,21 @@ export const formatNodes = (data: ISourceNode[]): INode[] => {
   });
 };
 
+const formatLinkStyle = (link: ISourceLink, style: Record<string, string>) => {
+  const { volt } = link.metaData || {};
+  let stroke = style.stroke;
+
+  if (volt === "_110KV") {
+    stroke = stroke || "#000000";
+  }
+
+  return {
+    ...style,
+    stroke,
+    "stroke-width": (link.linkWidth ? link.linkWidth : parseFloat(style["stroke-width"])) || 1,
+    fill: style.fill === "none" ? "none" : getRgb(style.fill)
+  };
+};
 export const formatLink = (link: ISourceLink): ILink => {
   const { linkStyles } = link;
   const style = formatObject(linkStyles);
@@ -61,7 +76,7 @@ export const formatLink = (link: ISourceLink): ILink => {
       height: 0
     },
     linkWidth: link.linkWidth ? link.linkWidth : parseFloat(style["stroke-width"]),
-    style
+    style: formatLinkStyle(link, style)
   };
 };
 
@@ -81,11 +96,11 @@ export const setLinkRect = (enterG: ISVGG<ILink, SVGGElement>) => {
   });
 };
 
-export function getRgb(colorName: string) {
+export function getRgb(colorName?: string | number | undefined) {
+  if (!colorName || colorName === "none") return "rgba(0, 0, 0, 0)";
   if (colorName === "transparent") return colorName;
-  if (colorName === "none") return "rgba(0, 0, 0, 0)";
   const el = document.createElement("div");
-  el.style.color = colorName;
+  el.style.color = colorName + "";
   document.body.appendChild(el);
   const rgbColor = getComputedStyle(el).color;
   document.body.removeChild(el);

@@ -76,9 +76,7 @@ const currentBBox = computed(() => {
   const { x, y, width, height } = dataStore.currentNode || dataStore.currentLink!.rect;
   const transform = dataStore.currentLink ? dataStore.currentLink.transform : { x: 0, y: 0 };
 
-  const strokeWidth = dataStore.currentLink
-    ? +parseFloat(dataStore.currentLink.style["stroke-width"])
-    : 0;
+  const strokeWidth = getStrokeWidth(dataStore.currentLink);
 
   const realWidth = strokeWidth + width + 4;
   const realHeight = strokeWidth + height + 4;
@@ -105,8 +103,9 @@ const isDragPointsVisible = computed(() => {
   );
 });
 
-const getStrokeWidth = (item: ILink) => {
-  return parseFloat(item.style["stroke-width"]);
+const getStrokeWidth = (item: ILink | null) => {
+  if (!item) return 0;
+  return parseFloat(item.style["stroke-width"] + "");
 };
 </script>
 
