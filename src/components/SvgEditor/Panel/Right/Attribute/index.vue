@@ -13,11 +13,12 @@ import NodeAtrribute from "./Node/index.vue";
 import LinkAttribute from "./Link/index.vue";
 import MapAttribute from "./Map/index.vue";
 import { computed } from "vue";
-import { useDataStore } from "@/stores";
+import { useDataStore, useMapStore } from "@/stores";
 
 const dataStore = useDataStore();
+const mapStore = useMapStore();
 const isShowMapAttribute = computed(() => {
-  return !(dataStore.currentNode || dataStore.currentLink);
+  return mapStore.mapInfo && !(dataStore.currentNode || dataStore.currentLink);
 });
 </script>
 

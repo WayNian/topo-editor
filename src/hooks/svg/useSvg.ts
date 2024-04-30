@@ -2,8 +2,9 @@ import { useCommonStore } from "@/stores/modules/common";
 import { bindWindowEvent, unbindWindowEvent } from "@/utils/editor/event";
 import { useMessage, useModal } from "naive-ui";
 import { onBeforeMount, onMounted } from "vue";
-import { selectMap } from "@/utils/tools";
+import { clearData, selectMap } from "@/utils/tools";
 import emitter from "@/utils/mitt";
+import { clearSvg } from "@/utils/editor/draw";
 
 export const useSvg = () => {
   const common = useCommonStore();
@@ -26,5 +27,7 @@ export const useSvg = () => {
   onBeforeMount(() => {
     offEvent();
     unbindWindowEvent();
+    clearSvg();
+    clearData();
   });
 };

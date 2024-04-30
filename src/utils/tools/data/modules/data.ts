@@ -59,6 +59,8 @@ export const clearData = () => {
   const dataStore = useDataStore();
   dataStore.nodes = [];
   dataStore.links = [];
+  dataStore.currentLink = null;
+  dataStore.currentNode = null;
 };
 
 /**
