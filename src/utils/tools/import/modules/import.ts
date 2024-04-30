@@ -111,6 +111,7 @@ const importAllSvg = async (val: IImportData) => {
 const importPartSvg = async (val: IImportData) => {
   const dataStore = useDataStore();
   const mapStore = useMapStore();
+  const commonStore = useCommonStore();
 
   let nodes: INode[] = [];
   let links: ILink[] = [];
@@ -137,7 +138,9 @@ const importPartSvg = async (val: IImportData) => {
     };
   });
 
-  await addUpdataMapFunc();
+  if (commonStore.importType === "importAll") {
+    await addUpdataMapFunc();
+  }
   await deleteNodes(deleteNodeList);
   await deleteLinks(deleteLinkList);
   await addNodeLinkList(nodes, links);

@@ -11,7 +11,7 @@
     positive-text="确认"
     negative-text="取消"
     @positive-click="submit"
-    @negative-click="hide"
+    @negative-click="hide(true)"
     style="margin-top: 20vh"
   >
     <p class="text-xs my-2 text-yellow-400 opacity-70">输入新的名称，保存将创建新的图层</p>
@@ -38,7 +38,6 @@ import { addNodesLinksToSublayer, getNodeLinkList, renewNodesLinks } from "@/uti
 import { computed, ref } from "vue";
 
 const mapStore = useMapStore();
-const dataStore = useDataStore();
 
 const formRef = ref<FormInst | null>(null);
 const formValue = ref({
@@ -62,17 +61,18 @@ const options = computed(() => {
     }));
 });
 
-const refreshNodesLinks = async () => {
+const refreshNodesLinks = async (isRefreshSublayer?: boolean) => {
   const mapId = mapStore.mapInfo!.mapId;
 
+  isRefreshSublayer && (await mapStore.getSublayers(mapId));
   await getNodeLinkList(mapId);
   renewNodesLinks();
   drawNodesLinks();
 };
-const hide = async () => {
+const hide = async (isRefreshSublayer?: boolean) => {
   mapStore.isMoveToSublayerVisible = false;
   formValue.value.sublayerId = "";
-  refreshNodesLinks();
+  refreshNodesLinks(isRefreshSublayer);
 };
 
 const submit = async () => {
