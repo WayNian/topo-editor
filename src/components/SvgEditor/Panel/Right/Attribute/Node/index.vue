@@ -8,7 +8,7 @@
     <p class="truncate">{{ dataStore.currentNode?.nodeType }}</p>
   </Item>
   <n-divider />
-  <n-collapse>
+  <n-collapse :default-expanded-names="['1']">
     <n-collapse-item title="基础" name="1">
       <Item title="尺寸">
         <n-flex :wrap="false">
@@ -103,11 +103,6 @@ const updatePosition = (key: "x" | "y", value: number) => {
 
 const updateNodeAttribute = () => {
   if (!dataStore.currentNode) return;
-
-  dataStore.currentNode.nodePosition = `${dataStore.currentNode.x},${dataStore.currentNode.y}`;
-  dataStore.currentNode.nodeSize = `${dataStore.currentNode.width}*${dataStore.currentNode.height}`;
-  dataStore.currentNode.nodeStyles = JSON.stringify(style.value);
-
   drawNodes();
   updateNode([dataStore.currentNode]);
 };

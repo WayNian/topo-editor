@@ -91,3 +91,13 @@ export function getRgb(colorName: string) {
   document.body.removeChild(el);
   return rgbColor;
 }
+
+export const formatNodesAttribute = (nodes: INode[]) => {
+  nodes.forEach((node) => {
+    node.nodeStyles = JSON.stringify(node.style);
+    node.nodePosition = `${node.x},${node.y}`;
+    node.nodeSize = `${node.width}*${node.height}`;
+  });
+
+  return nodes;
+};
