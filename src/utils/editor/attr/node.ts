@@ -76,9 +76,8 @@ export const attrForeignObject = (
     .attr("class", "node-content")
     .style("width", "100%")
     .style("height", "100%")
-    .style("background-color", (d) => `${d.style.fill}`)
-    .style("background-image", (d) => {
-      return `url(${d.style.image})`;
+    .style("background", (d) => {
+      return `url(${d.style.image || d.style.fill})`;
     })
     .style("background-size", "contain")
     .style("background-position", "center")
