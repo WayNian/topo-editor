@@ -9,6 +9,7 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
+      redirect: "/editor",
       children: [
         {
           path: "/meta-icon",
