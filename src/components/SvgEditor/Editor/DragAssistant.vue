@@ -30,36 +30,44 @@
       pointer-events="none"
     />
   </g>
-  <g
-    id="dragPoints"
-    v-show="isDragPointsVisible"
-    :transform="`translate(${currentBBox.x}, ${currentBBox.y})`"
-    fill="#ffffff"
-  >
-    <circle id="dragPointLeftTop" r="8" stroke-width="1" stroke="#409eff" />
+  <g id="dragPoints" v-show="isDragPointsVisible" fill="#ffffff">
+    <circle
+      id="dragPointLeftTop"
+      class="cursor-nw-resize"
+      r="8"
+      stroke-width="1"
+      stroke="#409eff"
+      :cx="currentBBox.x"
+      :cy="currentBBox.y"
+    />
     <circle
       id="dragPointRightTop"
+      class="cursor-ne-resize"
       r="8"
-      :cx="currentBBox.width"
+      :cx="currentBBox.x + currentBBox.width"
+      :cy="currentBBox.y"
       stroke-width="1"
       stroke="#409eff"
     />
     <circle
       id="dragPointRightBottom"
+      class="cursor-se-resize"
       r="8"
-      :cx="currentBBox.width"
-      :cy="currentBBox.height"
+      :cx="currentBBox.x + currentBBox.width"
+      :cy="currentBBox.y + currentBBox.height"
       stroke-width="1"
       stroke="#409eff"
     />
     <circle
       id="dragPointLeftBottom"
+      class="cursor-sw-resize"
       r="8"
-      :cy="currentBBox.height"
+      :cx="currentBBox.x"
+      :cy="currentBBox.y + currentBBox.height"
       stroke-width="1"
       stroke="#409eff"
     />
-    <circle id="dragPointRotate" r="8" stroke-width="1" stroke="#409eff" />
+    <!-- <circle id="dragPointRotate" r="8" stroke-width="1" stroke="#409eff" /> -->
   </g>
 </template>
 
