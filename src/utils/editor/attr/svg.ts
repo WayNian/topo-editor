@@ -6,6 +6,14 @@ export const attrSvg = () => {
   d3.select<SVGSVGElement, any>("#svgEditor").style("background-color", "black");
 };
 
+export const attrSvgDrag = (isSpaceDown: boolean) => {
+  d3.select<SVGSVGElement, any>("#svgEditor").style("cursor", isSpaceDown ? "grab" : "auto");
+};
+
+export const attrSvgDraging = (isDragging: boolean) => {
+  d3.select<SVGSVGElement, any>("#svgEditor").style("cursor", isDragging ? "grabbing" : "grab");
+};
+
 export const attrMapBackground = (mapBackground: ISVGRect<any>) => {
   const mapStore = useMapStore();
   const { width, height } = mapStore.mapSize;

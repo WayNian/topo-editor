@@ -39,7 +39,7 @@ import { useCommonStore, useDataStore, useMapStore } from "@/stores/";
 import { bindDragPointEvent } from "@/utils/editor/event/point";
 import { onDroped } from "@/utils/tools";
 import { EditMenu } from "@/utils/constant";
-import { attrLinkDrag, attrNodeDrag } from "@/utils/editor/attr";
+import { attrLinkDrag, attrNodeDrag, attrSvgDrag } from "@/utils/editor/attr";
 import MoveToSublayerModal from "@/components/SvgEditor/Modal/Sublayer/MoveToSublayer.vue";
 import RemoveSingleFromSublayer from "@/components/SvgEditor/Modal/Sublayer/RemoveSingleFromSublayer.vue";
 import DragAssistant from "@/components/SvgEditor/Editor/DragAssistant.vue";
@@ -75,6 +75,7 @@ watch(
   (val) => {
     attrLinkDrag(val);
     attrNodeDrag(val);
+    attrSvgDrag(val);
   }
 );
 </script>

@@ -4,7 +4,7 @@ import type { ISVG, ISVGG } from "@/types";
 import { setInitTransform } from "../helper";
 import { useDataStore } from "@/stores/modules/data";
 import { useCommonStore, useSvgStore } from "@/stores";
-import { attrMap } from "../attr";
+import { attrMap, attrSvgDraging } from "../attr";
 import { clearNodesLinksSelected } from "@/utils/tools";
 
 let zoomRecord = d3.zoomIdentity;
@@ -40,6 +40,9 @@ const zoomstart = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
       clearNodesLinksSelected();
     }
   }
+  if (commonStore.isSpaceDown) {
+    attrSvgDraging(true);
+  }
   setStartPoint(e);
 };
 
@@ -66,8 +69,13 @@ const zooming = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
 const zoomend = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
   const dataStore = useDataStore();
   const svgStore = useSvgStore();
+  const commonStore = useCommonStore();
 
   svgStore.zoomTrans = e.transform;
+
+  if (commonStore.isSpaceDown) {
+    attrSvgDraging(false);
+  }
 
   if (isZoom) {
     zoomTran = e.transform;
