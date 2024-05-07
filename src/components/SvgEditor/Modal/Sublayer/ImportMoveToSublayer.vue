@@ -75,8 +75,8 @@ const hide = async (isRefreshSublayer?: boolean) => {
   refreshNodesLinks(isRefreshSublayer);
 };
 
-const submit = async () => {
-  formRef.value?.validate((errors) => {
+const submit = () => {
+  formRef.value?.validate(async (errors) => {
     if (!errors) {
       let sublayer: ISublayerAddModel | undefined = mapStore.sublayers.find(
         (item) => item.sublayerId === formValue.value.sublayerId
@@ -89,7 +89,7 @@ const submit = async () => {
           listOrder: 0
         };
       }
-      addNodesLinksToSublayer(sublayer);
+      await addNodesLinksToSublayer(sublayer);
       hide();
     }
   });
