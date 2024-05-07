@@ -8,6 +8,7 @@ import type {
   ISVGText,
   ISVGTspant
 } from "@/types";
+import { getNodeImage } from "@/utils/tools/common/modules/url";
 import * as d3 from "d3";
 
 export const attrNodeG = (nodeG: ISVGG<INode, SVGGElement>) => {
@@ -76,9 +77,7 @@ export const attrForeignObject = (
     .attr("class", "node-content")
     .style("width", "100%")
     .style("height", "100%")
-    .style("background", (d) => {
-      return `url(${d.style.image || d.style.fill})`;
-    })
+    .style("background", (d) => `url(${getNodeImage(d)})`)
     .style("background-size", "contain")
     .style("background-position", "center")
     .style("background-repeat", "no-repeat")
