@@ -6,8 +6,8 @@
   </Item>
   <Item title="尺寸">
     <n-flex :wrap="false">
-      <n-input-number v-model:value="mapStore.mapSize.width" size="small" />
-      <n-input-number v-model:value="mapStore.mapSize.height" size="small" />
+      <n-input-number v-model:value="mapStore.mapSize.width" size="small" :show-button="false" />
+      <n-input-number v-model:value="mapStore.mapSize.height" size="small" :show-button="false" />
     </n-flex>
   </Item>
 </template>

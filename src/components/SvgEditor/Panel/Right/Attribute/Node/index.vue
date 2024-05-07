@@ -16,12 +16,14 @@
             :value="dataStore.currentNode?.width"
             size="small"
             :min="0"
+            :show-button="false"
             @update:value="updateSize('width', $event)"
           />
           <n-input-number
             :value="dataStore.currentNode?.height"
             size="small"
             :min="0"
+            :show-button="false"
             @update:value="updateSize('height', $event)"
           />
         </n-flex>
@@ -31,11 +33,13 @@
           <n-input-number
             :value="dataStore.currentNode?.x"
             size="small"
+            :show-button="false"
             @update:value="updatePosition('x', $event)"
           />
           <n-input-number
             :value="dataStore.currentNode?.y"
             size="small"
+            :show-button="false"
             @update:value="updatePosition('y', $event)"
           />
         </n-flex>
