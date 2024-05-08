@@ -2,9 +2,9 @@ import RemoveSingleFromSublayer from "@/components/SvgEditor/Modal/Sublayer/Remo
 import MoveToSublayerModal from "@/components/SvgEditor/Modal/Sublayer/MoveToSublayer.vue";
 import { useDataStore, useMapStore } from "@/stores";
 import { onBeforeUnmount, onMounted, ref } from "vue";
-import { useDialog } from "naive-ui";
+import { useDialog, type DropdownOption } from "naive-ui";
 import emitter from "@/utils/mitt";
-import { deleteNodesLinks } from "@/utils/tools";
+import { align, deleteNodesLinks } from "@/utils/tools";
 
 export const useSvgMenu = () => {
   const dialog = useDialog();
@@ -36,8 +36,12 @@ export const useSvgMenu = () => {
     }
   };
 
-  const handleSelect = (key: string) => {
+  const handleSelect = (key: string, option: DropdownOption) => {
     mapStore.isMenuVisible = false;
+    if (option.parent === "Align") {
+      align(key);
+      return;
+    }
 
     switch (key) {
       case "UpdateSublayer":

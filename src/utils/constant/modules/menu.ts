@@ -1,6 +1,54 @@
 import type { ISelectType } from "@/types";
 
-const CommonMune = [
+const AlignMenu = [
+  {
+    label: "对齐",
+    key: "Align",
+    children: [
+      {
+        label: "左对齐",
+        key: "Left",
+        parent: "Align"
+      },
+      {
+        label: "右对齐",
+        key: "Right",
+        parent: "Align"
+      },
+      {
+        label: "顶对齐",
+        key: "Top",
+        parent: "Align"
+      },
+      {
+        label: "底对齐",
+        key: "Bottom",
+        parent: "Align"
+      },
+      {
+        label: "水平居中",
+        key: "CenterX",
+        parent: "Align"
+      },
+      {
+        label: "垂直居中",
+        key: "CenterY",
+        parent: "Align"
+      },
+      {
+        label: "水平分布",
+        key: "DistributeX",
+        parent: "Align"
+      },
+      {
+        label: "垂直分布",
+        key: "DistributeY",
+        parent: "Align"
+      }
+    ]
+  }
+];
+const CommonMenu = [
   {
     label: "子图层",
     key: "Sublayer",
@@ -22,30 +70,7 @@ const CommonMune = [
 ];
 
 export const EditMenu: Record<ISelectType, any> = {
-  node: [...CommonMune],
-  link: [...CommonMune],
-  svg: [
-    {
-      label: "元素",
-      key: "Meta",
-      children: [
-        {
-          label: "文字",
-          key: "Text"
-        },
-        {
-          label: "矩形",
-          key: "Rect"
-        },
-        {
-          label: "圆形",
-          key: "Circle"
-        },
-        {
-          label: "图片",
-          key: "Image"
-        }
-      ]
-    }
-  ]
+  node: [...AlignMenu, ...CommonMenu],
+  link: [...AlignMenu, ...CommonMenu],
+  svg: [...AlignMenu]
 };
