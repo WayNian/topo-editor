@@ -87,15 +87,13 @@ export interface ILink extends ISourceLink {
   style: Record<string, string | number>;
   //   pathArray: any[];
   selected?: boolean;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
   transform: {
     x: number;
     y: number;
-  };
-  rect: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
   };
 }
 

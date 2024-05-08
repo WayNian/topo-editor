@@ -18,10 +18,10 @@
     <rect
       v-for="item in dataStore.linksSelected"
       :key="item.linkId"
-      :width="item.rect.width + item.linkWidth + getStrokeWidth(item) + 4"
-      :height="item.rect.height + item.linkWidth + getStrokeWidth(item) + 4"
-      :x="item.rect.x - item.linkWidth * 0.5 - 2 - getStrokeWidth(item) / 2"
-      :y="item.rect.y - item.linkWidth * 0.5 - 2 - getStrokeWidth(item) / 2"
+      :width="item.width + item.linkWidth + getStrokeWidth(item) + 4"
+      :height="item.height + item.linkWidth + getStrokeWidth(item) + 4"
+      :x="item.x - item.linkWidth * 0.5 - 2 - getStrokeWidth(item) / 2"
+      :y="item.y - item.linkWidth * 0.5 - 2 - getStrokeWidth(item) / 2"
       :transform="`translate(${item.transform.x}, ${item.transform.y})`"
       fill="none"
       stroke-dasharray="5,5"
@@ -81,7 +81,13 @@ const dataStore = useDataStore();
 const currentBBox = computed(() => {
   if (!dataStore.currentNode && !dataStore.currentLink) return { x: 0, y: 0, width: 0, height: 0 };
 
-  const { x, y, width, height } = dataStore.currentNode || dataStore.currentLink!.rect;
+  const { x, y, width, height } = dataStore.currentNode ||
+    dataStore.currentLink || {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0
+    };
   const transform = dataStore.currentLink ? dataStore.currentLink.transform : { x: 0, y: 0 };
 
   const strokeWidth = getStrokeWidth(dataStore.currentLink);
@@ -96,15 +102,6 @@ const currentBBox = computed(() => {
 });
 
 const isDragPointsVisible = computed(() => {
-  console.log(
-    dataStore.nodesSelected.length,
-    dataStore.linksSelected.length,
-    dataStore.currentNode,
-    dataStore.currentLink,
-    (dataStore.currentNode || dataStore.currentLink) &&
-      dataStore.nodesSelected.length + dataStore.linksSelected.length === 1
-  );
-
   return (
     (dataStore.currentNode || dataStore.currentLink) &&
     dataStore.nodesSelected.length + dataStore.linksSelected.length === 1

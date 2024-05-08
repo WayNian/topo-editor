@@ -53,8 +53,11 @@ export const attrUpdateLink = (d: ILink) => {
     .attr("d", d.linkPath)
     .attr("stroke-width", parseFloat(d.style["stroke-width"] + "") * 2);
 
-  //   if (linkG.empty()) return;
-  d.rect = linkG.node()!.getBBox();
+  const { x, y, width, height } = linkG.node()!.getBBox();
+  d.x = x;
+  d.y = y;
+  d.width = width;
+  d.height = height;
 };
 
 export const attrLinkDrag = (isSpaceDown: boolean) => {

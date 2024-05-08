@@ -2,8 +2,11 @@ import type { ILink, ISVGG } from "@/types";
 
 const setLinkRect = (enterG: ISVGG<ILink, SVGGElement>) => {
   enterG.each(function (d) {
-    d.rect = this.getBBox();
-    console.log("🚀 ~  d.rect:", d.rect);
+    const { x, y, width, height } = this.getBBox();
+    d.x = x;
+    d.y = y;
+    d.width = width;
+    d.height = height;
   });
 };
 

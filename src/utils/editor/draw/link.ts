@@ -62,10 +62,10 @@ const appendLinkSelection = (enter: IEnter<ILink>) => {
     .attr("stroke", "#409eff")
     .attr("stroke-width", 2)
     .attr("pointer-events", "none")
-    .attr("x", (d) => d.rect.x - d.linkWidth * 0.5 - 2)
-    .attr("y", (d) => d.rect.y - d.linkWidth * 0.5 - 2)
-    .attr("width", (d) => d.rect.width + d.linkWidth + 4)
-    .attr("height", (d) => d.rect.height + d.linkWidth + 4);
+    .attr("x", (d) => d.x - d.linkWidth * 0.5 - 2)
+    .attr("y", (d) => d.y - d.linkWidth * 0.5 - 2)
+    .attr("width", (d) => d.width + d.linkWidth + 4)
+    .attr("height", (d) => d.height + d.linkWidth + 4);
   return enterG;
 };
 

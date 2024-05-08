@@ -65,15 +65,13 @@ export const formatLink = (link: ISourceLink): ILink => {
   const style = formatObject(linkStyles);
   return {
     ...link,
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
     transform: {
       x: 0,
       y: 0
-    },
-    rect: {
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0
     },
     linkWidth: link.linkWidth ? link.linkWidth : parseFloat(style["stroke-width"]),
     style: formatLinkStyle(link, style)
@@ -92,7 +90,11 @@ export const formatLinks = (data: ISourceLink[]): ILink[] => {
  */
 export const setLinkRect = (enterG: ISVGG<ILink, SVGGElement>) => {
   enterG.each(function (d) {
-    d.rect = this.getBBox();
+    const { x, y, width, height } = this.getBBox();
+    d.x = x;
+    d.y = y;
+    d.width = width;
+    d.height = height;
   });
 };
 

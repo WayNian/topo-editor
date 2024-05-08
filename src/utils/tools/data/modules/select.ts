@@ -41,10 +41,10 @@ const selectNodesLinks = (startPoints: number[], endPoints: number[]) => {
   dataStore.links.forEach((link) => {
     // 计算连线的边界框
     const linkRect = {
-      left: link.rect.x,
-      right: link.rect.x + link.rect.width,
-      top: link.rect.y,
-      bottom: link.rect.y + link.rect.height
+      left: link.x,
+      right: link.x + link.width,
+      top: link.y,
+      bottom: link.y + link.height
     };
 
     // 计算选择框的边界框

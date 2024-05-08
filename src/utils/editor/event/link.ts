@@ -52,7 +52,10 @@ const dragEnd = (e: any, d: ILink, el: SVGGElement) => {
   d.transform.x = 0;
   d.transform.y = 0;
   //   移动结束后，更新rect
-  d.rect = el.getBBox();
+  const { x, y } = el.getBBox();
+  d.x = x;
+  d.y = y;
+
   startPoint.x = 0;
   startPoint.y = 0;
   tx = 0;
