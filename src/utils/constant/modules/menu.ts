@@ -36,12 +36,12 @@ const AlignMenu = [
         parent: "Align"
       },
       {
-        label: "水平分布",
+        label: "水平等距",
         key: "DistributeX",
         parent: "Align"
       },
       {
-        label: "垂直分布",
+        label: "垂直等距",
         key: "DistributeY",
         parent: "Align"
       }
