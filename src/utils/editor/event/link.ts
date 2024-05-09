@@ -6,6 +6,7 @@ import { SVGPathData } from "svg-pathdata";
 import { updateLink } from "@/utils/http/apis";
 import { drawLinks } from "../draw";
 import { attrLinkGTrans } from "../attr";
+import { attrSelectionDrag } from "../attr/selection";
 
 const startPoint = {
   x: 0,
@@ -14,8 +15,7 @@ const startPoint = {
 
 let tx = 0;
 let ty = 0;
-const dragStart = (e: any, d: ILink, el: SVGGElement) => {
-  console.log("🚀 ~ dragStart ~ d:", d);
+const dragStart = (e: any, d: ILink) => {
   const commonStore = useCommonStore();
   const svgStore = useSvgStore();
   if (!svgStore.isEdit || commonStore.isSpaceDown) return;
@@ -39,6 +39,8 @@ const dragging = (e: any, d: ILink, el: SVGGElement) => {
 const dragEnd = (e: any, d: ILink, el: SVGGElement) => {
   const commonStore = useCommonStore();
   const svgStore = useSvgStore();
+
+  attrSelectionDrag(false);
 
   //   表示连线没有移动
   if (tx === 0 && ty === 0) return;
@@ -71,7 +73,7 @@ export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
   const drag = d3
     .drag<SVGGElement, ILink>()
     .on("start", function (e, d) {
-      dragStart(e, d, this);
+      dragStart(e, d);
     })
     .on("drag", function (e, d) {
       dragging(e, d, this);
@@ -82,7 +84,7 @@ export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
 
   linkG.call(drag);
 
-  linkG.on("contextmenu", (e, d) => {
+  linkG.on("mousedown", dragStart).on("contextmenu", (e, d) => {
     e.preventDefault();
     e.stopPropagation();
     mapStore.showMapMenu({ x: e.clientX, y: e.clientY }, "link");

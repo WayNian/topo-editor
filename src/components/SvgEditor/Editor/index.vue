@@ -44,6 +44,8 @@ import MoveToSublayerModal from "@/components/SvgEditor/Modal/Sublayer/MoveToSub
 import RemoveSingleFromSublayer from "@/components/SvgEditor/Modal/Sublayer/RemoveSingleFromSublayer.vue";
 import DragAssistant from "@/components/SvgEditor/Editor/DragAssistant.vue";
 import { useSvgMenu } from "@/hooks/svg/useSvgMenu";
+import { bindDragSelectionEvent } from "@/utils/editor/event/selection";
+import { attrSelectionDrag } from "@/utils/editor/attr/selection";
 
 const dataStore = useDataStore();
 const mapStore = useMapStore();
@@ -68,6 +70,7 @@ const handleDrop = (e: DragEvent) => {
 
 onMounted(() => {
   bindDragPointEvent();
+  bindDragSelectionEvent();
 });
 
 watch(
@@ -76,6 +79,7 @@ watch(
     attrLinkDrag(val);
     attrNodeDrag(val);
     attrSvgDrag(val);
+    attrSelectionDrag(val);
   }
 );
 </script>

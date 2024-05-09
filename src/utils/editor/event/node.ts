@@ -5,6 +5,7 @@ import { setNodesSelected } from "@/utils/tools";
 import { attrNodeGTrans } from "../attr";
 import { updateNode } from "@/utils/http/apis";
 import { drawNodes } from "../draw";
+import { attrSelectionDrag } from "../attr/selection";
 
 const startPoint = {
   x: 0,
@@ -36,9 +37,10 @@ const dragging = (e: any, d: INode, el: SVGGElement) => {
   attrNodeGTrans(el, e.x, e.y);
 };
 
-const dragEnd = (e: any, d: INode, el: SVGGElement) => {
+const dragEnd = (e: any, d: INode) => {
   const commonStore = useCommonStore();
   const svgStore = useSvgStore();
+  attrSelectionDrag(false);
 
   //   表示节点没有移动
   if (tx === 0 && ty === 0) return;
@@ -60,14 +62,18 @@ export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
       dragging(e, d, this);
     })
     .on("end", function (e, d) {
-      dragEnd(e, d, this);
+      dragEnd(e, d);
     });
 
   nodeG.call(drag);
 
-  nodeG.on("contextmenu", (e, d) => {
-    e.preventDefault();
-    e.stopPropagation();
-    mapStore.showMapMenu({ x: e.clientX, y: e.clientY }, "node");
-  });
+  nodeG
+    .on("mousedown", (e, d) => {
+      dragStart(e, d);
+    })
+    .on("contextmenu", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      mapStore.showMapMenu({ x: e.clientX, y: e.clientY }, "node");
+    });
 };

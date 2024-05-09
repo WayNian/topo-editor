@@ -40,6 +40,7 @@ export const addNode = (params: IOriginalNode) => {
 };
 
 const updateNodeByHttp = (nodes: INode[]) => {
+  if (!nodes.length) return;
   formatNodesAttribute(nodes);
   return request.post<string>({ url: "/topoEdit/updateNode", data: { nodeList: nodes } });
 };
@@ -55,6 +56,7 @@ export const addLink = (params: IOriginalLink) => {
 };
 
 export const updateLinkBhttp = (params: ILink[]) => {
+  if (!params.length) return;
   return request.post<string>({ url: "/topoEdit/updateLink", data: { linkList: params } });
 };
 
