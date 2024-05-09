@@ -41,7 +41,7 @@
       stroke-dasharray="10,5"
       stroke="#409eff"
       stroke-width="4"
-      :pointer-events="pointerEvents"
+      pointer-events="all"
     />
     <circle
       id="dragPointLeftTop"
