@@ -84,11 +84,13 @@
 </template>
 
 <script setup lang="ts">
-import { useDataStore } from "@/stores";
+import { useCommonStore, useDataStore } from "@/stores";
 import type { ILink } from "@/types";
-import { computed } from "vue";
+import { attrSelectionDrag } from "@/utils/editor/attr/selection";
+import { computed, watch, watchEffect } from "vue";
 
 const dataStore = useDataStore();
+const commonStore = useCommonStore();
 
 const selectionBox = computed(() => {
   if (!dataStore.nodesSelected.length && !dataStore.linksSelected.length)
@@ -136,6 +138,20 @@ const selectionBox = computed(() => {
     height: bottomY - topY
   };
 });
+
+watch(
+  () => selectionBox.value,
+  (value) => {
+    commonStore.selectedBoxInfo = value;
+  }
+);
+
+watch(
+  () => commonStore.isShiftDown,
+  (value) => {
+    attrSelectionDrag(!value);
+  }
+);
 
 const isSelectionBoxVisible = computed(() => {
   return dataStore.nodesSelected.length || dataStore.linksSelected.length;

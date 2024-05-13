@@ -14,6 +14,13 @@ export const useCommonStore = defineStore("common", () => {
   const isSpaceDown = ref(false);
   const isShiftDown = ref(false);
 
+  const selectedBoxInfo = ref({
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0
+  });
+
   return {
     isAttributeViewVisible,
     modal,
@@ -21,6 +28,7 @@ export const useCommonStore = defineStore("common", () => {
     isSpaceDown,
     isShiftDown,
     isLoading,
-    collapsed
+    collapsed,
+    selectedBoxInfo
   };
 });
