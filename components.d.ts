@@ -7,12 +7,13 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Add: typeof import('./src/components/SvgEditor/Modal/Group/Add.vue')['default']
     AddGroup: typeof import('./src/components/MetaIcon/Modal/AddGroup.vue')['default']
     AddMeta: typeof import('./src/components/MetaIcon/Modal/AddMeta.vue')['default']
     Attribute: typeof import('./src/components/SvgEditor/Panel/Right/Attribute/index.vue')['default']
     AttributeTrigger: typeof import('./src/components/SvgEditor/Panel/Right/Attribute/Trigger/AttributeTrigger.vue')['default']
     BaseView: typeof import('./src/components/Common/BaseView/index.vue')['default']
-    copy: typeof import('./src/components/SvgEditor/Modal/Sublayer/MoveToSublayer copy.vue')['default']
+    copy: typeof import('./src/components/SvgEditor/Modal/Group/Edit copy.vue')['default']
     DragAssiant: typeof import('./src/components/SvgEditor/Editor/DragAssiant.vue')['default']
     DragAssistant: typeof import('./src/components/SvgEditor/Editor/DragAssistant.vue')['default']
     DragPoints: typeof import('./src/components/SvgEditor/Editor/DragPoints.vue')['default']

@@ -56,6 +56,8 @@ export interface INode extends ISourceNode {
   style: Record<string, string>;
   textStyle: Record<string, string>;
   selected?: boolean;
+  locked?: boolean;
+  groupId?: string;
 }
 
 export interface IOriginalLink {
@@ -87,6 +89,7 @@ export interface ILink extends ISourceLink {
   style: Record<string, string | number>;
   //   pathArray: any[];
   selected?: boolean;
+  locked?: boolean;
   x: number;
   y: number;
   width: number;
@@ -95,6 +98,7 @@ export interface ILink extends ISourceLink {
     x: number;
     y: number;
   };
+  groupId?: string;
 }
 
 export interface INodeLinkSource {
@@ -103,3 +107,9 @@ export interface INodeLinkSource {
 }
 
 export type IImportType = "import" | "importPart" | "importAll";
+
+export interface IGroup {
+  id: string;
+  nodes: INode[];
+  links: ILink[];
+}

@@ -76,4 +76,4 @@ export interface ISublayerUpdateModel extends ISublayer {
   mapId: string;
 }
 
-export type ISelectType = "node" | "link" | "svg";
+export type ISelectType = "node" | "link" | "svg" | "group";

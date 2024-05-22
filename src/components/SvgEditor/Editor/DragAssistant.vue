@@ -157,10 +157,6 @@ const isSelectionBoxVisible = computed(() => {
   return dataStore.nodesSelected.length || dataStore.linksSelected.length;
 });
 
-const pointerEvents = computed(() => {
-  return dataStore.linksSelected.length + dataStore.nodesSelected.length === 1 ? "none" : "all";
-});
-
 const getStrokeWidth = (item: ILink | null) => {
   if (!item) return 0;
   return parseFloat(item.style["stroke-width"] + "");

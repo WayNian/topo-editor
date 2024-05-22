@@ -31,6 +31,7 @@
 
   <MoveToSublayerModal ref="moveToSublayerModalRef" />
   <RemoveSingleFromSublayer ref="removeSingleFromSublayerRef" />
+  <AddGroup ref="addGroupRef" />
 </template>
 
 <script setup lang="ts">
@@ -43,6 +44,7 @@ import { attrLinkDrag, attrNodeDrag, attrSvgDrag } from "@/utils/editor/attr";
 import MoveToSublayerModal from "@/components/SvgEditor/Modal/Sublayer/MoveToSublayer.vue";
 import RemoveSingleFromSublayer from "@/components/SvgEditor/Modal/Sublayer/RemoveSingleFromSublayer.vue";
 import DragAssistant from "@/components/SvgEditor/Editor/DragAssistant.vue";
+import AddGroup from "@/components/SvgEditor/Modal/Group/Add.vue";
 import { useSvgMenu } from "@/hooks/svg/useSvgMenu";
 import { bindDragSelectionEvent } from "@/utils/editor/event/selection";
 import { attrSelectionDrag } from "@/utils/editor/attr/selection";
@@ -51,8 +53,13 @@ const dataStore = useDataStore();
 const mapStore = useMapStore();
 const commonStore = useCommonStore();
 
-const { removeSingleFromSublayerRef, moveToSublayerModalRef, handleSelect, handleContenxtMenu } =
-  useSvgMenu();
+const {
+  removeSingleFromSublayerRef,
+  moveToSublayerModalRef,
+  addGroupRef,
+  handleSelect,
+  handleContenxtMenu
+} = useSvgMenu();
 
 const MenuOptions = computed(() => {
   return EditMenu[mapStore.selectType];

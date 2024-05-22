@@ -1,8 +1,8 @@
 <template>
   <Item title="ID">
-    <p class="truncate" :title="dataStore.currentLink?.linkId">
+    <n-performant-ellipsis>
       {{ dataStore.currentLink?.linkId }}
-    </p>
+    </n-performant-ellipsis>
   </Item>
   <n-divider />
   <n-collapse :default-expanded-names="['1', '2', '3']">
@@ -43,6 +43,29 @@
         />
       </Item>
     </n-collapse-item>
+    <n-collapse-item title="绑定" name="2">
+      <Item title="开始">
+        <n-button text class="truncate w-40">
+          {{ dataStore.currentLink?.fromObj || "--" }}
+        </n-button>
+      </Item>
+      <Item title="结束">
+        <n-performant-ellipsis class="w-40">
+          {{ dataStore.currentLink?.endObj || "--" }}
+        </n-performant-ellipsis>
+
+        <n-button text class="mx-3">
+          <n-icon>
+            <Delete />
+          </n-icon>
+        </n-button>
+        <n-button text>
+          <n-icon>
+            <Delete />
+          </n-icon>
+        </n-button>
+      </Item>
+    </n-collapse-item>
     <!-- <n-collapse-item title="自定义样式" name="3">
       <Item
         v-for="(value, key) in dataStore.currentLink?.style"
@@ -81,6 +104,7 @@ import { useDataStore } from "@/stores";
 import { attrUpdateLink } from "@/utils/editor/attr";
 import { updateLink } from "@/utils/http/apis";
 import { getRgb } from "@/utils/tools";
+import Delete from "@/assets/images/icons/Delete.svg?component";
 
 const dataStore = useDataStore();
 

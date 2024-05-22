@@ -14,6 +14,7 @@
         >
           <MetaIconList
         /></n-tab-pane>
+        <n-tab-pane name="group" tab="分组" v-if="mapStore.mapInfo"> 分组</n-tab-pane>
         <!-- <n-tab-pane
           name="layer"
           tab="子图层"

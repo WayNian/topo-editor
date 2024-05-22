@@ -1,4 +1,4 @@
-import { useCommonStore, useDataStore, useSvgStore } from "@/stores";
+import { useCommonStore, useDataStore, useMapStore, useSvgStore } from "@/stores";
 import * as d3 from "d3";
 import { drawNodesLinks } from "../draw";
 import { updateLink, updateNode } from "@/utils/http/apis";
@@ -67,6 +67,7 @@ const dragEnd = () => {
 };
 
 export const bindDragSelectionEvent = () => {
+  const mapStore = useMapStore();
   const drag = d3
     .drag<SVGGElement, any>()
     .on("start", dragStart)
@@ -74,4 +75,10 @@ export const bindDragSelectionEvent = () => {
     .on("end", dragEnd);
 
   d3.select<SVGGElement, any>("#selectionBox").call(drag);
+
+  d3.select<SVGGElement, any>("#selectionBox").on("contextmenu", (e, d) => {
+    e.preventDefault();
+    e.stopPropagation();
+    mapStore.showMapMenu({ x: e.clientX, y: e.clientY }, "group");
+  });
 };

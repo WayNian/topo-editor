@@ -1,5 +1,6 @@
 import RemoveSingleFromSublayer from "@/components/SvgEditor/Modal/Sublayer/RemoveSingleFromSublayer.vue";
 import MoveToSublayerModal from "@/components/SvgEditor/Modal/Sublayer/MoveToSublayer.vue";
+import AddGroup from "@/components/SvgEditor/Modal/Group/Add.vue";
 import { useDataStore, useMapStore } from "@/stores";
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import { useDialog, type DropdownOption } from "naive-ui";
@@ -15,6 +16,7 @@ export const useSvgMenu = () => {
     null
   );
   const moveToSublayerModalRef = ref<InstanceType<typeof MoveToSublayerModal> | null>(null);
+  const addGroupRef = ref<InstanceType<typeof AddGroup> | null>(null);
 
   const deleteGroup = () => {
     const { nodesSelected, linksSelected } = dataStore;
@@ -36,6 +38,16 @@ export const useSvgMenu = () => {
     }
   };
 
+  const lock = () => {
+    const { nodesSelected, linksSelected } = dataStore;
+    nodesSelected.forEach((node) => {
+      node.locked = !node.locked;
+    });
+    linksSelected.forEach((link) => {
+      link.locked = !link.locked;
+    });
+  };
+
   const handleSelect = (key: string, option: DropdownOption) => {
     mapStore.isMenuVisible = false;
     if (option.parent === "Align") {
@@ -52,6 +64,12 @@ export const useSvgMenu = () => {
         break;
       case "Delete":
         deleteGroup();
+        break;
+      case "AddGroup":
+        addGroupRef.value?.show();
+        break;
+      case "Lock":
+        lock();
         break;
     }
   };
@@ -88,6 +106,7 @@ export const useSvgMenu = () => {
   return {
     removeSingleFromSublayerRef,
     moveToSublayerModalRef,
+    addGroupRef,
     handleSelect,
     handleContenxtMenu
   };

@@ -32,7 +32,7 @@ export const useMapStore = defineStore("map", () => {
 
   const mergeNodeList = ref<INode[]>([]);
   const mergeLinkList = ref<ILink[]>([]);
-  const selectType = ref<"node" | "link" | "svg">("svg");
+  const selectType = ref<ISelectType>("svg");
 
   const isMoveToSublayerVisible = ref(false);
 

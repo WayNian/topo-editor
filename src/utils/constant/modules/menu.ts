@@ -69,8 +69,24 @@ const CommonMenu = [
   }
 ];
 
+const GroupMenu = [
+  {
+    label: "锁定",
+    key: "Lock"
+  },
+  {
+    label: "分组",
+    key: "AddGroup"
+  },
+  {
+    label: "删除",
+    key: "Delete"
+  }
+];
+
 export const EditMenu: Record<ISelectType, any> = {
   node: [...AlignMenu, ...CommonMenu],
   link: [...AlignMenu, ...CommonMenu],
-  svg: [...AlignMenu]
+  svg: [...AlignMenu],
+  group: [...AlignMenu, ...GroupMenu]
 };
