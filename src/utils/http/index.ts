@@ -32,7 +32,7 @@ class HttpRequest {
         return config;
       },
       (error: AxiosError) => {
-        console.log("requestError: ", error);
+        console.error("requestError: ", error);
         return Promise.reject(error);
       },
       {
@@ -66,6 +66,7 @@ class HttpRequest {
         }
       },
       (error: any) => {
+        window.$message.error("请求失败");
         return Promise.reject(error);
       }
     );
