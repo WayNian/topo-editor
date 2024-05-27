@@ -2,7 +2,7 @@
   <n-modal
     v-model:show="isVisible"
     preset="dialog"
-    title="新增编组"
+    title="新增分组"
     size="huge"
     :bordered="false"
     :show-icon="false"
@@ -15,7 +15,7 @@
     style="margin-top: 20vh"
   >
     <n-form
-      ref="menuFormRef"
+      ref="groupFormRef"
       :model="groupModel"
       :rules="groupRules"
       label-placement="left"
@@ -30,11 +30,16 @@
 </template>
 
 <script setup lang="ts">
+import { useDataStore, useMapStore } from "@/stores";
+import { addMapGroupData, getMapGroupData } from "@/utils/http/apis";
+import { updataDataGroupId } from "@/utils/tools";
 import type { FormInst } from "naive-ui";
 import { ref } from "vue";
 
-const menuFormRef = ref<FormInst | null>(null);
-const mapFormRef = ref<FormInst | null>(null);
+const dataStore = useDataStore();
+const mapStore = useMapStore();
+
+const groupFormRef = ref<FormInst | null>(null);
 
 const isVisible = ref(false);
 const groupModel = ref({
@@ -53,9 +58,46 @@ const hide = () => {
   isVisible.value = false;
 };
 
+const getfroupDataList = () => {
+  const { nodesSelected, linksSelected } = dataStore;
+  const list: {
+    dataId: string;
+    dataType: "node" | "link";
+  }[] = [];
+  nodesSelected.forEach((node) => {
+    list.push({
+      dataId: node.nodeId,
+      dataType: "node"
+    });
+  });
+
+  linksSelected.forEach((link) => {
+    list.push({
+      dataId: link.linkId,
+      dataType: "link"
+    });
+  });
+
+  return list;
+};
+
+const addGroup = async () => {
+  const mapId = mapStore.mapInfo!.mapId;
+  const params = {
+    mapId,
+    groupName: groupModel.value.groupName,
+    groupDescription: groupModel.value.groupName,
+    topoMapsGroupDataList: getfroupDataList()
+  };
+  const groupId = await addMapGroupData(params);
+  window.$message.success("添加成功");
+  updataDataGroupId(groupId);
+  getMapGroupData(mapId);
+};
 const submit = () => {
-  mapFormRef.value?.validate((errors) => {
+  groupFormRef.value?.validate((errors) => {
     if (errors) return;
+    addGroup();
   });
   return false;
 };

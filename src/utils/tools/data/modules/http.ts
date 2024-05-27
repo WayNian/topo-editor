@@ -6,6 +6,7 @@ import {
   addNodeLinkList as addNodeLinkListByHttp,
   deleteLinks as deeLinksByHttp,
   deleteNodes as deleteNodesByHttp,
+  getMapGroupData as getMapGroupDataByHttp,
   getNodeLinkListByMapId
 } from "@/utils/http/apis/";
 import { formatLink, formatLinks, formatNode, formatNodes } from "./format";
@@ -21,6 +22,15 @@ export const getNodeLinkList = async (mapId: string) => {
   const { nodes, links } = await getNodeLinkListByMapId(mapId);
   dataStore.nodesAll = formatNodes(nodes);
   dataStore.linksAll = formatLinks(links);
+};
+
+/**
+ *  获取节点和连线列表
+ * @param mapId
+ */
+export const getMapGroupData = async (mapId: string) => {
+  const dataStore = useDataStore();
+  dataStore.groups = await getMapGroupDataByHttp(mapId);
 };
 
 /**

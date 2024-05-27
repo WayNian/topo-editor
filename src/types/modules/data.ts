@@ -108,8 +108,11 @@ export interface INodeLinkSource {
 
 export type IImportType = "import" | "importPart" | "importAll";
 
-export interface IGroup {
-  id: string;
-  nodes: INode[];
-  links: ILink[];
+export interface IGroupData {
+  groupId: string;
+  groupName: string;
+  groupDescription: string;
+  dataIds: string[];
+  nodes?: INode[];
+  links?: ILink[];
 }

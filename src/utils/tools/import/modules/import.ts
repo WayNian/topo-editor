@@ -11,6 +11,7 @@ import {
   clearNodesLinksSelected,
   deleteLinks,
   deleteNodes,
+  getMapGroupData,
   getNodeLinkList,
   renewMergeNodesLinks,
   renewNodesLinks
@@ -30,6 +31,7 @@ export const selectMap = async (map: IMapSource) => {
   mapStore.setMapInfo(map);
   await getNodeLinkList(map.mapId);
   draw();
+  await getMapGroupData(map.mapId);
   commonStore.isLoading = false;
 };
 

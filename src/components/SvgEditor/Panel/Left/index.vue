@@ -14,7 +14,9 @@
         >
           <MetaIconList
         /></n-tab-pane>
-        <n-tab-pane name="group" tab="分组" v-if="mapStore.mapInfo"> 分组</n-tab-pane>
+        <n-tab-pane name="group" tab="分组" v-if="mapStore.mapInfo">
+          <GroupList></GroupList
+        ></n-tab-pane>
         <!-- <n-tab-pane
           name="layer"
           tab="子图层"
@@ -31,18 +33,18 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, ref, watch, watchEffect } from "vue";
 import { drawNodesLinks, resetHighlight } from "@/utils/editor/draw/";
-import { useDataStore, useMapStore, useMenuStore, useSvgStore } from "@/stores/";
+import { useMapStore, useMenuStore, useSvgStore } from "@/stores/";
 import Panel from "@/components/SvgEditor/Common/Panel/index.vue";
 import Sider from "@/components/SvgEditor/Sider/index.vue";
 import MenuList from "./MenuList/index.vue";
 import MergeList from "./MergeList/index.vue";
 import MetaIconList from "./MetaIconList/index.vue";
+import GroupList from "./GroupList/index.vue";
 import { renewNodesLinks } from "@/utils/tools";
 
 const menuStore = useMenuStore();
 const mapStore = useMapStore();
 const svgStore = useSvgStore();
-const dataStore = useDataStore();
 const activeName = ref("files");
 
 const isShowMerge = computed(() => {

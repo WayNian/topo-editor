@@ -4,3 +4,4 @@ export * from "./modules/map";
 export * from "./modules/data";
 export * from "./modules/meta";
 export * from "./modules/common";
+export * from "./modules/group";

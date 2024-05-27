@@ -1,6 +1,6 @@
 import { computed, ref } from "vue";
 import { defineStore } from "pinia";
-import type { IGroup, ILink, INode, ISourceLink, ISourceNode } from "@/types/";
+import type { IGroupData, ILink, INode, ISourceLink, ISourceNode } from "@/types/";
 
 export const useDataStore = defineStore("data", () => {
   const nodesAll = ref<INode[]>([]);
@@ -9,7 +9,7 @@ export const useDataStore = defineStore("data", () => {
   const nodes = ref<INode[]>([]);
   const links = ref<ILink[]>([]);
 
-  const groups = ref<IGroup[]>([]);
+  const groups = ref<IGroupData[]>([]);
 
   const currentNode = ref<INode | null>(null);
   const currentLink = ref<ILink | null>(null);
