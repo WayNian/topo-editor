@@ -41,7 +41,7 @@ export const checkNodes = (
   //   增量导入
   //   找到已经存在的数据，对比，如果不同，则加载mergeNodeList中，否则就是新增数据
   newNodes.forEach((node) => {
-    const item = nodes.find((item) => item.domId === node.domId);
+    const item = nodes.find((item) => node.domId && item.domId && item.domId === node.domId);
     if (item) {
       //   item 在 nodes中，判断是否有不同的字段
       if (
@@ -105,9 +105,7 @@ export const checkLinks = (
 
   // 增量导入
   newLinks.forEach((link) => {
-    const item = links.find((item) => {
-      return item.domId === link.domId;
-    });
+    const item = links.find((item) => link.domId && item.domId && item.domId === link.domId);
     // 如果是增量导入，且item存在，则不做处理
     if (item) {
       link.linkId = item.linkId;
