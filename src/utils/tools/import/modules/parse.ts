@@ -65,7 +65,13 @@ const formatStyle = (style: string, scale: number) => {
     if (!key) return;
     obj[key] = value;
     if (key === "stroke-width") {
-      obj[key] = parseFloat(value) * scale;
+      obj[key] = (parseFloat(value) * scale).toFixed(2) + "px";
+    }
+    if (key === "stroke-dasharray") {
+      obj[key] = value
+        .split(",")
+        .map((item) => parseFloat(item) * scale)
+        .join(",");
     }
   });
 
@@ -135,7 +141,7 @@ const getPosionByMatrix = (point: IPoint, matrixList: number[][]) => {
 const getScaleXByMatrix = (matrixList: number[][]) => {
   let scaleX = 1;
   matrixList.forEach((matrix) => {
-    scaleX *= matrix[0];
+    scaleX *= Math.abs(matrix[0]);
   });
 
   return scaleX;
@@ -177,7 +183,9 @@ const formatData = (node: ISvgNode) => {
     return;
 
   const matrixList = collectNodeMatrix(el);
-  const { style } = formatStyle(s, 0.5);
+  const _scaleX = getScaleXByMatrix(matrixList);
+
+  const { style } = formatStyle(s, _scaleX);
 
   switch (tagName) {
     case "ellipse":
@@ -245,9 +253,8 @@ const formatData = (node: ISvgNode) => {
         const position = getPosionByMatrix([x, y], matrixList);
         const size = [rect.width * scaleX, rect.height * yScale];
 
-        const textScaleX = getScaleXByMatrix(matrixList);
         const fontSize = (
-          parseFloat(style["font-size"] + "" || node.attr("font-size")) * textScaleX
+          parseFloat(style["font-size"] + "" || node.attr("font-size")) * _scaleX
         ).toFixed(2);
         style["font-size"] = fontSize + "px";
         if (style["alignment-baseline"] !== "before-edge") {
