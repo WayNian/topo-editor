@@ -11,6 +11,7 @@ import svgLoader from "vite-svg-loader";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: process.env.NODE_ENV === "development" ? "/" : "/topoNew/",
   plugins: [
     vue(),
     // VueDevTools(),
@@ -41,7 +42,7 @@ export default defineConfig({
     proxy: {
       "/action": {
         // target: "http://172.19.139.246:6722/",
-        target: "http://172.19.42.25:10017",
+        target: "http://172.19.139.253:10017",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/action/, "")
       },
