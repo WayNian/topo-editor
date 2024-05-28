@@ -86,5 +86,6 @@ declare module 'vue' {
     SublayerList: typeof import('./src/components/SvgEditor/Panel/Right/SublayerList/index.vue')['default']
     Trigger: typeof import('./src/components/SvgEditor/Panel/Right/Trigger/index.vue')['default']
     Update: typeof import('./src/components/SvgEditor/Modal/Sublayer/Update.vue')['default']
+    Version: typeof import('./src/components/Version/index.vue')['default']
   }
 }

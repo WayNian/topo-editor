@@ -8,12 +8,16 @@ import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
 import UnoCSS from "unocss/vite";
 // import VueDevTools from "vite-plugin-vue-devtools";
 import svgLoader from "vite-svg-loader";
+import Markdown from "vite-plugin-md";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: process.env.NODE_ENV === "development" ? "/" : "/topoNew/",
   plugins: [
-    vue(),
+    vue({
+      include: [/\.vue$/, /\.md$/] // <--
+    }),
+    Markdown(),
     // VueDevTools(),
     UnoCSS(),
     svgLoader({
