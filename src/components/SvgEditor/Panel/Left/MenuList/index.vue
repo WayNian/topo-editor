@@ -185,10 +185,9 @@ const importFile = (file: File) => {
 const handleChange = () => {
   const file = upload.value?.files?.[0];
   if (!file) return;
-  console.log("🚀 ~ handleChange ~ file:", file);
 
+  commonStore.isLoading = true;
   if (file.type === "application/json") {
-    console.log("json格式");
     importFile(file);
   } else {
     parseSvg(file)

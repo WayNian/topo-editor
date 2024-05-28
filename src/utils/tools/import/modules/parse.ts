@@ -15,7 +15,7 @@ const nodes: any = [];
 const links: any = [];
 
 let svgRect: DOMRect | null = null;
-let xScale = 1;
+let scaleX = 1;
 let yScale = 1;
 
 function parseMatrix(matrixString: string) {
@@ -132,6 +132,14 @@ const getPosionByMatrix = (point: IPoint, matrixList: number[][]) => {
   return point;
 };
 
+const getScaleXByMatrix = (matrixList: number[][]) => {
+  let scaleX = 1;
+  matrixList.forEach((matrix) => {
+    scaleX *= matrix[0];
+  });
+
+  return scaleX;
+};
 const transPathD = (d: string, matrixList: number[][]) => {
   let d1 = new SVGPathData(d);
   matrixList.forEach((matrix) => {
@@ -180,7 +188,7 @@ const formatData = (node: ISvgNode) => {
         const rect = el.getBoundingClientRect();
 
         const position = getPosionByMatrix([x, y], matrixList);
-        const width = rect.width * xScale;
+        const width = rect.width * scaleX;
         const height = rect.height * yScale;
 
         const nodePosition = `${position[0] - width / 2},${position[1] - height / 2}`;
@@ -202,12 +210,12 @@ const formatData = (node: ISvgNode) => {
     case "image":
       {
         const text = node.text();
-        const x = +node.attr("x");
-        const y = +node.attr("y");
+        const x = +parseFloat(node.attr("x"));
+        const y = +parseFloat(node.attr("y"));
         const rect = el.getBoundingClientRect();
 
         const position = getPosionByMatrix([x, y], matrixList);
-        const size = [rect.width * xScale, rect.height * yScale];
+        const size = [rect.width * scaleX, rect.height * yScale];
 
         const nodePosition = `${position[0]},${position[1]}`;
 
@@ -230,13 +238,21 @@ const formatData = (node: ISvgNode) => {
     case "text":
       {
         const text = node.text();
-        console.log("🚀 ~ formatData ~ text:", text);
-        const x = +node.attr("x");
-        const y = +node.attr("y");
+        const x = +parseFloat(node.attr("x"));
+        const y = +parseFloat(node.attr("y"));
         const rect = el.getBoundingClientRect();
 
         const position = getPosionByMatrix([x, y], matrixList);
-        const size = [rect.width * xScale, rect.height * yScale];
+        const size = [rect.width * scaleX, rect.height * yScale];
+
+        const textScaleX = getScaleXByMatrix(matrixList);
+        const fontSize = (
+          parseFloat(style["font-size"] + "" || node.attr("font-size")) * textScaleX
+        ).toFixed(2);
+        style["font-size"] = fontSize + "px";
+        if (style["alignment-baseline"] !== "before-edge") {
+          position[1] -= +fontSize;
+        }
 
         const nodePosition = `${position[0]},${position[1]}`;
         if (nodes.some((item: any) => item.nodePosition === nodePosition)) return;
@@ -253,17 +269,18 @@ const formatData = (node: ISvgNode) => {
           style,
           nodeText: text
         });
+        console.log(nodes);
       }
       break;
 
     case "rect":
       {
-        const x = +node.attr("x");
-        const y = +node.attr("y");
+        const x = +parseFloat(node.attr("x"));
+        const y = +parseFloat(node.attr("y"));
         const rect = el.getBoundingClientRect();
 
         const position = getPosionByMatrix([x, y], matrixList);
-        const size = [rect.width * xScale, rect.height * yScale];
+        const size = [rect.width * scaleX, rect.height * yScale];
 
         const nodePosition = `${position[0]},${position[1]}`;
 
@@ -288,7 +305,7 @@ const formatData = (node: ISvgNode) => {
         const y1 = +node.attr("y1");
         const x2 = +node.attr("x2");
         const y2 = +node.attr("y2");
-        const d = `M${x1 * xScale} ${y1 * yScale} L${x2 * xScale} ${y2 * yScale}`;
+        const d = `M${x1 * scaleX} ${y1 * yScale} L${x2 * scaleX} ${y2 * yScale}`;
         if (links.some((item: any) => item.linkWidth === d)) return;
         links.push({
           domId: id,
@@ -397,7 +414,7 @@ export const parseSvg = (file: File) => {
       // 按比例获取位置
       svgRect = (svg.node() as SVGAElement)?.getBoundingClientRect();
       if (svgRect) {
-        xScale = width / svgRect.width;
+        scaleX = width / svgRect.width;
         yScale = height / svgRect.height;
       }
 

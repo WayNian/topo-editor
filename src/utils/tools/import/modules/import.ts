@@ -75,13 +75,16 @@ export const importSvg = async (val: IImportData) => {
 
   clearNodesLinksSelected();
 
-  if (commonStore.importType === "import") {
-    await importAllSvg(val);
-  } else {
-    await importPartSvg(val);
+  try {
+    if (commonStore.importType === "import") {
+      await importAllSvg(val);
+    } else {
+      await importPartSvg(val);
+    }
+    commonStore.isLoading = false;
+  } catch (error) {
+    commonStore.isLoading = false;
   }
-
-  commonStore.isLoading = false;
 };
 
 const importAllSvg = async (val: IImportData) => {

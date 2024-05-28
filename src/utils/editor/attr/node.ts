@@ -48,12 +48,9 @@ export const attrEllipse = (ellipse: ISVGEllipse<INode>) => {
 export const attrText = (text: ISVGText<INode>, tspan: ISVGTspant<INode>) => {
   text
     .attr("class", "node")
+    .attr("width", (d) => d.width)
+    .attr("height", (d) => d.height)
     .attr("alignment-baseline", "before-edge")
-    .attr("fill", "white")
-    .attr("font-size", 12);
-  tspan
-    .attr("x", 0)
-    .attr("dy", 12)
     .attr("style", (d) => {
       let style = "";
       for (const key in d.style) {

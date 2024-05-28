@@ -3,7 +3,7 @@ import HomeView from "../views/home/index.vue";
 import { getToken } from "@/utils/http/token";
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory("/topoNew/"),
   routes: [
     {
       path: "/",
