@@ -18,6 +18,23 @@
     @drop="handleDrop"
     @contextmenu="handleContenxtMenu"
   >
+    <defs>
+      <pattern
+        id="mapBg"
+        patternUnits="userSpaceOnUse"
+        :width="mapStore.mapSize.width"
+        :height="mapStore.mapSize.height"
+      >
+        <image
+          :href="bgUrl"
+          x="0"
+          y="0"
+          :width="mapStore.mapSize.width"
+          :height="mapStore.mapSize.height"
+          preserveAspectRatio="xMinYMin slice"
+        />
+      </pattern>
+    </defs>
     <g id="map">
       <rect id="mapBackground" />
       <g id="linkGroup"></g>
@@ -38,7 +55,7 @@
 import { computed, onMounted, watch } from "vue";
 import { useCommonStore, useDataStore, useMapStore } from "@/stores/";
 import { bindDragPointEvent } from "@/utils/editor/event/point";
-import { onDroped } from "@/utils/tools";
+import { getImageUrl, onDroped } from "@/utils/tools";
 import { EditMenu } from "@/utils/constant";
 import { attrLinkDrag, attrNodeDrag, attrSvgDrag } from "@/utils/editor/attr";
 import MoveToSublayerModal from "@/components/SvgEditor/Modal/Sublayer/MoveToSublayer.vue";
@@ -47,7 +64,6 @@ import DragAssistant from "@/components/SvgEditor/Editor/DragAssistant.vue";
 import AddGroup from "@/components/SvgEditor/Modal/Group/Add.vue";
 import { useSvgMenu } from "@/hooks/svg/useSvgMenu";
 import { bindDragSelectionEvent } from "@/utils/editor/event/selection";
-import { attrSelectionDrag } from "@/utils/editor/attr/selection";
 
 const dataStore = useDataStore();
 const mapStore = useMapStore();
@@ -75,6 +91,10 @@ const handleDrop = (e: DragEvent) => {
   onDroped(e);
 };
 
+const bgUrl = computed(() => {
+  const preUrl = getImageUrl();
+  return preUrl + mapStore.mapInfo?.background;
+});
 onMounted(() => {
   bindDragPointEvent();
   bindDragSelectionEvent();
@@ -86,7 +106,7 @@ watch(
     attrLinkDrag(val);
     attrNodeDrag(val);
     attrSvgDrag(val);
-    attrSelectionDrag(val);
+    // attrSelectionDrag(val);
   }
 );
 </script>

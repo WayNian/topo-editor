@@ -14,10 +14,16 @@ export const attrSvgDraging = (isDragging: boolean) => {
   d3.select<SVGSVGElement, any>("#svgEditor").style("cursor", isDragging ? "grabbing" : "grab");
 };
 
-export const attrMapBackground = (mapBackground: ISVGRect<any>) => {
+export const attrMapBackground = (mapBackground?: ISVGRect<any>) => {
   const mapStore = useMapStore();
   const { width, height } = mapStore.mapSize;
-  mapBackground.attr("width", width).attr("height", height).attr("fill", "#3b3b3b");
+  if (!mapBackground) {
+    mapBackground = d3.select<SVGRectElement, any>("#mapBackground");
+  }
+  mapBackground
+    .attr("width", width)
+    .attr("height", height)
+    .attr("fill", mapStore.mapInfo?.background ? "url(#mapBg)" : "#3b3b3b");
 };
 
 export const attrMap = (map: ISVGG<any, HTMLElement>, trans: d3.ZoomTransform) => {
