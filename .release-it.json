@@ -1,9 +1,13 @@
 {
+  "hooks": {
+    "after:bump": "echo 更新版本成功"
+  },
   "plugins": {
     "@release-it/conventional-changelog": {
       "preset": {
         "name": "conventionalcommits",
         "commitUrlFormat": "http://172.19.139.41:8088/nwang/topo-editor-base/-/commit/{{hash}}",
+        "compareUrlFormat": "http://172.19.139.41:8088/nwang/topo-editor-base/-/compare/{{previousTag}}...{{currentTag}}",
         "types": [
           { "type": "feat", "section": "✨新功能" },
           { "type": "fix", "section": "🐛Bug 修复" },
@@ -15,7 +19,8 @@
           { "type": "test", "hidden": true }
         ]
       },
-      "infile": "CHANGELOG.md"
+      "infile": "CHANGELOG.md",
+      "ignoreRecommendedBump": true
     }
   }
 }
