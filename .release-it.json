@@ -3,9 +3,10 @@
     "@release-it/conventional-changelog": {
       "preset": {
         "name": "conventionalcommits",
+        "commitUrlFormat": "http://172.19.139.41:8088/nwang/topo-editor-base/-/commit/{{hash}}",
         "types": [
-          { "type": "feat", "section": "Features" },
-          { "type": "fix", "section": "Bug Fixes" },
+          { "type": "feat", "section": "✨新功能" },
+          { "type": "fix", "section": "🐛Bug 修复" },
           { "type": "chore", "hidden": true },
           { "type": "docs", "hidden": true },
           { "type": "style", "hidden": true },
