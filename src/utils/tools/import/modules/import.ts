@@ -17,6 +17,33 @@ import {
   renewNodesLinks
 } from "../../data";
 
+const mergeDefs = (defs: string, newDefs: string) => {
+  const svgDefs = defs + newDefs;
+  // 使用正则表达式匹配所有具有id属性的SVG元素
+  const elementsById: Record<string, any> = {};
+  const elementRegex = /<([a-z][a-z0-9]*)\b[^>]*id="([^"]+)"[^>]*>([\s\S]*?)<\/\1>/gi;
+
+  let match;
+  while ((match = elementRegex.exec(svgDefs)) !== null) {
+    const tagName = match[1]; // 元素标签名
+    const id = match[2]; // id属性值
+    const elementContent = match[0]; // 元素内容
+
+    // 如果该id尚未记录，则添加
+    if (!elementsById[id]) {
+      elementsById[id] = { tagName, content: elementContent };
+    }
+  }
+
+  // 重新构建没有重复id的SVG defs字符串
+  let uniqueDefs = "";
+  for (const id in elementsById) {
+    const { content } = elementsById[id];
+    uniqueDefs += content;
+  }
+
+  return uniqueDefs;
+};
 /**
  * 选择画布后，设置map(画布)信息，并获取节点和连线列表
  * @param map
@@ -35,15 +62,22 @@ export const selectMap = async (map: IMapSource) => {
   commonStore.isLoading = false;
 };
 
-const generateMap = (name?: string) => {
+/**
+ *
+ * @param val
+ * @param isAdd 新增
+ * @param isCover  是否覆盖mapInfo属性，用于全量导入
+ * @returns
+ */
+const generateMap = (val: IImportData, isAdd: Boolean, isCover: boolean) => {
   const menuStore = useMenuStore();
   const mapStore = useMapStore();
 
   const { width, height } = mapStore.mapSize;
-  if (name) {
+  if (isAdd) {
     //  新增
     return {
-      mapName: name,
+      mapName: val.name,
       height,
       width,
       mapSize: `${width}*${height}`,
@@ -52,21 +86,23 @@ const generateMap = (name?: string) => {
       externalBind: {},
       internalBind: {},
       description: {},
+      defs: val.defs,
       menuId: menuStore.currentMenu?.menuId || "0"
     };
   }
   if (mapStore.mapInfo) {
     return {
       ...mapStore.mapInfo,
+      defs: isCover ? val.defs : mergeDefs(mapStore.mapInfo.defs || "", val.defs),
       mapSize: `${width}*${height}`
     };
   }
 };
 
-const addUpdataMapFunc = async (name?: string) => {
-  const params = generateMap(name);
+const addUpdataMapFunc = async (val: IImportData, isAdd: Boolean, isCover: boolean) => {
+  const params = generateMap(val, isAdd, isCover);
   if (!params) return;
-  return name ? await addMap(params) : await updateMap(params);
+  return isAdd ? await addMap(params) : await updateMap(params);
 };
 
 export const importSvg = async (val: IImportData) => {
@@ -93,7 +129,7 @@ const importAllSvg = async (val: IImportData) => {
   const menuStore = useMenuStore();
 
   // 全量导入,生成新的map文件
-  const mapId = await addUpdataMapFunc(val.name);
+  const mapId = await addUpdataMapFunc(val, true, false);
   await menuStore.getMenuList();
   if (!mapId) return;
   nodes = val.nodes.map((node) => {
@@ -143,8 +179,11 @@ const importPartSvg = async (val: IImportData) => {
     };
   });
 
+  // 全量导入
   if (commonStore.importType === "importAll") {
-    await addUpdataMapFunc();
+    await addUpdataMapFunc(val, false, true);
+  } else {
+    await addUpdataMapFunc(val, false, false);
   }
   await deleteNodes(deleteNodeList);
   await deleteLinks(deleteLinkList);

@@ -56,8 +56,7 @@ const formatLinkStyle = (link: ISourceLink, style: Record<string, string>) => {
   return {
     ...style,
     stroke,
-    "stroke-width": (link.linkWidth ? link.linkWidth : parseFloat(style["stroke-width"])) || 1,
-    fill: style.fill === "none" ? "none" : getRgb(style.fill)
+    "stroke-width": (link.linkWidth ? link.linkWidth : parseFloat(style["stroke-width"])) || 1
   };
 };
 export const formatLink = (link: ISourceLink): ILink => {

@@ -74,6 +74,15 @@ export const drawMap = () => {
   bindMapZoom(svg, map);
 };
 
+const drawDefs = () => {
+  const mapStore = useMapStore();
+
+  const defs = d3.select<SVGSVGElement, any>("#svgEditor").select("#mapDefs");
+  if (defs.empty()) {
+    d3.select<SVGSVGElement, any>("#svgEditor").append("defs").attr("id", "mapDefs");
+  }
+  defs.html(mapStore.mapInfo?.defs || "");
+};
 export const clearSvg = () => {
   const mapStore = useMapStore();
   const commonStore = useCommonStore();
@@ -91,6 +100,7 @@ export const clearSvg = () => {
 
 export const draw = () => {
   drawMap();
+  drawDefs();
   drawLinks();
   drawNodes();
 };

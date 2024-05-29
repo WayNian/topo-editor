@@ -4,6 +4,7 @@ export interface IImportData {
   nodes: INode[];
   links: ILink[];
   name: string;
+  defs: string;
 }
 
 export type MittType = {

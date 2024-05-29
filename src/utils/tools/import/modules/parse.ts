@@ -276,7 +276,6 @@ const formatData = (node: ISvgNode) => {
           style,
           nodeText: text
         });
-        console.log(nodes);
       }
       break;
 
@@ -362,6 +361,7 @@ const formatData = (node: ISvgNode) => {
     case "path":
       {
         const dStr = node.attr("d");
+        console.log("🚀 ~ formatData ~ dStr:", dStr);
         if (!dStr) return;
         const d = transPathD(dStr, matrixList);
         const link = {
@@ -373,7 +373,9 @@ const formatData = (node: ISvgNode) => {
           style
         };
 
-        if (links.some((item: any) => item.linkWidth === d)) return;
+        if (links.some((item: any) => item.linkPath === d)) return;
+        console.log("link", link);
+
         links.push(link);
       }
       break;
@@ -413,8 +415,6 @@ export const parseSvg = (file: File) => {
         height = +viewBoxList[3];
       }
 
-      console.log(width, height);
-
       mapStore.setMapSize(width, height);
       //   获取svg的getBoundingClientRect和实际的大小
       //  再获取子节点getBoundingClientRect
@@ -426,12 +426,14 @@ export const parseSvg = (file: File) => {
       }
 
       traverse(svg.selectChildren());
+      const defs = svg.select("defs").empty() ? "" : svg.select("defs").html();
       con.remove();
 
       resolve({
         nodes: structuredClone<INode[]>(nodes),
         links: structuredClone<ILink[]>(links),
-        name: file.name
+        name: file.name,
+        defs
       });
     };
     reader.readAsText(file); // 以文本格式读取文件内容

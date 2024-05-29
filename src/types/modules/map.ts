@@ -8,6 +8,7 @@ export interface IMapSource {
   internalBind: Record<string, string>;
   description: Record<string, string>;
   menuId: string;
+  defs?: string;
   updatedBy: string;
   updatedTime: string;
 }
@@ -20,6 +21,7 @@ export interface IMapModel {
   width: number;
   background: string;
   mapIndex: number;
+  defs?: string;
   externalBind: Record<string, string>;
   internalBind: Record<string, string>;
   description: Record<string, string>;

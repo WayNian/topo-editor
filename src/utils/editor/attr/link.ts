@@ -22,7 +22,6 @@ export const attrLink = (link: IPath, shadowlink: IPath) => {
       }
       return style;
     })
-    .style("fill", "none")
     .style("pointer-events", "none");
 
   shadowlink
