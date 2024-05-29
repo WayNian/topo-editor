@@ -18,9 +18,9 @@ export const removeSelectedLink = () => {
 const appendLink = (enter: IEnter<ILink>) => {
   const enterG = enter.append<SVGGElement>("g");
   const link = enterG.append<SVGPathElement>("path");
-  const shadowlink = enterG.append<SVGPathElement>("path");
+  //   const shadowlink = enterG.append<SVGPathElement>("path");
   attrLinkG(enterG);
-  attrLink(link, shadowlink);
+  attrLink(link);
   bindLinkDrag(enterG);
   setLinkRect(enterG);
 
@@ -29,8 +29,8 @@ const appendLink = (enter: IEnter<ILink>) => {
 
 const updateLink = (update: IUpdate<ILink>) => {
   const link = update.select<SVGPathElement>("path.link");
-  const shadowlink = update.select<SVGPathElement>("path.shadow-link");
-  attrLink(link, shadowlink);
+  //   const shadowlink = update.select<SVGPathElement>("path.shadow-link");
+  attrLink(link);
   setLinkRect(update);
   return update;
 };

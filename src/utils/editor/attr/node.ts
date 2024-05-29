@@ -17,7 +17,11 @@ export const attrNodeG = (nodeG: ISVGG<INode, SVGGElement>) => {
     .attr("id", (d) => {
       return `node_${d.nodeId}${d.isMerge ? "_merge" : ""}`;
     })
-    .attr("transform", (d) => `translate(${d.x}, ${d.y})`)
+    .attr("transform", (d) => {
+      //   console.log("d", d.nodeId, d.x, d.y);
+
+      return `translate(${d.x}, ${d.y})`;
+    })
     .attr("cursor", "pointer");
 };
 

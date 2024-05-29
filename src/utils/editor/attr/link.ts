@@ -11,7 +11,7 @@ export const attrLinkGTrans = (el: SVGGElement, tx: number, ty: number) => {
   d3.select(el).attr("transform", `translate(${tx}, ${ty})`);
 };
 
-export const attrLink = (link: IPath, shadowlink: IPath) => {
+export const attrLink = (link: IPath) => {
   link
     .attr("class", "link")
     .attr("d", (d) => d.linkPath)
@@ -22,16 +22,18 @@ export const attrLink = (link: IPath, shadowlink: IPath) => {
       }
       return style;
     })
-    .style("pointer-events", "none");
-
-  shadowlink
-    .attr("class", "shadow-link")
-    .attr("d", (d) => d.linkPath)
-    .attr("stroke", "transparent")
-    .attr("stroke-width", (d) => parseFloat(d.style["stroke-width"] + "") * 2)
-    .attr("fill", "none")
     .style("pointer-events", "painted")
     .style("cursor", "pointer");
+
+  //   shadowlink
+  //     .attr("class", "shadow-link")
+  //     .attr("d", (d) => d.linkPath)
+  //     .attr("stroke", "transparent")
+  //     .attr("stroke-width", (d) => parseFloat(d.style["stroke-width"] + "") * 2)
+  //     .attr("fill", "none")
+  //     // 获取linkPath的尾部是否为z或者Z
+  //     .style("pointer-events", "painted")
+  //     .style("cursor", "pointer");
 };
 
 export const attrUpdateLink = (d: ILink) => {
@@ -47,10 +49,10 @@ export const attrUpdateLink = (d: ILink) => {
       return style;
     });
 
-  linkG
-    .select("path.shadow-link")
-    .attr("d", d.linkPath)
-    .attr("stroke-width", parseFloat(d.style["stroke-width"] + "") * 2);
+  //   linkG
+  //     .select("path.shadow-link")
+  //     .attr("d", d.linkPath)
+  //     .attr("stroke-width", parseFloat(d.style["stroke-width"] + "") * 2);
 
   const { x, y, width, height } = linkG.node()!.getBBox();
   d.x = x;
@@ -61,6 +63,13 @@ export const attrUpdateLink = (d: ILink) => {
 
 export const attrLinkDrag = (isSpaceDown: boolean) => {
   d3.selectAll("path.shadow-link").style("pointer-events", isSpaceDown ? "none" : "painted");
+  d3.selectAll("path.link").style("pointer-events", isSpaceDown ? "none" : "painted");
+
+  //   d3.selectAll("path.shadow-link").each(function (d) {
+  //     d3.select(this).style("cursor", function () {
+  //         return isSpaceDown ? "none" : "painted";
+  //     });
+  //   });
 };
 
 export const attrSelectedLink = (link: IPath) => {

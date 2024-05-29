@@ -64,6 +64,7 @@ import DragAssistant from "@/components/SvgEditor/Editor/DragAssistant.vue";
 import AddGroup from "@/components/SvgEditor/Modal/Group/Add.vue";
 import { useSvgMenu } from "@/hooks/svg/useSvgMenu";
 import { bindDragSelectionEvent } from "@/utils/editor/event/selection";
+import { attrSelectionDrag } from "@/utils/editor/attr/selection";
 
 const dataStore = useDataStore();
 const mapStore = useMapStore();
@@ -106,7 +107,7 @@ watch(
     attrLinkDrag(val);
     attrNodeDrag(val);
     attrSvgDrag(val);
-    // attrSelectionDrag(val);
+    attrSelectionDrag(!val);
   }
 );
 

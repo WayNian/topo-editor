@@ -188,7 +188,11 @@ const formatData = (node: ISvgNode) => {
 
   //   if (!id) return;
 
-  if (!["circle", "ellipse", "image", "text", "rect", "polyline", "line", "path"].includes(tagName))
+  if (
+    !["circle", "ellipse", "image", "use", "text", "rect", "polyline", "line", "path"].includes(
+      tagName
+    )
+  )
     return;
 
   const matrixList = collectNodeMatrix(el);
@@ -225,6 +229,7 @@ const formatData = (node: ISvgNode) => {
         });
       }
       break;
+    case "use":
     case "image":
       {
         const text = node.text();
@@ -374,7 +379,6 @@ const formatData = (node: ISvgNode) => {
     case "path":
       {
         const dStr = node.attr("d");
-        console.log("🚀 ~ formatData ~ dStr:", dStr);
         if (!dStr) return;
         const d = transPathD(dStr, matrixList);
         const link = {
@@ -387,8 +391,6 @@ const formatData = (node: ISvgNode) => {
         };
 
         if (links.some((item: any) => item.linkPath === d)) return;
-        console.log("link", link);
-
         links.push(link);
       }
       break;
@@ -438,8 +440,11 @@ export const parseSvg = (file: File) => {
         yScale = height / svgRect.height;
       }
 
-      traverse(svg.selectChildren());
       const defs = svg.select("defs").empty() ? "" : svg.select("defs").html();
+      svg.selectAll("defs").remove();
+
+      traverse(svg.selectChildren());
+
       con.remove();
 
       resolve({
