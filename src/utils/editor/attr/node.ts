@@ -51,6 +51,7 @@ export const attrText = (text: ISVGText<INode>, tspan: ISVGTspant<INode>) => {
     .attr("width", (d) => d.width)
     .attr("height", (d) => d.height)
     .attr("alignment-baseline", "before-edge")
+    .attr("transform", (d) => `rotate(${d.rotate})`)
     .attr("style", (d) => {
       let style = "";
       for (const key in d.style) {

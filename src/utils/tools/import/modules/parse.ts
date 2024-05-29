@@ -146,6 +146,15 @@ const getScaleXByMatrix = (matrixList: number[][]) => {
 
   return scaleX;
 };
+
+const getRotateByMatrix = (matrixList: number[][]) => {
+  let rotate = 0;
+  matrixList.forEach((matrix) => {
+    rotate += Math.atan2(matrix[1], matrix[0]) * (180 / Math.PI);
+  });
+
+  return +rotate.toFixed(2);
+};
 const transPathD = (d: string, matrixList: number[][]) => {
   let d1 = new SVGPathData(d);
   matrixList.forEach((matrix) => {
@@ -184,6 +193,7 @@ const formatData = (node: ISvgNode) => {
 
   const matrixList = collectNodeMatrix(el);
   const _scaleX = getScaleXByMatrix(matrixList);
+  const rotate = getRotateByMatrix(matrixList);
 
   const { style } = formatStyle(s, _scaleX);
 
@@ -235,6 +245,7 @@ const formatData = (node: ISvgNode) => {
           nodeType: "image",
           position: { x: position[0], y: position[1] },
           size: { width: size[0], height: size[1] },
+          rotate,
           nodePosition,
           nodeSize: `${size[0]}*${size[1]}`,
           nodeStyles: JSON.stringify(style),
@@ -270,6 +281,7 @@ const formatData = (node: ISvgNode) => {
           nodeType: "text",
           position: { x: position[0], y: position[1] },
           size: { width: size[0], height: size[1] },
+          rotate,
           nodePosition,
           nodeSize: `${size[0]}*${size[1]}`,
           nodeStyles: JSON.stringify(style),
@@ -298,6 +310,7 @@ const formatData = (node: ISvgNode) => {
           nodeType: "rect",
           position: { x: position[0], y: position[1] },
           size: { width: size[0], height: size[1] },
+          rotate,
           nodePosition,
           nodeSize: `${size[0]}*${size[1]}`,
           nodeStyles: JSON.stringify(style),
