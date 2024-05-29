@@ -1,5 +1,13 @@
 
 
+## [0.1.2](http://172.19.139.41:8088/nwang/topo-editor-base/-/compare/0.1.1...0.1.2) (2024-05-29)
+
+
+### ✨新功能
+
+* 新增文本导入旋转 ([b07b3cd](http://172.19.139.41:8088/nwang/topo-editor-base/-/commit/b07b3cd0b95bf3c1806c84e25fdfbc6c9946e9cb))
+* 新增defs导入 ([95521b1](http://172.19.139.41:8088/nwang/topo-editor-base/-/commit/95521b199a8f9d10eadd0218f959df580e666e05))
+
 ## [0.1.1](http://172.19.139.41:8088/nwang/topo-editor-base/-/compare/0.1.0...0.1.1) (2024-05-28)
 
 
