@@ -122,6 +122,15 @@ export const setLinksSelected = (link?: ILink) => {
   }
 };
 
+export const setNodesLinksSelected = () => {
+  const dataStore = useDataStore();
+  dataStore.nodes.forEach((item) => {
+    item.selected = true;
+  });
+  dataStore.links.forEach((item) => {
+    item.selected = true;
+  });
+};
 /**
  * 清除已选择的节点和连线
  */

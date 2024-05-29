@@ -40,7 +40,7 @@ const dragEnd = (e: any, d: ILink, el: SVGGElement) => {
   const commonStore = useCommonStore();
   const svgStore = useSvgStore();
 
-  attrSelectionDrag(false);
+  //   attrSelectionDrag(false);
 
   //   表示连线没有移动
   if (tx === 0 && ty === 0) return;

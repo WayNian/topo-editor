@@ -88,5 +88,5 @@ export const EditMenu: Record<ISelectType, any> = {
   node: [...AlignMenu, ...CommonMenu],
   link: [...AlignMenu, ...CommonMenu],
   svg: [...AlignMenu],
-  group: [...AlignMenu, ...GroupMenu]
+  group: [...AlignMenu, ...GroupMenu, ...CommonMenu]
 };

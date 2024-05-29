@@ -13,6 +13,7 @@ export const useCommonStore = defineStore("common", () => {
 
   const isSpaceDown = ref(false);
   const isShiftDown = ref(false);
+  const isCtrlADown = ref(false);
 
   const selectedBoxInfo = ref({
     x: 0,
@@ -27,6 +28,7 @@ export const useCommonStore = defineStore("common", () => {
     importType,
     isSpaceDown,
     isShiftDown,
+    isCtrlADown,
     isLoading,
     collapsed,
     selectedBoxInfo

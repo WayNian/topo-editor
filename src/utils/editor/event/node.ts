@@ -40,7 +40,7 @@ const dragging = (e: any, d: INode, el: SVGGElement) => {
 const dragEnd = (e: any, d: INode) => {
   const commonStore = useCommonStore();
   const svgStore = useSvgStore();
-  attrSelectionDrag(false);
+  //   attrSelectionDrag(false);
 
   //   表示节点没有移动
   if (tx === 0 && ty === 0) return;

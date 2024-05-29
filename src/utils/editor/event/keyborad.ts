@@ -19,6 +19,12 @@ export const bindWindowEvent = () => {
       case "Delete":
         emitter.emit("on:delete");
         break;
+      // ctrl + a
+      case "KeyA":
+        if (e.ctrlKey) {
+          commonStore.isCtrlADown = true;
+        }
+        break;
     }
   });
   d3.select("body").on("keyup", function (e) {
@@ -28,6 +34,9 @@ export const bindWindowEvent = () => {
         break;
       case "Space":
         commonStore.isSpaceDown = false;
+        break;
+      case "KeyA":
+        commonStore.isCtrlADown = false;
         break;
     }
   });

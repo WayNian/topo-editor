@@ -55,7 +55,7 @@
 import { computed, onMounted, watch } from "vue";
 import { useCommonStore, useDataStore, useMapStore } from "@/stores/";
 import { bindDragPointEvent } from "@/utils/editor/event/point";
-import { getImageUrl, onDroped } from "@/utils/tools";
+import { getImageUrl, onDroped, setNodesLinksSelected } from "@/utils/tools";
 import { EditMenu } from "@/utils/constant";
 import { attrLinkDrag, attrNodeDrag, attrSvgDrag } from "@/utils/editor/attr";
 import MoveToSublayerModal from "@/components/SvgEditor/Modal/Sublayer/MoveToSublayer.vue";
@@ -107,6 +107,13 @@ watch(
     attrNodeDrag(val);
     attrSvgDrag(val);
     // attrSelectionDrag(val);
+  }
+);
+
+watch(
+  () => commonStore.isCtrlADown,
+  (val) => {
+    val && setNodesLinksSelected();
   }
 );
 </script>
