@@ -1,5 +1,12 @@
 
 
+## [0.1.4](http://172.19.139.41:8088/nwang/topo-editor-base/-/compare/0.1.3...0.1.4) (2024-05-30)
+
+
+### ✨新功能
+
+* 优化导入显示 ([834d026](http://172.19.139.41:8088/nwang/topo-editor-base/-/commit/834d02640e8a7eba885527f94587d5e447bbd095))
+
 ## [0.1.3](http://172.19.139.41:8088/nwang/topo-editor-base/-/compare/0.1.2...0.1.3) (2024-05-30)
 
 
