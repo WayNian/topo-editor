@@ -63,7 +63,7 @@ export const generateNodeLink = (
       nodeSize: val.objType === "text" ? "120*30" : "100*100",
       rotate: 0,
       nodeStyles: `{"fill": "#19be6b","image":"${val.objImg}"}`,
-      nodeText: "",
+      nodeText: "示例文字",
       fontSize: "16",
       fontColor: "#ffffff",
       textPosition: "0,0",

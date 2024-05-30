@@ -245,10 +245,13 @@ const formatData = (node: ISvgNode) => {
 
         if (nodes.some((item: any) => item.nodePosition === nodePosition)) return;
 
+        if (!style.fill) {
+          style.fill = "#63e2b7";
+        }
         nodes.push({
           ...commonNode,
           domId: id,
-          nodeType: "image",
+          nodeType: "rect",
           position: { x: position[0], y: position[1] },
           size: { width: size[0], height: size[1] },
           rotate,
@@ -444,7 +447,6 @@ export const parseSvg = (file: File) => {
       }
 
       const defs = svg.select("defs").empty() ? "" : svg.select("defs").html();
-      svg.selectAll("defs").remove();
 
       traverse(svg.selectChildren());
 
