@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import type { ISVGG, ISVGRect } from "@/types";
-import { useMapStore } from "@/stores";
+import { useMapStore, useSvgStore } from "@/stores";
 
 export const attrSvg = () => {
   d3.select<SVGSVGElement, any>("#svgEditor").style("background-color", "black");
@@ -14,16 +14,23 @@ export const attrSvgDraging = (isDragging: boolean) => {
   d3.select<SVGSVGElement, any>("#svgEditor").style("cursor", isDragging ? "grabbing" : "grab");
 };
 
+const getBgFill = () => {
+  const mapStore = useMapStore();
+  const svgStore = useSvgStore();
+  let fill = svgStore.defaultBgFill;
+  if (svgStore.isBgSHow) {
+    fill = mapStore.mapInfo?.background ? "url(#mapBg)" : svgStore.defaultBgFill;
+  }
+  return fill;
+};
+
 export const attrMapBackground = (mapBackground?: ISVGRect<any>) => {
   const mapStore = useMapStore();
   const { width, height } = mapStore.mapSize;
   if (!mapBackground) {
     mapBackground = d3.select<SVGRectElement, any>("#mapBackground");
   }
-  mapBackground
-    .attr("width", width)
-    .attr("height", height)
-    .attr("fill", mapStore.mapInfo?.background ? "url(#mapBg)" : "#3b3b3b");
+  mapBackground.attr("width", width).attr("height", height).attr("fill", getBgFill());
 };
 
 export const attrMap = (map: ISVGG<any, HTMLElement>, trans: d3.ZoomTransform) => {

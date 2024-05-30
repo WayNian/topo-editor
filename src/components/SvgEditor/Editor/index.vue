@@ -31,7 +31,7 @@
           y="0"
           :width="mapStore.mapSize.width"
           :height="mapStore.mapSize.height"
-          preserveAspectRatio="xMinYMin slice"
+          preserveAspectRatio="none slice"
         />
       </pattern>
     </defs>
@@ -53,7 +53,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, watch } from "vue";
-import { useCommonStore, useDataStore, useMapStore } from "@/stores/";
+import { useCommonStore, useDataStore, useMapStore, useSvgStore } from "@/stores/";
 import { bindDragPointEvent } from "@/utils/editor/event/point";
 import { getImageUrl, onDroped, setNodesLinksSelected } from "@/utils/tools";
 import { EditMenu } from "@/utils/constant";
@@ -68,6 +68,7 @@ import { attrSelectionDrag } from "@/utils/editor/attr/selection";
 
 const dataStore = useDataStore();
 const mapStore = useMapStore();
+const svgStore = useSvgStore();
 const commonStore = useCommonStore();
 
 const {
@@ -94,6 +95,7 @@ const handleDrop = (e: DragEvent) => {
 
 const bgUrl = computed(() => {
   const preUrl = getImageUrl();
+  if (svgStore.bgType === "local") return svgStore.bgUrl;
   return preUrl + mapStore.mapInfo?.background;
 });
 onMounted(() => {

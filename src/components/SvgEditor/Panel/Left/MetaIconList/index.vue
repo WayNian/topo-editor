@@ -20,8 +20,8 @@
           @dragstart="handleDragStart($event, itemChild)"
           class="flex flex-col items-center px-4 py-2 bg-#3b3b3b rounded-1 hover:opacity-80 cursor-grab"
         >
-          <img :src="itemChild.objImg" class="w-6 h-6 select-none" draggable="false" />
-          <span class="text-xs mt-2 select-none">{{ itemChild.objName }}</span>
+          <img :src="urlPrefix + itemChild.objImg" class="w-6 h-6 select-none" draggable="false" />
+          <span class="text-xs mt-2 select-none break-all">{{ itemChild.objName }}</span>
         </n-grid-item>
       </n-grid>
     </div>
@@ -31,10 +31,12 @@
 <script setup lang="ts">
 import { useMetaStore } from "@/stores";
 import type { IMetaItem } from "@/types";
+import { getImageUrl } from "@/utils/tools";
 import { onMounted } from "vue";
 
 const metaStore = useMetaStore();
 
+const urlPrefix = getImageUrl();
 const handleDragStart = (e: DragEvent, val: IMetaItem) => {
   e.dataTransfer?.setData("text/plain", JSON.stringify(val));
 };
