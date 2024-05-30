@@ -1,5 +1,15 @@
 
 
+## [0.1.3](http://172.19.139.41:8088/nwang/topo-editor-base/-/compare/0.1.2...0.1.3) (2024-05-30)
+
+
+### ✨新功能
+
+* 新增背景图是否显示 ([8c9e93f](http://172.19.139.41:8088/nwang/topo-editor-base/-/commit/8c9e93fc87ab7f5b7f2a50206c0ff35cf244b8de))
+* 新增元素全选 ([c66aa77](http://172.19.139.41:8088/nwang/topo-editor-base/-/commit/c66aa77f99aa76daf1e9e5cbb9f9b18c582b7033))
+* 优化线路导入 ([eb053b6](http://172.19.139.41:8088/nwang/topo-editor-base/-/commit/eb053b6c8df92194952fdc41e7a25f8ff40d56c1))
+* 优化元素选择 ([2437bd0](http://172.19.139.41:8088/nwang/topo-editor-base/-/commit/2437bd0363b7969b9deb43ef240cecc852887291))
+
 ## [0.1.2](http://172.19.139.41:8088/nwang/topo-editor-base/-/compare/0.1.1...0.1.2) (2024-05-29)
 
 
