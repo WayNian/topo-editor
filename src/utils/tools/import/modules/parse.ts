@@ -65,7 +65,8 @@ const formatStyle = (style: string, scale: number) => {
     if (!key) return;
     obj[key] = value;
     if (key === "stroke-width") {
-      obj[key] = (parseFloat(value) * scale).toFixed(2) + "px";
+      const width = Math.max(parseFloat(value) * scale, 1);
+      obj[key] = width + "px";
     }
     if (key === "stroke-dasharray") {
       obj[key] = value
@@ -385,10 +386,12 @@ const formatData = (node: ISvgNode) => {
           domId: id,
           linkType: "link",
           linkPath: d,
-          linkWidth: parseFloat(style["stroke-width"] + "" || node.attr("stroke-width")) || 1,
+          linkWidth: parseFloat(style["stroke-width"] + ""),
           linkStyles: JSON.stringify(style),
           style
         };
+
+        console.log("线宽", parseFloat(style["stroke-width"] + ""));
 
         if (links.some((item: any) => item.linkPath === d)) return;
         links.push(link);
