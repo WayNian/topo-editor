@@ -233,6 +233,7 @@ const formatData = (node: ISvgNode) => {
     case "use":
     case "image":
       {
+        if (!node.node() || (node.node() as SVGElement).parentNode?.nodeName === "defs") return;
         const text = node.text();
         const x = +parseFloat(node.attr("x"));
         const y = +parseFloat(node.attr("y"));
