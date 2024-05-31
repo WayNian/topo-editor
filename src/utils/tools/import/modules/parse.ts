@@ -65,7 +65,7 @@ const formatStyle = (style: string, scale: number) => {
     if (!key) return;
     obj[key] = value;
     if (key === "stroke-width") {
-      const width = Math.max(parseFloat(value) * scale, 1);
+      const width = parseFloat(value) * scale;
       obj[key] = width + "px";
     }
     if (key === "stroke-dasharray") {
@@ -141,11 +141,20 @@ const getPosionByMatrix = (point: IPoint, matrixList: number[][]) => {
 
 const getScaleXByMatrix = (matrixList: number[][]) => {
   let scaleX = 1;
-  matrixList.forEach((matrix) => {
-    scaleX *= Math.abs(matrix[0]);
+  matrixList.forEach(([a, b]) => {
+    scaleX *= Math.sqrt(a * a + b * b);
   });
 
   return scaleX;
+};
+
+const getScaleYByMatrix = (matrixList: number[][]) => {
+  let scaleY = 1;
+  matrixList.forEach(([a, b, c, d]) => {
+    scaleY *= Math.sqrt(c * c + d * d);
+  });
+
+  return scaleY;
 };
 
 const getRotateByMatrix = (matrixList: number[][]) => {
@@ -198,9 +207,12 @@ const formatData = (node: ISvgNode) => {
 
   const matrixList = collectNodeMatrix(el);
   const _scaleX = getScaleXByMatrix(matrixList);
+  const _scaleY = getScaleYByMatrix(matrixList);
+  const _scale = Math.sqrt(_scaleX * _scaleY);
+
   const rotate = getRotateByMatrix(matrixList);
 
-  const { style } = formatStyle(s, _scaleX);
+  const { style } = formatStyle(s, _scale);
 
   switch (tagName) {
     case "ellipse":
@@ -267,19 +279,14 @@ const formatData = (node: ISvgNode) => {
     case "text":
       {
         const text = node.text();
-        const x = +parseFloat(node.attr("x"));
-        const y = +parseFloat(node.attr("y"));
         const rect = el.getBoundingClientRect();
 
-        const position = getPosionByMatrix([x, y], matrixList);
+        const position = [rect.x * scaleX, rect.y * yScale];
         const size = [rect.width * scaleX, rect.height * yScale];
 
-        const fontSize = (
-          parseFloat(style["font-size"] + "" || node.attr("font-size")) * _scaleX
-        ).toFixed(2);
-        style["font-size"] = fontSize + "px";
-        if (style["alignment-baseline"] !== "before-edge") {
-          position[1] -= +fontSize;
+        const fontSize = parseFloat(style["font-size"] + "" || node.attr("font-size")) * _scale;
+        if (fontSize) {
+          style["font-size"] = fontSize + "px";
         }
 
         const nodePosition = `${position[0]},${position[1]}`;
