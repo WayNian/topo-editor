@@ -1,6 +1,7 @@
 import type { IMetaSource, IMetaItem } from "@/types";
 import { MetaBaseIconList } from "@/utils/constant";
 import { getGroupList } from "@/utils/http/apis";
+import { getImageUrl } from "@/utils/tools";
 import type { TreeOption } from "naive-ui";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
@@ -21,6 +22,7 @@ const getGroupData = (list: IMetaSource[]) => {
 };
 
 const getTableData = (list: IMetaSource[]) => {
+  const urlPrefix = getImageUrl();
   return list
     .map((item) => {
       return item.objList.map((obj) => {
@@ -34,6 +36,7 @@ const getTableData = (list: IMetaSource[]) => {
     .map((item, index) => {
       return {
         ...item,
+        objImg: urlPrefix + item.objImg,
         index: index + 1
       };
     });

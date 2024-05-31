@@ -20,7 +20,11 @@
           @dragstart="handleDragStart($event, itemChild)"
           class="flex flex-col items-center px-4 py-2 bg-#3b3b3b rounded-1 hover:opacity-80 cursor-grab"
         >
-          <img :src="urlPrefix + itemChild.objImg" class="w-6 h-6 select-none" draggable="false" />
+          <img
+            :src="item.groupId === 'base' ? itemChild.objImg : urlPrefix + itemChild.objImg"
+            class="w-6 h-6 select-none"
+            draggable="false"
+          />
           <span class="text-xs mt-2 select-none break-all">{{ itemChild.objName }}</span>
         </n-grid-item>
       </n-grid>
