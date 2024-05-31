@@ -8,7 +8,7 @@
     <p class="truncate">{{ dataStore.currentNode?.nodeType }}</p>
   </Item>
   <n-divider />
-  <n-collapse :default-expanded-names="['1']">
+  <n-collapse :default-expanded-names="['1', '2', '3']">
     <n-collapse-item title="基础" name="1">
       <Item title="尺寸">
         <n-flex :wrap="false">
@@ -45,7 +45,7 @@
         </n-flex>
       </Item>
     </n-collapse-item>
-    <n-collapse-item title="其他" name="2">
+    <n-collapse-item title="图元" name="2">
       <Item title="图元">
         <n-flex :wrap="false">
           <n-select
@@ -57,6 +57,16 @@
             @update:value="changeMetaIcon"
           />
         </n-flex>
+      </Item>
+    </n-collapse-item>
+    <n-collapse-item title="文字" name="3">
+      <Item title="内容">
+        <n-input
+          :value="dataStore.currentNode?.nodeText"
+          size="small"
+          placeholder="请输入文字"
+          @update:value="updateContent"
+        />
       </Item>
     </n-collapse-item>
   </n-collapse>
@@ -96,6 +106,12 @@ const changeMetaIcon = (value: string, { row }: { row: IMetaItem }) => {
 const updateSize = (key: "width" | "height", value: number) => {
   if (!dataStore.currentNode) return;
   dataStore.currentNode[key] = value;
+  updateNodeAttribute();
+};
+
+const updateContent = (value: string) => {
+  if (!dataStore.currentNode) return;
+  dataStore.currentNode.nodeText = value;
   updateNodeAttribute();
 };
 
