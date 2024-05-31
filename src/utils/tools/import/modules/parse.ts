@@ -282,6 +282,9 @@ const formatData = (node: ISvgNode) => {
         if (fontSize) {
           style["font-size"] = fontSize + "px";
         }
+        if (String(style.fill).includes("url")) {
+          style.fill = "#ffffff";
+        }
 
         const nodePosition = `${position[0]},${position[1]}`;
         if (nodes.some((item: any) => item.nodePosition === nodePosition)) return;

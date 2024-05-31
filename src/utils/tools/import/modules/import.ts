@@ -56,6 +56,7 @@ export const selectMap = async (map: IMapSource) => {
   clearSvg();
   mapStore.sublayerIds = [];
   mapStore.setMapInfo(map);
+  await mapStore.getSublayers(map.mapId);
   await getNodeLinkList(map.mapId);
   draw();
   await getMapGroupData(map.mapId);
