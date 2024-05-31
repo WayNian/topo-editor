@@ -27,6 +27,7 @@ declare module 'vue' {
     MetaIconList: typeof import('./src/components/SvgEditor/Panel/Left/MetaIconList/index.vue')['default']
     MetaTree: typeof import('./src/components/MetaIcon/MetaTree/index.vue')['default']
     MoveToSublayer: typeof import('./src/components/SvgEditor/Modal/Sublayer/MoveToSublayer.vue')['default']
+    Multi: typeof import('./src/components/SvgEditor/Panel/Right/Attribute/Multi/index.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
     NCascader: typeof import('naive-ui')['NCascader']

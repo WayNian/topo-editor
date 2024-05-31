@@ -47,16 +47,14 @@
     </n-collapse-item>
     <n-collapse-item title="图元" name="2">
       <Item title="图元">
-        <n-flex :wrap="false">
-          <n-select
-            :value="dataStore.currentNode?.nodeType"
-            filterable
-            placeholder="选择图元"
-            size="small"
-            :options="metaStore.metaOptions"
-            @update:value="changeMetaIcon"
-          />
-        </n-flex>
+        <n-select
+          :value="dataStore.currentNode?.nodeType"
+          filterable
+          placeholder="选择图元"
+          size="small"
+          :options="metaStore.metaOptions"
+          @update:value="changeMetaIcon"
+        />
       </Item>
     </n-collapse-item>
     <n-collapse-item title="文字" name="3">
