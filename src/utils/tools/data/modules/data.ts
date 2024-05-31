@@ -234,6 +234,10 @@ export const deleteNodesLinks = async () => {
 
   dataStore.nodes = dataStore.nodes.filter((node) => !nodeIdList.includes(node.nodeId));
   dataStore.links = dataStore.links.filter((link) => !linkIdList.includes(link.linkId));
+
+  dataStore.nodesAll = dataStore.nodesAll.filter((node) => !nodeIdList.includes(node.nodeId));
+  dataStore.linksAll = dataStore.linksAll.filter((link) => !linkIdList.includes(link.linkId));
+
   window.$message.success("删除成功");
   commonStore.isLoading = false;
 

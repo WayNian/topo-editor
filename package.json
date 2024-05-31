@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "release": "release-it",
     "dev": "vite",
-    "build": "release-it && run-p type-check \"build-only {@}\" --",
+    "build": "run-p type-check \"build-only {@}\" --",
+    "release": "release-it && run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",

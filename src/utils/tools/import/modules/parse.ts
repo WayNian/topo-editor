@@ -218,15 +218,12 @@ const formatData = (node: ISvgNode) => {
     case "ellipse":
     case "circle":
       {
-        const x = +node.attr("cx");
-        const y = +node.attr("cy");
         const rect = el.getBoundingClientRect();
 
-        const position = getPosionByMatrix([x, y], matrixList);
+        const position = [rect.x * scaleX, rect.y * yScale];
         const width = rect.width * scaleX;
         const height = rect.height * yScale;
-
-        const nodePosition = `${position[0] - width / 2},${position[1] - height / 2}`;
+        const nodePosition = `${position[0]},${position[1]}`;
 
         if (nodes.some((item: any) => item.nodePosition === nodePosition)) return;
 
@@ -246,12 +243,9 @@ const formatData = (node: ISvgNode) => {
     case "image":
       {
         if (!node.node() || (node.node() as SVGElement).parentNode?.nodeName === "defs") return;
-        const text = node.text();
-        const x = +parseFloat(node.attr("x"));
-        const y = +parseFloat(node.attr("y"));
         const rect = el.getBoundingClientRect();
 
-        const position = getPosionByMatrix([x, y], matrixList);
+        const position = [rect.x * scaleX, rect.y * yScale];
         const size = [rect.width * scaleX, rect.height * yScale];
 
         const nodePosition = `${position[0]},${position[1]}`;
@@ -272,7 +266,7 @@ const formatData = (node: ISvgNode) => {
           nodeSize: `${size[0]}*${size[1]}`,
           nodeStyles: JSON.stringify(style),
           style,
-          nodeText: text
+          nodeText: ""
         });
       }
       break;
@@ -310,11 +304,9 @@ const formatData = (node: ISvgNode) => {
 
     case "rect":
       {
-        const x = +parseFloat(node.attr("x"));
-        const y = +parseFloat(node.attr("y"));
         const rect = el.getBoundingClientRect();
 
-        const position = getPosionByMatrix([x, y], matrixList);
+        const position = [rect.x * scaleX, rect.y * yScale];
         const size = [rect.width * scaleX, rect.height * yScale];
 
         const nodePosition = `${position[0]},${position[1]}`;

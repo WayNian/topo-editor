@@ -43,7 +43,7 @@
           class="merge-item"
           @click="selectMergeNodeItem(item)"
         >
-          <div class="break-words break-all">连线{{ item.domId }}</div>
+          <div class="break-words break-all">{{ item.domId }}</div>
           <div v-if="activeNodeItem === item" class="flex justify-between mt-4">
             <div class="merge-item-menu">
               <n-button
