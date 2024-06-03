@@ -51,6 +51,7 @@ const zooming = (e: d3.D3ZoomEvent<SVGSVGElement, any>) => {
   const svgStore = useSvgStore();
   const commonStore = useCommonStore();
 
+  svgStore.zoom = e.transform.k;
   // 按下空格的时候，才能进行移动和缩放，否则只能缩放
   if (zoomTran.k === e.transform.k && !commonStore.isSpaceDown) {
     isZoom = false;

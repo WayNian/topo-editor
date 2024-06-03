@@ -9,6 +9,7 @@ export const useSvgStore = defineStore("svg", () => {
   const bgUrl = ref("");
   const defaultBgFill = ref("#3b3b3b");
 
+  const zoom = ref(1);
   const zoomTrans = ref({
     x: 0,
     y: 0,
@@ -19,5 +20,5 @@ export const useSvgStore = defineStore("svg", () => {
     y: 0
   });
 
-  return { scale, isEdit, isBgSHow, bgUrl, bgType, defaultBgFill, zoomTrans, startPoint };
+  return { scale, isEdit, isBgSHow, bgUrl, bgType, defaultBgFill, zoomTrans, zoom, startPoint };
 });
