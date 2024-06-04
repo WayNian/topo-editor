@@ -8,7 +8,7 @@
       :x="item.x - rectBorderWidth / 2"
       :y="
         item.nodeType === 'text'
-          ? item.y - rectBorderWidth / 2 - item.fontSize
+          ? item.y - rectBorderWidth / 2 - +item.fontSize
           : item.y - rectBorderWidth / 2
       "
       fill="none"
@@ -120,7 +120,7 @@ const selectionBox = computed(() => {
   dataStore.nodesSelected.forEach((item) => {
     boxList.push({
       x: item.x,
-      y: item.nodeType === "text" ? item.y - item.fontSize : item.y,
+      y: item.nodeType === "text" ? item.y - +item.fontSize : item.y,
       width: item.width,
       height: item.height
     });

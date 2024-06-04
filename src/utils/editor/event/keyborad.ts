@@ -21,6 +21,7 @@ export const bindWindowEvent = () => {
         break;
       // ctrl + a
       case "KeyA":
+        e.preventDefault();
         if (e.ctrlKey) {
           commonStore.isCtrlADown = true;
         }
