@@ -29,8 +29,8 @@
 
 <script setup lang="ts">
 import type { ISublayer } from "@/types";
-import { useDataStore, useMapStore } from "@/stores";
-import { ref, watch } from "vue";
+import { useMapStore } from "@/stores";
+import { ref } from "vue";
 import PanelScrollbar from "@/components/SvgEditor/Common/PanelScrollbar/index.vue";
 import SublayerModal from "@/components/SvgEditor/Modal/Sublayer/Update.vue";
 import RemoveMultiFromSublayer from "@/components/SvgEditor/Modal/Sublayer/RemoveMultiFromSublayer.vue";
@@ -40,17 +40,9 @@ import { drawNodesLinks } from "@/utils/editor/draw";
 import { renewNodesLinks } from "@/utils/tools";
 
 const mapStore = useMapStore();
-const dataStore = useDataStore();
 
 const sublayerModalRef = ref<InstanceType<typeof SublayerModal> | null>(null);
 const RemoveMultiFromSublayerRef = ref<InstanceType<typeof RemoveMultiFromSublayer> | null>(null);
-
-watch(
-  () => mapStore.mapInfo,
-  (val) => {
-    mapStore.getSublayers(val?.mapId);
-  }
-);
 
 // 根据子图层， 显示页面中的元素
 const handleUpdateValue = (val: string[]) => {

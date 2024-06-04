@@ -1,5 +1,6 @@
-import type { ILink, INode, ISVGG, ISourceLink, ISourceNode } from "@/types";
+import type { ILink, INode, ISVGG, ISourceLink, ISourceNode, ISublayer } from "@/types";
 import { formatObject } from "../..";
+import { useMapStore } from "@/stores";
 
 // 解析路径为数组 js实现path路径解析为数组  M 283.00767973501206 301.5652924636853 L 716 673
 export function parseSvgPath(svgPath: string) {
@@ -23,11 +24,21 @@ export function parseSvgPath(svgPath: string) {
   return coordinates;
 }
 
-export const formatNode = (data: ISourceNode): INode => {
+export const formatNode = (data: ISourceNode, sublayers?: ISublayer[]): INode => {
   const { nodePosition, nodeSize, nodeStyles, textStyles } = data;
   const [x, y] = nodePosition.split(",").map((item) => Number(item));
   const [width, height] = nodeSize.split("*").map((item) => Number(item));
 
+  const sublayersFromNode =
+    data.sublayerList?.length && sublayers
+      ? sublayers
+          .filter((sublayer) =>
+            data.sublayerList.some((item) => item.sublayerId === sublayer.sublayerId)
+          )
+          .map((sublayer) => sublayer.listOrder)
+      : [-1];
+
+  const maxOrder = Math.max(...sublayersFromNode);
   return {
     ...data,
     id: data.nodeId,
@@ -36,12 +47,14 @@ export const formatNode = (data: ISourceNode): INode => {
     width,
     height,
     style: formatObject(nodeStyles),
-    textStyle: formatObject(textStyles)
+    textStyle: formatObject(textStyles),
+    zIndex: maxOrder
   };
 };
 export const formatNodes = (data: ISourceNode[]): INode[] => {
+  const mapInfo = useMapStore();
   return data.map((item) => {
-    return formatNode(item);
+    return formatNode(item, mapInfo.sublayers);
   });
 };
 

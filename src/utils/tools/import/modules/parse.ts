@@ -287,19 +287,16 @@ const formatData = (node: ISvgNode) => {
         const text = node.text();
         const rect = el.getBoundingClientRect();
 
-        node.attr("alignment-baseline", "before-edge");
-        const rect1 = el.getBoundingClientRect();
-
         const tx = rect.x * scaleX;
-        let ty = rect.y * scaleY;
+        const ty = rect.y * scaleY;
 
         const width = rect.width * scaleX;
         const height = rect.height * scaleY;
 
         const fontSize = parseFloat(style["font-size"] + "" || node.attr("font-size")) * _scale;
-        const moveY = (rect1.y - rect.y) * scaleY - fontSize;
+        // const moveY = (rect1.y - rect.y) * scaleY - fontSize;
 
-        ty = ty + moveY;
+        // ty = ty + moveY;
         const { x, y } = convertTransform(tx, ty, rotate, width / 2, height / 2);
 
         if (fontSize) {

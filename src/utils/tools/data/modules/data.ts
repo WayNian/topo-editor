@@ -10,14 +10,16 @@ export const renewNodes = () => {
   const mapStore = useMapStore();
   const dataStore = useDataStore();
   const sublayerIds = mapStore.sublayerIds;
-  dataStore.nodes = dataStore.nodesAll.filter((node) => {
-    const sublayerList = node.sublayerList || [];
-    if (!sublayerList.length) {
-      return sublayerIds.includes("other");
-    } else {
-      return sublayerList.some((sublayer) => sublayerIds.includes(sublayer.sublayerId));
-    }
-  });
+  dataStore.nodes = dataStore.nodesAll
+    .filter((node) => {
+      const sublayerList = node.sublayerList || [];
+      if (!sublayerList.length) {
+        return sublayerIds.includes("other");
+      } else {
+        return sublayerList.some((sublayer) => sublayerIds.includes(sublayer.sublayerId));
+      }
+    })
+    .sort((a, b) => Number(a.zIndex) - Number(b.zIndex));
 };
 
 /**

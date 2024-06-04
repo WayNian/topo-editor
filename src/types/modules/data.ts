@@ -58,6 +58,7 @@ export interface INode extends ISourceNode {
   selected?: boolean;
   locked?: boolean;
   groupId?: string;
+  zIndex?: number;
 }
 
 export interface IOriginalLink {
