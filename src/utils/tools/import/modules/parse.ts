@@ -16,7 +16,7 @@ const links: any = [];
 
 let svgRect: DOMRect | null = null;
 let scaleX = 1;
-let yScale = 1;
+let scaleY = 1;
 
 function parseMatrix(matrixString: string) {
   // 正则表达式匹配matrix函数的参数，允许使用逗号或空格作为分隔符
@@ -174,6 +174,17 @@ const transPathD = (d: string, matrixList: number[][]) => {
   return d1.toAbs().encode();
 };
 
+const convertTransform = (tx: number, ty: number, angle: number, cx: number, cy: number) => {
+  const radians = (angle * Math.PI) / 180;
+  const newTx = tx - (cx * (1 - Math.cos(radians)) + cy * Math.sin(radians));
+  const newTy = ty - (cy * (1 - Math.cos(radians)) - cx * Math.sin(radians));
+
+  return {
+    x: newTx,
+    y: newTy
+  };
+};
+
 const commonNode = {
   rotate: 0, //旋转角度
   nodeText: "", //节点文字
@@ -187,6 +198,7 @@ const commonNode = {
   bindSubLink: "", //关联链路点
   sublayerList: []
 };
+
 /**
  * 将svg节点解析成数据
  */
@@ -220,9 +232,9 @@ const formatData = (node: ISvgNode) => {
       {
         const rect = el.getBoundingClientRect();
 
-        const position = [rect.x * scaleX, rect.y * yScale];
+        const position = [rect.x * scaleX, rect.y * scaleY];
         const width = rect.width * scaleX;
-        const height = rect.height * yScale;
+        const height = rect.height * scaleY;
         const nodePosition = `${position[0]},${position[1]}`;
 
         if (nodes.some((item: any) => item.nodePosition === nodePosition)) return;
@@ -245,8 +257,8 @@ const formatData = (node: ISvgNode) => {
         if (!node.node() || (node.node() as SVGElement).parentNode?.nodeName === "defs") return;
         const rect = el.getBoundingClientRect();
 
-        const position = [rect.x * scaleX, rect.y * yScale];
-        const size = [rect.width * scaleX, rect.height * yScale];
+        const position = [rect.x * scaleX, rect.y * scaleY];
+        const size = [rect.width * scaleX, rect.height * scaleY];
 
         const nodePosition = `${position[0]},${position[1]}`;
 
@@ -275,29 +287,41 @@ const formatData = (node: ISvgNode) => {
         const text = node.text();
         const rect = el.getBoundingClientRect();
 
-        const position = [rect.x * scaleX, rect.y * yScale];
-        const size = [rect.width * scaleX, rect.height * yScale];
+        node.attr("alignment-baseline", "before-edge");
+        const rect1 = el.getBoundingClientRect();
+
+        const tx = rect.x * scaleX;
+        let ty = rect.y * scaleY;
+
+        const width = rect.width * scaleX;
+        const height = rect.height * scaleY;
 
         const fontSize = parseFloat(style["font-size"] + "" || node.attr("font-size")) * _scale;
+        const moveY = (rect1.y - rect.y) * scaleY - fontSize;
+
+        ty = ty + moveY;
+        const { x, y } = convertTransform(tx, ty, rotate, width / 2, height / 2);
+
         if (fontSize) {
           style["font-size"] = fontSize + "px";
         }
+
         if (String(style.fill).includes("url")) {
           style.fill = "#ffffff";
         }
 
-        const nodePosition = `${position[0]},${position[1]}`;
+        const nodePosition = `${x},${y}`;
         if (nodes.some((item: any) => item.nodePosition === nodePosition)) return;
 
         nodes.push({
           ...commonNode,
           domId: id,
           nodeType: "text",
-          position: { x: position[0], y: position[1] },
-          size: { width: size[0], height: size[1] },
+          position: { x, y },
+          size: { width, height },
           rotate,
           nodePosition,
-          nodeSize: `${size[0]}*${size[1]}`,
+          nodeSize: `${width}*${height}`,
           nodeStyles: JSON.stringify(style),
           style,
           nodeText: text
@@ -309,8 +333,8 @@ const formatData = (node: ISvgNode) => {
       {
         const rect = el.getBoundingClientRect();
 
-        const position = [rect.x * scaleX, rect.y * yScale];
-        const size = [rect.width * scaleX, rect.height * yScale];
+        const position = [rect.x * scaleX, rect.y * scaleY];
+        const size = [rect.width * scaleX, rect.height * scaleY];
 
         const nodePosition = `${position[0]},${position[1]}`;
 
@@ -336,7 +360,7 @@ const formatData = (node: ISvgNode) => {
         const y1 = +node.attr("y1");
         const x2 = +node.attr("x2");
         const y2 = +node.attr("y2");
-        const d = `M${x1 * scaleX} ${y1 * yScale} L${x2 * scaleX} ${y2 * yScale}`;
+        const d = `M${x1 * scaleX} ${y1 * scaleY} L${x2 * scaleX} ${y2 * scaleY}`;
         if (links.some((item: any) => item.linkWidth === d)) return;
         links.push({
           domId: id,
@@ -446,7 +470,7 @@ export const parseSvg = (file: File) => {
       svgRect = (svg.node() as SVGAElement)?.getBoundingClientRect();
       if (svgRect) {
         scaleX = width / svgRect.width;
-        yScale = height / svgRect.height;
+        scaleY = height / svgRect.height;
       }
 
       const defs = svg.select("defs").empty() ? "" : svg.select("defs").html();
