@@ -3,14 +3,18 @@
     <rect
       v-for="item in dataStore.nodesSelected"
       :key="item.nodeId"
-      :width="item.width + rectWidth"
-      :height="item.height + rectWidth"
-      :x="item.x - rectWidth / 2"
-      :y="item.y - rectWidth / 2"
+      :width="item.width + rectBorderWidth"
+      :height="item.height + rectBorderWidth"
+      :x="item.x - rectBorderWidth / 2"
+      :y="
+        item.nodeType === 'text'
+          ? item.y - rectBorderWidth / 2 - item.fontSize
+          : item.y - rectBorderWidth / 2
+      "
       fill="none"
       stroke-dasharray="10,5"
       stroke="#409eff"
-      :stroke-width="rectWidth"
+      :stroke-width="rectBorderWidth"
       pointer-events="none"
     />
   </g>
@@ -18,29 +22,29 @@
     <rect
       v-for="item in dataStore.linksSelected"
       :key="item.linkId"
-      :width="item.width + item.linkWidth + getStrokeWidth(item) + rectWidth"
-      :height="item.height + item.linkWidth + getStrokeWidth(item) + rectWidth"
-      :x="item.x - item.linkWidth * 0.5 - 2 - getStrokeWidth(item) / (rectWidth / 2)"
-      :y="item.y - item.linkWidth * 0.5 - 2 - getStrokeWidth(item) / (rectWidth / 2)"
+      :width="item.width + item.linkWidth + getStrokeWidth(item) + rectBorderWidth"
+      :height="item.height + item.linkWidth + getStrokeWidth(item) + rectBorderWidth"
+      :x="item.x - item.linkWidth * 0.5 - 2 - getStrokeWidth(item) / (rectBorderWidth / 2)"
+      :y="item.y - item.linkWidth * 0.5 - 2 - getStrokeWidth(item) / (rectBorderWidth / 2)"
       :transform="`translate(${item.transform.x}, ${item.transform.y})`"
       fill="none"
       stroke-dasharray="10,5"
       stroke="#409eff"
-      :stroke-width="rectWidth"
+      :stroke-width="rectBorderWidth"
       pointer-events="none"
     />
   </g>
   <g id="selectionBox" v-show="isSelectionBoxVisible" fill="#ffffff">
     <rect
       class="cursor-move"
-      :width="selectionBox.width + rectWidth"
-      :height="selectionBox.height + rectWidth"
-      :x="selectionBox.x - rectWidth / 2"
-      :y="selectionBox.y - rectWidth / 2"
+      :width="selectionBox.width + rectBorderWidth"
+      :height="selectionBox.height + rectBorderWidth"
+      :x="selectionBox.x - rectBorderWidth / 2"
+      :y="selectionBox.y - rectBorderWidth / 2"
       fill="none"
       stroke-dasharray="10,5"
       stroke="#409eff"
-      :stroke-width="rectWidth"
+      :stroke-width="rectBorderWidth"
       pointer-events="all"
     />
     <circle
@@ -94,7 +98,7 @@ const dataStore = useDataStore();
 const commonStore = useCommonStore();
 const svgStore = useSvgStore();
 
-const rectWidth = ref(4);
+const rectBorderWidth = ref(4);
 const cicleWidth = ref(8);
 const cicleStrokeWidth = ref(1);
 
@@ -116,7 +120,7 @@ const selectionBox = computed(() => {
   dataStore.nodesSelected.forEach((item) => {
     boxList.push({
       x: item.x,
-      y: item.y,
+      y: item.nodeType === "text" ? item.y - item.fontSize : item.y,
       width: item.width,
       height: item.height
     });
@@ -171,7 +175,7 @@ const getStrokeWidth = (item: ILink | null) => {
 watch(
   () => svgStore.zoomTrans.k,
   (val) => {
-    rectWidth.value = Math.min(4 / val, 4);
+    rectBorderWidth.value = Math.min(4 / val, 4);
     cicleWidth.value = Math.min(8 / val, 8);
     cicleStrokeWidth.value = Math.min(1 / val, 1);
   }

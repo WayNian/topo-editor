@@ -175,6 +175,7 @@ const transPathD = (d: string, matrixList: number[][]) => {
 };
 
 const convertTransform = (tx: number, ty: number, angle: number, cx: number, cy: number) => {
+  if (angle === 0) return { x: tx, y: ty };
   const radians = (angle * Math.PI) / 180;
   const newTx = tx - (cx * (1 - Math.cos(radians)) + cy * Math.sin(radians));
   const newTy = ty - (cy * (1 - Math.cos(radians)) - cx * Math.sin(radians));
@@ -257,7 +258,11 @@ const formatData = (node: ISvgNode) => {
         if (!node.node() || (node.node() as SVGElement).parentNode?.nodeName === "defs") return;
         const rect = el.getBoundingClientRect();
 
-        const position = [rect.x * scaleX, rect.y * scaleY];
+        const tx = +parseFloat(node.attr("x"));
+        const ty = +parseFloat(node.attr("y"));
+
+        const position = getPosionByMatrix([tx, ty], matrixList);
+
         const size = [rect.width * scaleX, rect.height * scaleY];
 
         const nodePosition = `${position[0]},${position[1]}`;
@@ -287,17 +292,15 @@ const formatData = (node: ISvgNode) => {
         const text = node.text();
         const rect = el.getBoundingClientRect();
 
-        const tx = rect.x * scaleX;
-        const ty = rect.y * scaleY;
+        const tx = +parseFloat(node.attr("x"));
+        const ty = +parseFloat(node.attr("y"));
+
+        const position = getPosionByMatrix([tx, ty], matrixList);
 
         const width = rect.width * scaleX;
         const height = rect.height * scaleY;
-
         const fontSize = parseFloat(style["font-size"] + "" || node.attr("font-size")) * _scale;
-        // const moveY = (rect1.y - rect.y) * scaleY - fontSize;
-
-        // ty = ty + moveY;
-        const { x, y } = convertTransform(tx, ty, rotate, width / 2, height / 2);
+        const { x, y } = convertTransform(position[0], position[1], rotate, width / 2, height / 2);
 
         if (fontSize) {
           style["font-size"] = fontSize + "px";
@@ -320,6 +323,7 @@ const formatData = (node: ISvgNode) => {
           nodePosition,
           nodeSize: `${width}*${height}`,
           nodeStyles: JSON.stringify(style),
+          fontSize,
           style,
           nodeText: text
         });
@@ -330,7 +334,10 @@ const formatData = (node: ISvgNode) => {
       {
         const rect = el.getBoundingClientRect();
 
-        const position = [rect.x * scaleX, rect.y * scaleY];
+        const tx = +parseFloat(node.attr("x"));
+        const ty = +parseFloat(node.attr("y"));
+
+        const position = getPosionByMatrix([tx, ty], matrixList);
         const size = [rect.width * scaleX, rect.height * scaleY];
 
         const nodePosition = `${position[0]},${position[1]}`;

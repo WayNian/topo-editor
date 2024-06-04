@@ -1,4 +1,4 @@
-import type { ILink, INode, ISVGG, ISourceLink, ISourceNode, ISublayer } from "@/types";
+import type { ILink, INode, ISVGG, ISVGText, ISourceLink, ISourceNode, ISublayer } from "@/types";
 import { formatObject } from "../..";
 import { useMapStore } from "@/stores";
 
@@ -105,6 +105,19 @@ export const setLinkRect = (enterG: ISVGG<ILink, SVGGElement>) => {
     const { x, y, width, height } = this.getBBox();
     d.x = x;
     d.y = y;
+    d.width = width;
+    d.height = height;
+  });
+};
+
+/**
+ * 设置连接线的text
+ * @param enterG
+ */
+export const setTextRect = (text: ISVGText<INode>) => {
+  text.each(function (d) {
+    const { width, height } = this.getBBox();
+    console.log("🚀 ~  width, height:", width, height);
     d.width = width;
     d.height = height;
   });

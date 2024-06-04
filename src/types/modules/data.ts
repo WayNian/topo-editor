@@ -28,7 +28,7 @@ export interface IOriginalNode {
   rotate: number;
   nodeStyles: string;
   nodeText: string;
-  fontSize: string;
+  fontSize: number;
   fontColor: string;
   textPosition: string;
   textStyles: string;

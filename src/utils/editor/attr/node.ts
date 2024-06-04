@@ -20,6 +20,7 @@ export const attrNodeG = (nodeG: ISVGG<INode, SVGGElement>) => {
     .attr("transform", (d) => {
       //   console.log("d", d.nodeId, d.x, d.y);
       return `translate(${d.x}, ${d.y}) rotate(${d.rotate} ${d.width / 2} ${d.height / 2})`;
+      //   return `translate(${d.x}, ${d.y}) rotate(${d.rotate})`;
     })
     .attr("cursor", "pointer");
 };
@@ -53,7 +54,7 @@ export const attrText = (text: ISVGText<INode>, tspan: ISVGTspant<INode>) => {
     .attr("class", "node")
     .attr("width", (d) => d.width)
     .attr("height", (d) => d.height)
-    .attr("alignment-baseline", "before-edge")
+    // .attr("alignment-baseline", "before-edge")
     .attr("style", (d) => {
       let style = "";
       for (const key in d.style) {
