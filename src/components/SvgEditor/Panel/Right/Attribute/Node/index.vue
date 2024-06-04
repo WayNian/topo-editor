@@ -66,6 +66,24 @@
           @update:value="updateContent"
         />
       </Item>
+      <!-- 字体、大小、颜色、旋转角度 -->
+      <Item title="大小">
+        <n-input-number
+          :default-value="parseFloat(dataStore.currentNode?.style['font-size'] || '14px')"
+          size="small"
+          :min="0"
+          placeholder="请输入文字大小"
+          @update:value="updateStyles('font-size', $event)"
+        />
+      </Item>
+      <Item title="颜色">
+        <n-color-picker
+          :default-value="dataStore.currentNode?.style.fill"
+          size="small"
+          :modes="['rgb', 'hex']"
+          @update:value="updateStyles('fill', $event)"
+        />
+      </Item>
     </n-collapse-item>
   </n-collapse>
 </template>
@@ -76,7 +94,7 @@ import Item from "../Item/index.vue";
 import { ref, watch } from "vue";
 import { formatObject } from "@/utils/tools";
 import type { IMetaItem } from "@/types";
-import { drawNodes, removeNode } from "@/utils/editor/draw";
+import { updateNodeById, removeNode } from "@/utils/editor/draw";
 import { updateNode } from "@/utils/http/apis";
 
 const dataStore = useDataStore();
@@ -90,6 +108,12 @@ watch(
     style.value = formatObject(dataStore.currentNode?.nodeStyles);
   }
 );
+
+const updateNodeAttribute = () => {
+  if (!dataStore.currentNode) return;
+  updateNodeById(dataStore.currentNode.nodeId);
+  updateNode([dataStore.currentNode]);
+};
 
 const changeMetaIcon = (value: string, { row }: { row: IMetaItem }) => {
   if (!dataStore.currentNode) return;
@@ -119,10 +143,18 @@ const updatePosition = (key: "x" | "y", value: number) => {
   updateNodeAttribute();
 };
 
-const updateNodeAttribute = () => {
+const updateStyles = (key: string, value: string) => {
   if (!dataStore.currentNode) return;
-  drawNodes();
-  updateNode([dataStore.currentNode]);
+  if (key === "fill") {
+    dataStore.currentNode.fontColor = value;
+  }
+  if (key === "font-size") {
+    dataStore.currentNode.style["font-size"] = value + "px";
+  } else {
+    dataStore.currentNode.style[key] = value;
+  }
+  dataStore.currentNode.nodeStyles = JSON.stringify(dataStore.currentNode.style);
+  updateNodeAttribute();
 };
 </script>
 

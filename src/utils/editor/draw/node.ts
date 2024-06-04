@@ -71,22 +71,23 @@ const updateRect = (nodeG: ISVGG<INode, any>) => {
 
 const updateNodeAttr = (nodeG: ISVGG<INode, any>) => {
   if (!nodeG.size()) return;
-  const d = nodeG.datum();
-  switch (d.nodeType) {
-    case "circle":
-    case "ellipse":
-      updateEllipse(nodeG);
-      break;
-    case "text":
-      updateText(nodeG);
-      break;
-    case "rect":
-      updateRect(nodeG);
-      break;
-    default:
-      updateImage(nodeG);
-      break;
-  }
+  nodeG.each(function (d) {
+    switch (d.nodeType) {
+      case "circle":
+      case "ellipse":
+        updateEllipse(nodeG);
+        break;
+      case "text":
+        updateText(nodeG);
+        break;
+      case "rect":
+        updateRect(nodeG);
+        break;
+      default:
+        updateImage(nodeG);
+        break;
+    }
+  });
 };
 
 export const appendNode = (enter: IEnter<INode>) => {
@@ -101,7 +102,12 @@ export const appendNode = (enter: IEnter<INode>) => {
 
   return enterG;
 };
-
+export const updateNodeById = (nodeId: string) => {
+  const updateG = d3
+    .select<SVGGElement, any>("#nodeGroup")
+    .selectAll<SVGGElement, INode>(`#node_${nodeId}`);
+  updateNode(updateG);
+};
 const updateNode = (update: IUpdate<INode>) => {
   attrNodeG(update);
   updateNodeAttr(update);
