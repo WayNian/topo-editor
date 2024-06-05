@@ -11,6 +11,11 @@
           ? item.y - rectBorderWidth / 2 - +item.fontSize
           : item.y - rectBorderWidth / 2
       "
+      :transform="`rotate(${item.rotate} ${item.x - rectBorderWidth / 2 + item.width / 2} ${
+        item.nodeType === 'text'
+          ? item.y - rectBorderWidth / 2 - +item.fontSize + +item.width / 2
+          : item.y - rectBorderWidth / 2 + item.height / 2
+      })`"
       fill="none"
       stroke-dasharray="10,5"
       stroke="#409eff"

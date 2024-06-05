@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     Add: typeof import('./src/components/SvgEditor/Modal/Group/Add.vue')['default']
     Attribute: typeof import('./src/components/SvgEditor/Panel/Right/Attribute/index.vue')['default']
+    Background: typeof import('./src/components/SvgEditor/Panel/Right/Attribute/Map/Background.vue')['default']
     BaseView: typeof import('./src/components/Common/BaseView/index.vue')['default']
     DragAssistant: typeof import('./src/components/SvgEditor/Editor/DragAssistant.vue')['default']
     Edit: typeof import('./src/components/SvgEditor/Modal/Menu/Edit.vue')['default']

@@ -18,25 +18,21 @@
     @drop="handleDrop"
     @contextmenu="handleContenxtMenu"
   >
-    <defs>
-      <pattern
-        id="mapBg"
-        patternUnits="userSpaceOnUse"
-        :width="mapStore.mapSize.width"
-        :height="mapStore.mapSize.height"
-      >
-        <image
-          :href="bgUrl"
-          x="0"
-          y="0"
-          :width="mapStore.mapSize.width"
-          :height="mapStore.mapSize.height"
-          preserveAspectRatio="none slice"
-        />
-      </pattern>
-    </defs>
     <g id="map">
       <rect id="mapBackground" />
+      <g v-if="svgStore.isBgSHow">
+        <image
+          v-for="(item, index) in bgUrls"
+          :key="index"
+          :href="item.url"
+          :x="item.x"
+          :y="item.y"
+          :width="item.width"
+          :height="item.heieght"
+          preserveAspectRatio="none slice"
+        />
+      </g>
+
       <g id="linkGroup"></g>
       <g id="nodeGroup"></g>
       <g id="mergeLinkGroup"></g>
@@ -93,11 +89,24 @@ const handleDrop = (e: DragEvent) => {
   onDroped(e);
 };
 
-const bgUrl = computed(() => {
+const bgUrls = computed(() => {
   const preUrl = getImageUrl();
-  if (svgStore.bgType === "local") return svgStore.bgUrl;
-  return preUrl + mapStore.mapInfo?.background;
+  //   if (svgStore.bgType === "local") return svgStore.bgUrl;
+
+  const bgs = mapStore.mapInfo?.background.split(",") || [];
+  const len = bgs.length;
+  return bgs.map((item, index) => {
+    const width = mapStore.mapSize.width / len;
+    return {
+      url: item.includes("http") ? item : preUrl + item,
+      width,
+      heieght: mapStore.mapSize.height,
+      x: width * index,
+      y: 0
+    };
+  });
 });
+
 onMounted(() => {
   bindDragPointEvent();
   bindDragSelectionEvent();

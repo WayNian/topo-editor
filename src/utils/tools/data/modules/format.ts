@@ -39,6 +39,7 @@ export const formatNode = (data: ISourceNode, sublayers?: ISublayer[]): INode =>
       : [-1];
 
   const maxOrder = Math.max(...sublayersFromNode);
+  const style = formatObject(nodeStyles);
   return {
     ...data,
     id: data.nodeId,
@@ -46,9 +47,10 @@ export const formatNode = (data: ISourceNode, sublayers?: ISublayer[]): INode =>
     y,
     width,
     height,
-    style: formatObject(nodeStyles),
+    style,
     textStyle: formatObject(textStyles),
-    zIndex: maxOrder
+    zIndex: maxOrder,
+    fontSize: data.fontSize || parseFloat(style["font-size"]) + "" || "14"
   };
 };
 export const formatNodes = (data: ISourceNode[]): INode[] => {
@@ -117,7 +119,6 @@ export const setLinkRect = (enterG: ISVGG<ILink, SVGGElement>) => {
 export const setTextRect = (text: ISVGText<INode>) => {
   text.each(function (d) {
     const { width, height } = this.getBBox();
-    console.log("🚀 ~  width, height:", width, height);
     d.width = width;
     d.height = height;
   });
