@@ -8,7 +8,7 @@
     <p class="truncate">{{ dataStore.currentNode?.nodeType }}</p>
   </Item>
   <n-divider />
-  <n-collapse :default-expanded-names="['1', '2', '3']">
+  <n-collapse :default-expanded-names="['1', '2', '3', '4']">
     <n-collapse-item title="基础" name="1">
       <Item title="尺寸">
         <n-flex :wrap="false">
@@ -44,6 +44,15 @@
           />
         </n-flex>
       </Item>
+      <Item title="角度">
+        <n-input-number
+          :value="dataStore.currentNode?.rotate"
+          size="small"
+          :min="-180"
+          :max="180"
+          @update:value="updatePosition('rotate', $event)"
+        />
+      </Item>
     </n-collapse-item>
     <n-collapse-item title="图元" name="2">
       <Item title="图元">
@@ -57,7 +66,17 @@
         />
       </Item>
     </n-collapse-item>
-    <n-collapse-item title="文字" name="3">
+    <n-collapse-item title="样式" name="3">
+      <Item title="填充" v-if="dataStore.currentNode?.nodeType === 'text'">
+        <n-color-picker
+          :default-value="dataStore.currentNode?.style.fill"
+          size="small"
+          :modes="['rgb', 'hex']"
+          @update:value="updateStyles('fill', $event)"
+        />
+      </Item>
+    </n-collapse-item>
+    <n-collapse-item title="文字" name="4" v-if="dataStore.currentNode?.nodeType === 'text'">
       <Item title="内容">
         <n-input
           :value="dataStore.currentNode?.nodeText"
@@ -94,7 +113,7 @@ import Item from "../Item/index.vue";
 import { ref, watch } from "vue";
 import { formatObject } from "@/utils/tools";
 import type { IMetaItem } from "@/types";
-import { updateNodeById, removeNode } from "@/utils/editor/draw";
+import { updateNodeById, removeNode, drawNodes } from "@/utils/editor/draw";
 import { updateNode } from "@/utils/http/apis";
 
 const dataStore = useDataStore();
@@ -122,7 +141,8 @@ const changeMetaIcon = (value: string, { row }: { row: IMetaItem }) => {
   dataStore.currentNode.nodeStyles = JSON.stringify(style.value);
   dataStore.currentNode.style = style.value;
   removeNode(dataStore.currentNode.nodeId);
-  updateNodeAttribute();
+  drawNodes();
+  updateNode([dataStore.currentNode]);
 };
 
 const updateSize = (key: "width" | "height", value: number) => {
@@ -137,7 +157,7 @@ const updateContent = (value: string) => {
   updateNodeAttribute();
 };
 
-const updatePosition = (key: "x" | "y", value: number) => {
+const updatePosition = (key: "x" | "y" | "rotate", value: number) => {
   if (!dataStore.currentNode) return;
   dataStore.currentNode[key] = value;
   updateNodeAttribute();
