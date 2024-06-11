@@ -3,19 +3,11 @@
     <rect
       v-for="item in dataStore.nodesSelected"
       :key="item.nodeId"
-      :width="item.width + rectBorderWidth"
-      :height="item.height + rectBorderWidth"
-      :x="item.x - rectBorderWidth / 2"
-      :y="
-        item.nodeType === 'text'
-          ? item.y - rectBorderWidth / 2 - +item.fontSize
-          : item.y - rectBorderWidth / 2
-      "
-      :transform="`rotate(${item.rotate} ${item.x - rectBorderWidth / 2 + item.width / 2} ${
-        item.nodeType === 'text'
-          ? item.y - rectBorderWidth / 2 - +item.fontSize + +item.width / 2
-          : item.y - rectBorderWidth / 2 + item.height / 2
-      })`"
+      :width="item.width"
+      :height="item.height"
+      :x="item.x"
+      :y="item.nodeType === 'text' ? item.y - +item.fontSize : item.y"
+      :transform="`rotate(${item.rotate} ${item.x + item.width / 2} ${item.y + item.height / 2 - +item.fontSize})`"
       fill="none"
       stroke-dasharray="10,5"
       stroke="#409eff"
@@ -42,10 +34,10 @@
   <g id="selectionBox" v-show="isSelectionBoxVisible" fill="#ffffff">
     <rect
       class="cursor-move"
-      :width="selectionBox.width + rectBorderWidth"
-      :height="selectionBox.height + rectBorderWidth"
-      :x="selectionBox.x - rectBorderWidth / 2"
-      :y="selectionBox.y - rectBorderWidth / 2"
+      :width="selectionBox.width"
+      :height="selectionBox.height"
+      :x="selectionBox.x"
+      :y="selectionBox.y"
       fill="none"
       stroke-dasharray="10,5"
       stroke="#409eff"

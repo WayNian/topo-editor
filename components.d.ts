@@ -64,7 +64,6 @@ declare module 'vue' {
     NModalProvider: typeof import('naive-ui')['NModalProvider']
     Node: typeof import('./src/components/SvgEditor/Panel/Right/Attribute/Node/index.vue')['default']
     NPerformantEllipsis: typeof import('naive-ui')['NPerformantEllipsis']
-    NRadio: typeof import('naive-ui')['NRadio']
     NScrollbar: typeof import('naive-ui')['NScrollbar']
     NSelect: typeof import('naive-ui')['NSelect']
     NSpace: typeof import('naive-ui')['NSpace']

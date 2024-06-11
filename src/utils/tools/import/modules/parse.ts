@@ -14,9 +14,9 @@ type IPointInfo = {
 const nodes: any = [];
 const links: any = [];
 
-let svgRect: DOMRect | null = null;
-let scaleX = 1;
-let scaleY = 1;
+// let svgRect: DOMRect | null = null;
+const scaleX = 1;
+const scaleY = 1;
 
 function parseMatrix(matrixString: string) {
   // 正则表达式匹配matrix函数的参数，允许使用逗号或空格作为分隔符
@@ -471,11 +471,13 @@ export const parseSvg = (file: File) => {
       //   获取svg的getBoundingClientRect和实际的大小
       //  再获取子节点getBoundingClientRect
       // 按比例获取位置
-      svgRect = (svg.node() as SVGAElement)?.getBoundingClientRect();
-      if (svgRect) {
-        scaleX = width / svgRect.width;
-        scaleY = height / svgRect.height;
-      }
+      //   svgRect = (svg.node() as SVGAElement)?.getBoundingClientRect();
+
+      svg.attr("width", width).attr("height", height);
+      //   if (svgRect) {
+      //     scaleX = width / svgRect.width;
+      //     scaleY = height / svgRect.height;
+      //   }
 
       const defs = svg.select("defs").empty() ? "" : svg.select("defs").html();
 
