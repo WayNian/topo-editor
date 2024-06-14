@@ -1,5 +1,5 @@
 <template>
-  <g id="nodeSelectionGroup">
+  <g id="nodeSelectionGroup" v-if="dataStore.linksSelected.length > 1">
     <rect
       v-for="item in dataStore.nodesSelected"
       :key="item.nodeId"
@@ -7,7 +7,7 @@
       :height="item.height"
       :x="item.x"
       :y="item.nodeType === 'text' ? item.y - +item.fontSize : item.y"
-      :transform="`rotate(${item.rotate} ${item.x + item.width / 2} ${item.y + item.height / 2 - +item.fontSize})`"
+      :transform="`rotate(${item.rotate || 0} ${item.x + item.width / 2} ${item.y + item.height / 2 - (+item.fontSize || 0)})`"
       fill="none"
       stroke-dasharray="10,5"
       stroke="#409eff"
@@ -15,14 +15,14 @@
       pointer-events="none"
     />
   </g>
-  <g id="linkSelectionGroup">
+  <g id="linkSelectionGroup" v-if="dataStore.linksSelected.length > 1">
     <rect
       v-for="item in dataStore.linksSelected"
       :key="item.linkId"
-      :width="item.width + item.linkWidth + getStrokeWidth(item) + rectBorderWidth"
-      :height="item.height + item.linkWidth + getStrokeWidth(item) + rectBorderWidth"
-      :x="item.x - item.linkWidth * 0.5 - 2 - getStrokeWidth(item) / (rectBorderWidth / 2)"
-      :y="item.y - item.linkWidth * 0.5 - 2 - getStrokeWidth(item) / (rectBorderWidth / 2)"
+      :width="item.width + 4"
+      :height="item.height + 4"
+      :x="item.x - 2"
+      :y="item.y - 2"
       :transform="`translate(${item.transform.x}, ${item.transform.y})`"
       fill="none"
       stroke-dasharray="10,5"
@@ -126,8 +126,8 @@ const selectionBox = computed(() => {
   dataStore.linksSelected.forEach((item) => {
     const strokeWidth = getStrokeWidth(dataStore.currentLink);
     boxList.push({
-      x: item.x - strokeWidth / 2 - 2 + item.transform.x,
-      y: item.y - strokeWidth / 2 - 2 + item.transform.y,
+      x: item.x - strokeWidth * 0.5 - 2 + item.transform.x,
+      y: item.y - strokeWidth * 0.5 - 2 + item.transform.y,
       width: item.width + strokeWidth + 4,
       height: item.height + strokeWidth + 4
     });

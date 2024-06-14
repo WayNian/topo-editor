@@ -33,10 +33,7 @@
         />
       </g>
 
-      <g id="linkGroup"></g>
-      <g id="nodeGroup"></g>
-      <g id="mergeLinkGroup"></g>
-      <g id="mergeNodeGroup"></g>
+      <Container></Container>
       <DragAssistant></DragAssistant>
     </g>
     <rect id="selectionRect" v-show="dataStore.isSelectionRectVisible"></rect>
@@ -57,6 +54,7 @@ import { attrLinkDrag, attrNodeDrag, attrSvgDrag } from "@/utils/editor/attr";
 import MoveToSublayerModal from "@/components/SvgEditor/Modal/Sublayer/MoveToSublayer.vue";
 import RemoveSingleFromSublayer from "@/components/SvgEditor/Modal/Sublayer/RemoveSingleFromSublayer.vue";
 import DragAssistant from "@/components/SvgEditor/Editor/DragAssistant.vue";
+import Container from "@/components/SvgEditor/Editor/Container.vue";
 import AddGroup from "@/components/SvgEditor/Modal/Group/Add.vue";
 import { useSvgMenu } from "@/hooks/svg/useSvgMenu";
 import { bindDragSelectionEvent } from "@/utils/editor/event/selection";

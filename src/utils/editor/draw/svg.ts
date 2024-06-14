@@ -101,8 +101,8 @@ export const clearSvg = () => {
 export const draw = () => {
   drawMap();
   drawDefs();
-  drawLinks();
-  drawNodes();
+  //   drawLinks();
+  //   drawNodes();
 };
 
 export const drawNodesLinks = () => {

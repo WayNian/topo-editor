@@ -195,11 +195,11 @@ const importPartSvg = async (val: IImportData) => {
   if (mapStore.mergeLinkList.length || mapStore.mergeNodeList.length) {
     renewMergeNodesLinks();
     drawMerge();
-    draw();
+    // draw();
   } else {
     if (deleteNodeList.length || deleteLinkList.length) {
       renewNodesLinks();
-      draw();
+      //   draw();
     }
   }
 

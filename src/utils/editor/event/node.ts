@@ -49,10 +49,10 @@ const dragEnd = (e: any, d: INode) => {
   drawNodes();
 
   //   更新接口
-  updateNode([d]);
+  //   updateNode([d]);
 };
 
-export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement>) => {
+export const bindNodeDrag = (nodeG: ISVGG<INode, SVGGElement | HTMLElement>) => {
   const mapStore = useMapStore();
 
   const drag = d3

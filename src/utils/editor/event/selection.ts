@@ -1,6 +1,5 @@
 import { useCommonStore, useDataStore, useMapStore, useSvgStore } from "@/stores";
 import * as d3 from "d3";
-import { drawNodesLinks } from "../draw";
 import { updateLink, updateNode } from "@/utils/http/apis";
 import { SVGPathData } from "svg-pathdata";
 import { attrLinkGTrans, attrNodeGTrans } from "../attr";
@@ -58,10 +57,10 @@ const dragEnd = () => {
     link.transform.x = 0;
     link.transform.y = 0;
 
-    attrLinkGTrans(document.querySelector(`#link_${link.linkId}`) as SVGGElement, 0, 0);
+    // attrLinkGTrans(document.querySelector(`#link_${link.linkId}`) as SVGGElement, 0, 0);
   });
 
-  drawNodesLinks();
+  //   drawNodesLinks();
   updateNode(dataStore.nodesSelected);
   updateLink(dataStore.linksSelected);
 };

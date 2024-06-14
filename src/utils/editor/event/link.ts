@@ -4,9 +4,6 @@ import { useCommonStore, useMapStore, useSvgStore } from "@/stores";
 import { setLinksSelected } from "@/utils/tools";
 import { SVGPathData } from "svg-pathdata";
 import { updateLink } from "@/utils/http/apis";
-import { drawLinks } from "../draw";
-import { attrLinkGTrans } from "../attr";
-import { attrSelectionDrag } from "../attr/selection";
 
 const startPoint = {
   x: 0,
@@ -24,7 +21,7 @@ const dragStart = (e: any, d: ILink) => {
   startPoint.y = e.y;
 };
 
-const dragging = (e: any, d: ILink, el: SVGGElement) => {
+const dragging = (e: any, d: ILink) => {
   const commonStore = useCommonStore();
   const svgStore = useSvgStore();
   if (!svgStore.isEdit || commonStore.isSpaceDown) return;
@@ -33,10 +30,10 @@ const dragging = (e: any, d: ILink, el: SVGGElement) => {
   d.transform.x = tx;
   d.transform.y = ty;
 
-  attrLinkGTrans(el, tx, ty);
+  //   attrLinkGTrans(el, tx, ty);
 };
 
-const dragEnd = (e: any, d: ILink, el: SVGGElement) => {
+const dragEnd = (e: any, d: ILink) => {
   const commonStore = useCommonStore();
   const svgStore = useSvgStore();
 
@@ -45,29 +42,25 @@ const dragEnd = (e: any, d: ILink, el: SVGGElement) => {
   //   表示连线没有移动
   if (tx === 0 && ty === 0) return;
   if (!svgStore.isEdit || commonStore.isSpaceDown) return;
-  attrLinkGTrans(el, 0, 0);
 
   const d1 = new SVGPathData(d.linkPath);
   d.linkPath = d1.translate(d.transform.x, d.transform.y).toAbs().encode();
-  drawLinks();
 
-  d.transform.x = 0;
-  d.transform.y = 0;
-  //   移动结束后，更新rect
-  const { x, y } = el.getBBox();
-  d.x = x;
-  d.y = y;
-
+  d.x += d.transform.x;
+  d.y += d.transform.y;
   startPoint.x = 0;
   startPoint.y = 0;
   tx = 0;
   ty = 0;
 
+  d.transform.x = 0;
+  d.transform.y = 0;
+
   //   更新接口
   updateLink([d]);
 };
 
-export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
+export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement | HTMLElement>) => {
   const mapStore = useMapStore();
 
   const drag = d3
@@ -76,10 +69,10 @@ export const bindLinkDrag = (linkG: ISVGG<ILink, SVGGElement>) => {
       dragStart(e, d);
     })
     .on("drag", function (e, d) {
-      dragging(e, d, this);
+      dragging(e, d);
     })
     .on("end", function (e, d) {
-      dragEnd(e, d, this);
+      dragEnd(e, d);
     });
 
   linkG.call(drag);

@@ -48,7 +48,7 @@ const RemoveMultiFromSublayerRef = ref<InstanceType<typeof RemoveMultiFromSublay
 const handleUpdateValue = (val: string[]) => {
   mapStore.sublayerIds = val;
   renewNodesLinks();
-  drawNodesLinks();
+  //   drawNodesLinks();
 };
 
 const handleCheckInfo = (sublayer: ISublayer) => {

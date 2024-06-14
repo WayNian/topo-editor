@@ -1,5 +1,5 @@
 import { useCommonStore, useDataStore, useMapStore } from "@/stores";
-import type { ILink, INode, ISublayer } from "@/types";
+import type { IGroupData, ILink, INode, ISublayer } from "@/types";
 import { drawNodesLinks } from "@/utils/editor/draw";
 import { deleteLinks, deleteNodes } from "@/utils/http/apis";
 
@@ -133,6 +133,18 @@ export const setNodesLinksSelected = () => {
     item.selected = true;
   });
 };
+
+export const setGroupSelected = (group?: IGroupData) => {
+  clearNodesLinksSelected();
+  if (!group) return;
+  group.nodes?.forEach((node) => {
+    node.selected = true;
+  });
+  group.links?.forEach((link) => {
+    link.selected = true;
+  });
+};
+
 /**
  * 清除已选择的节点和连线
  */
@@ -243,6 +255,6 @@ export const deleteNodesLinks = async () => {
   window.$message.success("删除成功");
   commonStore.isLoading = false;
 
-  drawNodesLinks();
+  //   drawNodesLinks();
   mapStore.getSublayers(mapId);
 };
