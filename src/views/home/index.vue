@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-100vh">
-    <Header class="justify-between"></Header>
+    <Header></Header>
     <RouterView />
   </div>
 </template>

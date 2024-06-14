@@ -80,7 +80,8 @@ const groupModel = ref<IMetaModel>({
   groupId: "",
   compClass: "",
   objImg: "",
-  imgScale: "1"
+  imgScale: "1",
+  svgData: ""
 });
 
 const isVisible = ref(false);
@@ -99,6 +100,18 @@ const title = computed(() => (isEdit.value ? "编辑对象" : "新增对象"));
 const customRequest = ({ file, onFinish, onError }: UploadCustomRequestOptions) => {
   const formData = new FormData();
   formData.append("file", file.file as File);
+
+  if (!file.file) return;
+  if (file.type === "image/svg+xml") {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      if (e.target) {
+        groupModel.value.svgData = e.target.result as string; // 这里是SVG文件的内容
+      }
+    };
+
+    reader.readAsText(new Blob([file.file])); // 以文本格式读取文件
+  }
 
   uploadFile(formData)
     .then((res) => {
@@ -128,14 +141,23 @@ const show = (val?: IMetaItem) => {
   isVisible.value = true;
   isEdit.value = !!val;
   if (val) {
-    const { objType, objName, groupId = "", compClass = "", objImg, imgScale = "" } = val;
+    const {
+      objType,
+      objName,
+      groupId = "",
+      compClass = "",
+      objImg,
+      imgScale = "",
+      svgData = ""
+    } = val;
     groupModel.value = {
       objType,
       objName,
       groupId,
       compClass,
       objImg,
-      imgScale
+      imgScale,
+      svgData
     };
     previewFileList.value = [
       {
@@ -155,7 +177,8 @@ const hide = () => {
     groupId: "",
     compClass: "",
     objImg: "",
-    imgScale: "1"
+    imgScale: "1",
+    svgData: ""
   };
 };
 
