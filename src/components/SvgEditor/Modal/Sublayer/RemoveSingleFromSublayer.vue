@@ -83,7 +83,7 @@ const submit = async () => {
     dataStore.currentNode.sublayerList = dataStore.currentNode.sublayerList.filter(
       (item) => item.sublayerId !== formValue.value.sublayerId
     );
-    drawNodes();
+    // drawNodes();
   }
   if (dataStore.currentLink) {
     const linkParams: ISublayerDeleteModel = {
@@ -97,7 +97,7 @@ const submit = async () => {
     dataStore.currentLink.sublayerList = dataStore.currentLink.sublayerList.filter(
       (item) => item.sublayerId !== formValue.value.sublayerId
     );
-    drawLinks();
+    // drawLinks();
   }
 
   window.$message.success("移除成功");

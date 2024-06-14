@@ -60,7 +60,7 @@ watchEffect(() => {
 watch(isShowMerge, (val) => {
   if (!val) {
     renewNodesLinks();
-    drawNodesLinks();
+    // drawNodesLinks();
   }
 });
 

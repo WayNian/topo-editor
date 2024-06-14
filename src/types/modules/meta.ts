@@ -9,6 +9,7 @@ export interface IMetaItem {
   imgScale?: string;
   updatedBy?: string;
   updatedTime?: string;
+  svgData?: string;
 }
 
 export interface IMetaSource {
@@ -29,4 +30,5 @@ export interface IMetaModel {
   compClass: string;
   objImg: string;
   imgScale: string;
+  svgData?: string;
 }

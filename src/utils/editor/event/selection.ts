@@ -2,7 +2,7 @@ import { useCommonStore, useDataStore, useMapStore, useSvgStore } from "@/stores
 import * as d3 from "d3";
 import { updateLink, updateNode } from "@/utils/http/apis";
 import { SVGPathData } from "svg-pathdata";
-import { attrLinkGTrans, attrNodeGTrans } from "../attr";
+// import { attrLinkGTrans, attrNodeGTrans } from "../attr";
 
 const startPoint = {
   x: 0,
@@ -33,13 +33,13 @@ const dragging = (e: any) => {
   dataStore.nodesSelected.forEach((node) => {
     node.x += e.dx;
     node.y += e.dy;
-    attrNodeGTrans(document.querySelector(`#node_${node.nodeId}`) as SVGGElement, node.x, node.y);
+    // attrNodeGTrans(document.querySelector(`#node_${node.nodeId}`) as SVGGElement, node.x, node.y);
   });
 
   dataStore.linksSelected.forEach((link) => {
     link.transform.x = tx;
     link.transform.y = ty;
-    attrLinkGTrans(document.querySelector(`#link_${link.linkId}`) as SVGGElement, tx, ty);
+    // attrLinkGTrans(document.querySelector(`#link_${link.linkId}`) as SVGGElement, tx, ty);
   });
 };
 

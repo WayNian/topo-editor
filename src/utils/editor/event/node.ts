@@ -46,7 +46,7 @@ const dragEnd = (e: any, d: INode) => {
   if (tx === 0 && ty === 0) return;
   if (!svgStore.isEdit || commonStore.isSpaceDown) return;
 
-  drawNodes();
+  //   drawNodes();
 
   //   更新接口
   //   updateNode([d]);

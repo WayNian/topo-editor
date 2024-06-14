@@ -27,7 +27,7 @@ export const useMerge = () => {
       });
       await updateNodes(res);
       window.$message.success("合并成功");
-      drawNodes();
+      //   drawNodes();
     }
   };
 
@@ -55,7 +55,7 @@ export const useMerge = () => {
       });
       await updateLinks(res);
       window.$message.success("合并成功");
-      drawLinks();
+      //   drawLinks();
     }
   };
 

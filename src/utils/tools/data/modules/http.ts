@@ -12,6 +12,7 @@ import {
 import { formatLink, formatLinks, formatNode, formatNodes } from "./format";
 import { drawLinks, drawNodes } from "@/utils/editor/draw";
 import { renewLinks, renewNodes } from "./data";
+import { initGroupData } from "..";
 
 /**
  *  获取节点和连线列表
@@ -31,6 +32,7 @@ export const getNodeLinkList = async (mapId: string) => {
 export const getMapGroupData = async (mapId: string) => {
   const dataStore = useDataStore();
   dataStore.groups = await getMapGroupDataByHttp(mapId);
+  initGroupData();
 };
 
 /**
@@ -49,7 +51,7 @@ export const addNode = async (node: IOriginalNode) => {
   window.$message.success("添加成功");
   dataStore.nodesAll.push(newNode);
   renewNodes();
-  drawNodes();
+  //   drawNodes();
 };
 
 /**
@@ -68,7 +70,7 @@ export const addLink = async (link: IOriginalLink) => {
   window.$message.success("添加成功");
   dataStore.linksAll.push(newNode);
   renewLinks();
-  drawLinks();
+  //   drawLinks();
 };
 
 /**

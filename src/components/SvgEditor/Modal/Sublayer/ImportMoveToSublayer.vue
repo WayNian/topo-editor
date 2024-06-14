@@ -67,7 +67,7 @@ const refreshNodesLinks = async (isRefreshSublayer?: boolean) => {
   isRefreshSublayer && (await mapStore.getSublayers(mapId));
   await getNodeLinkList(mapId);
   renewNodesLinks();
-  drawNodesLinks();
+  //   drawNodesLinks();
 };
 const hide = async (isRefreshSublayer?: boolean) => {
   mapStore.isMoveToSublayerVisible = false;

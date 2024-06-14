@@ -103,7 +103,7 @@ const submit = () => {
         await getNodeLinkList(mapId);
         mapStore.getSublayers(mapId);
         renewNodesLinks();
-        drawNodesLinks();
+        // drawNodesLinks();
       });
     }
   });

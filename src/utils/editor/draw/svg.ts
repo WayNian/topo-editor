@@ -106,6 +106,6 @@ export const draw = () => {
 };
 
 export const drawNodesLinks = () => {
-  drawLinks();
-  drawNodes();
+  //   drawLinks();
+  //   drawNodes();
 };

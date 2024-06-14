@@ -279,7 +279,7 @@ export const align = (type: string) => {
   }
 
   const { nodesSelected, linksSelected } = useDataStore();
-  drawNodesLinks();
+  //   drawNodesLinks();
   updateNodesLinks({
     nodes: nodesSelected,
     links: linksSelected

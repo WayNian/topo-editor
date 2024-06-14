@@ -52,7 +52,7 @@
               <n-input v-model:value="mapModel.mapName" placeholder="文件名称" />
             </n-form-item-gi>
 
-            <n-form-item-gi :span="12" label="宽高" path="width">
+            <n-form-item-gi :span="12" label="尺寸" path="width">
               <n-input-number v-model:value="mapModel.width" :min="0" placeholder="请输入宽度" />
             </n-form-item-gi>
             <n-form-item-gi :span="12" path="height">

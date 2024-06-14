@@ -36,6 +36,7 @@ export interface IOriginalNode {
   bindMap: any;
   metaData: Record<string, string> | null;
   sublayerList: ISublayerItem[];
+  svgData?: string;
 }
 
 export interface ISourceNode extends IOriginalNode {
@@ -57,7 +58,7 @@ export interface INode extends ISourceNode {
   textStyle: Record<string, string>;
   selected?: boolean;
   locked?: boolean;
-  groupId?: string;
+  groupId?: string[];
   zIndex?: number;
 }
 
@@ -99,7 +100,7 @@ export interface ILink extends ISourceLink {
     x: number;
     y: number;
   };
-  groupId?: string;
+  groupId?: string[];
 }
 
 export interface INodeLinkSource {

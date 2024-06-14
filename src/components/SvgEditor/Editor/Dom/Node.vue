@@ -21,7 +21,7 @@
       :style="data.style"
       >{{ data.nodeText }}</text
     >
-    <image v-else :width="data.width" :height="data.height" :style="data.style"></image>
+    <Image v-else :data="data"> </Image>
   </g>
 </template>
 
@@ -30,6 +30,7 @@ import * as d3 from "d3";
 import type { INode } from "@/types";
 import { computed, onMounted } from "vue";
 import { bindNodeDrag } from "@/utils/editor/event";
+import Image from "./Image.vue";
 
 const props = defineProps<{
   data: INode;

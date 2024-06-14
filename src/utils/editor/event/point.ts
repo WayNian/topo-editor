@@ -1,6 +1,5 @@
 import { useDataStore } from "@/stores";
 import * as d3 from "d3";
-import { drawNodes } from "../draw";
 import { updateNode } from "@/utils/http/apis";
 
 const points = [
@@ -43,7 +42,7 @@ const dragging = (e: any, el: SVGElement) => {
     dataStore.currentNode.height = Math.abs(height + ty);
   }
 
-  drawNodes();
+  //   drawNodes();
 };
 
 const dragEnd = () => {
