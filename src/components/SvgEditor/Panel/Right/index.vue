@@ -8,7 +8,7 @@
       <n-tab-pane name="layer" tab="子图层" :disabled="!mapStore.mapInfo" display-directive="show">
         <SublayerList
       /></n-tab-pane>
-      <n-tab-pane name="jay chou" tab="主题"> 主题 </n-tab-pane>
+      <n-tab-pane name="data" tab="数据"> <DataBind /> </n-tab-pane>
     </n-tabs>
 
     <n-button tertiary circle class="absolute right-1 top-1" @click="closeAttributeView">
@@ -25,6 +25,7 @@ import { useCommonStore, useMapStore } from "@/stores/";
 import { computed } from "vue";
 import Attribute from "./Attribute/index.vue";
 import SublayerList from "./SublayerList/index.vue";
+import DataBind from "./DataBind/index.vue";
 
 const commonStore = useCommonStore();
 const mapStore = useMapStore();

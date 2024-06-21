@@ -31,3 +31,8 @@ export type IEnter<T> = d3.Selection<EnterElement, T, SVGGElement, any>;
 export type IUpdate<T> = d3.Selection<SVGGElement, T, SVGGElement, any>;
 
 export type IExit<T> = d3.Selection<SVGGElement, T, SVGGElement, any>;
+
+export type ISvgIdItem = {
+  id: string;
+  children: ISvgIdItem[];
+};

@@ -54,7 +54,7 @@
         />
       </Item>
     </n-collapse-item>
-    <n-collapse-item title="图元" name="2">
+    <n-collapse-item title="绑定" name="2">
       <Item title="图元">
         <n-select
           :value="dataStore.currentNode?.nodeType"
@@ -64,6 +64,17 @@
           :options="metaStore.metaOptions"
           @update:value="changeMetaIcon"
         />
+      </Item>
+      <Item title="资源">
+        <div class="flex">
+          <n-input
+            :value="dataStore.currentNode?.compClass"
+            placeholder="输入资源ID"
+            size="small"
+            @update:value="changeCompClass"
+          />
+          <n-button size="small" class="ml-2" @click="handlePreview">预览</n-button>
+        </div>
       </Item>
     </n-collapse-item>
     <n-collapse-item title="样式" name="3">
@@ -115,6 +126,7 @@ import { formatObject } from "@/utils/tools";
 import type { IMetaItem } from "@/types";
 import { updateNodeById, removeNode, drawNodes } from "@/utils/editor/draw";
 import { updateNode } from "@/utils/http/apis";
+import { publicResourceCreate } from "@/utils/tools/fragment";
 
 const dataStore = useDataStore();
 const metaStore = useMetaStore();
@@ -139,10 +151,18 @@ const changeMetaIcon = (value: string, { row }: { row: IMetaItem }) => {
   dataStore.currentNode.nodeType = value;
   style.value.image = row.objImg;
   dataStore.currentNode.nodeStyles = JSON.stringify(style.value);
+
   dataStore.currentNode.style = style.value;
-  removeNode(dataStore.currentNode.nodeId);
-  drawNodes();
+  dataStore.currentNode.svgData = row.svgData || "";
+  //   removeNode(dataStore.currentNode.nodeId);
+  //   drawNodes();
   updateNode([dataStore.currentNode]);
+};
+
+const changeCompClass = (value: string) => {
+  if (!dataStore.currentNode) return;
+  dataStore.currentNode.compClass = value;
+  updateNodeAttribute();
 };
 
 const updateSize = (key: "width" | "height", value: number) => {
@@ -175,6 +195,13 @@ const updateStyles = (key: string, value: string) => {
   }
   dataStore.currentNode.nodeStyles = JSON.stringify(dataStore.currentNode.style);
   updateNodeAttribute();
+};
+
+const handlePreview = () => {
+  if (!dataStore.currentNode) return;
+  const compClass = dataStore.currentNode.compClass;
+  if (!compClass) return window.$message.info("请先输入资源ID");
+  publicResourceCreate("", compClass, "", document.querySelector("#app") as HTMLElement, 1);
 };
 </script>
 

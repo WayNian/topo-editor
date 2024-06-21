@@ -31,8 +31,8 @@
 
 <script setup lang="ts">
 import { useDataStore, useMapStore } from "@/stores";
-import { addMapGroupData, getMapGroupData } from "@/utils/http/apis";
-import { updataDataGroupId } from "@/utils/tools";
+import { addMapGroupData } from "@/utils/http/apis";
+import { getMapGroupData } from "@/utils/tools";
 import type { FormInst } from "naive-ui";
 import { ref } from "vue";
 
@@ -56,6 +56,7 @@ const show = () => {
 
 const hide = () => {
   isVisible.value = false;
+  groupModel.value.groupName = "";
 };
 
 const getfroupDataList = () => {
@@ -89,9 +90,9 @@ const addGroup = async () => {
     groupDescription: groupModel.value.groupName,
     topoMapsGroupDataList: getfroupDataList()
   };
-  const groupId = await addMapGroupData(params);
+  await addMapGroupData(params);
   window.$message.success("添加成功");
-  updataDataGroupId(groupId);
+  hide();
   getMapGroupData(mapId);
 };
 const submit = () => {

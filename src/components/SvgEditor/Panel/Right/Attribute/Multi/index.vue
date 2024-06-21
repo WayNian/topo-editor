@@ -11,6 +11,14 @@
           @update:value="changeMetaIcon"
         />
       </Item>
+      <Item title="资源">
+        <n-input
+          :value="dataStore.currentNode?.compClass"
+          placeholder="输入资源ID"
+          size="small"
+          @update:value="changeCompClass"
+        />
+      </Item>
     </n-collapse-item>
   </n-collapse>
 </template>
@@ -43,7 +51,7 @@ const changeMetaIcon = (value: string, { row }: { row: IMetaItem }) => {
     style.value.image = row.objImg;
     node.nodeStyles = JSON.stringify(style.value);
     node.style = style.value;
-    removeNode(node.nodeId);
+    // removeNode(node.nodeId);
   });
 
   updateNodeAttribute();
@@ -51,8 +59,16 @@ const changeMetaIcon = (value: string, { row }: { row: IMetaItem }) => {
 
 const updateNodeAttribute = () => {
   if (!dataStore.nodesSelected.length) return;
-  drawNodes();
+  //   drawNodes();
   updateNode(dataStore.nodesSelected);
+};
+
+const changeCompClass = (value: string) => {
+  if (!dataStore.nodesSelected.length) return;
+  dataStore.nodesSelected.forEach((node) => {
+    node.compClass = value;
+  });
+  updateNodeAttribute();
 };
 </script>
 
