@@ -18,7 +18,7 @@ enum ISvgDataType {
   STROKE_WIDTH = "stroke-width"
 }
 
-interface ISvgDataItem {
+export interface ISvgDataItem {
   domId: string;
   value: string | number | boolean;
   column: string; // 数据的字段
@@ -71,12 +71,12 @@ export class SvgIcon {
   ): boolean {
     const { comparison, threshold } = condition;
     if (dataType === "text") {
-      return true; // Always update text
+      return true;
     } else if (dataType === "number") {
       if (comparison && threshold !== undefined) {
         return this.compareValues(value as number, comparison, threshold as number);
       }
-      return true; // Update number if no comparison is provided
+      return true;
     } else if (dataType === "boolean") {
       if (comparison && threshold !== undefined) {
         return this.compareValues(value ? 1 : 0, comparison, threshold ? 1 : 0);

@@ -1,6 +1,6 @@
-import type { IMetaSource, IMetaItem } from "@/types";
+import type { IMetaSource, IMetaItem, IMetaIconDataBind } from "@/types";
 import { MetaBaseIconList } from "@/utils/constant";
-import { getGroupList } from "@/utils/http/apis";
+import { getGroupList, getMetaDataBind } from "@/utils/http/apis";
 import { getImageUrl } from "@/utils/tools";
 import type { TreeOption } from "naive-ui";
 import { defineStore } from "pinia";
@@ -61,6 +61,7 @@ export const useMetaStore = defineStore("meta", () => {
   const metaGroupData = ref<TreeOption[]>([]);
   const metaList = ref<IMetaSource[]>([]);
   const metaOptions = ref<{ label: string; value: string; row: IMetaItem }[]>([]);
+  const metaIconDataBindList = ref<IMetaIconDataBind[]>([]);
 
   const getMetaData = async () => {
     const list = await getGroupList();
@@ -84,13 +85,19 @@ export const useMetaStore = defineStore("meta", () => {
     });
   });
 
+  const getMetaIconData = async (objType: string, domId?: string) => {
+    metaIconDataBindList.value = (await getMetaDataBind(objType, domId)).filter((item) => !!item);
+  };
+
   return {
     metaGroupData,
     metaTableData,
     metaOptions,
     metaList,
+    metaIconDataBindList,
     getMetaList,
     getMetaData,
-    groupSelectOptions
+    groupSelectOptions,
+    getMetaIconData
   };
 });

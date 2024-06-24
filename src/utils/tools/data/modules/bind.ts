@@ -1,4 +1,4 @@
-import type { INode } from "@/types";
+import type { IMetaItem, INode } from "@/types";
 import * as d3 from "d3";
 import type { TreeOption } from "naive-ui";
 
@@ -35,7 +35,7 @@ const traverseSvg = (node: d3.Selection<d3.BaseType, any, any, any>, ids: ITreeO
   });
 };
 
-export const bindIconData = (data: INode) => {
+export const bindIconData = (data: IMetaItem) => {
   const svg = d3.select("#iconDataBind svg").datum(data);
   const ids: ITreeOption[] = [];
   traverseSvg(svg, ids);

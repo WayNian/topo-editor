@@ -18,6 +18,22 @@ export interface IMatrix {
   f: number;
 }
 
+interface ICondition {
+  tagName: string;
+  comparison?: string;
+  threshold?: string | number | boolean;
+  style: {
+    data: string | number;
+    type: string;
+  };
+}
+interface INodeDataItem {
+  domId: string;
+  value: string | number | boolean;
+  column: string; // 数据的字段
+  dataType: "text" | "number" | "boolean"; // 数据类型
+  conditions: ICondition[];
+}
 export interface IOriginalNode {
   mapId: string;
   domId: string;
@@ -37,6 +53,7 @@ export interface IOriginalNode {
   metaData: Record<string, string> | null;
   sublayerList: ISublayerItem[];
   svgData?: string;
+  data?: INodeDataItem[];
 }
 
 export interface ISourceNode extends IOriginalNode {

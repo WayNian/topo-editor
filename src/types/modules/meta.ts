@@ -32,3 +32,20 @@ export interface IMetaModel {
   imgScale: string;
   svgData?: string;
 }
+
+export interface IMetaIconDataBind {
+  id?: number;
+  objType: string;
+  domId: string;
+  column: string;
+  extractId: number;
+  conditions?: {
+    comparison: string;
+    tagName: string;
+    threshold: string | number;
+    style: {
+      data: string;
+      type: string;
+    };
+  }[];
+}

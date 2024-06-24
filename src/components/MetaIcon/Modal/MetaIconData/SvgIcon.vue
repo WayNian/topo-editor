@@ -1,34 +1,16 @@
 <template>
-  <div class="flex flex-1">
-    <n-form ref="formRef" label-placement="top" class="mr-10 flex-shrink-0">
-      <n-form-item label="数据key">
-        <n-input placeholder="数据key">
-          <template #suffix>
-            <n-button text style="font-size: 18px">
-              <n-icon>
-                <Settings />
-              </n-icon>
-            </n-button>
-          </template>
-        </n-input>
-      </n-form-item>
-      <n-form-item label="数据类型">
-        <n-select :options="dataTypeOptions" placeholder="数据类型"> </n-select>
-      </n-form-item>
-    </n-form>
-    <n-scrollbar style="max-height: 160px">
-      <div class="flex flex-1 pl-10">
-        <n-tree
-          class="w-50"
-          block-line
-          :data="idOptions"
-          :node-props="nodeProps"
-          :selected-keys="selectedKeys"
-        />
-      </div>
+  <div class="flex flex-1 mb-4">
+    <n-scrollbar style="max-height: 160px" class="w-50">
+      <n-tree
+        class="w-50"
+        block-line
+        :data="idOptions"
+        :node-props="nodeProps"
+        :selected-keys="selectedKeys"
+      />
     </n-scrollbar>
 
-    <div class="w-40 h-40 flex justify-center items-center flex-shrink-0">
+    <div class="w-40 h-40 ml-10">
       <div id="iconDataBind" class="w-40 h-40" v-html="svgData"></div>
     </div>
   </div>
@@ -42,27 +24,20 @@ import {
   hightlightPart,
   type ITreeOption
 } from "@/utils/tools/data/modules/bind";
-import Settings from "@/assets/images/icons/Settings.svg?component";
-import type { INode } from "@/types";
-
-const dataTypeOptions = [
-  { label: "文本", value: "text" },
-  { label: "数字", value: "number" },
-  { label: "布尔", value: "boolean" }
-];
+import type { IMetaItem } from "@/types";
 
 const emit = defineEmits<{
-  onIdSelect: [idOption: ITreeOption];
+  onIdSelect: [idOption?: ITreeOption];
 }>();
 
-const info = ref<INode>();
+const iconMetaInfo = ref<IMetaItem>();
 const idOptions = ref<ITreeOption[]>([]);
 const expandedKeys = ref<string[]>([]);
 const selectedKeys = ref<string[]>([]);
 const svgData = ref<string>();
 
-const initData = (data?: INode) => {
-  info.value = data;
+const initData = (data?: IMetaItem) => {
+  iconMetaInfo.value = data;
   if (data?.svgData) {
     svgData.value = data.svgData;
     nextTick(() => {
@@ -92,15 +67,16 @@ const nodeProps = ({ option }: { option: ITreeOption }) => {
       if (option.label === selectedKeys.value[0]) {
         selectedKeys.value = [];
         cancelHightlight();
+        emit("onIdSelect");
       } else {
         hightlightPart(option.label as string);
         selectedKeys.value = [option.label as string];
         emit("onIdSelect", option);
       }
-    },
-    onMouseenter() {
-      hightlightPart(option.label as string);
     }
+    // onMouseenter() {
+    //   hightlightPart(option.label as string);
+    // }
   };
 };
 

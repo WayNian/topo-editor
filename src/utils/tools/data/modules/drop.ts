@@ -68,7 +68,6 @@ export const generateNodeLink = (
       fontColor: "#ffffff",
       textPosition: "0,0",
       textStyles: `{"color": "#ffffff"}`,
-      svgData: val.svgData || "",
       bindData: {},
       bindMap: {},
       sublayerList: [] //关联图层

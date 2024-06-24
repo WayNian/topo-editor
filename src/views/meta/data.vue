@@ -1,35 +1,29 @@
 <template>
-  <div class="flex flex-1 p-2">
-    <div class="w-60 pl-4">
-      <MetaTree @edit="editwAddGroupModal"></MetaTree>
+  <div class="flex flex-1 flex-col ml-2">
+    <div class="flex my-2 justify-end">
+      <n-button type="primary" size="small" class="mr-4" @click="editwAddGroupModal()">
+        <template #icon>
+          <n-icon>
+            <AddFilled />
+          </n-icon>
+        </template>
+        分组
+      </n-button>
+      <n-button type="info" size="small" @click="showEditMetaModal()">
+        <template #icon>
+          <n-icon>
+            <AddFilled />
+          </n-icon>
+        </template>
+        对象
+      </n-button>
     </div>
-
-    <div class="flex flex-1 flex-col ml-2">
-      <div class="flex my-2 justify-end">
-        <n-button type="primary" size="small" class="mr-4" @click="editwAddGroupModal()">
-          <template #icon>
-            <n-icon>
-              <AddFilled />
-            </n-icon>
-          </template>
-          分组
-        </n-button>
-        <n-button type="info" size="small" @click="showEditMetaModal()">
-          <template #icon>
-            <n-icon>
-              <AddFilled />
-            </n-icon>
-          </template>
-          对象
-        </n-button>
-      </div>
-      <n-data-table
-        :columns="columns"
-        :data="metaStore.metaTableData"
-        :pagination="pagination"
-        :bordered="false"
-      />
-    </div>
+    <n-data-table
+      :columns="columns"
+      :data="metaStore.metaTableData"
+      :pagination="pagination"
+      :bordered="false"
+    />
     <EditGroup ref="editGroupModalRef" />
     <EditMeta ref="editMetaModalRef" />
     <MetaIconData ref="metaIconDataRef"></MetaIconData>
