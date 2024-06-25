@@ -11,80 +11,110 @@
     negative-text="取消"
     @positive-click="submit"
     @negative-click="hide"
-    style="margin-top: 15vh; width: 600px"
+    style="margin-top: 15vh"
   >
-    <div class="flex items-center mb-2">
-      <div class="w-25">指标名称：</div>
-      <n-select
-        label-field="name"
-        value-field="id"
-        filterable
-        placeholder="请选择指标"
-        :options="dataBindStore.dataExtractList"
-        @update:value="onDataExtractChange"
-      />
-    </div>
-    <n-data-table
-      v-model:checked-row-keys="checkedRowKeys"
-      :columns="columns"
-      :data="dataBindStore.dataExtractInfo"
-      :bordered="false"
-    />
+    <n-grid x-gap="12" :cols="24">
+      <n-gi :span="5" class="flex items-center justify-end">指标名称：</n-gi>
+      <n-gi :span="19" class="flex items-center">
+        <n-select
+          v-model:value="id"
+          label-field="name"
+          value-field="id"
+          filterable
+          placeholder="请选择指标"
+          :options="dataBindStore.dataExtractList"
+          @update:value="onDataExtractChange"
+        />
+      </n-gi>
+      <n-gi :span="5" class="flex items-center justify-end">key：</n-gi>
+      <n-gi :span="19" class="flex items-center my-2">
+        <n-select
+          v-model:value="checkedKey"
+          placeholder="请选择key"
+          filterable
+          :options="dataBindStore.dataExtractKeyOptions"
+          @update:value="onKeyChange"
+        >
+        </n-select>
+      </n-gi>
+      <n-gi :span="5" class="flex items-center justify-end" v-if="isShowValueSelect">value：</n-gi>
+      <n-gi :span="19" class="flex items-center" v-if="isShowValueSelect">
+        <n-select
+          :value="checkedValue"
+          placeholder="请选择value"
+          filterable
+          :options="dataExtractValueOptions"
+          @update:value="onValueChange"
+        >
+        </n-select>
+      </n-gi>
+    </n-grid>
   </n-modal>
 </template>
 
 <script setup lang="ts">
-import { useDataBindStore } from "@/stores/modules/data-bind";
-import { ref } from "vue";
+import { useDataBindStore } from "@/stores/";
+import { computed, ref } from "vue";
 
 const emit = defineEmits<{
-  onKeySelect: [
+  onValueUpdate: [
     {
-      column: string | undefined;
-      id: number | undefined;
+      id: number | null;
+      key: string | null;
+      value: string | null;
     }
   ];
 }>();
 
 const dataBindStore = useDataBindStore();
 const isVisible = ref(false);
-const checkedRowKeys = ref<string[]>([]);
-const id = ref<number>();
+const checkedKey = ref<string | null>(null);
+const checkedValue = ref<string | null>(null);
+const id = ref<number | null>(null);
+const isShowValueSelect = ref<boolean>(false);
 
-const columns = [
-  {
-    type: "selection",
-    multiple: false
-  },
-  {
-    title: "序号",
-    key: "index"
-  },
-  {
-    title: "key",
-    key: "key"
-  }
-];
-
-const onDataExtractChange = (val: number) => {
-  dataBindStore.getDataExtractInfo(403);
-  id.value = val;
+const onDataExtractChange = async () => {
+  await dataBindStore.getDataExtractInfo(314);
 };
 
-const show = () => {
+const onKeyChange = () => {
+  checkedValue.value = null;
+};
+
+const onValueChange = (value: string) => {
+  checkedValue.value = value.split("-")[1];
+};
+
+const dataExtractValueOptions = computed(() => {
+  if (checkedKey.value === null) return [];
+  const list = dataBindStore.dataExtractInfoList
+    .map((ele, index) => {
+      return {
+        label: String(ele[checkedKey.value as string]),
+        value: index + "-" + String(ele[checkedKey.value as string])
+      };
+    })
+    .filter((ele) => ele.label);
+  return list;
+});
+
+const show = (isNode?: boolean) => {
   isVisible.value = true;
+  isShowValueSelect.value = !!isNode;
 };
 
 const hide = () => {
   isVisible.value = false;
-  dataBindStore.dataExtractInfo = [];
+  checkedValue.value = null;
 };
 
 const submit = () => {
-  emit("onKeySelect", {
-    column: checkedRowKeys.value[0],
-    id: id.value
+  emit("onValueUpdate", {
+    id: id.value,
+    key: checkedKey.value,
+    value: checkedValue.value
   });
+  hide();
 };
 
 defineExpose({

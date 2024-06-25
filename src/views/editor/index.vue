@@ -23,11 +23,17 @@ import RightPanel from "@/components/SvgEditor/Panel/Right/index.vue";
 import AttributeTrigger from "@/components/SvgEditor/Panel/Right/Trigger/index.vue";
 import Shortcut from "@/components/SvgEditor/Shortcut/index.vue";
 import { useSvg } from "@/hooks/svg/useSvg";
-import { useCommonStore } from "@/stores";
+import { useCommonStore, useDataBindStore } from "@/stores";
+import { onMounted } from "vue";
 
 useSvg();
 
 const commonStore = useCommonStore();
+const dataBindStore = useDataBindStore();
+
+onMounted(() => {
+  dataBindStore.getDataExtractList();
+});
 </script>
 
 <style scoped></style>

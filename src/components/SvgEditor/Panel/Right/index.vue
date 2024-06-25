@@ -8,7 +8,7 @@
       <n-tab-pane name="layer" tab="子图层" :disabled="!mapStore.mapInfo" display-directive="show">
         <SublayerList
       /></n-tab-pane>
-      <n-tab-pane name="data" tab="数据"> <DataBind /> </n-tab-pane>
+      <n-tab-pane name="data" tab="数据" display-directive="show"> <DataBind /> </n-tab-pane>
     </n-tabs>
 
     <n-button tertiary circle class="absolute right-1 top-1" @click="closeAttributeView">

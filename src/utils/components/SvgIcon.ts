@@ -5,19 +5,6 @@ interface ISvgInfo {
   svgContainerId: string;
 }
 
-/**
- * 数据更新类型
- */
-enum ISvgDataType {
-  COLOR = "color",
-  SIZE = "size",
-  VISIBILITY = "visibility",
-  TEXT = "text",
-  OPACITY = "opacity",
-  TRANSFORM = "transform",
-  STROKE_WIDTH = "stroke-width"
-}
-
 export interface ISvgDataItem {
   domId: string;
   value: string | number | boolean;
@@ -133,6 +120,9 @@ export class SvgIcon {
             break;
           case "color":
             element.style("fill", style.data);
+            break;
+          case "scale":
+            element.attr("transform", `scale(${style.data})`);
             break;
           case "width":
             element.attr("width", style.data);

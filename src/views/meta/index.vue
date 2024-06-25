@@ -50,7 +50,7 @@ import MetaTree from "@/components/MetaIcon/MetaTree/index.vue";
 import MetaIconData from "@/components/MetaIcon/Modal/MetaIconData/index.vue";
 import type { IMetaItem, IGroupModel } from "@/types";
 import { deleteMeta as deleteMetaByHttp } from "@/utils/http/apis";
-import { useDataBindStore } from "@/stores/modules/data-bind";
+import { useDataBindStore } from "@/stores/";
 
 const dialog = useDialog();
 

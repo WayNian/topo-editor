@@ -18,59 +18,60 @@
     </div>
   </div>
 
-  <n-scrollbar style="max-height: 300px" v-if="conditionsForm.length">
-    <n-form ref="formRef" :model="conditionsForm" label-placement="left" class="mr-2">
-      <n-form-item v-for="(item, index) in conditionsForm" :key="index">
-        <n-input-group>
-          <n-input-number
-            v-model:value="item.threshold"
-            :style="{ width: '43%' }"
-            clearable
-            placeholder="阈值"
-          />
-          <n-select
-            v-model:value="item.comparison"
-            :options="comparisonOptions"
-            class="w-22 flex-shrink-0"
-          >
-          </n-select>
-          <n-select
-            v-model:value="item.tagName"
-            :options="tagNameOptions"
-            clearable
-            placeholder="元素"
-            class="w-22 flex-shrink-0"
-          >
-          </n-select>
-          <n-select
-            v-model:value="item.style.type"
-            :options="styleTypeOptions"
-            class="w-40 flex-shrink-0"
-            clearable
-            placeholder="样式类型"
-          >
-          </n-select>
-          <n-input v-model:value="item.style.data" clearable placeholder="样式" />
-        </n-input-group>
-        <n-button text style="font-size: 18px" class="mx-1" @click="add(index)">
-          <n-icon :component="AddFilled" />
-        </n-button>
-        <n-button text style="font-size: 18px" @click="remove(index)">
-          <n-icon :component="Subtract" />
-        </n-button>
-      </n-form-item>
-    </n-form>
-  </n-scrollbar>
-  <n-empty description="暂无数据" v-else> </n-empty>
+  <n-spin :show="isLoading">
+    <n-scrollbar style="max-height: 300px" v-if="conditionsForm.length">
+      <n-form ref="formRef" :model="conditionsForm" label-placement="left" class="mr-2">
+        <n-form-item v-for="(item, index) in conditionsForm" :key="index">
+          <n-input-group>
+            <n-input-number
+              v-model:value="item.threshold"
+              :style="{ width: '43%' }"
+              clearable
+              placeholder="阈值"
+            />
+            <n-select
+              v-model:value="item.comparison"
+              :options="comparisonOptions"
+              class="w-22 flex-shrink-0"
+            >
+            </n-select>
+            <n-select
+              v-model:value="item.tagName"
+              :options="tagNameOptions"
+              clearable
+              placeholder="元素"
+              class="w-22 flex-shrink-0"
+            >
+            </n-select>
+            <n-select
+              v-model:value="item.style.type"
+              :options="styleTypeOptions"
+              class="w-40 flex-shrink-0"
+              clearable
+              placeholder="样式类型"
+            >
+            </n-select>
+            <n-input v-model:value="item.style.data" clearable placeholder="样式" />
+          </n-input-group>
+          <n-button text style="font-size: 18px" class="mx-1" @click="add(index)">
+            <n-icon :component="AddFilled" />
+          </n-button>
+          <n-button text style="font-size: 18px" @click="remove(index)">
+            <n-icon :component="Subtract" />
+          </n-button>
+        </n-form-item>
+      </n-form>
+    </n-scrollbar>
+    <n-empty description="暂无数据" v-else> </n-empty>
+  </n-spin>
 
-  <DataBind ref="dataBindRef" @onKeySelect="onKeySelect"></DataBind>
+  <DataBind ref="dataBindRef" @onValueUpdate="onValueUpdate"></DataBind>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import AddFilled from "@/assets/images/icons/AddFilled.svg?component";
 import Subtract from "@/assets/images/icons/Subtract.svg?component";
-import Settings from "@/assets/images/icons/Settings.svg?component";
 import DataBind from "@/components/Common/Modal/DataBind/index.vue";
 import { useDialog, type SelectOption } from "naive-ui";
 import type { ITreeOption } from "@/utils/tools/data/modules/bind";
@@ -101,6 +102,7 @@ const styleTypeOptions = [
   { label: "描边", value: "stroke" },
   { label: "颜色", value: "color" },
   { label: "边框", value: "border" },
+  { label: "缩放", value: "scale" },
   { label: "宽度", value: "width" },
   { label: "高度", value: "height" },
   { label: "半径", value: "radius" },
@@ -127,17 +129,18 @@ const conditionsForm = ref<
   }[]
 >([]);
 
-const extractId = ref<number>();
-const dataKey = ref<string>();
+const extractId = ref<number | null>(null);
+const dataKey = ref<string | null>(null);
 const domId = ref<string>();
 const dataBindRef = ref<InstanceType<typeof DataBind> | null>(null);
+const isLoading = ref(false);
 
 const showDataBindModal = () => {
   dataBindRef.value?.show();
 };
 
-const onKeySelect = ({ column, id }: { column: string | undefined; id: number | undefined }) => {
-  dataKey.value = column;
+const onValueUpdate = ({ key, id }: { key: string | null; id: number | null }) => {
+  dataKey.value = key;
   extractId.value = id;
 };
 
@@ -175,6 +178,12 @@ const remove = (index: number) => {
   conditionsForm.value.splice(index, 1);
 };
 
+const getData = async () => {
+  isLoading.value = true;
+  await metaStore.getMetaIconData(iconInfo.value!.objType, domId.value);
+  isLoading.value = false;
+};
+
 const onIdChange = async (val?: ITreeOption) => {
   domId.value = val ? (val.key as string) : val;
   tagNameOptions.value =
@@ -183,7 +192,7 @@ const onIdChange = async (val?: ITreeOption) => {
     }) || [];
 
   if (val) {
-    await metaStore.getMetaIconData(iconInfo.value!.objType, val.key as string);
+    await getData();
   } else {
     metaStore.metaIconDataBindList = [];
   }
@@ -233,7 +242,7 @@ const deleteSaveDataBind = async () => {
     onPositiveClick: async () => {
       await deleteMetaDataBind(dataBindId.value!);
       window.$message.success("删除成功");
-      await metaStore.getMetaIconData(iconInfo.value!.objType, domId.value);
+      await getData();
       initConditionsForm();
     },
     onAfterLeave: () => {}
@@ -260,7 +269,7 @@ const onSaveDataBind = async () => {
   const title = dataBindId.value ? "修改" : "新增";
   params.id ? await updataMetaDataBind(params) : await addMetaDataBind(params);
   window.$message.success(`${title}成功`);
-  await metaStore.getMetaIconData(iconInfo.value!.objType, domId.value);
+  await getData();
   initConditionsForm();
 };
 defineExpose({
