@@ -114,7 +114,7 @@ const columns = [
                   size: 20,
                   class: "mr-2",
                   onClick: () => {
-                    showDataBindModal(row);
+                    showEditMetaModal(row);
                   }
                 },
                 { default: () => h(ImageEdit24Regular) }
@@ -137,7 +137,7 @@ const columns = [
                   size: 20,
                   class: "mr-2",
                   onClick: () => {
-                    showEditMetaModal(row);
+                    showDataBindModal(row);
                   }
                 },
                 { default: () => h(DataObject) }

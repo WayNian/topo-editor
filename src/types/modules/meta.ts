@@ -6,6 +6,7 @@ export interface IMetaItem {
   groupName?: string;
   objImg: string;
   compClass?: string;
+  script?: string;
   imgScale?: string;
   updatedBy?: string;
   updatedTime?: string;
@@ -28,6 +29,7 @@ export interface IMetaModel {
   objName: string;
   groupId: string;
   compClass: string;
+  script: string;
   objImg: string;
   imgScale: string;
   svgData?: string;

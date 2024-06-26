@@ -35,8 +35,11 @@
           :options="metaStore.groupSelectOptions"
         />
       </n-form-item>
-      <n-form-item label="关联组件" path="compClass">
+      <!-- <n-form-item label="关联组件" path="compClass">
         <n-select v-model:value="groupModel.compClass" placeholder="关联组件" :options="[]" />
+      </n-form-item> -->
+      <n-form-item label="脚本" path="script">
+        <n-button @click="setScript">设置</n-button>
       </n-form-item>
       <n-form-item label="对象图标" path="objImg">
         <n-upload
@@ -45,7 +48,7 @@
           :max="1"
           :default-file-list="previewFileList"
           :custom-request="customRequest"
-          @remove="handleRemove"
+          @remove="onImageRemove"
         >
           <n-button>选择文件</n-button>
         </n-upload>
@@ -55,6 +58,10 @@
       </n-form-item> -->
     </n-form>
   </n-modal>
+  <CodeMirrorModal
+    ref="codeMirrorModalRef"
+    @onValueUpdate="onCodeMirrorValueUpdate"
+  ></CodeMirrorModal>
 </template>
 
 <script setup lang="ts">
@@ -63,9 +70,11 @@ import { computed, ref } from "vue";
 import { useMetaStore } from "@/stores";
 import { addMeta, updateMeta, uploadFile } from "@/utils/http/apis";
 import type { IMetaItem, IMetaModel } from "@/types";
+import CodeMirrorModal from "@/components/SvgEditor/Panel/Left/CodeMirror/index.vue";
 
 const metaStore = useMetaStore();
 const groupFormRef = ref<FormInst | null>(null);
+const codeMirrorModalRef = ref<InstanceType<typeof CodeMirrorModal> | null>(null);
 const previewFileList = ref<
   {
     id?: string;
@@ -79,6 +88,7 @@ const groupModel = ref<IMetaModel>({
   objName: "",
   groupId: "",
   compClass: "",
+  script: "",
   objImg: "",
   imgScale: "1",
   svgData: ""
@@ -133,8 +143,16 @@ const customRequest = ({ file, onFinish, onError }: UploadCustomRequestOptions) 
     });
 };
 
-const handleRemove = () => {
+const onImageRemove = () => {
   groupModel.value.objImg = "";
+};
+
+const setScript = () => {
+  codeMirrorModalRef.value?.show(groupModel.value.script);
+};
+
+const onCodeMirrorValueUpdate = (content: string) => {
+  groupModel.value.script = content;
 };
 
 const show = (val?: IMetaItem) => {
@@ -146,6 +164,7 @@ const show = (val?: IMetaItem) => {
       objName,
       groupId = "",
       compClass = "",
+      script = "",
       objImg,
       imgScale = "",
       svgData = ""
@@ -155,6 +174,7 @@ const show = (val?: IMetaItem) => {
       objName,
       groupId,
       compClass,
+      script,
       objImg,
       imgScale,
       svgData
@@ -176,6 +196,7 @@ const hide = () => {
     objName: "",
     groupId: "",
     compClass: "",
+    script: "",
     objImg: "",
     imgScale: "1",
     svgData: ""
