@@ -21,10 +21,11 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, onUnmounted, ref } from "vue";
+import { nextTick, onMounted, ref } from "vue";
 
 import { basicSetup, EditorView } from "codemirror";
 import { javascript } from "@codemirror/lang-javascript";
+import { abcdef } from "@uiw/codemirror-theme-abcdef";
 
 const emit = defineEmits<{
   onValueUpdate: [content: string];
@@ -40,10 +41,9 @@ const show = (content: string) => {
   nextTick(() => {
     view = new EditorView({
       doc: "",
-      extensions: [basicSetup, javascript()],
+      extensions: [basicSetup, javascript(), abcdef],
       parent: document.querySelector("#codeLayout") as Element
     });
-
     view.dispatch({
       changes: {
         from: 0,
