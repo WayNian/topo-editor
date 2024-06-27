@@ -65,6 +65,20 @@ export const clearData = () => {
   dataStore.currentNode = null;
 };
 
+const setGroupNodesLinksSelected = (groupIds?: string[]) => {
+  if (!groupIds) return;
+  const dataStore = useDataStore();
+  dataStore.groups.forEach((group) => {
+    if (groupIds.includes(group.groupId)) {
+      group.nodes?.forEach((node) => {
+        node.selected = true;
+      });
+      group.links?.forEach((link) => {
+        link.selected = true;
+      });
+    }
+  });
+};
 /**
  *  设置节点选择状态
  * @param node
@@ -92,6 +106,8 @@ export const setNodesSelected = (node?: INode) => {
     setLinksSelected();
     node.selected = true;
     dataStore.currentNode = node;
+
+    setGroupNodesLinksSelected(node.groupId);
   }
 };
 
@@ -122,6 +138,8 @@ export const setLinksSelected = (link?: ILink) => {
     link.selected = true;
     dataStore.currentLink = link;
   }
+
+  setGroupNodesLinksSelected(link.groupId);
 };
 
 export const setNodesLinksSelected = () => {

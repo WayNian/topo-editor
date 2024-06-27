@@ -1,5 +1,5 @@
 <template>
-  <g id="nodeSelectionGroup" v-if="dataStore.linksSelected.length > 1">
+  <g id="nodeSelectionGroup" v-if="dataStore.nodesSelected.length > 1">
     <rect
       v-for="item in dataStore.nodesSelected"
       :key="item.nodeId"
