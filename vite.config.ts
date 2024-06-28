@@ -44,12 +44,24 @@ export default defineConfig({
     port: 3003,
     host: "0.0.0.0",
     proxy: {
+      "/action/topo/index": {
+        target: "http://172.19.139.246:10003",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/action\/topo\/index/, "/index")
+      },
+      "/action/topo/dataSource": {
+        target: "http://172.19.139.246:6818/",
+        // target: "http://172.19.139.246:10003",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/action\/topo\/dataSource/, "/dataSource")
+      },
       "/action": {
         // target: "http://172.19.139.246:6722/",
         target: "http://172.19.139.253:10017",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/action/, "")
       },
+
       "/wiscom": {
         target: "http://172.19.42.25:6818/",
         // target: "http://172.19.42.25:6722/",

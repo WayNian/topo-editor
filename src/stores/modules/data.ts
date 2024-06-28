@@ -25,6 +25,7 @@ export const useDataStore = defineStore("data", () => {
 
   const nodesSelected = computed(() => nodes.value.filter((node) => node.selected));
   const linksSelected = computed(() => links.value.filter((link) => link.selected));
+  const groupSelected = computed(() => groups.value.filter((group) => group.selected));
 
   return {
     nodesAll,
@@ -37,6 +38,7 @@ export const useDataStore = defineStore("data", () => {
     currentLink,
     isSelectionRectVisible,
     nodesSelected,
-    linksSelected
+    linksSelected,
+    groupSelected
   };
 });

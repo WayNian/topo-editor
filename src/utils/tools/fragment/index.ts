@@ -60,6 +60,17 @@ function ajaxGet(url: string) {
   });
 }
 
+/**
+ * 公共方法 创建资源
+ * @date 2021-06-29
+ * @updated 2024-06-12
+ * @param {any} routerHead 路由 默认""
+ * @param {any} resourceCode 资源code compCode
+ * @param {any} resourceId 资源id
+ * @param {any} container 容器
+ * @param {any} scale_f 默认1
+ * @returns {any}
+ */
 export const publicResourceCreate = async (
   routerHead: string,
   resourceCode: string,
@@ -115,13 +126,9 @@ export const publicResourceCreate = async (
       };
 
       try {
-        try {
-          componentInfo.widget = eval(
-            `new ${compBasic.className}('${compId.split("_copy")[0]}', '${compBasic.code}', containerElement, 1, ${JSON.stringify(compOption)}, false)`
-          );
-        } catch (e) {
-          console.error("Component creation failed:", e);
-        }
+        componentInfo.widget = eval(
+          `new ${compBasic.className}('${compId.split("_copy")[0]}', '${compBasic.code}', containerElement, 1, ${JSON.stringify(compOption)}, false)`
+        );
       } catch (e) {
         console.error("Component creation failed:", e);
       }

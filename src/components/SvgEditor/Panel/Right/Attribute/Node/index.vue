@@ -66,15 +66,14 @@
         />
       </Item>
       <Item title="资源">
-        <div class="flex">
-          <n-input
-            :value="dataStore.currentNode?.compClass"
-            placeholder="输入资源ID"
-            size="small"
-            @update:value="changeCompClass"
-          />
-          <n-button size="small" class="ml-2" @click="handlePreview">预览</n-button>
-        </div>
+        <n-select
+          :value="dataStore.currentNode?.compClass || null"
+          filterable
+          placeholder="选择资源"
+          size="small"
+          :options="commClassOptions"
+          @update:value="updateStringAttr('compClass', $event)"
+        />
       </Item>
     </n-collapse-item>
     <n-collapse-item title="样式" name="3">
@@ -93,7 +92,7 @@
           :value="dataStore.currentNode?.nodeText"
           size="small"
           placeholder="请输入文字"
-          @update:value="updateContent"
+          @update:value="updateStringAttr('nodeText', $event)"
         />
       </Item>
       <!-- 字体、大小、颜色、旋转角度 -->
@@ -123,7 +122,7 @@ import { useDataStore, useMetaStore } from "@/stores";
 import Item from "../Item/index.vue";
 import { ref, watch } from "vue";
 import { formatObject } from "@/utils/tools";
-import type { IMetaItem } from "@/types";
+import type { IMetaItem, INode } from "@/types";
 import { updateNodeById, removeNode, drawNodes } from "@/utils/editor/draw";
 import { updateNode } from "@/utils/http/apis";
 import { publicResourceCreate } from "@/utils/tools/fragment";
@@ -131,6 +130,13 @@ import { publicResourceCreate } from "@/utils/tools/fragment";
 const dataStore = useDataStore();
 const metaStore = useMetaStore();
 const style = ref<Record<string, any>>({});
+
+const commClassOptions = [
+  {
+    label: "弹窗",
+    value: "popup"
+  }
+];
 
 watch(
   () => dataStore.currentNode?.nodeId,
@@ -159,21 +165,15 @@ const changeMetaIcon = (value: string, { row }: { row: IMetaItem }) => {
   updateNode([dataStore.currentNode]);
 };
 
-const changeCompClass = (value: string) => {
+const updateStringAttr = (type: "compClass" | "nodeText", value: string) => {
   if (!dataStore.currentNode) return;
-  dataStore.currentNode.compClass = value;
+  dataStore.currentNode[type] = value;
   updateNodeAttribute();
 };
 
 const updateSize = (key: "width" | "height", value: number) => {
   if (!dataStore.currentNode) return;
   dataStore.currentNode[key] = value;
-  updateNodeAttribute();
-};
-
-const updateContent = (value: string) => {
-  if (!dataStore.currentNode) return;
-  dataStore.currentNode.nodeText = value;
   updateNodeAttribute();
 };
 

@@ -248,6 +248,9 @@ const formatData = (node: ISvgNode) => {
           nodePosition,
           nodeSize: `${width}*${height}`,
           nodeStyles: JSON.stringify(style),
+          bindData: {
+            value: id
+          },
           style
         });
       }
@@ -283,6 +286,9 @@ const formatData = (node: ISvgNode) => {
           nodeSize: `${size[0]}*${size[1]}`,
           nodeStyles: JSON.stringify(style),
           style,
+          bindData: {
+            value: id
+          },
           nodeText: ""
         });
       }
@@ -325,6 +331,9 @@ const formatData = (node: ISvgNode) => {
           nodeStyles: JSON.stringify(style),
           fontSize,
           style,
+          bindData: {
+            value: id
+          },
           nodeText: text
         });
       }
@@ -354,6 +363,9 @@ const formatData = (node: ISvgNode) => {
           nodePosition,
           nodeSize: `${size[0]}*${size[1]}`,
           nodeStyles: JSON.stringify(style),
+          bindData: {
+            value: id
+          },
           style
         });
       }

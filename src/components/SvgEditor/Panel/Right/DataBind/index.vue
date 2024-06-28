@@ -1,60 +1,44 @@
 <template>
-  <div>
-    <Item title="K/V" tooltip="数据Key和Value">
-      <n-grid x-gap="4" :cols="24" class="flex items-center">
-        <n-gi :span="10">
-          <n-input
-            :value="dataStore.currentNode?.bindData.key || ''"
-            placeholder="key"
-            size="small"
-            @update:value="onBindMapDataChange($event, 'key')"
-          />
-        </n-gi>
-        <n-gi :span="10">
-          <n-input
-            :value="dataStore.currentNode?.bindData.value || ''"
-            placeholder="value"
-            size="small"
-            @update:value="onBindMapDataChange($event, 'value')"
-          />
-        </n-gi>
-        <n-gi :span="4">
-          <n-button text size="small" class="ml-2" @click="showDataBind">
-            <n-icon style="font-size: 24px">
-              <Settings></Settings>
-            </n-icon>
-          </n-button>
-        </n-gi>
-      </n-grid>
-    </Item>
-  </div>
-  <div id="svgCon"></div>
-  <NButton @click="updateSvg">测试</NButton>
+  <DataBindItem
+    v-for="item in dataStore.groupSelected"
+    :key="item.groupId"
+    :data="item"
+    @onShowDataBindModal="showDataBindModal($event, item)"
+  ></DataBindItem>
+  <!-- <div id="svgCon"></div> -->
+  <!-- <NButton @click="updateSvg">测试</NButton> -->
   <DataBindModal ref="dataBindModalRef" @onValueUpdate="onValueUpdate"></DataBindModal>
 </template>
 
 <script setup lang="ts">
 import { NButton } from "naive-ui";
-import { ref, watch, watchEffect } from "vue";
-import { useDataStore } from "@/stores";
+import { computed, ref, watch, watchEffect } from "vue";
+import { useDataStore, useMapStore } from "@/stores";
 import { SvgIcon, type ISvgDataItem } from "@/utils/components/SvgIcon";
 import DataBindModal from "@/components/Common/Modal/DataBind/index.vue";
-import Settings from "@/assets/images/icons/Settings.svg?component";
-import { updateNode } from "@/utils/http/apis";
-
+import DataBindItem from "@/components/SvgEditor/Panel/Right/Attribute/Item/DataBindItem.vue";
+import { updateMapGroupData, updateNode } from "@/utils/http/apis";
+import type { IGroupData, IGroupDataBind } from "@/types";
+import { getGroupDataList } from "@/utils/tools";
 const dataStore = useDataStore();
 const dataBindModalRef = ref<InstanceType<typeof DataBindModal> | null>(null);
 
 // http://172.19.139.246:6818/dataSource/dataPreviewController/dataPreview/previewByExtractId
 
 let svg: SvgIcon;
+
+const mapStore = useMapStore();
+const currentGroup = ref<IGroupData>();
+const cureentType = ref<string>("");
+
 watch(
   () => dataStore.currentNode?.nodeId,
   () => {
     svg = new SvgIcon(
       {
         svgContent: dataStore.currentNode?.svgData || "",
-        svgContainerId: "svgCon"
+        svgContainerId: "svgCon",
+        script: dataStore.currentNode?.script || ""
       },
       []
     );
@@ -122,18 +106,45 @@ const updateSvg = () => {
   svg.update(data);
 };
 
-const showDataBind = () => {
+const showDataBindModal = (nodeType: string, group: IGroupData) => {
+  cureentType.value = nodeType;
+  currentGroup.value = group;
   dataBindModalRef.value?.show(true);
 };
 
-const updateNodeAttribute = () => {
-  if (!dataStore.currentNode) return;
-  updateNode([dataStore.currentNode]);
+const updateNodeAttribute = async () => {
+  if (!currentGroup.value) return;
+  const { nodes, links } = currentGroup.value;
+  const mapId = mapStore.mapInfo!.mapId;
+
+  await updateMapGroupData({
+    ...currentGroup.value,
+    mapId,
+    topoMapsGroupDataList: getGroupDataList(nodes, links)
+  });
+
+  window.$message.success("更新成功");
 };
 
-const onValueUpdate = ({ value, key }: { value: string | null; key: string | null }) => {
-  dataStore.currentNode!.bindData.key = key || "";
-  dataStore.currentNode!.bindData.value = value || "";
+const onValueUpdate = ({
+  value,
+  key,
+  detailId
+}: {
+  value: string | null;
+  key: string | null;
+  detailId: string | null;
+}) => {
+  currentGroup.value!.bindData?.forEach((item) => {
+    if (item.nodeType === cureentType.value) {
+      item.key = key;
+      //   item.value = value!;
+      item.detailId = detailId;
+    }
+  });
+
+  console.log("🚀 ~ currentGroup.value!.bindData?.forEach ~ currentGroup:", currentGroup);
+
   updateNodeAttribute();
 };
 

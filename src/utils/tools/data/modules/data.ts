@@ -1,6 +1,5 @@
 import { useCommonStore, useDataStore, useMapStore } from "@/stores";
 import type { IGroupData, ILink, INode, ISublayer } from "@/types";
-import { drawNodesLinks } from "@/utils/editor/draw";
 import { deleteLinks, deleteNodes } from "@/utils/http/apis";
 
 /**
@@ -66,10 +65,14 @@ export const clearData = () => {
 };
 
 const setGroupNodesLinksSelected = (groupIds?: string[]) => {
-  if (!groupIds) return;
+  if (!groupIds) {
+    clearGroupSelected();
+    return;
+  }
   const dataStore = useDataStore();
   dataStore.groups.forEach((group) => {
     if (groupIds.includes(group.groupId)) {
+      group.selected = true;
       group.nodes?.forEach((node) => {
         node.selected = true;
       });
@@ -152,23 +155,39 @@ export const setNodesLinksSelected = () => {
   });
 };
 
-export const setGroupSelected = (group?: IGroupData) => {
-  clearNodesLinksSelected();
-  if (!group) return;
-  group.nodes?.forEach((node) => {
+export const setGroupSelected = (item: IGroupData) => {
+  setNodesSelected();
+  setLinksSelected();
+
+  item.selected = !item.selected;
+  if (!item.selected) return;
+  item.nodes?.forEach((node) => {
     node.selected = true;
   });
-  group.links?.forEach((link) => {
+  item.links?.forEach((link) => {
     link.selected = true;
   });
 };
 
+const clearGroupSelected = () => {
+  const dataStore = useDataStore();
+  dataStore.groups.forEach((group) => {
+    group.selected = false;
+    group.nodes?.forEach((node) => {
+      node.selected = false;
+    });
+    group.links?.forEach((link) => {
+      link.selected = false;
+    });
+  });
+};
 /**
  * 清除已选择的节点和连线
  */
 export const clearNodesLinksSelected = () => {
   setNodesSelected();
   setLinksSelected();
+  clearGroupSelected();
 };
 
 /**

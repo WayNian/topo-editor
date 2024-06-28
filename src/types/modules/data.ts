@@ -53,6 +53,7 @@ export interface IOriginalNode {
   metaData: Record<string, string> | null;
   sublayerList: ISublayerItem[];
   svgData?: string;
+  script?: string;
   data?: INodeDataItem[];
 }
 
@@ -127,11 +128,20 @@ export interface INodeLinkSource {
 
 export type IImportType = "import" | "importPart" | "importAll";
 
+export interface IGroupDataBind {
+  nodeType: string;
+  value: string | null;
+  key: string | null;
+  detailId: string | null;
+}
 export interface IGroupData {
+  mapId?: string;
   groupId: string;
   groupName: string;
   groupDescription: string;
   dataIds: string[];
   nodes?: INode[];
   links?: ILink[];
+  bindData?: IGroupDataBind[];
+  selected?: boolean;
 }

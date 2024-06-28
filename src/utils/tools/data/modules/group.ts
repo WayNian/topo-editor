@@ -1,3 +1,4 @@
+import type { INode, ILink } from "@/types";
 import { useDataStore } from "@/stores";
 
 export const initGroupData = () => {
@@ -33,4 +34,47 @@ export const initGroupData = () => {
       }
     });
   });
+
+  const types = new Set<string>();
+  dataStore.groups.forEach((group) => {
+    group.nodes?.forEach((node) => {
+      types.add(node.nodeType);
+    });
+    if (!group.bindData) {
+      group.bindData = [];
+      types.forEach((type) => {
+        group.bindData?.push({
+          nodeType: type,
+          detailId: null,
+          key: null,
+          value: null
+        });
+      });
+    }
+  });
+};
+
+export const getGroupDataList = (nodes?: INode[], links?: ILink[]) => {
+  const list: {
+    dataId: string;
+    dataType: "node" | "link";
+  }[] = [];
+
+  nodes &&
+    nodes.forEach((node) => {
+      list.push({
+        dataId: node.nodeId,
+        dataType: "node"
+      });
+    });
+
+  links &&
+    links.forEach((link) => {
+      list.push({
+        dataId: link.linkId,
+        dataType: "link"
+      });
+    });
+
+  return list;
 };

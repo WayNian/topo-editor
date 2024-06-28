@@ -1,12 +1,21 @@
-import { getDataExtract, getDataExtractInfo as getDataExtractInfoByHttp } from "@/utils/http/apis/";
+import {
+  getDataExtract,
+  getDataExtractInfo as getDataExtractInfoByHttp,
+  getDetailByExtractId
+} from "@/utils/http/apis/";
 import type { IDataExtract } from "@/types";
 import { defineStore } from "pinia";
 import { ref } from "vue";
+interface ISelectionOption {
+  label: string;
+  value: string;
+}
 
 export const useDataBindStore = defineStore("data-bind", () => {
   const dataExtractList = ref<IDataExtract[]>([]);
   const dataExtractInfoList = ref<Record<string, any>[]>([]);
-  const dataExtractKeyOptions = ref<Record<string, any>[]>([]);
+  const dataExtractDetailOptions = ref<ISelectionOption[]>([]);
+  const dataExtractKeyOptions = ref<ISelectionOption[]>([]);
 
   const getDataExtractList = async () => {
     dataExtractList.value = await getDataExtract();
@@ -23,11 +32,23 @@ export const useDataBindStore = defineStore("data-bind", () => {
     });
   };
 
+  const getExtractDetail = async (extractId: number) => {
+    const list = (await getDetailByExtractId(extractId)).detailList;
+    dataExtractDetailOptions.value = Object.entries(list).map(([key, value]) => {
+      return {
+        label: value.name,
+        value: value.id
+      };
+    });
+  };
+
   return {
     dataExtractList,
     dataExtractKeyOptions,
+    dataExtractDetailOptions,
     dataExtractInfoList,
     getDataExtractList,
-    getDataExtractInfo
+    getDataExtractInfo,
+    getExtractDetail
   };
 });

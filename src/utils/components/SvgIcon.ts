@@ -1,8 +1,9 @@
 import * as d3 from "d3";
 
-interface ISvgInfo {
+interface ISvgOptions {
   svgContent: string;
   svgContainerId: string;
+  script: string;
 }
 
 export interface ISvgDataItem {
@@ -22,23 +23,25 @@ export interface ISvgDataItem {
 }
 
 export class SvgIcon {
-  svgInfo;
+  svgOptions;
   svg: d3.Selection<SVGSVGElement, unknown, HTMLElement, any> | null = null;
-
-  constructor(svgInfo: ISvgInfo, data: ISvgDataItem[]) {
-    this.svgInfo = svgInfo;
+  scriptFunction: any;
+  constructor(svgOptions: ISvgOptions, data: ISvgDataItem[]) {
+    this.svgOptions = svgOptions;
     this.initIcon();
     this.update(data);
+    this.scriptFunction = new Function(this.svgOptions.script)();
   }
 
   initIcon() {
-    const { svgContent, svgContainerId } = this.svgInfo;
+    const { svgContent, svgContainerId } = this.svgOptions;
     this.svg = d3.select(`#${svgContainerId}`).html(svgContent).select<SVGSVGElement>("svg");
   }
 
   update(data: ISvgDataItem[]) {
     data.forEach((item) => {
       this.updateSvg(item);
+      this.scriptFunction();
     });
   }
 

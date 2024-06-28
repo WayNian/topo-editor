@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import { useDataStore, useMapStore } from "@/stores";
 import { addMapGroupData } from "@/utils/http/apis";
-import { getMapGroupData } from "@/utils/tools";
+import { getGroupDataList, getMapGroupData } from "@/utils/tools";
 import type { FormInst } from "naive-ui";
 import { ref } from "vue";
 
@@ -59,36 +59,15 @@ const hide = () => {
   groupModel.value.groupName = "";
 };
 
-const getfroupDataList = () => {
-  const { nodesSelected, linksSelected } = dataStore;
-  const list: {
-    dataId: string;
-    dataType: "node" | "link";
-  }[] = [];
-  nodesSelected.forEach((node) => {
-    list.push({
-      dataId: node.nodeId,
-      dataType: "node"
-    });
-  });
-
-  linksSelected.forEach((link) => {
-    list.push({
-      dataId: link.linkId,
-      dataType: "link"
-    });
-  });
-
-  return list;
-};
-
 const addGroup = async () => {
   const mapId = mapStore.mapInfo!.mapId;
+  const { nodesSelected, linksSelected } = dataStore;
+
   const params = {
     mapId,
     groupName: groupModel.value.groupName,
     groupDescription: groupModel.value.groupName,
-    topoMapsGroupDataList: getfroupDataList()
+    topoMapsGroupDataList: getGroupDataList(nodesSelected, linksSelected)
   };
   await addMapGroupData(params);
   window.$message.success("添加成功");
