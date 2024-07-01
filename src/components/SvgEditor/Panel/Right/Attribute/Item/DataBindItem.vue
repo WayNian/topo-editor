@@ -1,12 +1,15 @@
 <template>
   <div v-for="(item, index) in dataBindForms" :key="index">
-    <n-button text size="small" class="ml-2" @click="showDataBind(item.nodeType)">
-      <n-icon style="font-size: 24px">
-        <Settings></Settings>
-      </n-icon>
-    </n-button>
     <Item title="类型">
-      {{ item.nodeType }}
+      <div class="flex items-center justify-between pr-2">
+        {{ item.nodeType }}
+
+        <n-button text size="small" class="ml-2" @click="showDataBind(item.nodeType)">
+          <n-icon style="font-size: 24px">
+            <Settings></Settings>
+          </n-icon>
+        </n-button>
+      </div>
     </Item>
     <Item title="ID">
       <n-input

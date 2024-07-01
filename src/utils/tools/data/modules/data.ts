@@ -110,7 +110,7 @@ export const setNodesSelected = (node?: INode) => {
     node.selected = true;
     dataStore.currentNode = node;
 
-    setGroupNodesLinksSelected(node.groupId);
+    // setGroupNodesLinksSelected(node.groupId);
   }
 };
 
@@ -142,7 +142,7 @@ export const setLinksSelected = (link?: ILink) => {
     dataStore.currentLink = link;
   }
 
-  setGroupNodesLinksSelected(link.groupId);
+  //   setGroupNodesLinksSelected(link.groupId);
 };
 
 export const setNodesLinksSelected = () => {

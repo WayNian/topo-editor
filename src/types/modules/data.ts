@@ -145,3 +145,14 @@ export interface IGroupData {
   bindData?: IGroupDataBind[];
   selected?: boolean;
 }
+
+export interface IGroupDataModel {
+  mapId: string;
+  groupId?: string;
+  groupName: string;
+  groupDescription?: string;
+  topoMapsGroupDataList: {
+    dataId: string;
+    dataType: "node" | "link";
+  }[];
+}

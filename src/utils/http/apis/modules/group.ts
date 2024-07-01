@@ -1,4 +1,4 @@
-import type { IGroupData } from "@/types";
+import type { IGroupData, IGroupDataModel } from "@/types";
 import request from "../../index";
 
 export const getMapGroupData = (mapId: string) => {
@@ -8,28 +8,11 @@ export const getMapGroupData = (mapId: string) => {
   });
 };
 
-export const addMapGroupData = (params: {
-  mapId: string;
-  groupName: string;
-  groupDescription?: string;
-  topoMapsGroupDataList: {
-    dataId: string;
-    dataType: "node" | "link";
-  }[];
-}) => {
+export const addMapGroupData = (params: IGroupDataModel) => {
   return request.post<string>({ url: "/topoEdit/insertMapGroupData", data: params });
 };
 
-export const updateMapGroupData = (params: {
-  mapId: string;
-  groupId: string;
-  groupName: string;
-  groupDescription?: string;
-  topoMapsGroupDataList: {
-    dataId: string;
-    dataType: "node" | "link";
-  }[];
-}) => {
+export const updateMapGroupData = (params: IGroupDataModel) => {
   return request.post<string>({ url: "/topoEdit/updateMapGroupData", data: params });
 };
 

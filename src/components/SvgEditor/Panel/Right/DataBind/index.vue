@@ -5,8 +5,14 @@
     :data="item"
     @onShowDataBindModal="showDataBindModal($event, item)"
   ></DataBindItem>
-  <!-- <div id="svgCon"></div> -->
-  <!-- <NButton @click="updateSvg">测试</NButton> -->
+  <Item title="Value">
+    <n-input
+      :value="dataStore.currentNode?.domId"
+      placeholder="Value"
+      size="small"
+      @update:value="onAttributeChange($event, 'domId')"
+    />
+  </Item>
   <DataBindModal ref="dataBindModalRef" @onValueUpdate="onValueUpdate"></DataBindModal>
 </template>
 
@@ -22,8 +28,6 @@ import type { IGroupData, IGroupDataBind } from "@/types";
 import { getGroupDataList } from "@/utils/tools";
 const dataStore = useDataStore();
 const dataBindModalRef = ref<InstanceType<typeof DataBindModal> | null>(null);
-
-// http://172.19.139.246:6818/dataSource/dataPreviewController/dataPreview/previewByExtractId
 
 let svg: SvgIcon;
 
@@ -112,7 +116,8 @@ const showDataBindModal = (nodeType: string, group: IGroupData) => {
   dataBindModalRef.value?.show(true);
 };
 
-const updateNodeAttribute = async () => {
+// 更新节点属性
+const updateGroupAttribute = async () => {
   if (!currentGroup.value) return;
   const { nodes, links } = currentGroup.value;
   const mapId = mapStore.mapInfo!.mapId;
@@ -127,7 +132,6 @@ const updateNodeAttribute = async () => {
 };
 
 const onValueUpdate = ({
-  value,
   key,
   detailId
 }: {
@@ -143,14 +147,19 @@ const onValueUpdate = ({
     }
   });
 
-  console.log("🚀 ~ currentGroup.value!.bindData?.forEach ~ currentGroup:", currentGroup);
-
-  updateNodeAttribute();
+  updateGroupAttribute();
 };
 
-const onBindMapDataChange = (value: string, key: string) => {
-  dataStore.currentNode!.bindData[key] = value;
-  updateNodeAttribute();
+// 更新节点属性
+const updateNodeAttributeByHttp = () => {
+  if (!dataStore.currentNode) return;
+  updateNode([dataStore.currentNode]);
+};
+
+const onAttributeChange = (value: string, key: "domId") => {
+  if (!dataStore.currentNode) return;
+  dataStore.currentNode[key] = value;
+  updateNodeAttributeByHttp();
 };
 </script>
 
