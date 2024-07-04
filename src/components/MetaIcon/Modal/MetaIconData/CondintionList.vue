@@ -75,7 +75,7 @@ import Subtract from "@/assets/images/icons/Subtract.svg?component";
 import DataBind from "@/components/Common/Modal/DataBind/index.vue";
 import { useDialog, type SelectOption } from "naive-ui";
 import type { ITreeOption } from "@/utils/tools/data/modules/bind";
-import type { IMetaIconDataBind, IMetaItem } from "@/types";
+import type { ICondition, IMetaIconDataBind, IMetaItem } from "@/types";
 import { useMetaStore } from "@/stores";
 import { addMetaDataBind, deleteMetaDataBind, updataMetaDataBind } from "@/utils/http/apis";
 
@@ -117,17 +117,7 @@ const metaStore = useMetaStore();
 const iconInfo = ref<IMetaItem>();
 const dataBindId = ref<number>();
 
-const conditionsForm = ref<
-  {
-    tagName: string | null;
-    comparison: string;
-    threshold: string | number;
-    style: {
-      data: string;
-      type: string | null;
-    };
-  }[]
->([]);
+const conditionsForm = ref<ICondition[]>([]);
 
 const extractId = ref<number | null>(null);
 const dataKey = ref<string | null>(null);
@@ -145,7 +135,6 @@ const onValueUpdate = ({ key, id }: { key: string | null; id: number | null }) =
 };
 
 const add = (index?: number) => {
-  console.log("🚀 ~ add ~ index:", index);
   if (!domId.value) {
     window.$message.warning("请选择元素");
     return;
@@ -266,12 +255,14 @@ const onSaveDataBind = async () => {
     extractId: extractId.value!,
     conditions: conditionsForm.value
   };
+
   const title = dataBindId.value ? "修改" : "新增";
   params.id ? await updataMetaDataBind(params) : await addMetaDataBind(params);
   window.$message.success(`${title}成功`);
   await getData();
   initConditionsForm();
 };
+
 defineExpose({
   onIdChange,
   initData

@@ -41,7 +41,8 @@ export class SvgIcon {
   update(data: ISvgDataItem[]) {
     data.forEach((item) => {
       this.updateSvg(item);
-      this.scriptFunction();
+      //   接收数据，执行脚本
+      this.scriptFunction(data);
     });
   }
 

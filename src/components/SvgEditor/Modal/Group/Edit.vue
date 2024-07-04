@@ -2,7 +2,7 @@
   <n-modal
     v-model:show="isVisible"
     preset="dialog"
-    title="编辑分组"
+    title="编辑分组数据"
     size="huge"
     :bordered="false"
     :show-icon="false"
@@ -25,19 +25,21 @@
       <n-form-item label="名称" path="groupName">
         <n-input v-model:value="groupForm.groupName" placeholder="文件名称" />
       </n-form-item>
+      <n-form-item label="描述" path="groupDescription">
+        <n-input v-model:value="groupForm.groupDescription" placeholder="描述" />
+      </n-form-item>
     </n-form>
   </n-modal>
 </template>
 
 <script setup lang="ts">
-import { useDataStore, useMapStore } from "@/stores";
+import { useMapStore } from "@/stores";
 import type { IGroupData } from "@/types";
-import { addMapGroupData, updateMapGroupData } from "@/utils/http/apis";
+import { updateMapGroupData } from "@/utils/http/apis";
 import { getGroupDataList, getMapGroupData } from "@/utils/tools";
 import type { FormInst } from "naive-ui";
 import { ref } from "vue";
 
-const dataStore = useDataStore();
 const mapStore = useMapStore();
 
 const groupFormRef = ref<FormInst | null>(null);

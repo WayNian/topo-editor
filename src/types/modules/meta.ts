@@ -35,19 +35,21 @@ export interface IMetaModel {
   svgData?: string;
 }
 
+export interface ICondition {
+  comparison: string;
+  tagName: string | null;
+  threshold: string | number;
+  style: {
+    data: string;
+    type: string;
+  };
+}
+
 export interface IMetaIconDataBind {
   id?: number;
   objType: string;
   domId: string;
   column: string;
   extractId: number;
-  conditions?: {
-    comparison: string;
-    tagName: string;
-    threshold: string | number;
-    style: {
-      data: string;
-      type: string;
-    };
-  }[];
+  conditions?: ICondition[];
 }
