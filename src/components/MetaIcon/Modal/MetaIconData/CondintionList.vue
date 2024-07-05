@@ -6,7 +6,7 @@
         <n-button size="small" class="ml-2" @click="showDataBindModal"> 设置 </n-button>
       </n-form-item>
       <n-form-item>
-        <n-select class="w-40" :options="dataTypeOptions" :disabled="!domId" placeholder="数据类型">
+        <n-select class="w-40" :options="DataTypeOptions" :disabled="!domId" placeholder="数据类型">
         </n-select>
       </n-form-item>
     </n-form>
@@ -31,7 +31,7 @@
             />
             <n-select
               v-model:value="item.comparison"
-              :options="comparisonOptions"
+              :options="ComparisonOptions"
               class="w-22 flex-shrink-0"
             >
             </n-select>
@@ -45,7 +45,7 @@
             </n-select>
             <n-select
               v-model:value="item.style.type"
-              :options="styleTypeOptions"
+              :options="StyleTypeOptions"
               class="w-40 flex-shrink-0"
               clearable
               placeholder="样式类型"
@@ -70,49 +70,22 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { type SelectOption, useDialog } from "naive-ui";
+
+import DataBind from "@/components/Common/Modal/DataBind/index.vue";
+
 import AddFilled from "@/assets/images/icons/AddFilled.svg?component";
 import Subtract from "@/assets/images/icons/Subtract.svg?component";
-import DataBind from "@/components/Common/Modal/DataBind/index.vue";
-import { useDialog, type SelectOption } from "naive-ui";
-import type { ITreeOption } from "@/utils/tools/data/modules/bind";
-import type { ICondition, IMetaIconDataBind, IMetaItem } from "@/types";
-import { useMetaStore } from "@/stores";
+
+import { ComparisonOptions, DataTypeOptions, StyleTypeOptions } from "@/utils/constant";
 import { addMetaDataBind, deleteMetaDataBind, updataMetaDataBind } from "@/utils/http/apis";
+import type { ITreeOption } from "@/utils/tools/data/modules/bind";
+
+import { useMetaStore } from "@/stores";
+import type { ICondition, IMetaIconDataBind, IMetaItem } from "@/types";
 
 const dialog = useDialog();
-
-const dataTypeOptions = [
-  { label: "文本", value: "text" },
-  { label: "数字", value: "number" },
-  { label: "布尔", value: "boolean" }
-];
-
 const tagNameOptions = ref<SelectOption[]>([]);
-
-const comparisonOptions = [
-  { label: "大于", value: ">" },
-  { label: "小于", value: "<" },
-  { label: "等于", value: "=" },
-  { label: "大于等于", value: ">=" },
-  { label: "小于等于", value: "<=" }
-];
-
-const styleTypeOptions = [
-  { label: "填充", value: "fill" },
-  { label: "描边", value: "stroke" },
-  { label: "颜色", value: "color" },
-  { label: "边框", value: "border" },
-  { label: "缩放", value: "scale" },
-  { label: "宽度", value: "width" },
-  { label: "高度", value: "height" },
-  { label: "半径", value: "radius" },
-  { label: "可见性", value: "visibility" },
-  { label: "文本", value: "text" },
-  { label: "透明度", value: "opacity" },
-  { label: "变换", value: "transform" },
-  { label: "描边宽度", value: "stroke-width" }
-];
-
 const metaStore = useMetaStore();
 const iconInfo = ref<IMetaItem>();
 const dataBindId = ref<number>();
