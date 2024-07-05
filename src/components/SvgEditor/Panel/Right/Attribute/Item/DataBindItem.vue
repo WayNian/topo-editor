@@ -27,12 +27,15 @@
         @update:value="onBindMapDataChange"
       />
     </Item>
+
+    <n-divider></n-divider>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NButton } from "naive-ui";
 import { ref, watchEffect } from "vue";
+import { NButton } from "naive-ui";
+
 import Settings from "@/assets/images/icons/Settings.svg?component";
 import type { IGroupData, IGroupDataBind } from "@/types";
 

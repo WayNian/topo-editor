@@ -72,17 +72,14 @@
 import { ref } from "vue";
 import { type SelectOption, useDialog } from "naive-ui";
 
-import DataBind from "@/components/Common/Modal/DataBind/index.vue";
-
 import AddFilled from "@/assets/images/icons/AddFilled.svg?component";
 import Subtract from "@/assets/images/icons/Subtract.svg?component";
-
+import DataBind from "@/components/Common/Modal/DataBind/index.vue";
+import { useMetaStore } from "@/stores";
+import type { ICondition, IMetaIconDataBind, IMetaItem } from "@/types";
 import { ComparisonOptions, DataTypeOptions, StyleTypeOptions } from "@/utils/constant";
 import { addMetaDataBind, deleteMetaDataBind, updataMetaDataBind } from "@/utils/http/apis";
 import type { ITreeOption } from "@/utils/tools/data/modules/bind";
-
-import { useMetaStore } from "@/stores";
-import type { ICondition, IMetaIconDataBind, IMetaItem } from "@/types";
 
 const dialog = useDialog();
 const tagNameOptions = ref<SelectOption[]>([]);

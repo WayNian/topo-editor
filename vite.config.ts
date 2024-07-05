@@ -1,14 +1,13 @@
-import { fileURLToPath, URL } from "node:url";
-
-import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import AutoImport from "unplugin-auto-import/vite";
-import Components from "unplugin-vue-components/vite";
-import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
+import { fileURLToPath, URL } from "node:url";
 import UnoCSS from "unocss/vite";
+import AutoImport from "unplugin-auto-import/vite";
+import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
+import Components from "unplugin-vue-components/vite";
+import Markdown from "unplugin-vue-markdown/vite";
+import { defineConfig } from "vite";
 // import VueDevTools from "vite-plugin-vue-devtools";
 import svgLoader from "vite-svg-loader";
-import Markdown from "vite-plugin-md";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,7 +16,7 @@ export default defineConfig({
     vue({
       include: [/\.vue$/, /\.md$/] // <--
     }),
-    Markdown(),
+    Markdown({}),
     // VueDevTools(),
     UnoCSS(),
     svgLoader({

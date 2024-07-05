@@ -48,7 +48,9 @@
             size="small"
             text
             class="cursor-pointer hover:bg-#3b3b3b transition-all duration-200 px-2 py-1 rounded-1"
+            :class="{ 'bg-#3b3b3b': itemChild.selected }"
             @click="selectGroupItem(itemChild)"
+            @mouseenter="selectPreviewGroupItem(itemChild)"
           >
             {{ itemChild.nodeType }}
           </li>
@@ -108,16 +110,17 @@
 </template>
 
 <script setup lang="ts">
-import { useDataStore, useMapStore } from "@/stores/";
-import PanelScrollbar from "@/components/SvgEditor/Common/PanelScrollbar/index.vue";
-import type { IGroupData, INode } from "@/types";
+import { ref, toRaw } from "vue";
+import { useDialog } from "naive-ui";
+
 import Delete from "@/assets/images/icons/Delete.svg?component";
 import Edit from "@/assets/images/icons/Edit.svg?component";
+import PanelScrollbar from "@/components/SvgEditor/Common/PanelScrollbar/index.vue";
 import GroupEditModal from "@/components/SvgEditor/Modal/Group/Edit.vue";
-import { getMapGroupData, setGroupSelected } from "@/utils/tools";
-import { useDialog } from "naive-ui";
+import { useDataStore, useMapStore } from "@/stores/";
+import type { IGroupData, INode } from "@/types";
 import { deleteMapGroupData } from "@/utils/http/apis";
-import { ref, toRaw } from "vue";
+import { getMapGroupData, setGroupSelected, setNodesSelected } from "@/utils/tools";
 
 const dialog = useDialog();
 const dataStore = useDataStore();
@@ -130,9 +133,12 @@ const selectGroup = (item: IGroupData) => {
 };
 
 const selectGroupItem = (item: INode) => {
-  console.log("🚀 ~ selectGroupItem ~ item:", item);
+  setNodesSelected(item.selected ? undefined : item);
 };
 
+const selectPreviewGroupItem = (item: INode) => {
+  // setNodesSelected(item);
+};
 const updateGroup = (group: IGroupData) => {
   groupEditModalRef.value?.show(window.structuredClone(toRaw(group)));
 };

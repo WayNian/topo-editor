@@ -1,7 +1,8 @@
-import { useCommonStore, useDataStore, useMapStore, useSvgStore } from "@/stores";
 import * as d3 from "d3";
-import { updateLink, updateNode } from "@/utils/http/apis";
 import { SVGPathData } from "svg-pathdata";
+
+import { useCommonStore, useDataStore, useMapStore, useSvgStore } from "@/stores";
+import { updateLink, updateNode } from "@/utils/http/apis";
 // import { attrLinkGTrans, attrNodeGTrans } from "../attr";
 
 const startPoint = {

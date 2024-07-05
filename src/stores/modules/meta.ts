@@ -1,10 +1,11 @@
-import type { IMetaSource, IMetaItem, IMetaIconDataBind } from "@/types";
+import { computed, ref } from "vue";
+import type { TreeOption } from "naive-ui";
+import { defineStore } from "pinia";
+
+import type { IMetaIconDataBind,IMetaItem, IMetaSource } from "@/types";
 import { MetaBaseIconList } from "@/utils/constant";
 import { getGroupList, getMetaDataBind } from "@/utils/http/apis";
 import { getImageUrl } from "@/utils/tools";
-import type { TreeOption } from "naive-ui";
-import { defineStore } from "pinia";
-import { computed, ref } from "vue";
 
 const getGroupData = (list: IMetaSource[]) => {
   return list.map((item) => {

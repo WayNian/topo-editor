@@ -26,10 +26,12 @@
 </template>
 
 <script setup lang="ts">
-import * as d3 from "d3";
-import type { INode } from "@/types";
 import { computed, onMounted } from "vue";
+import * as d3 from "d3";
+
+import type { INode } from "@/types";
 import { bindNodeDrag } from "@/utils/editor/event";
+
 import Image from "./Image.vue";
 
 const props = defineProps<{

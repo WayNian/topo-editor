@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+
 import type { ILink, IPath, ISVGG } from "@/types";
 
 export const attrLinkG = (linkG: ISVGG<ILink, SVGGElement>) => {

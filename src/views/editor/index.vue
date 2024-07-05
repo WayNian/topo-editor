@@ -16,6 +16,8 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from "vue";
+
 import SvgEditor from "@/components/SvgEditor/Editor/index.vue";
 import Header from "@/components/SvgEditor/Header/index.vue";
 import LeftPanel from "@/components/SvgEditor/Panel/Left/index.vue";
@@ -24,7 +26,6 @@ import AttributeTrigger from "@/components/SvgEditor/Panel/Right/Trigger/index.v
 import Shortcut from "@/components/SvgEditor/Shortcut/index.vue";
 import { useSvg } from "@/hooks/svg/useSvg";
 import { useCommonStore, useDataBindStore } from "@/stores";
-import { onMounted } from "vue";
 
 useSvg();
 

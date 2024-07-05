@@ -87,7 +87,7 @@ const setGroupNodesLinksSelected = (groupIds?: string[]) => {
  * @param node
  * @returns
  */
-export const setNodesSelected = (node?: INode) => {
+export const setNodesSelected = (node?: INode | null) => {
   const dataStore = useDataStore();
   const commonStore = useCommonStore();
 

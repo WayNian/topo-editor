@@ -1,7 +1,7 @@
-import Text from "@/assets/images/meta/Text.svg?url";
-import Rect from "@/assets/images/meta/Rect.svg?url";
 import Circle from "@/assets/images/meta/Circle.svg?url";
 import Image from "@/assets/images/meta/Image.svg?url";
+import Rect from "@/assets/images/meta/Rect.svg?url";
+import Text from "@/assets/images/meta/Text.svg?url";
 import type { IMetaSource } from "@/types";
 
 export const MetaBaseIconList: IMetaSource = {

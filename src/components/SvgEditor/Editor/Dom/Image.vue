@@ -5,9 +5,10 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
+
 import type { INode } from "@/types";
 import { getNodeImage } from "@/utils/tools";
-import { computed } from "vue";
 
 const props = defineProps<{
   data: INode;

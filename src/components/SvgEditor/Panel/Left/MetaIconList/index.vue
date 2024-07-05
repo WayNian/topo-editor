@@ -33,10 +33,11 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from "vue";
+
 import { useMetaStore } from "@/stores";
 import type { IMetaItem } from "@/types";
 import { getImageUrl } from "@/utils/tools";
-import { onMounted } from "vue";
 
 const metaStore = useMetaStore();
 

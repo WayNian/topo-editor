@@ -5,9 +5,10 @@
 </template>
 
 <script setup lang="ts">
+import { computed, onMounted } from "vue";
 import * as d3 from "d3";
+
 import type { ILink } from "@/types";
-import { computed, onMounted, watchEffect } from "vue";
 import { bindLinkDrag } from "@/utils/editor/event";
 
 const props = defineProps<{

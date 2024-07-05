@@ -1,8 +1,8 @@
+import { SVGPathData } from "svg-pathdata";
+
 import { useDataStore, useMapStore } from "@/stores";
 import type { ILink, INode } from "@/types";
-import { drawNodesLinks } from "@/utils/editor/draw";
 import { updateNodesLinks } from "@/utils/http/apis";
-import { SVGPathData } from "svg-pathdata";
 
 // {
 //     label: "左对齐",

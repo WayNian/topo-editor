@@ -1,11 +1,11 @@
+import { useMapStore } from "@/stores";
+import { useCommonStore } from "@/stores/modules/common";
 import { useDataStore } from "@/stores/modules/data";
+import { useMenuStore } from "@/stores/modules/menu";
 import type { IImportData, ILink, IMapSource, INode } from "@/types";
 import { clearSvg, draw, drawMerge } from "@/utils/editor/draw/";
-import { checkLinks, checkNodes } from "./helper";
-import { useCommonStore } from "@/stores/modules/common";
 import { addMap, updateMap } from "@/utils/http/apis/";
-import { useMenuStore } from "@/stores/modules/menu";
-import { useMapStore } from "@/stores";
+
 import {
   addNodeLinkList,
   clearNodesLinksSelected,
@@ -16,6 +16,8 @@ import {
   renewMergeNodesLinks,
   renewNodesLinks
 } from "../../data";
+
+import { checkLinks, checkNodes } from "./helper";
 
 const mergeDefs = (defs: string, newDefs: string) => {
   const svgDefs = defs + newDefs;

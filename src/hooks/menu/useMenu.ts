@@ -1,7 +1,8 @@
+import { ref } from "vue";
+import type { FormRules } from "naive-ui";
+
 import type { IMenuModel } from "@/types";
 import { addMenu, updateMenu } from "@/utils/http/apis/";
-import type { FormRules } from "naive-ui";
-import { ref } from "vue";
 
 export const useMenu = () => {
   const menuRules: FormRules = {

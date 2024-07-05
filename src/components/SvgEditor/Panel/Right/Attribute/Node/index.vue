@@ -118,14 +118,16 @@
 </template>
 
 <script setup lang="ts">
-import { useDataStore, useMetaStore } from "@/stores";
-import Item from "../Item/index.vue";
 import { ref, watch } from "vue";
-import { formatObject } from "@/utils/tools";
-import type { IMetaItem, INode } from "@/types";
-import { updateNodeById, removeNode, drawNodes } from "@/utils/editor/draw";
+
+import { useDataStore, useMetaStore } from "@/stores";
+import type { IMetaItem } from "@/types";
+import { updateNodeById } from "@/utils/editor/draw";
 import { updateNode } from "@/utils/http/apis";
+import { formatObject } from "@/utils/tools";
 import { publicResourceCreate } from "@/utils/tools/fragment";
+
+import Item from "../Item/index.vue";
 
 const dataStore = useDataStore();
 const metaStore = useMetaStore();

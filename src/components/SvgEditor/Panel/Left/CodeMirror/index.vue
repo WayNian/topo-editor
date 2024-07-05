@@ -22,10 +22,9 @@
 
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue";
-
-import { basicSetup, EditorView } from "codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { abcdef } from "@uiw/codemirror-theme-abcdef";
+import { basicSetup, EditorView } from "codemirror";
 
 const emit = defineEmits<{
   onValueUpdate: [content: string];

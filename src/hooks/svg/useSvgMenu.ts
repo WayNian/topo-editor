@@ -1,9 +1,10 @@
-import RemoveSingleFromSublayer from "@/components/SvgEditor/Modal/Sublayer/RemoveSingleFromSublayer.vue";
-import MoveToSublayerModal from "@/components/SvgEditor/Modal/Sublayer/MoveToSublayer.vue";
-import AddGroup from "@/components/SvgEditor/Modal/Group/Add.vue";
-import { useDataStore, useMapStore } from "@/stores";
 import { onBeforeUnmount, onMounted, ref } from "vue";
-import { useDialog, type DropdownOption } from "naive-ui";
+import { type DropdownOption,useDialog } from "naive-ui";
+
+import AddGroup from "@/components/SvgEditor/Modal/Group/Add.vue";
+import MoveToSublayerModal from "@/components/SvgEditor/Modal/Sublayer/MoveToSublayer.vue";
+import RemoveSingleFromSublayer from "@/components/SvgEditor/Modal/Sublayer/RemoveSingleFromSublayer.vue";
+import { useDataStore, useMapStore } from "@/stores";
 import emitter from "@/utils/mitt";
 import { align, deleteNodesLinks } from "@/utils/tools";
 

@@ -1,10 +1,10 @@
 import type {
-  ISublayer,
-  ISublayerModel,
   IMapModel,
-  ISublayerUpdateModel,
-  ISublayerDeleteModel
-} from "@/types";
+  ISublayer,
+  ISublayerDeleteModel,
+  ISublayerModel,
+  ISublayerUpdateModel} from "@/types";
+
 import request from "../../index";
 
 export const addMap = (params: IMapModel) => {

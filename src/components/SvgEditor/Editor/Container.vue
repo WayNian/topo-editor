@@ -18,9 +18,10 @@
 
 <script setup lang="ts">
 import { useDataStore } from "@/stores";
+import type { ILink } from "@/types";
+
 import Link from "./Dom/Link.vue";
 import Node from "./Dom/Node.vue";
-import type { ILink } from "@/types";
 
 const dataStore = useDataStore();
 

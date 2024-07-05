@@ -1,6 +1,7 @@
-import type { ILink, INode, ISVGG, ISVGText, ISourceLink, ISourceNode, ISublayer } from "@/types";
-import { formatObject } from "../..";
 import { useMapStore } from "@/stores";
+import type { ILink, INode, ISourceLink, ISourceNode, ISublayer,ISVGG, ISVGText } from "@/types";
+
+import { formatObject } from "../..";
 
 // 解析路径为数组 js实现path路径解析为数组  M 283.00767973501206 301.5652924636853 L 716 673
 export function parseSvgPath(svgPath: string) {

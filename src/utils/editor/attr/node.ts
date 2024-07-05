@@ -1,3 +1,5 @@
+import * as d3 from "d3";
+
 import type {
   INode,
   ISVGBase,
@@ -9,7 +11,6 @@ import type {
   ISVGTspant
 } from "@/types";
 import { getNodeImage } from "@/utils/tools/common/";
-import * as d3 from "d3";
 
 export const attrNodeG = (nodeG: ISVGG<INode, SVGGElement>) => {
   nodeG

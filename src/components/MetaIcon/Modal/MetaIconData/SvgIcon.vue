@@ -17,14 +17,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick } from "vue";
+import { nextTick,ref } from "vue";
+
+import type { IMetaItem } from "@/types";
 import {
   bindIconData,
   cancelHightlight,
   hightlightPart,
   type ITreeOption
 } from "@/utils/tools/data/modules/bind";
-import type { IMetaItem } from "@/types";
 
 const emit = defineEmits<{
   onIdSelect: [idOption?: ITreeOption];

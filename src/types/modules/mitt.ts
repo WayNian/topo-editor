@@ -1,4 +1,4 @@
-import type { INode, ILink } from "./data";
+import type { ILink,INode } from "./data";
 import type { IMapSource } from "./map";
 export interface IImportData {
   nodes: INode[];

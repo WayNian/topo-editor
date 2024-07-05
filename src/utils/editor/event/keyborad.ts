@@ -1,7 +1,9 @@
 import * as d3 from "d3";
+
 import { useCommonStore } from "@/stores";
-import { hideSelectionRect } from "../draw";
 import emitter from "@/utils/mitt";
+
+import { hideSelectionRect } from "../draw";
 
 export const bindWindowEvent = () => {
   const commonStore = useCommonStore();

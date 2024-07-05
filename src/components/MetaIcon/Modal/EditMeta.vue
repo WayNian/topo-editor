@@ -65,12 +65,13 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInst, UploadCustomRequestOptions } from "naive-ui";
 import { computed, ref } from "vue";
-import { useMetaStore } from "@/stores";
-import { addMeta, updateMeta, uploadFile } from "@/utils/http/apis";
-import type { IMetaItem, IMetaModel } from "@/types";
+import type { FormInst, UploadCustomRequestOptions } from "naive-ui";
+
 import CodeMirrorModal from "@/components/SvgEditor/Panel/Left/CodeMirror/index.vue";
+import { useMetaStore } from "@/stores";
+import type { IMetaItem, IMetaModel } from "@/types";
+import { addMeta, updateMeta, uploadFile } from "@/utils/http/apis";
 
 const metaStore = useMetaStore();
 const groupFormRef = ref<FormInst | null>(null);

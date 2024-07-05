@@ -1,7 +1,8 @@
+import { ref } from "vue";
+import type { FormItemRule, FormRules } from "naive-ui";
+
 import type { IMapModel } from "@/types";
 import { addMap, updateMap } from "@/utils/http/apis/";
-import type { FormItemRule, FormRules } from "naive-ui";
-import { ref } from "vue";
 
 export const useMap = () => {
   const mapRules: FormRules = {

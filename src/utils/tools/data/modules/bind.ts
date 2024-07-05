@@ -1,6 +1,7 @@
-import type { IMetaItem, INode } from "@/types";
 import * as d3 from "d3";
 import type { TreeOption } from "naive-ui";
+
+import type { IMetaItem } from "@/types";
 
 export interface ITreeOption extends TreeOption {
   childrenTagNames: string[];

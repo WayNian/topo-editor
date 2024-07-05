@@ -1,13 +1,14 @@
-import axios from "axios";
 import type {
-  AxiosInstance,
-  InternalAxiosRequestConfig,
-  AxiosRequestConfig,
   AxiosError,
-  AxiosResponse
-} from "axios";
-import { HttpCodeConfig, StatusDic } from "./code";
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+  InternalAxiosRequestConfig} from "axios";
+import axios from "axios";
+
 import type { ResponseModel, UploadFileItemModel, UploadRequestConfig } from "@/types/";
+
+import { HttpCodeConfig } from "./code";
 import { getToken } from "./token";
 
 class HttpRequest {

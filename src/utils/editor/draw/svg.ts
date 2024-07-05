@@ -1,9 +1,12 @@
 import * as d3 from "d3";
-import { attrSvg, attrMapBackground } from "../attr/";
+
+import { useCommonStore, useMapStore } from "@/stores/";
 import type { ILink, INode } from "@/types/modules/data";
+
+import { attrMapBackground,attrSvg } from "../attr/";
 import { bindMapZoom } from "../event/svg";
-import { useCommonStore, useMapStore, useMenuStore } from "@/stores/";
-import { drawLinks, drawMergeLinks, drawMergeNodes, drawNodes } from ".";
+
+import { drawMergeLinks, drawMergeNodes } from ".";
 
 export const resetHighlight = () => {
   d3.selectAll<SVGPathElement, ILink>(`.link-group path.link`)

@@ -1,5 +1,6 @@
 import { computed, ref } from "vue";
 import { defineStore } from "pinia";
+
 import type { IGroupData, ILink, INode, ISourceLink, ISourceNode } from "@/types/";
 
 export const useDataStore = defineStore("data", () => {

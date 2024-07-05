@@ -7,11 +7,12 @@
 </template>
 
 <script setup lang="ts">
-import { useCommonStore } from "@/stores";
-import { NIcon, type MenuOption } from "naive-ui";
-import FileExport from "@/assets/images/icons/FileExport.svg?component";
-import { computed, h, type Component } from "vue";
+import { type Component,computed, h } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { type MenuOption,NIcon } from "naive-ui";
+
+import FileExport from "@/assets/images/icons/FileExport.svg?component";
+import { useCommonStore } from "@/stores";
 
 const commonStore = useCommonStore();
 const route = useRoute();

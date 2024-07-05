@@ -20,11 +20,12 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+import { type TreeOption,useDialog } from "naive-ui";
+
 import { useMetaStore } from "@/stores";
 import type { IGroupModel } from "@/types";
 import { deleteGroup as deleteGroupHttp } from "@/utils/http/apis";
-import { useDialog, type TreeOption } from "naive-ui";
-import { ref } from "vue";
 
 const emit = defineEmits<{
   edit: [val: IGroupModel];

@@ -1,5 +1,5 @@
 import { useMapStore } from "@/stores";
-import type { IOriginalNode, IOriginalLink, IMetaItem, IPosition } from "@/types";
+import type { IMetaItem, IOriginalLink, IOriginalNode, IPosition } from "@/types";
 import { addLink, addNode, formatObject, getTransPosition } from "@/utils/tools";
 
 export const onDroped = (evt: DragEvent) => {

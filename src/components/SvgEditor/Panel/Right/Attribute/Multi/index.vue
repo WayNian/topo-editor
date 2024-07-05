@@ -24,13 +24,14 @@
 </template>
 
 <script setup lang="ts">
-import { useDataStore, useMetaStore } from "@/stores";
-import Item from "../Item/index.vue";
 import { ref, watch } from "vue";
-import { formatObject } from "@/utils/tools";
+
+import { useDataStore, useMetaStore } from "@/stores";
 import type { IMetaItem } from "@/types";
-import { drawNodes, removeNode } from "@/utils/editor/draw";
 import { updateNode } from "@/utils/http/apis";
+import { formatObject } from "@/utils/tools";
+
+import Item from "../Item/index.vue";
 
 const dataStore = useDataStore();
 const metaStore = useMetaStore();

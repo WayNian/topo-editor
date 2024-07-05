@@ -1,6 +1,7 @@
 import * as d3 from "d3";
-import type { ISVGG, ISVGRect } from "@/types";
+
 import { useMapStore, useSvgStore } from "@/stores";
+import type { ISVGG, ISVGRect } from "@/types";
 
 export const attrSvg = () => {
   d3.select<SVGSVGElement, any>("#svgEditor").style("background-color", "black");

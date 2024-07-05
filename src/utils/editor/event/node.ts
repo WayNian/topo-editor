@@ -1,11 +1,10 @@
 import * as d3 from "d3";
+
 import { useCommonStore, useMapStore, useSvgStore } from "@/stores";
 import type { INode, ISVGG } from "@/types";
 import { setNodesSelected } from "@/utils/tools";
+
 import { attrNodeGTrans } from "../attr";
-import { updateNode } from "@/utils/http/apis";
-import { drawNodes } from "../draw";
-import { attrSelectionDrag } from "../attr/selection";
 
 const startPoint = {
   x: 0,

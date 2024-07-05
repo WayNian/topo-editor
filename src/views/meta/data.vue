@@ -31,19 +31,20 @@
 </template>
 
 <script setup lang="ts">
-import { useMetaStore } from "@/stores";
-import { NButton, NIcon, NImage, useDialog } from "naive-ui";
 import { h, onMounted, ref } from "vue";
+import { NButton, NIcon, NImage, useDialog } from "naive-ui";
+
 import AddFilled from "@/assets/images/icons/AddFilled.svg?component";
-import ImageEdit24Regular from "@/assets/images/icons/ImageEdit24Regular.svg?component";
 import DataObject from "@/assets/images/icons/DataObject.svg?component";
 import Delete from "@/assets/images/icons/Delete.svg?component";
+import ImageEdit24Regular from "@/assets/images/icons/ImageEdit24Regular.svg?component";
 import EditGroup from "@/components/MetaIcon/Modal/EditGroup.vue";
 import EditMeta from "@/components/MetaIcon/Modal/EditMeta.vue";
 import MetaIconData from "@/components/MetaIcon/Modal/MetaIconData/index.vue";
-import type { IMetaItem, IGroupModel } from "@/types";
-import { deleteMeta as deleteMetaByHttp } from "@/utils/http/apis";
+import { useMetaStore } from "@/stores";
 import { useDataBindStore } from "@/stores/";
+import type { IGroupModel,IMetaItem } from "@/types";
+import { deleteMeta as deleteMetaByHttp } from "@/utils/http/apis";
 
 const dialog = useDialog();
 

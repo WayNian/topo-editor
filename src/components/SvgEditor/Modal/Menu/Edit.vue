@@ -77,12 +77,13 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInst, TreeOption } from "naive-ui";
 import { computed, ref } from "vue";
-import { useMenu } from "@/hooks/menu/useMenu";
+import type { FormInst, TreeOption } from "naive-ui";
+
 import { useMap } from "@/hooks/menu/useMap";
-import type { IMapModel, IMenuModel } from "@/types";
+import { useMenu } from "@/hooks/menu/useMenu";
 import { useMenuStore } from "@/stores";
+import type { IMapModel, IMenuModel } from "@/types";
 
 const menuStore = useMenuStore();
 const tabActive = ref("menu");

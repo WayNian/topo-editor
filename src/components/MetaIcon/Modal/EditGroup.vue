@@ -30,11 +30,12 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInst } from "naive-ui";
 import { computed, ref } from "vue";
+import type { FormInst } from "naive-ui";
+
 import { useMetaStore } from "@/stores";
-import { addGroup, updateGroup } from "@/utils/http/apis";
 import type { IGroupModel } from "@/types";
+import { addGroup, updateGroup } from "@/utils/http/apis";
 
 const metaStore = useMetaStore();
 const groupFormRef = ref<FormInst | null>(null);

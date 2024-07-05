@@ -1,9 +1,9 @@
 import { useMapStore } from "@/stores/";
 import { useDataStore } from "@/stores/modules/data";
 import type { ILink, INode } from "@/types";
-import { formatLinks } from "@/utils/tools";
-import { drawLinks, drawMergeLinks, drawMergeNodes, drawNodes } from "@/utils/editor/draw/";
+import { drawMergeLinks, drawMergeNodes } from "@/utils/editor/draw/";
 import { updateLinks, updateNodes } from "@/utils/http/apis/";
+import { formatLinks } from "@/utils/tools";
 
 export const useMerge = () => {
   const mapStore = useMapStore();

@@ -18,11 +18,12 @@
 </template>
 
 <script setup lang="ts">
-import { SettingsSharp } from "@vicons/ionicons5";
-import MenuSharp from "@/assets/images/icons/MenuSharp.svg?component";
-import { useCommonStore } from "@/stores";
-import MapVersion from "@/components/Version/index.vue";
 import { ref } from "vue";
+import { SettingsSharp } from "@vicons/ionicons5";
+
+import MenuSharp from "@/assets/images/icons/MenuSharp.svg?component";
+import MapVersion from "@/components/Version/index.vue";
+import { useCommonStore } from "@/stores";
 
 const commonStore = useCommonStore();
 const mapVersionRef = ref<InstanceType<typeof MapVersion> | null>(null);

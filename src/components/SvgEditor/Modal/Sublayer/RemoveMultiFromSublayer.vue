@@ -28,13 +28,13 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+import type { FormInst } from "naive-ui";
+
 import { useDataStore, useMapStore } from "@/stores";
 import type { ISublayer, ISublayerDeleteModel } from "@/types";
-import { drawNodesLinks } from "@/utils/editor/draw";
 import { deleteSublayer } from "@/utils/http/apis";
 import { getNodeLinkList, renewNodesLinks } from "@/utils/tools";
-import type { FormInst } from "naive-ui";
-import { ref } from "vue";
 
 const mapStore = useMapStore();
 const dataStore = useDataStore();

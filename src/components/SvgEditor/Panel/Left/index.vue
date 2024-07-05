@@ -32,15 +32,17 @@
 
 <script setup lang="ts">
 import { computed, onBeforeMount, ref, watch, watchEffect } from "vue";
-import { drawNodesLinks, resetHighlight } from "@/utils/editor/draw/";
-import { useMapStore, useMenuStore, useSvgStore } from "@/stores/";
+
 import Panel from "@/components/SvgEditor/Common/Panel/index.vue";
 import Sider from "@/components/SvgEditor/Sider/index.vue";
+import { useMapStore, useMenuStore, useSvgStore } from "@/stores/";
+import { resetHighlight } from "@/utils/editor/draw/";
+import { renewNodesLinks } from "@/utils/tools";
+
+import GroupList from "./GroupList/index.vue";
 import MenuList from "./MenuList/index.vue";
 import MergeList from "./MergeList/index.vue";
 import MetaIconList from "./MetaIconList/index.vue";
-import GroupList from "./GroupList/index.vue";
-import { renewNodesLinks } from "@/utils/tools";
 
 const menuStore = useMenuStore();
 const mapStore = useMapStore();

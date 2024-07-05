@@ -46,19 +46,20 @@
 
 <script setup lang="ts">
 import { computed, onMounted, watch } from "vue";
-import { useCommonStore, useDataStore, useMapStore, useSvgStore } from "@/stores/";
-import { bindDragPointEvent } from "@/utils/editor/event/point";
-import { getImageUrl, onDroped, setNodesLinksSelected } from "@/utils/tools";
-import { EditMenu } from "@/utils/constant";
-import { attrLinkDrag, attrNodeDrag, attrSvgDrag } from "@/utils/editor/attr";
+
+import Container from "@/components/SvgEditor/Editor/Container.vue";
+import DragAssistant from "@/components/SvgEditor/Editor/DragAssistant.vue";
+import AddGroup from "@/components/SvgEditor/Modal/Group/Add.vue";
 import MoveToSublayerModal from "@/components/SvgEditor/Modal/Sublayer/MoveToSublayer.vue";
 import RemoveSingleFromSublayer from "@/components/SvgEditor/Modal/Sublayer/RemoveSingleFromSublayer.vue";
-import DragAssistant from "@/components/SvgEditor/Editor/DragAssistant.vue";
-import Container from "@/components/SvgEditor/Editor/Container.vue";
-import AddGroup from "@/components/SvgEditor/Modal/Group/Add.vue";
 import { useSvgMenu } from "@/hooks/svg/useSvgMenu";
-import { bindDragSelectionEvent } from "@/utils/editor/event/selection";
+import { useCommonStore, useDataStore, useMapStore, useSvgStore } from "@/stores/";
+import { EditMenu } from "@/utils/constant";
+import { attrLinkDrag, attrNodeDrag, attrSvgDrag } from "@/utils/editor/attr";
 import { attrSelectionDrag } from "@/utils/editor/attr/selection";
+import { bindDragPointEvent } from "@/utils/editor/event/point";
+import { bindDragSelectionEvent } from "@/utils/editor/event/selection";
+import { getImageUrl, onDroped, setNodesLinksSelected } from "@/utils/tools";
 
 const dataStore = useDataStore();
 const mapStore = useMapStore();

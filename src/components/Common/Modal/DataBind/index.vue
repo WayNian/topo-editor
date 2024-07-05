@@ -62,9 +62,10 @@
 </template>
 
 <script setup lang="ts">
-import { useDataBindStore } from "@/stores/";
 import { computed, ref } from "vue";
 import { useDialog } from "naive-ui";
+
+import { useDataBindStore } from "@/stores/";
 
 const dialog = useDialog();
 

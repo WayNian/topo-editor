@@ -55,12 +55,13 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useMessage } from "naive-ui";
-import type { FormInst } from "naive-ui";
-// import { User, Lock } from "@vicons/tabler";
-import { login } from "@/utils/http/apis/";
 import { useRouter } from "vue-router";
 import Cookie from "js-cookie";
+import type { FormInst } from "naive-ui";
+import { useMessage } from "naive-ui";
+
+// import { User, Lock } from "@vicons/tabler";
+import { login } from "@/utils/http/apis/";
 
 const router = useRouter();
 const formRef = ref<FormInst | null>(null);

@@ -46,18 +46,19 @@
 </template>
 
 <script setup lang="ts">
-import type { IImportData, IImportType, IMapSource, IMenuSource } from "@/types";
-import emitter from "@/utils/mitt";
+import { h, onMounted, ref } from "vue";
+import { Add,Folder, FolderOpenOutline } from "@vicons/ionicons5";
+import { NIcon, type TreeOption, useDialog } from "naive-ui";
+
 import Edit from "@/components/SvgEditor/Modal/Menu/Edit.vue";
 import ImportMoveToSublayer from "@/components/SvgEditor/Modal/Sublayer/ImportMoveToSublayer.vue";
-import { h, onMounted, ref } from "vue";
-import { NIcon, type TreeOption, useDialog } from "naive-ui";
-import { Folder, FolderOpenOutline, Add } from "@vicons/ionicons5";
-import { deleteMap, deleteMenu, importMap } from "@/utils/http/apis/";
 import { useCommonStore, useMapStore } from "@/stores/";
 import { useMenuStore } from "@/stores/";
-import { getContextMenu, importSvg, parseSvg } from "@/utils/tools/";
+import type { IImportData, IImportType, IMapSource, IMenuSource } from "@/types";
 import { clearSvg } from "@/utils/editor/draw/";
+import { deleteMap, deleteMenu, importMap } from "@/utils/http/apis/";
+import emitter from "@/utils/mitt";
+import { getContextMenu, importSvg, parseSvg } from "@/utils/tools/";
 
 const dialog = useDialog();
 const commonStore = useCommonStore();

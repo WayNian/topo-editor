@@ -1,9 +1,10 @@
-import { useMapStore } from "@/stores";
-import { type TreeOption } from "naive-ui";
-import type { IMapSource, IMenuCascaderItem, IMenuSource, ITreeItem } from "@/types";
-import { Folder, FileTrayFullOutline, FolderOpenOutline } from "@vicons/ionicons5";
-import { NIcon } from "naive-ui";
 import { h } from "vue";
+import { FileTrayFullOutline, Folder, FolderOpenOutline } from "@vicons/ionicons5";
+import { type TreeOption } from "naive-ui";
+import { NIcon } from "naive-ui";
+
+import { useMapStore } from "@/stores";
+import type { IMapSource, IMenuCascaderItem, IMenuSource, ITreeItem } from "@/types";
 
 export const getContextMenu = (option?: TreeOption) => {
   const mapStore = useMapStore();

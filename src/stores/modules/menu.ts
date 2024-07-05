@@ -1,16 +1,14 @@
+import { ref } from "vue";
+import { defineStore } from "pinia";
+
 import type {
-  ILink,
-  IMap,
   IMapSource,
   IMenuCascaderItem,
   IMenuSource,
-  INode,
   ITreeItem
 } from "@/types";
 import { fetchMenuList } from "@/utils/http/apis/";
-import { formatMenuCascaderist, formatMenuList, clearData, getSize } from "@/utils/tools";
-import { defineStore } from "pinia";
-import { ref } from "vue";
+import { formatMenuCascaderist, formatMenuList } from "@/utils/tools";
 
 export const useMenuStore = defineStore("menu", () => {
   const menuList = ref<ITreeItem[]>();

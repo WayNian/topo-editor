@@ -1,7 +1,8 @@
 import * as d3 from "d3";
-import type { ILink, INode } from "@/types";
-import { useMapStore } from "@/stores";
 import { SVGPathData } from "svg-pathdata";
+
+import { useMapStore } from "@/stores";
+import type { ILink, INode } from "@/types";
 
 type ISvgNode = d3.Selection<d3.BaseType, unknown, d3.BaseType, unknown>;
 type IPoint = number[];

@@ -22,10 +22,11 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
+
 import Location from "@/assets/images/icons/Location.svg?component";
 import { useMapStore, useSvgStore } from "@/stores";
 import { resetSvgSizePosition } from "@/utils/editor/event";
-import { computed } from "vue";
 
 const svgStore = useSvgStore();
 const mapStore = useMapStore();

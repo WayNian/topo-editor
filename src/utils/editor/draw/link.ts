@@ -1,9 +1,11 @@
 import * as d3 from "d3";
+
+import { useDataStore, useMapStore } from "@/stores";
 import type { IEnter, ILink, ISVGG, IUpdate } from "@/types";
+import { setLinkRect } from "@/utils/tools";
+
 import { attrLink, attrLinkG, attrSelectedLink } from "../attr";
 import { bindLinkDrag } from "../event";
-import { useDataStore, useMapStore } from "@/stores";
-import { setLinkRect } from "@/utils/tools";
 
 export const appenSelectedLink = (linkG: ISVGG<ILink, null>) => {
   if (!linkG.select<SVGGElement>("path.selected-link").empty()) return;

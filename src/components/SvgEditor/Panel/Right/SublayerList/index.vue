@@ -28,15 +28,15 @@
 </template>
 
 <script setup lang="ts">
-import type { ISublayer } from "@/types";
-import { useMapStore } from "@/stores";
 import { ref } from "vue";
-import PanelScrollbar from "@/components/SvgEditor/Common/PanelScrollbar/index.vue";
-import SublayerModal from "@/components/SvgEditor/Modal/Sublayer/Update.vue";
-import RemoveMultiFromSublayer from "@/components/SvgEditor/Modal/Sublayer/RemoveMultiFromSublayer.vue";
-import InformationCircleOutline from "@/assets/images/icons/InformationCircleOutline.svg?component";
+
 import Delete from "@/assets/images/icons/Delete.svg?component";
-import { drawNodesLinks } from "@/utils/editor/draw";
+import InformationCircleOutline from "@/assets/images/icons/InformationCircleOutline.svg?component";
+import PanelScrollbar from "@/components/SvgEditor/Common/PanelScrollbar/index.vue";
+import RemoveMultiFromSublayer from "@/components/SvgEditor/Modal/Sublayer/RemoveMultiFromSublayer.vue";
+import SublayerModal from "@/components/SvgEditor/Modal/Sublayer/Update.vue";
+import { useMapStore } from "@/stores";
+import type { ISublayer } from "@/types";
 import { renewNodesLinks } from "@/utils/tools";
 
 const mapStore = useMapStore();

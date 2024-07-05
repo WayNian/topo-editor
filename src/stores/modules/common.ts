@@ -1,7 +1,8 @@
-import type { IImportType } from "@/types";
+import { ref } from "vue";
 import type { ModalApiInjection } from "naive-ui/es/modal/src/ModalProvider";
 import { defineStore } from "pinia";
-import { ref } from "vue";
+
+import type { IImportType } from "@/types";
 
 export const useCommonStore = defineStore("common", () => {
   const isAttributeViewVisible = ref(false);

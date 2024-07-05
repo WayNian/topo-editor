@@ -100,11 +100,11 @@
 </template>
 
 <script setup lang="ts">
+import Delete from "@/assets/images/icons/Delete.svg?component";
 import { useDataStore } from "@/stores";
 import { attrUpdateLink } from "@/utils/editor/attr";
 import { updateLink } from "@/utils/http/apis";
 import { getRgb } from "@/utils/tools";
-import Delete from "@/assets/images/icons/Delete.svg?component";
 
 const dataStore = useDataStore();
 

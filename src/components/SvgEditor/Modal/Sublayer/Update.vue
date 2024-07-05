@@ -37,11 +37,12 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+import type { FormInst, FormItemRule } from "naive-ui";
+
 import { useMapStore } from "@/stores";
 import type { ISublayer } from "@/types";
 import { updateSublayer } from "@/utils/http/apis";
-import type { FormInst, FormItemRule } from "naive-ui";
-import { ref } from "vue";
 
 const mapStore = useMapStore();
 

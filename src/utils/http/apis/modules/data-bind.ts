@@ -1,4 +1,5 @@
 import type { IDataExtract, IMetaIconDataBind } from "@/types";
+
 import request from "../../index";
 
 export const getDataExtract = () => {

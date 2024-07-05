@@ -1,11 +1,13 @@
 import * as d3 from "d3";
-import { hideSelectionRect, setStartPoint, updateSelectionRect } from "../draw/";
-import type { ISVG, ISVGG } from "@/types";
-import { setInitTransform } from "../helper";
-import { useDataStore } from "@/stores/modules/data";
+
 import { useCommonStore, useSvgStore } from "@/stores";
-import { attrMap, attrSvgDraging } from "../attr";
+import { useDataStore } from "@/stores/modules/data";
+import type { ISVG, ISVGG } from "@/types";
 import { clearNodesLinksSelected } from "@/utils/tools";
+
+import { attrMap, attrSvgDraging } from "../attr";
+import { hideSelectionRect, setStartPoint, updateSelectionRect } from "../draw/";
+import { setInitTransform } from "../helper";
 
 let zoomRecord = d3.zoomIdentity;
 let svg: ISVG;

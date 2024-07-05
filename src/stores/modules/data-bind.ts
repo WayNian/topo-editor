@@ -1,11 +1,12 @@
+import { ref } from "vue";
+import { defineStore } from "pinia";
+
+import type { IDataExtract } from "@/types";
 import {
   getDataExtract,
   getDataExtractInfo as getDataExtractInfoByHttp,
   getDetailByExtractId
 } from "@/utils/http/apis/";
-import type { IDataExtract } from "@/types";
-import { defineStore } from "pinia";
-import { ref } from "vue";
 interface ISelectionOption {
   label: string;
   value: string;

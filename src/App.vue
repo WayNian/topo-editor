@@ -13,6 +13,7 @@
 
 <script setup lang="ts">
 import { darkTheme } from "naive-ui";
-import SideDrawer from "@/components/Common/SideDrawer/index.vue";
+
 import BaseView from "@/components/Common/BaseView/index.vue";
+import SideDrawer from "@/components/Common/SideDrawer/index.vue";
 </script>

@@ -1,4 +1,5 @@
-import type { IMenuSource, IMenuModel } from "@/types";
+import type { IMenuModel,IMenuSource } from "@/types";
+
 import request from "../../index";
 
 export const fetchMenuList = () => {

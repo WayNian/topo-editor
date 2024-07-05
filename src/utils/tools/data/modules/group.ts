@@ -1,5 +1,5 @@
-import type { INode, ILink } from "@/types";
 import { useDataStore } from "@/stores";
+import type { ILink,INode } from "@/types";
 
 export const initGroupData = () => {
   const dataStore = useDataStore();

@@ -205,13 +205,14 @@
 </template>
 
 <script setup lang="ts">
-import type { ILink, INode } from "@/types";
-import { useMapStore } from "@/stores/";
 import { ref } from "vue";
 import { Checkmark, Close } from "@vicons/ionicons5";
-import { highlightLink, highlightNode } from "@/utils/editor/draw/";
-import { useMerge } from "@/hooks/menu/useMerge";
+
 import PanelScrollbar from "@/components/SvgEditor/Common/PanelScrollbar/index.vue";
+import { useMerge } from "@/hooks/menu/useMerge";
+import { useMapStore } from "@/stores/";
+import type { ILink, INode } from "@/types";
+import { highlightLink, highlightNode } from "@/utils/editor/draw/";
 
 const { mergeNodes, mergeLinks } = useMerge();
 const mapStore = useMapStore();

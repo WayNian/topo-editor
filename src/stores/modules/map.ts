@@ -1,3 +1,6 @@
+import { ref } from "vue";
+import { defineStore } from "pinia";
+
 import type {
   ILink,
   IMap,
@@ -15,8 +18,6 @@ import {
   getSublayers as getSublayersByHttp
 } from "@/utils/http/apis";
 import { clearData, getSize } from "@/utils/tools";
-import { defineStore } from "pinia";
-import { ref } from "vue";
 
 export const useMapStore = defineStore("map", () => {
   const sublayers = ref<ISublayer[]>([]);

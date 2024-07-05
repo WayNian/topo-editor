@@ -20,12 +20,14 @@
 </template>
 
 <script setup lang="ts">
-import { Close as CloseIcon } from "@vicons/ionicons5";
-import { useCommonStore, useMapStore } from "@/stores/";
 import { computed } from "vue";
+import { Close as CloseIcon } from "@vicons/ionicons5";
+
+import { useCommonStore, useMapStore } from "@/stores/";
+
 import Attribute from "./Attribute/index.vue";
-import SublayerList from "./SublayerList/index.vue";
 import DataBind from "./DataBind/index.vue";
+import SublayerList from "./SublayerList/index.vue";
 
 const commonStore = useCommonStore();
 const mapStore = useMapStore();

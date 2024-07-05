@@ -5,7 +5,7 @@
     :data="item"
     @onShowDataBindModal="showDataBindModal($event, item)"
   ></DataBindItem>
-  <Item title="Value">
+  <Item title="Value" v-if="!dataStore.groupSelected.length">
     <n-input
       :value="dataStore.currentNode?.domId"
       placeholder="Value"
@@ -13,19 +13,22 @@
       @update:value="onAttributeChange($event, 'domId')"
     />
   </Item>
-  <DataBindModal ref="dataBindModalRef" @onValueUpdate="onValueUpdate"></DataBindModal>
+  <!-- <div id="svgCon"></div> -->
+  <!-- <NButton @click="updateSvg">测试</NButton>
+  <DataBindModal ref="dataBindModalRef" @onValueUpdate="onValueUpdate"></DataBindModal> -->
 </template>
 
 <script setup lang="ts">
-import { NButton } from "naive-ui";
-import { computed, ref, watch, watchEffect } from "vue";
-import { useDataStore, useMapStore } from "@/stores";
-import { SvgIcon, type ISvgDataItem } from "@/utils/components/SvgIcon";
+import { ref, watch } from "vue";
+
 import DataBindModal from "@/components/Common/Modal/DataBind/index.vue";
 import DataBindItem from "@/components/SvgEditor/Panel/Right/Attribute/Item/DataBindItem.vue";
+import { useDataStore, useMapStore } from "@/stores";
+import type { IGroupData } from "@/types";
+import { type ISvgDataItem, SvgIcon } from "@/utils/components/SvgIcon";
 import { updateMapGroupData, updateNode } from "@/utils/http/apis";
-import type { IGroupData, IGroupDataBind } from "@/types";
 import { getGroupDataList } from "@/utils/tools";
+
 const dataStore = useDataStore();
 const dataBindModalRef = ref<InstanceType<typeof DataBindModal> | null>(null);
 

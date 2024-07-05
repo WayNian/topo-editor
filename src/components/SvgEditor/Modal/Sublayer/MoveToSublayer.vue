@@ -30,11 +30,12 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from "vue";
+import type { FormInst } from "naive-ui";
+
 import { useMapStore } from "@/stores";
 import type { ISublayerAddModel } from "@/types";
 import { addNodesLinksToSublayer } from "@/utils/tools";
-import type { FormInst } from "naive-ui";
-import { computed, ref } from "vue";
 
 const mapStore = useMapStore();
 

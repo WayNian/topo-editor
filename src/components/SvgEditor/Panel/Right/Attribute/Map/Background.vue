@@ -72,16 +72,18 @@
 
 <script setup lang="ts">
 import { onBeforeUnmount, ref, watch } from "vue";
-import { useSvgStore, useMapStore } from "@/stores";
 import { VueDraggable } from "vue-draggable-plus";
-import Item from "../Item/index.vue";
-import CloudUpload from "@/assets/images/icons/CloudUpload.svg?component";
+import type { UploadFileInfo } from "naive-ui";
+
 import AddFilled from "@/assets/images/icons/AddFilled.svg?component";
+import CloudUpload from "@/assets/images/icons/CloudUpload.svg?component";
 import ListOutline from "@/assets/images/icons/ListOutline.svg?component";
 import Subtract from "@/assets/images/icons/Subtract.svg?component";
-import { updateMap, uploadFile } from "@/utils/http/apis";
+import { useMapStore, useSvgStore } from "@/stores";
 import { attrMapBackground } from "@/utils/editor/attr";
-import type { UploadFileInfo } from "naive-ui";
+import { updateMap, uploadFile } from "@/utils/http/apis";
+
+import Item from "../Item/index.vue";
 
 const mapStore = useMapStore();
 const svgStore = useSvgStore();

@@ -86,10 +86,11 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref, watch } from "vue";
+
 import { useCommonStore, useDataStore, useSvgStore } from "@/stores";
 import type { ILink } from "@/types";
 import { attrSelectionDrag } from "@/utils/editor/attr/selection";
-import { computed, ref, watch } from "vue";
 
 const dataStore = useDataStore();
 const commonStore = useCommonStore();

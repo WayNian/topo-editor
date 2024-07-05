@@ -33,12 +33,13 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+import type { FormInst } from "naive-ui";
+
 import { useMapStore } from "@/stores";
 import type { IGroupData } from "@/types";
 import { updateMapGroupData } from "@/utils/http/apis";
 import { getGroupDataList, getMapGroupData } from "@/utils/tools";
-import type { FormInst } from "naive-ui";
-import { ref } from "vue";
 
 const mapStore = useMapStore();
 

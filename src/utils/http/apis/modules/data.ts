@@ -1,15 +1,16 @@
-import type {
-  INode,
-  ILink,
-  INodeLinkSource,
-  IOriginalNode,
-  IOriginalLink,
-  ISourceNode,
-  ISourceLink
-} from "@/types";
-import request from "../../index";
 import { debounce } from "radash";
+
+import type {
+  ILink,
+  INode,
+  INodeLinkSource,
+  IOriginalLink,
+  IOriginalNode,
+  ISourceLink,
+  ISourceNode} from "@/types";
 import { formatNodesAttribute } from "@/utils/tools";
+
+import request from "../../index";
 
 interface IDeleteNodeModel {
   nodeIdList: string[];

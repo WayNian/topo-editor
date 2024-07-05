@@ -20,7 +20,9 @@
 
 <script setup lang="ts">
 import { useMapStore } from "@/stores";
+
 import Item from "../Item/index.vue";
+
 import Background from "./Background.vue";
 
 const mapStore = useMapStore();

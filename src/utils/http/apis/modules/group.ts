@@ -1,4 +1,5 @@
 import type { IGroupData, IGroupDataModel } from "@/types";
+
 import request from "../../index";
 
 export const getMapGroupData = (mapId: string) => {

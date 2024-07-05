@@ -9,10 +9,11 @@ import {
   getMapGroupData as getMapGroupDataByHttp,
   getNodeLinkListByMapId
 } from "@/utils/http/apis/";
-import { formatLink, formatLinks, formatNode, formatNodes } from "./format";
-import { drawLinks, drawNodes } from "@/utils/editor/draw";
-import { renewLinks, renewNodes } from "./data";
+
 import { initGroupData } from "..";
+
+import { renewLinks, renewNodes } from "./data";
+import { formatLink, formatLinks, formatNode, formatNodes } from "./format";
 
 /**
  *  获取节点和连线列表

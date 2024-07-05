@@ -12,12 +12,14 @@
 </template>
 
 <script setup lang="ts">
-import NodeAtrribute from "./Node/index.vue";
+import { computed } from "vue";
+
+import { useDataStore, useMapStore } from "@/stores";
+
 import LinkAttribute from "./Link/index.vue";
 import MapAttribute from "./Map/index.vue";
 import MultiAttribute from "./Multi/index.vue";
-import { computed } from "vue";
-import { useDataStore, useMapStore } from "@/stores";
+import NodeAtrribute from "./Node/index.vue";
 
 const dataStore = useDataStore();
 const mapStore = useMapStore();

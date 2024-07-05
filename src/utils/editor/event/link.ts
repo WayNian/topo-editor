@@ -1,9 +1,10 @@
 import * as d3 from "d3";
-import type { ILink, ISVGG } from "@/types";
-import { useCommonStore, useMapStore, useSvgStore } from "@/stores";
-import { setLinksSelected } from "@/utils/tools";
 import { SVGPathData } from "svg-pathdata";
+
+import { useCommonStore, useMapStore, useSvgStore } from "@/stores";
+import type { ILink, ISVGG } from "@/types";
 import { updateLink } from "@/utils/http/apis";
+import { setLinksSelected } from "@/utils/tools";
 
 const startPoint = {
   x: 0,

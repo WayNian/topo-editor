@@ -14,8 +14,9 @@
 </template>
 
 <script setup lang="ts">
-import { useCommonStore, useMapStore } from "@/stores/";
 import { Brush } from "@vicons/ionicons5";
+
+import { useCommonStore, useMapStore } from "@/stores/";
 
 const commonStore = useCommonStore();
 const mapStore = useMapStore();

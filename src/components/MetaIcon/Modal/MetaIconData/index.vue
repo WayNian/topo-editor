@@ -16,12 +16,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, toRaw } from "vue";
+import { nextTick, ref } from "vue";
+
+import { useDataStore } from "@/stores";
+import type { IMetaItem } from "@/types";
 import type { ITreeOption } from "@/utils/tools/data/modules/bind";
-import SvgIcon from "./SvgIcon.vue";
+
 import CondintionList from "./CondintionList.vue";
-import type { IMetaIconDataBind, IMetaItem } from "@/types";
-import { useDataStore, useMetaStore } from "@/stores";
+import SvgIcon from "./SvgIcon.vue";
 
 const dataStore = useDataStore();
 

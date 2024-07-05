@@ -1,4 +1,5 @@
 import type { RendererElement, RendererNode, VNode } from "vue";
+
 import type { IMapSource } from "./map";
 
 export interface IMenuSource {

@@ -1,4 +1,5 @@
-import type { IMetaSource, IMetaModel, IGroupModel } from "@/types";
+import type { IGroupModel,IMetaModel, IMetaSource } from "@/types";
+
 import request from "../../index";
 
 export const getGroupList = () => {

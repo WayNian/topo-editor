@@ -1,10 +1,11 @@
-import { useCommonStore } from "@/stores/modules/common";
-import { bindWindowEvent, unbindWindowEvent } from "@/utils/editor/event";
-import { useMessage, useModal } from "naive-ui";
 import { onBeforeMount, onMounted } from "vue";
-import { clearData, selectMap } from "@/utils/tools";
-import emitter from "@/utils/mitt";
+import { useMessage, useModal } from "naive-ui";
+
+import { useCommonStore } from "@/stores/modules/common";
 import { clearSvg } from "@/utils/editor/draw";
+import { bindWindowEvent, unbindWindowEvent } from "@/utils/editor/event";
+import emitter from "@/utils/mitt";
+import { clearData, selectMap } from "@/utils/tools";
 
 export const useSvg = () => {
   const common = useCommonStore();

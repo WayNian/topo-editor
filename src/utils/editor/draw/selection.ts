@@ -1,8 +1,10 @@
 import * as d3 from "d3";
+
 import { useDataStore } from "@/stores";
-import { attrSeletView } from "../attr";
 import type { ISVGRect } from "@/types";
-import { selectNodesLinksByDebounce, getTransPosition } from "@/utils/tools";
+import { getTransPosition, selectNodesLinksByDebounce } from "@/utils/tools";
+
+import { attrSeletView } from "../attr";
 
 const startPoint = {
   x: 0,
